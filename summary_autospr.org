@@ -156,8 +156,74 @@ Bei diesem NEA wird sich immer gemerkt, in welchem Zustand der Automat sein kön
 #+end_src
 
 ** Transformation von NEA zu DEA
+Bei der Transformaiton von einem NEA zu einem DEA geht es darum, die \epsilon-Übergänge und die Mehrfachübergänge zu eliminieren. Das erreicht man, in dem der DEA Buch führt, in welchen Zuständen der NEA sein könnte. Das wird realisiert, in dem die Zustände des DEA die möglichen Zuständen des NEAs repräsentieren. Die Zustände $Q$ des DEA ist die Potzenmenge der Menge $Q$ des NEAs.
+
+*** Beispiel
+Folgender NEA soll in einen DEA überführt werden:
+#+begin_src dot :file static/img/autospr/nea_example_2.png 
+  digraph {
+      q0 [shape=doublecircle]
+      q0 -> q1 [label=b];
+      q1 -> q1 [label=a];
+      q1 -> q2 [label="a,b"];
+      q2 -> q0 [label=a];
+    }
+#+end_src
+
+#+RESULTS:
+[[file:static/img/autospr/nea_example_2.png]]
+
+Dafür müssen die Potzenmenge der Zustände des NEAs gebildet werden:
+- q_000 = {}
+- q_001 = {q_0}
+- q_010 = {q_1}
+- q_100 = {q_2}
+- q_110 = {q_2,q_1}
+- q_101 = {q_2,q_0}
+- q_011 = {q_1,q_0}
+- q_111 = {q_2,q_1,q_0}
 
 
+Akzeptiertzustände sind alle welche den Status q_0 beinhalten => F = {q_001, q_101, q_011, q_111}. Startzustand ist q_001. Nun kann das Zustandsdiagramm gezeichnet werden:  
+
+#+begin_src dot :file static/img/autospr/transformed_nea_example_2.png 
+  digraph {
+      rankdir=LR
+	 size="8,5"
+      node [shape = circle];
+      q001 [shape=doublecircle]
+      q110
+      q000
+      q010 
+      q101 [shape=doublecircle]
+      q111 [shape=doublecircle]
+      q100
+      q011 [shape=doublecircle]
+  
+      q001 -> q000 [label=a]
+      q001 -> q010 [label=b]
+      q000 -> q000 [label="a,b"]
+      q010 -> q100 [label=b]
+      q010 -> q110 [label=a]
+      q100 -> q000 [label=b]
+      q100 -> q001 [label=a]
+      q110 -> q100 [label=b]
+      q110 -> q111 [label=a]
+      q101 -> q001 [label=a]
+      q101 -> q010 [label=b]
+      q011 -> q110 [label="a,b"]
+      q111 -> q110 [label=b]
+      q111 -> q111 [label=a]
+    }
+#+end_src
+
+#+RESULTS:
+[[file:static/img/autospr/transformed_nea_example_2.png]]
+
+Im Bild ist ersichtlich, dass die Zustände q_101 und q_011 nie erreicht werden können und somit weggelassen werden können.
+
+** Mengenoperationen
+Sprachen sind Menge von Wörter. Folglich sind auch deren Vereinigung, Durchschnitt, Differenz etc. auch Sprachen. Wenn die Sprachen reguläre sind, ist auch dessen Vereinigung etc. Dies lässt sich mit einem NEA einfach beweisen.
 
 * Week 4
 - Reguläre Operationen
