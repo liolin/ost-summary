@@ -31,7 +31,7 @@ A tail recursion is when the linear recursive method as the last step does the r
 ** Binary Recursion
 Binary recursion is a function which has two recursive calls in all non-base cases (e.g. Tower on Hanoi)
 
-** TODO Analysis
+** Analysis
 The analysis of a algorithm is determined independent of HW and SW. Then the primitives steps in the algorithm are counted. HW and SW changes the run time of an algorithm, but not the amount of steps. After analysis you have something like =8n-2= steps in worst case. The Big-Oh Notation focus more on how the running time changes proportionally to n. For example $3n^3 + 20^n + 5 = O(n^3)$.
 #+LATEX: \newpage
 * Algorithms

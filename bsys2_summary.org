@@ -1,0 +1,68 @@
+#+title: Experimentieren und Evaluieren
+#+SETUPFILE: ~/roam/ost_exam_summary_setup.conf
+
+\begin{multicols}{3}
+* Shared Object naming schema
+- linker lame: lib + libname + .so (libmath.so)
+- SO name: linker name + . + version number (libmath.so.2)
+- Real name: SO name + . + sub version number (libmath.so.2.1)
+* Amdahls Rule
+- T: Runtime for serially only
+- n: Number of processors
+- T': Runtime when max. parallelized
+- $T_s$: Runtime for part which has to be executed in serial
+\begin{equation*}
+s = \frac{T_s}{T}
+\end{equation*}
+\begin{equation*}
+  f \leq \frac{1}{s + \frac{1-s}{n}}
+\end{equation*}
+
+* Semaphore / Mutx
+- sem\under{}post
+- sem\under{}wait
+
+* Unicdoe
+** UTF-8
+- 2 bytes
+  - $U_1 = B_1 = \mathbf{110}P_10 \dots P_6 (+\mathbf{C0_h})$ 
+  - $U_0 = B_0 = \mathbf{10}P_5 \dots P_0 (+\mathbf{80_h})$ 
+
+- 3 bytes
+  - $U_2 = B_2 = \mathbf{1110}P_15 \dots P_12 (+\mathbf{E0_h})$ 
+  - $U_1 = B_1 = \mathbf{10}P_11 \dots P_6 (+\mathbf{80_h})$ 
+  - $U_0 = B_0 = \mathbf{10}P_5 \dots P_0 (+\mathbf{80_h})$ 
+
+- 4 bytes
+  - $U_3 = B_3 = \mathbf{11110}P_20 \dots P_18 (+\mathbf{F0_h})$ 
+  - $U_2 = B_2 = \mathbf{10}P_17 \dots P_12 (+\mathbf{80_h})$ 
+  - $U_1 = B_1 = \mathbf{10}P_11 \dots P_6 (+\mathbf{80_h})$ 
+  - $U_0 = B_0 = \mathbf{10}P_5 \dots P_0 (+\mathbf{80_h})$ 
+
+** UTF-16
+*Calculating UTF-16*:
+- CP in [0; FFFF], 2 bytes / 1 CU (without D800_h - DFFF_h)
+  1. U_0 = P_15 ... P_0 
+
+- CP in [1'0000_h; 10'FFFF_h], 4 bytes / 2 CU
+  1. Q = P - 1'0000_h (Q_15 ... Q_0 = P_15 ... P_0)
+  2. U_1 = 1101'10Q_19 ... Q_10 (+ *D800_h*);
+  3. U_0 = 1101'11Q_9 ... Q0 (+ *DC00_h*)
+
+* ext 2 / ext 4
+** direct / indirect block addressing
+1. Calculate numbers of needed blocks
+   1. FileSize / BlockSize = total neede Blocks
+2. Calculate consecutive blocks
+   1. consecutiveSize / BlockSize = number of consectuive Blocks
+3. Calculate how many consectuive blocks
+   1. total need blocks / number of consectuive blocks
+4. Fill the array from 0 - B (11). Set C to empty meta data block
+5. calculate last offset per consecutive blocks
+   1. number of consectuive blocks - D_h (20_h - D_h = 13_h)
+6. calculate last offset of whole data
+   1. total needed blocks - D_h (400_h - D_h = 3F3_h)
+** journaling
+- Full Journal (everything in the journal, data and metadata)
+- Ordered (meta data in journal, content to disk, commit)
+- Writeback (meta data in journal, commit and write to disk in arbitary order)
