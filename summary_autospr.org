@@ -304,6 +304,9 @@ Jeder DEA kann mit Regex vereinfacht werden. Folgendes Vorgehen:
   - Reguläre Operationen für kontextfreie Grammatiken
   - Chomsky Normalform
 
+
+
+
 * Week 6
 - deterministischer Parse Algorithmus (Cocke-Younger-Kasami)
 - Stackautomaten
