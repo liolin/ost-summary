@@ -1,0 +1,251 @@
+:PROPERTIES:
+:ID:       c0bbf6c9-e32f-4f38-bf70-0607928e84d5
+:ROAM_ALIASES: AutoSpr
+:END:
+#+title: Automaten und Sprachen
+#+SETUPFILE: ~/roam/ost_exam_summary_setup.conf
+#+OPTIONS: toc:2
+
+#+LATEX: \begin{multicols}{4}
+* Week 1
+** Basics
+Das folgende ist *kein* Graph, weil jede Kante brauch einen Anfangs- und Endknoten.
+#+begin_src dot :file static/img/autospr/no_graph.png 
+  graph {
+      rankdir=LR;
+      a -- b;
+      a -- a;
+    }
+#+end_src
+
+#+RESULTS:
+[[file:static/img/autospr/no_graph.png]]
+
+Dies ist allerdings ein Graph (Ein Anfangskonten und Endknoten definiert durch die Pfeile).
+#+begin_src dot :file static/img/autospr/graph.png 
+  digraph {
+      rankdir=LR;
+      a -> b;
+      a -> a;
+    }
+#+end_src
+
+#+RESULTS:
+[[file:static/img/autospr/graph.png]]
+
+** Sprache
+- Alphabet: normalerweise griechische Buchstaben ($\Sigma$)
+- Die Menge aller Wörter: $\Sigma^*$
+- Das leere Wort: $\epsilon$
+- Die Sprache ist eine Teilmenge aller Wörter: $L \subset \Sigma^*$
+
+* Week 2
+** DEA (Deterministische endliche Automaten)
+*** Definition
+1. $Q$ endliche Menge von Zuständen
+2. $\Sigma$ endliche Menge, das Alphabet
+3. $\delta: Q \times \Sigma \to Q$ Übergangsfunktion
+4. $q_0 \in Q$ Startzustand
+5. $F \subset Q$ Menge der Akzeptiertzustände
+
+   Von jedem Zustand, muss es für jedes Zeichen genau einen Übergang geben. Es ist also zu jeder Zeit klar, wo der Automat genau ist.
+*** Beispiel
+| q  | a | $\delta(q,a)$ |
+|----+---+---------------|
+| q0 | 0 | q0            |
+| q0 | 1 | q1            |
+| q1 | 0 | q0            |
+| q1 | 1 | q1            |
+
+#+begin_src dot :file static/img/autospr/even_binary_dea.png 
+  digraph {
+      rankdir=LR;
+      q0 -> q0 [label=0];
+      q0 -> q1 [label=1];
+      q1 -> q0 [label=0];
+      q1 -> q1 [label=1];
+    }
+#+end_src
+
+#+RESULTS:
+[[file:static/img/autospr/even_binary_dea.png]]
+
+*** Myhill-Nerode
+#+begin_quote
+Ist L eine requläre Sprache, dann wird L von dem endliche Automaten $A = (Q,\Sigma,\delta,q_0,F)$ akzeptiert mit
+#+end_quote
+\begin{align*}
+Q = \{L(w) | w \in \Sigma^*\} \\
+q_0 = L \\
+F = \{q \in Q | \epsilon \in q\} \\
+\delta = Q \times \Sigma \to Q : (L(w),a) \mapsto L(wa) 
+\end{align*}
+
+Dieser Satz kann benutz werden, um zu entscheiden ob eine Sprache regulär ist: Wenn $\{L(w) | w \in \Sigma^*\}$ endlich ist, ist die Sprache regulär. Als Beispiel ist die Sprache $\{0^n1^n | n \in \mathbb{N}\}$ über $\Sigma = \{0,1\}$ nicht regulär, da man unendliche viele Zustände benötigt. Eine DEA hat *kein* Gedächnis.
+*** Minimaler Automat
+Automaten können reduziert werden zu einem minimalen Automaten. Wenn zwei verschiedene DEAs auf den selben minimalen DEA reduziert werden können, akzeptieren die beiden Automaten die selbe Sprache. Der minimale Automat kann mit dem Kreuzchen Algorithmus konstruiert werden.
+* Week 3
+- Nicht deterministische endliche Automaten
+  - "Könnte"-Automat
+  - Transformation NEA -> DEA
+
+- Mengenoperationen
+  - Vereinigung
+  - Durchschnitt (Produktautomat)
+  - Differenz
+
+** Pumping Lema - Reguläre Sprachen
+Mit dem Pumping Lema kann erkennt werden, ob eine Sprache nicht regulär ist. Wenn das Wort lange genug ist (Puming Length N), dann kann das Wort in drei Teile (x, y, z) aufgeteilt werden:
+1. $|y| > 0$
+2. $|xy| \leq \mathbb{N}$
+3. $xy^kz \in L  \forall \geq 0$
+
+*** Beispiel
+Beweise dass $L = \{0^n1^n | n \in \mathbb{N}\}$ nicht regulär ist.
+
+1. Annahme $L$ sei regulär
+2. Da regulär und lange genug, gibt es eine Pumping Length N
+3. Bilde ein Wort mit der Länge N (z.B. 0^{N}1^{N})
+4. Teile das Wort in xyz auf mit, $|xy| \leq N, |y| \geq 1$
+5. Wortteil y aufpumpen -> Wort nicht mehr in Sprache
+
+#+begin_src ditaa :file static/img/autospr/pumping_lema.png :cmdline -E 
+  0            N                     2N
+  +-----------------+-----------------+
+  | 0...          0 | 1...          1 |
+  +-----------------+-----------------+
+
+  +--------+--------+-----------------+
+  | c9E9 x | cE99 y | c99E z          |
+  +--------+--------+-----------------+
+
+  +--------+--------+--------+-----------------+
+  | c9E9 x | cE99 y | cE99 y | c99E z          |
+  +--------+--------+--------+-----------------+
+#+end_src
+
+** NEA (Nicht deterministische endliche Automaten
+NEAs unterscheiden sich von [[*DEA (Deterministische endliche Automaten)][DEAs]] nur geringfügig. Bei einem NEA ist es nicht notwendig, für jedes Zeichen einen Übergang zu haben. Zusätzlich können für das selbe Zeichen auch mehrere Übergänge existieren. Neben den bekannten Übergängen existieren im NEA auch \epsilon-Übergänge. Diese Übergänge können zu jeder Zeit, ohne ein Inputzeichen zu verwenden, benutzt werden.
+
+NEAs können aber nicht mehr Sprachen erkennen als die DEAs. Sie sind daher gleichwertig.
+
+Als Beispiel einen NEA, welcher Wörter erkennt, welche mit 2 b enden.
+#+begin_src dot :file static/img/autospr/nea_example.png 
+  digraph {
+      rankdir=LR;
+      q0 -> q1 [label=a];
+      q1 -> q1 [label="a,b"];
+      q1 -> q2 [label=b];
+      q2 -> q3 [label=b];
+    }
+#+end_src
+
+#+RESULTS:
+[[file:static/img/autospr/nea_example.png]]
+
+** Thompson-NEA (Könnte-Automat)
+Bei diesem NEA wird sich immer gemerkt, in welchem Zustand der Automat sein könnte.
+
+#+begin_src dot :file static/img/autospr/thompson_nea.png 
+  digraph {
+      q0 -> q1 [label=a];
+      q1 -> q1 [label="a,b"];
+      q1 -> q2 [label=b];
+      q2 -> q3 [label=b];
+    }
+#+end_src
+
+** Transformation von NEA zu DEA
+
+
+
+* Week 4
+- Reguläre Operationen
+  - Alternative
+  - Verkettung
+  - *-Operation
+- Umwandlung DEA <-> regulärer Ausdruck
+- Reguläre Ausdrücke in der Praxis
+  - Scanner-Generator flex
+  - Performance von Regex-Engines
+
+* Week 5
+- Kapitel 4: Stackautomaten und kontextfreie Sprachen
+  - Kontextfreie Grammatiken
+  - Kontextfreie Sprachen
+  - Beispiele
+  - Reguläre Operationen für kontextfreie Grammatiken
+  - Chomsky Normalform
+
+* Week 6
+- deterministischer Parse Algorithmus (Cocke-Younger-Kasami)
+- Stackautomaten
+  - Beispiel zur Motivation: {0n1n| n ≥ 0}
+  - Formale Definition
+  - Stackautomat als gerichterer beschrifteter Graph
+  - Stackautomat einer kontextfreien Grammatik
+- Anwendung: Parser-Generator Bison
+
+* Week 7
+- Pumping Lemma für kontextfreie Sprachen
+- Beispiel: { anbncn | n ≥ 0 }
+- kontextfreie Grammatik eines Stackautomaten
+* Week 8
+- Kapitel 5: Turing Maschinen
+  - Definition Turing Maschine, erkannte Sprache
+  - Zustandsdiagramm
+  - Varianten (Bandalphabet, Anzahl Spuren, Anzahl Schreib-/Leseköpfe)
+  - Aufzähler
+  - Nicht deterministische Turingmaschinen
+* Week 9
+- Abzählbar unendlich und überabzählbar unendlich
+- Die meisten Zahlen sind nicht berechenbar
+- Das 10. Hilbertsche Problem
+
+- Kapitel: 6 Entscheidbarkeit
+  - Akzeptanzprobleme für reguläre Sprachen
+  - Leerheitsproblem für reguläre Sprachen
+  - Gleichheitsproblem für reguläre Sprachen
+  - Akzeptanzproblem für kontextfreie Sprachen
+  - Leerheitsproblem für kontextfreie Sprachen
+  - Gleichheitsproblem für kontextfreie Sprachen
+
+- Entscheidbarkeitsprobleme für kontextfreie Sprachen
+  - Akzeptanzproblem für kontextfreie Sprachen
+  - Leerheitsproblem für kontextfreie Sprachen
+  - Gleichheitsproblem für kontextfreie Sprachen
+
+- Halteproblem
+  - Akzeptanzproblem für Turing Maschinen Reduktion
+  - Allgemeines Halteproblem
+  - Leerheitsproblem für TM
+- Reduktion
+- Satz von Rice
+* Week 10
+- Kapitel 7: Komplexitätstheorie
+- Laufzeitkomplexität
+  - Definition der Laufzeit
+  - Laufzeit für Varianten von Turingmaschinen
+
+- Komplexitätsklassen P und NP
+  - Beispiele von Sprachen in P
+  - Verifizierer
+  - Polynomielle Reduktion
+* Week 11
+- SAT: Satz von Cook-Levin
+- Weitere Beispiele: 3SAT, k-CLIQUE, HAMPATH, SUBSET-SUM
+
+* Week 12
+- Katalog von Karp
+- Minesweeper
+* Week 13
+- Kapitel 8: Turing-Vollständigkeit
+
+  - Definition
+  - Universelle Turing-Maschine
+  - LOOP
+
+
+
+* End
+#+LATEX: \end{multicols}
