@@ -62,6 +62,15 @@ s = \frac{T_s}{T}
    1. number of consectuive blocks - D_h (20_h - D_h = 13_h)
 6. calculate last offset of whole data
    1. total needed blocks - D_h (400_h - D_h = 3F3_h)
+
+
+** extend tree
+- first 12 bytes are the Extend Tree Header
+- Index nodes is a block which contains Extends
+  - 6 bytes for physical block numbers
+  - 4 bytes for the smallest logical block number
+  - contains a header after that the extends
+  - are more than $4 \cdot 340 = 1360$ extends needed you can store additional index nodes instead of extends.
 ** journaling
 - Full Journal (everything in the journal, data and metadata)
 - Ordered (meta data in journal, content to disk, commit)
