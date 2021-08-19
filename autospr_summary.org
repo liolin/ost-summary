@@ -363,8 +363,8 @@ Folgender Stackautomat, geht vom Zustand p nach q über, wenn ein a verarbeitet 
 
 1. Annahme: L ist kontextfrei
 2. Es gibt eine Pumping Length N
-3. Wort: w = a^Nb^Nc^N
-4. Wort in a, v, x, y, z zerlegen
+3. Wort: w = a^{N}b^{N}c^{N}
+4. Wort in u, v, x, y, z zerlegen
    $|vy| > 0$, $|vxy| \leq N$, $uv^kxy^kz \in L \forall k \in \mathbb{N}$
 5. v und y aufpumpen
 6. Widerspruch: L nicht kontextfrei
@@ -421,6 +421,16 @@ Nicht trivial meint, dass gewisse Sprachen die Eigenschaft haben und andere nich
   - Beispiele von Sprachen in P
   - Verifizierer
   - Polynomielle Reduktion
+
+
+** Klasse P
+#+begin_quote
+Die Klasse P besteht aus den Sprachen, die mit einem Entscheider mit polyno-
+mieller Laufzeit entschieden werden können.
+#+end_quote
+
+** Verifizierer
+
 * Week 11
 - SAT: Satz von Cook-Levin
 - Weitere Beispiele: 3SAT, k-CLIQUE, HAMPATH, SUBSET-SUM
