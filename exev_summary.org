@@ -5,10 +5,7 @@
 #+title: Experimentieren und Evaluieren
 #+SETUPFILE: ~/roam/ost_exam_summary_setup.conf
 
-- tags :: [[id:8894e1a7-68a6-4d25-ad4b-623955f7aabe][HSR]], [[id:bd88baad-37a2-4aa5-b406-33c7a253dddb][Module]], [[id:797e56f5-504a-47c2-9817-a7368c910f48][Math]]
-
-
-#+LATEX: \begin{multicols}{4}
+#+LATEX: \begin{multicols}{3}
 * TODO Versuchsplanung
 ** TODO Grundbegriffe
 - *Testverteilung*: Können benutzt werden um Ergebnisse von Experimente miteinander zu vergleichen
@@ -512,6 +509,145 @@ Um die Hypothese zu beweisen, wird oft die Verneinung als Nullhypothese formulie
 5. Man nehme die Nullhypothese $H_0: \mu_1 = \mu_2$ an, wenn die Differenz $d_i = \mu_1 - \mu_2$ in den Annahmenbereich fällt
 
 
+* TI-Nspire
+** Shortcuts
+Summenzeichen $\Sigma$: =menu, 4, 5=
+
+Produktzeichen $\Pi$: =menu, 4, 6=
+
+Fakultät !: =menu, 5, 1=
+
+nCr: =menu, 5, 3=
+
+solve: =menu, 3, 1=
+
+Numerisch Lösen: =menu, 3, 6=
+
+Ableitung: =menu, 4, 1=
+
+Integral: =menu, 4, 3=
+
+** Funktionen
+Allgemein: =menu, 6, 3, <Zahl>=
+
+Datensatzlänge: =count(x)=
+
+Datensatzlänge mit Wert y: =count(x)=
+
+Median: =median(x)=
+
+Maximum: =max(x)=
+
+Minimum: =min(x)=
+
+Absoluter Wert: =abs(x)= oder =|x|=
+
+Arithm. Mittelwert $\overline{x}$: =mean(x)=
+
+Empirishe-Varianz $\sigma_x^2$: =varPop(x)=
+
+Standardabweichung $\sigma_x$: =stDevPop(x)=
+
+Stichproben-Varianz: =varSamp(x)=
+
+Summe $\Sigma$: =sum(x)=
+
+Approx. Zahlenwert $\approx$: =approx(x)=
+
+Kombinationen $\binom{n}{k}$: =nCr(n,k)=
+
+** Verteilungen
+Verteilungen die mit /Pdf/ (probability density function) enden sind die Dichtefunktionen f, solche die mit /Cdf/ (cumulative distribution function) enden sind die Verteilungsfunktionen F. Im Ti-Nspire zugänglich über =menu, 6, 5, <Zahl>=.
+
+Normalverteilungs-
+
+Dichte: =normPdf(x, $\mu$, $\sigma$)=
+
+Summe: =normCdf(a, b, $\mu$, $\sigma$)=
+
+Inverses: =invNorm(%, $\mu$, $\sigma$)=
+
+z-Value: =invNorm(%, 0,1)=
+
+
+Student-T Verteilungs-
+
+Dichte: =tPdf(x,$\nu$)=
+
+Summe: =tCdf(a, b, $\nu$)=
+
+Inverses: =invT(%, $\nu$)=
+
+\chi^2-Verteilungs-
+Summe: =menu, 6, 5, 8, (a, b, $\nu$)=
+
+Inverse: =menu, 6, 5, 9, (%, $\nu$)=
+
+Zentralle Konfidenzintervalle:
+1. =menu 6, 6, 1 (2 falls t)
+2. Dateneingabe: Statistik
+3. $\sigma$= Standardabweichung (nicht Stichprobenwert)
+4. $\mu$ eintragen und $n$ eintragen
+5. Konfidenzniveau korrekt eintragen
+
+** Liste
+Lineare Regression:
+1. x-liste und y-liste eintragen
+2. =menu, 6, 1, 4=
+
+Statistische Berechnungen:
+1. x-liste (und y-liste) eintragen
+2. =menu, 6, 1, <Zahl>=
+
+** Spreadsheet
+Datensatz hinzufügen:
+1. Name in erste Zelle einfügen
+2. Daten eintragen
+
+
+Spalte link einfügen: =menu, 2, 3=
+
+Spalte verschieben: =menu, 1, 1=
+
+Zellenname: SpalteIndex (e.g. a1)
+
+Bereichsreferenz: Startzelle:Endzelle
+
+Datensatz kopieren:
+1. Shift + Pfeile (selektieren)
+2. ctrl, c
+3. Zu obersten Punkt neuer Spalte navigieren
+4. ctrl, v
+
+
+Datensatz sortieren:
+1. Spalte selektiren
+2. =menu, 1, 6=
+
+
+Kumulierte Spalte hinzufügen:
+1. In neuer Spalte ins Ausdruckszelle (Zweite Zellen von oben) gehen
+2. =menu, 3, 7, 1= oder =cumultativeSum(<var>)=
+
+
+Gleitender Mittelwert:
+1. Werte eintragen
+2. In Zielspalte, Zelle $n$ den Wert eintragen in der Form: (a1+a2+...+an) / n
+3. Mit selektierter Zelle: =menu, 3, 3=
+4. Mit Pfeilen neue Zellen selektieren
+
+
+Newton-Alorithmus:
+1. X-Werte in Spalte a, Y-Werte in Spalte b
+2. In Zelle c2, den Wert ==approx((b2-b1)/(a2-a1))= eintragen
+3. Mit selektierte Zelle: =menu, 3, 3=
+4. Mit Pfeilen ganze Spalte ausfüllen
+5. Ab Schritt 2 in Zelle d3 wiederholen: ==approx((c3-c2)/(a3-a1))=
+
+\end{multicols}
+
+
+
 * Formelsammlung
 ** Schätzen
 *Mittelwert ($\mu$)*:
@@ -582,117 +718,4 @@ n \geq \frac{z^2N\sigma^2}{e^2(N-1)+z^2\sigma^2}
   c_o &= p_0 + z \sqrt{\frac{p_0(1-p0)}{n}} \sqrt{\frac{N-n}{N-1}} \quad | \frac{n}{N} \geq 0.05
 \end{align*}
 
-* TI-Nspire
-** Shortcuts
-Summenzeichen $\Sigma$: =menu, 4, 5=
-Produktzeichen $\Pi$: =menu, 4, 6=
-Fakultät !: =menu, 5, 1=
-nCr: =menu, 5, 3=
-solve: =menu, 3, 1=
-Numerisch Lösen: =menu, 3, 6=
-Ableitung: =menu, 4, 1=
-Integral: =menu, 4, 3=
 
-** Funktionen
-Allgemein: =menu, 6, 3, <Zahl>=
-
-Datensatzlänge: =count(x)=
-Datensatzlänge mit Wert y: =count(x)=
-Median: =median(x)=
-Maximum: =max(x)=
-Minimum: =min(x)=
-Absoluter Wert: =abs(x)= oder =|x|=
-Arithm. Mittelwert $\overline{x}$: =mean(x)=
-Empirishe-Varianz $\sigma_x^2$: =varPop(x)=
-Standardabweichung $\sigma_x$: =stDevPop(x)=
-Stichproben-Varianz: =varSamp(x)=
-Summe $\Sigma$: =sum(x)=
-Approx. Zahlenwert $\approx$: =approx(x)=
-Kombinationen $\binom{n}{k}$: =nCr(n,k)=
-
-** Verteilungen
-Verteilungen die mit /Pdf/ (probability density function) enden sind die Dichtefunktionen f, solche die mit /Cdf/ (cumulative distribution function) enden sind die Verteilungsfunktionen F. Im Ti-Nspire zugänglich über =menu, 6, 5, <Zahl>=.
-
-Normalverteilungs-
-Dichte: =normPdf(x, $\mu$, $\sigma$)=
-Summe: =normCdf(a, b, $\mu$, $\sigma$)=
-Inverses: =invNorm(%, $\mu$, $\sigma$)=
-z-Value: =invNorm(%, 0,1)=
-
-Student-T Verteilungs-
-Dichte: =tPdf(x,$\nu$)=
-Summe: =tCdf(a, b, $\nu$)=
-Inverses: =invT(%, $\nu$)=
-
-$\chi^2$-Verteilungs-
-Summe: =menu, 6, 5, 8, (a, b, $\nu$)=
-Inverse: =menu, 6, 5, 9, (%, $\nu$)=
-
-Zentralle Konfidenzintervalle:
-1. =menu 6, 6, 1 (2 falls t)
-2. Dateneingabe: Statistik
-3. $\sigma$= Standardabweichung (nicht Stichprobenwert)
-4. $\mu$ eintragen und $n$ eintragen
-5. Konfidenzniveau korrekt eintragen
-
-
-** Liste
-Lineare Regression:
-1. x-liste und y-liste eintragen
-2. =menu, 6, 1, 4=
-
-
-Statistische Berechnungen:
-1. x-liste (und y-liste) eintragen
-2. =menu, 6, 1, <Zahl>=
-
-
-
-
-
-** Spreadsheet
-Datensatz hinzufügen:
-1. Name in erste Zelle einfügen
-2. Daten eintragen
-
-
-Spalte link einfügen: =menu, 2, 3=
-Spalte verschieben: =menu, 1, 1=
-Zellenname: SpalteIndex (e.g. a1)
-Bereichsreferenz: Startzelle:Endzelle
-Datensatz kopieren:
-1. Shift + Pfeile (selektieren)
-2. ctrl, c
-3. Zu obersten Punkt neuer Spalte navigieren
-4. ctrl, v
-
-
-Datensatz sortieren:
-1. Spalte selektiren
-2. =menu, 1, 6=
-
-
-Kumulierte Spalte hinzufügen:
-1. In neuer Spalte ins Ausdruckszelle (Zweite Zellen von oben) gehen
-2. =menu, 3, 7, 1= oder =cumultativeSum(<var>)=
-
-
-Gleitender Mittelwert:
-1. Werte eintragen
-2. In Zielspalte, Zelle $n$ den Wert eintragen in der Form: (a1+a2+...+an) / n
-3. Mit selektierter Zelle: =menu, 3, 3=
-4. Mit Pfeilen neue Zellen selektieren
-
-
-Newton-Alorithmus:
-1. X-Werte in Spalte a, Y-Werte in Spalte b
-2. In Zelle c2, den Wert ==approx((b2-b1)/(a2-a1))= eintragen
-3. Mit selektierte Zelle: =menu, 3, 3=
-4. Mit Pfeilen ganze Spalte ausfüllen
-5. Ab Schritt 2 in Zelle d3 wiederholen: ==approx((c3-c2)/(a3-a1))=
-
-
-
-* End
-
-\end{multicols}
