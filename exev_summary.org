@@ -259,7 +259,7 @@ E(X) &= \overline{x} = p \\
 - Binär
 - wird n-mal wiederholt
 \begin{equation*}
-f(x) = p\binom{n}{x}p^x(1-p)^{n-x}
+f(x) = \binom{n}{x}p^x(1-p)^{n-x}
 \end{equation*}
 
 \begin{equation*}
