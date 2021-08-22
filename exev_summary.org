@@ -92,78 +92,6 @@ Bei mehr als 15 verschieden Merkmalswerten sollte die Werten in Klassen gruppier
 - *Klassenbreite*: $b_m = x_m^o - x_m^u$
 - *Klassenmitte*: $\frac{x_m^o + x_m^u}{2}$
 - *Klassendichte*: $d_m = \frac{h_m}{b_j}$
-* Lageparameter
-*Modus*:
-Bei unterschiedlicher Klassenbreite anstellen von $h_m$ Klassendichte nutzen.
-\begin{equation*}
-  Mo = x_m^u + \frac{h_m - h_{m-1}}{(h_m-h_{m-1})+(h_m-h_{m+1})}\cdot (x_m^o - x_m^u)
-\end{equation*}
-
-*Median*:
-\begin{equation*}
-  Me = x_m^u + \frac{\frac{n}{2}-H_{m-1}}{H_m - H_{m-1}} \cdot (x_m^o - x_m^u)
-\end{equation*}
-Quantile, Quartile, Dezile, Perzentile analog zu Median, einfach $\frac{n}{2}$ passend ersetzen
-
-*arithmetisches Mittel (mean, average)*:
-\begin{align*}
-\overline{x} &= \frac{1}{n} \sum_{i=1}^v x_i \cdot h_i \\
-\overline{x} &= \frac{1}{n} \sum_{i=1}^v x_i \cdot f_i
-\end{align*}
-
-*arithmetisches Mittel - Klassifiziert* ($\grave{x_i}$ Klassenmittelwert):
-\begin{align*}
-\overline{x} &= \frac{1}{n} \sum_{i=1}^v \grave{x_i} \cdot h_i \\
-\overline{x} &= \frac{1}{n} \sum_{i=1}^v \grave{x_i} \cdot f_i
-\end{align*}
-
-*Harmonisches Mittel*:
-Merkmal muss verhältnisskaliert sein
-\begin{align*}
-\overline{MH} = \frac{\sum_{i=1}^v h_i}{\sum_{i=1}^v \frac{h_i}{x_i}}
-\end{align*}
-
-*Geometrisches Mittel*:
-\begin{align*}
-MG = \sqrt[n]{\prod_{i=1}^n x_i} = \sqrt[n]{\frac{endwert}{anfangswert}}
-\end{align*}
-
-*Spannweite*:
-\begin{equation*}
-  R = x_{max} - x_{min}
-\end{equation*}
-
-*Zentraller Quartilsabstand*:
-\begin{align*}
-ZQA = Q_3 - Q_1
-\end{align*}
-
-*Mittlere absoulte Abweichung* ($h_i$ absoulte Häufigkeit):
-\begin{align*}
-\delta = \frac{1}{n} \sum_{i=1}^{v}|x_i - \overline{x}| h_i
-\end{align*}
-
-*Varianz* ($h_i$ absoulte Häufigkeit):
-\begin{align*}
-\sigma^2 &= \frac{1}{n} \sum_{i=1}^{v} (x_i - \overline{x})^2 h_i \\
-&= E(x^2) - (E(x))^2 = \sum_{i=1}^{v}x_i^2f(x_i) - (E(x))^2
-\end{align*}
-
-*Stichprobenvarianz* ($h_i$ absoulte Häufigkeit):
-\begin{align*}
-  s^2 &= \frac{1}{n-1} \sum_{i=1}^{v} (x_i - \overline{x})^2 h_i \\
-  &= \frac{n}{n-1}\sigma^2
-\end{align*}
-
-*Standardabweichung* (Wurzerl der Varianz):
-\begin{align*}
-\sigma = \sqrt{\sigma^2} 
-\end{align*}
-
-*Variantionskoeffizienten*: Misst die relative Streuung
-\begin{align*}
-VK = \frac{\sigma}{\overline{x}} \cdot 100
-\end{align*}
 * Prognosen
 Formale Abhängikeit (Zahlenmässiger Zusammenhang, muss nicht zwingend ein echter *Zusammenhang* haben). Sachliche Abhängikeit (Ist Anstieg von a Ursache für den Anstieg von b). Korrelation (Stäre des linearen rechnerischen Zusammenhangs)
 
@@ -559,35 +487,36 @@ Kombinationen $\binom{n}{k}$: =nCr(n,k)=
 ** Verteilungen
 Verteilungen die mit /Pdf/ (probability density function) enden sind die Dichtefunktionen f, solche die mit /Cdf/ (cumulative distribution function) enden sind die Verteilungsfunktionen F. Im Ti-Nspire zugänglich über =menu, 6, 5, <Zahl>=.
 
-Normalverteilungs-
 
-Dichte: =normPdf(x, $\mu$, $\sigma$)=
+*** Normalverteilungs-
 
-Summe: =normCdf(a, b, $\mu$, $\sigma$)=
+Dichte: /normPdf(x, \mu, \sigma)/
 
-Inverses: =invNorm(%, $\mu$, $\sigma$)=
+Summe: /normCdf(a, b, \mu, \sigma)/
 
-z-Value: =invNorm(%, 0,1)=
+Inverses: /invNorm(%, \mu, \sigma)/
+
+z-Value: /invNorm(%, 0,1)/
 
 
-Student-T Verteilungs-
+*** Student-T Verteilungs-
 
-Dichte: =tPdf(x,$\nu$)=
+Dichte: =tPdf(x, \nu)=
 
-Summe: =tCdf(a, b, $\nu$)=
+Summe: =tCdf(a, b, \nu)=
 
-Inverses: =invT(%, $\nu$)=
+Inverses: =invT(%, \nu)=
 
-\chi^2-Verteilungs-
-Summe: =menu, 6, 5, 8, (a, b, $\nu$)=
+*** \chi^2-Verteilungs-
+Summe: =menu, 6, 5, 8, (a, b, \nu)=
 
-Inverse: =menu, 6, 5, 9, (%, $\nu$)=
+Inverse: =menu, 6, 5, 9, (%, \nu)=
 
-Zentralle Konfidenzintervalle:
-1. =menu 6, 6, 1 (2 falls t)
+*** Zentralle Konfidenzintervalle
+1. =menu 6, 6, 1 (2 falls t)=
 2. Dateneingabe: Statistik
-3. $\sigma$= Standardabweichung (nicht Stichprobenwert)
-4. $\mu$ eintragen und $n$ eintragen
+3. \sigma = Standardabweichung (nicht Stichprobenwert)
+4. \mu eintragen und $n$ eintragen
 5. Konfidenzniveau korrekt eintragen
 
 ** Liste
@@ -644,50 +573,129 @@ Newton-Alorithmus:
 4. Mit Pfeilen ganze Spalte ausfüllen
 5. Ab Schritt 2 in Zelle d3 wiederholen: ==approx((c3-c2)/(a3-a1))=
 
-\end{multicols}
 
 
-
+#+LATEX: \newpage
+#+LATEX: \end{multicols}
+#+LATEX: \begin{multicols}{2}
 * Formelsammlung
-** Schätzen
-*Mittelwert ($\mu$)*:
+** Lageparameter
+- *Klassenbreite*: $b_m = x_m^o - x_m^u$
+- *Klassenmitte*: $\frac{x_m^o + x_m^u}{2}$
+- *Klassendichte*: $d_m = \frac{h_m}{b_j}$
+
+*Modus*:
+Bei unterschiedlicher Klassenbreite anstellen von $h_m$ Klassendichte nutzen.
 \begin{equation*}
-\overline{x} = \frac{1}{n}\sum_{i=1}^n x_i
+  Mo = x_m^u + \frac{h_m - h_{m-1}}{(h_m-h_{m-1})+(h_m-h_{m+1})}\cdot (x_m^o - x_m^u)
 \end{equation*}
 
-*Varianz ($\sigma^2$)*:
+*Median*:
 \begin{equation*}
-s^2 = \frac{1}{n-1}\sum_{i=1}^n(x_i - \overline{x})^2
+  Me = x_m^u + \frac{\frac{n}{2}-H_{m-1}}{H_m - H_{m-1}} \cdot (x_m^o - x_m^u)
+\end{equation*}
+Quantile, Quartile, Dezile, Perzentile analog zu Median, einfach $\frac{n}{2}$ passend ersetzen
+
+*arithmetisches Mittel (mean, average)*:
+\begin{align*}
+\overline{x} &= \frac{1}{n} \sum_{i=1}^v x_i \cdot h_i \\
+\overline{x} &= \frac{1}{n} \sum_{i=1}^v x_i \cdot f_i
+\end{align*}
+
+*arithmetisches Mittel - Klassifiziert* ($\grave{x_i}$ Klassenmittelwert):
+\begin{align*}
+\overline{x} &= \frac{1}{n} \sum_{i=1}^v \grave{x_i} \cdot h_i \\
+\overline{x} &= \frac{1}{n} \sum_{i=1}^v \grave{x_i} \cdot f_i
+\end{align*}
+
+*Harmonisches Mittel*:
+Merkmal muss verhältnisskaliert sein
+\begin{align*}
+\overline{MH} = \frac{\sum_{i=1}^v h_i}{\sum_{i=1}^v \frac{h_i}{x_i}}
+\end{align*}
+
+*Geometrisches Mittel*:
+\begin{align*}
+MG = \sqrt[n]{\prod_{i=1}^n x_i} = \sqrt[n]{\frac{endwert}{anfangswert}}
+\end{align*}
+
+*Spannweite*:
+\begin{equation*}
+  R = x_{max} - x_{min}
 \end{equation*}
 
-*Varianz ($\sigma^2$) - Stichprobe*:
+*Zentraller Quartilsabstand*:
+\begin{align*}
+ZQA = Q_3 - Q_1
+\end{align*}
+
+*Mittlere absoulte Abweichung* ($h_i$ absoulte Häufigkeit):
+\begin{align*}
+\delta = \frac{1}{n} \sum_{i=1}^{v}|x_i - \overline{x}| h_i
+\end{align*}
+
+*Varianz* ($h_i$ absoulte Häufigkeit):
+\begin{align*}
+\sigma^2 &= \frac{1}{n} \sum_{i=1}^{v} (x_i - \overline{x})^2 h_i
+\end{align*}
+
+*Stichprobenvarianz* ($h_i$ absoulte Häufigkeit):
+\begin{align*}
+  s^2 &= \frac{1}{n-1} \sum_{i=1}^{v} (x_i - \overline{x})^2 h_i \\
+  &= \frac{n}{n-1}\sigma^2
+\end{align*}
+
 \begin{equation*}
 \sigma_{\overline{x}}^2 = \frac{\sigma^2}{n}
 \end{equation*}
 
-*Anteilswert / Wahrscheinlichkeit (p)*:
+*Standardabweichung* (Wurzerl der Varianz):
+\begin{align*}
+\sigma = \sqrt{\sigma^2} 
+\end{align*}
 
+*Variantionskoeffizienten*: Misst die relative Streuung
+\begin{align*}
+VK = \frac{\sigma}{\overline{x}} \cdot 100
+\end{align*}
+
+*Kovarianz*:
+\begin{align*}
+\sigma_{XY} &= \frac{1}{n}\sum_{i=1}^{n}(x_i-\overline{x})(y_i-\overline{y}) \\
+\sigma_{XY} &= \frac{1}{n}\sum_{i=1}^{n}x_iy_i - \overline{x} \ \overline{y}
+\end{align*}
+Variante 2 Analog zu der Varianz
+
+*Korrelationskoeffizient* (-1 - 1):
+\begin{align*}
+r &= \frac{\sigma_{XY}}{\sigma_X\sigma_Y} \quad mit \ |\sigma_{XY}| \leq \sigma_X\sigma_Y \\
+r &= \frac{\sum_{i=1}^{n}(x_i-\overline{x})(y_i-\overline{y})}{\sqrt{(\sum_{i=1}^{n}(x_i-\overline{x})^2)(\sum_{i=1}^n(y_i-\overline{y})^2)}}
+\end{align*}
+  
+** Prognossen
+*gleitender Mittelwert*
+\begin{align*}
+M_t = \frac{1}{T+t}(\sum_{T=1}^{t-1} x_T +x_t)
+\end{align*}
+
+*Lineare Regression* funktioniert nur mit linearen zusammenhang. Bei einem exponentiellen kann dieser aber logrimiert werden. Bei einem logrimischen Zusammenhang kann potenziert werden um einen linearen Zusammenhang zu erhalten.
+\begin{align*}
+y &= a_1 + b_1x_i \\
+a_1 &= \overline{y} - b_1\overline{x} \\
+b_1 &= \frac{\sum_{i=1}^n x_iy_i - n\overline{x} \ \overline{y}}{\sum_{i=1}^n x_i^2 - n\overline{x}^2}
+\end{align*}
+
+*Newton - Algorithmus* (TI-Nspire):
+\begin{align*}
+f(x) = a_0 + a_1(x-x_1) + a_2(x-x_1)(x-x_2)+...+a_n(x-x_1)...(x-x_n)
+\end{align*}
+** Anteilswert / Wahrscheinlichkeit (p)
 k = Anzahl gute-Fälle, n = Stichprobenumfang
 \begin{equation*}
 \overline{p} = \frac{k}{n}
 \end{equation*}
 
-*Varianz für das Stichprobenmittel $\overline(X)$*:
-| Stichprobe                 | $\sigma^2$ bekannt ($\sigma_{\overline{X}}^2$) | $\sigma^2$ unbekannt ($\hat{\sigma}_{\overline{X}}^2$) |
-|----------------------------+------------------------------------------------+--------------------------------------------------------|
-| Unendliche Grundgesamtheit | $\frac{\sigma^2}{n}$                           | $\frac{s^2}{n}$                                        |
-| $\frac{n}{N} < 0.05$       | $\approx \frac{\sigma^2}{n}$                   | $\approx \frac{s^2}{n}$                                |
-| $\frac{n}{N} \geq 0.05$    | $\frac{\sigma^2}{n} \cdot \frac{N-n}{N-1}$     | $\frac{s^2}{n} \cdot \frac{N-n}{N}$                    |
-
-*Varianz für den Anteilswert (P)*:
-
-für $np (1-P) > 9$ aprox. normalverteilt
-| Stichprobe                 | $\sigma^2$ bekannt ($\sigma_{P}^2$)        | $\sigma^2$ unbekannt ($\hat{\sigma}_{P}^2$) |
-|----------------------------+--------------------------------------------+---------------------------------------------|
-| Unendliche Grundgesamtheit | $\frac{P(1-P)}{n}$                         | $\frac{P(1-P)}{n}$                          |
-| $\frac{n}{N} < 0.05$       | $\approx \frac{P(1-P)}{n}$                 | $\approx \frac{P(1-P)}{n}$                  |
-| $\frac{n}{N} \geq 0.05$    | $\frac{P(1-P)}{n} \cdot \frac{N-n}{N-1}$ | $\frac{P(1-p)}{n} \cdot \frac{N-n}{N}$   |
-
+** Fehler
 *Fehler*:
 \begin{equation*}
 e = z\frac{\sigma}{\sqrt{n}}
@@ -717,5 +725,23 @@ n \geq \frac{z^2N\sigma^2}{e^2(N-1)+z^2\sigma^2}
   c_o &= p_0 + z \sqrt{\frac{p_0(1-p0)}{n}} \\
   c_o &= p_0 + z \sqrt{\frac{p_0(1-p0)}{n}} \sqrt{\frac{N-n}{N-1}} \quad | \frac{n}{N} \geq 0.05
 \end{align*}
+
+\end{multicols}
+
+** Varianz für das Stichprobenmittel $\overline(X)$:
+| Stichprobe                 | $\sigma^2$ bekannt ($\sigma_{\overline{X}}^2$) | $\sigma^2$ unbekannt ($\hat{\sigma}_{\overline{X}}^2$) |
+|----------------------------+------------------------------------------------+--------------------------------------------------------|
+| Unendliche Grundgesamtheit | $\frac{\sigma^2}{n}$                           | $\frac{s^2}{n}$                                        |
+| $\frac{n}{N} < 0.05$       | $\approx \frac{\sigma^2}{n}$                   | $\approx \frac{s^2}{n}$                                |
+| $\frac{n}{N} \geq 0.05$    | $\frac{\sigma^2}{n} \cdot \frac{N-n}{N-1}$     | $\frac{s^2}{n} \cdot \frac{N-n}{N}$                    |
+
+** Varianz für den Anteilswert (P):
+
+für $np (1-P) > 9$ aprox. normalverteilt
+| Stichprobe                 | $\sigma^2$ bekannt ($\sigma_{P}^2$)        | $\sigma^2$ unbekannt ($\hat{\sigma}_{P}^2$) |
+|----------------------------+--------------------------------------------+---------------------------------------------|
+| Unendliche Grundgesamtheit | $\frac{P(1-P)}{n}$                         | $\frac{P(1-P)}{n}$                          |
+| $\frac{n}{N} < 0.05$       | $\approx \frac{P(1-P)}{n}$                 | $\approx \frac{P(1-P)}{n}$                  |
+| $\frac{n}{N} \geq 0.05$    | $\frac{P(1-P)}{n} \cdot \frac{N-n}{N-1}$ | $\frac{P(1-p)}{n} \cdot \frac{N-n}{N}$   |
 
 
