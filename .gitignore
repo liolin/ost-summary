@@ -1,3 +1,5 @@
 *.pdf
-*.tex
+*.aux
+*.log
+*.out
 ltximg
