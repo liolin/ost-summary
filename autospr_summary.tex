@@ -1,4 +1,4 @@
-% Created 2021-08-29 Sun 09:23
+% Created 2021-08-29 Sun 10:05
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt,twoside,landscape]{article}
 \usepackage[utf8]{inputenc}
@@ -39,9 +39,9 @@
 
 \begin{multicols}{3}
 \section*{Week 1\hfill{}\textsc{empty}}
-\label{sec:orgb12051f}
+\label{sec:org96d64b5}
 \subsection*{Basics}
-\label{sec:orga08e0b3}
+\label{sec:org2750f1b}
 Das folgende ist \textbf{kein} Graph, weil jede Kante brauch einen Anfangs- und Endknoten.
 \begin{center}
 \includegraphics[width=.9\linewidth]{static/img/autospr/no_graph.png}
@@ -53,7 +53,7 @@ Dies ist allerdings ein Graph (Ein Anfangskonten und Endknoten definiert durch d
 \end{center}
 
 \subsection*{Sprache}
-\label{sec:org413e269}
+\label{sec:orgce20def}
 \begin{itemize}
 \item Alphabet: normalerweise griechische Buchstaben (\(\Sigma\))
 \item Die Menge aller Wörter: \(\Sigma^*\)
@@ -62,11 +62,11 @@ Dies ist allerdings ein Graph (Ein Anfangskonten und Endknoten definiert durch d
 \end{itemize}
 
 \section*{Week 2}
-\label{sec:org8f6b847}
+\label{sec:orgaf7ecdf}
 \subsection*{DEA (Deterministische endliche Automaten)}
-\label{sec:org3b4cb19}
+\label{sec:org9a3d5c7}
 \subsubsection*{Definition}
-\label{sec:org5ec67fa}
+\label{sec:org051887f}
 \begin{enumerate}
 \item \(Q\) endliche Menge von Zuständen
 \item \(\Sigma\) endliche Menge, das Alphabet
@@ -77,7 +77,7 @@ Dies ist allerdings ein Graph (Ein Anfangskonten und Endknoten definiert durch d
 Von jedem Zustand, muss es für jedes Zeichen genau einen Übergang geben. Es ist also zu jeder Zeit klar, wo der Automat genau ist.
 \end{enumerate}
 \subsubsection*{Beispiel}
-\label{sec:orgc2f90df}
+\label{sec:org4a5d4f0}
 \begin{center}
 \begin{tabular}{lrl}
 q & a & \(\delta(q,a)\)\\
@@ -94,7 +94,7 @@ q1 & 1 & q1\\
 \end{center}
 
 \subsubsection*{Myhill-Nerode}
-\label{sec:orge949d94}
+\label{sec:org912fbff}
 \begin{quote}
 Ist L eine requläre Sprache, dann wird L von dem endliche Automaten \(A = (Q,\Sigma,\delta,q_0,F)\) akzeptiert mit
 \end{quote}
@@ -107,10 +107,10 @@ F = \{q \in Q | \epsilon \in q\} \\
 
 Dieser Satz kann benutz werden, um zu entscheiden ob eine Sprache regulär ist: Wenn \(\{L(w) | w \in \Sigma^*\}\) endlich ist, ist die Sprache regulär. Als Beispiel ist die Sprache \(\{0^n1^n | n \in \mathbb{N}\}\) über \(\Sigma = \{0,1\}\) nicht regulär, da man unendliche viele Zustände benötigt. Eine DEA hat \textbf{kein} Gedächnis.
 \subsubsection*{Minimaler Automat}
-\label{sec:org5a5cabf}
+\label{sec:org30871d9}
 Automaten können reduziert werden zu einem minimalen Automaten. Wenn zwei verschiedene DEAs auf den selben minimalen DEA reduziert werden können, akzeptieren die beiden Automaten die selbe Sprache. Der minimale Automat kann mit dem Kreuzchen Algorithmus konstruiert werden.
 \section*{Week 3}
-\label{sec:org8d6d0cf}
+\label{sec:org3c82526}
 \begin{itemize}
 \item Nicht deterministische endliche Automaten
 \begin{itemize}
@@ -127,7 +127,7 @@ Automaten können reduziert werden zu einem minimalen Automaten. Wenn zwei versc
 \end{itemize}
 
 \subsection*{Pumping Lema - Reguläre Sprachen}
-\label{sec:org0c9c8bc}
+\label{sec:org3765357}
 Mit dem Pumping Lema kann erkennt werden, ob eine Sprache nicht regulär ist. Wenn das Wort lange genug ist (Puming Length N), dann kann das Wort in drei Teile (x, y, z) aufgeteilt werden:
 \begin{enumerate}
 \item \(|y| > 0\)
@@ -136,7 +136,7 @@ Mit dem Pumping Lema kann erkennt werden, ob eine Sprache nicht regulär ist. We
 \end{enumerate}
 
 \subsubsection*{Beispiel}
-\label{sec:org9fa450c}
+\label{sec:orgbc7ba8b}
 Beweise dass \(L = \{0^n1^n | n \in \mathbb{N}\}\) nicht regulär ist.
 
 \begin{enumerate}
@@ -152,8 +152,8 @@ Beweise dass \(L = \{0^n1^n | n \in \mathbb{N}\}\) nicht regulär ist.
 \end{center}
 
 \subsection*{NEA (Nicht deterministische endliche Automaten}
-\label{sec:org2929354}
-NEAs unterscheiden sich von \hyperref[sec:org3b4cb19]{DEAs} nur geringfügig. Bei einem NEA ist es nicht notwendig, für jedes Zeichen einen Übergang zu haben. Zusätzlich können für das selbe Zeichen auch mehrere Übergänge existieren. Neben den bekannten Übergängen existieren im NEA auch \(\epsilon\)-Übergänge. Diese Übergänge können zu jeder Zeit, ohne ein Inputzeichen zu verwenden, benutzt werden.
+\label{sec:org6ccd1e1}
+NEAs unterscheiden sich von \hyperref[sec:org9a3d5c7]{DEAs} nur geringfügig. Bei einem NEA ist es nicht notwendig, für jedes Zeichen einen Übergang zu haben. Zusätzlich können für das selbe Zeichen auch mehrere Übergänge existieren. Neben den bekannten Übergängen existieren im NEA auch \(\epsilon\)-Übergänge. Diese Übergänge können zu jeder Zeit, ohne ein Inputzeichen zu verwenden, benutzt werden.
 
 NEAs können aber nicht mehr Sprachen erkennen als die DEAs. Sie sind daher gleichwertig.
 
@@ -163,15 +163,15 @@ Als Beispiel einen NEA, welcher Wörter erkennt, welche mit 2 b enden.
 \end{center}
 
 \subsection*{Thompson-NEA (Könnte-Automat)}
-\label{sec:org0196cf4}
+\label{sec:orgd149a0a}
 Bei diesem NEA wird sich immer gemerkt, in welchem Zustand der Automat sein könnte.
 
 \subsection*{Transformation von NEA zu DEA}
-\label{sec:orgb83404d}
+\label{sec:org131c5bf}
 Bei der Transformaiton von einem NEA zu einem DEA geht es darum, die \(\epsilon\)-Übergänge und die Mehrfachübergänge zu eliminieren. Das erreicht man, in dem der DEA Buch führt, in welchen Zuständen der NEA sein könnte. Das wird realisiert, in dem die Zustände des DEA die möglichen Zuständen des NEAs repräsentieren. Die Zustände \(Q\) des DEA ist die Potzenmenge der Menge \(Q\) des NEAs.
 
 \subsubsection*{Beispiel}
-\label{sec:org40388df}
+\label{sec:org1c0416c}
 Folgender NEA soll in einen DEA überführt werden:
 \begin{center}
 \includegraphics[width=.9\linewidth]{static/img/autospr/nea_example_2.png}
@@ -199,7 +199,7 @@ Akzeptiertzustände sind alle welche den Status q\textsubscript{0} beinhalten =>
 Im Bild ist ersichtlich, dass die Zustände q\textsubscript{101} und q\textsubscript{011} nie erreicht werden können und somit weggelassen werden können.
 
 \subsection*{Mengenoperationen}
-\label{sec:org143b963}
+\label{sec:org1505efa}
 Sprachen sind Menge von Wörter. Folglich sind auch deren Vereinigung, Durchschnitt, Differenz etc. auch Sprachen. Wenn die Sprachen reguläre sind, ist auch dessen Vereinigung etc. Dies lässt sich mit einem NEA einfach beweisen.
 
 \begin{figure}[htbp]
@@ -224,7 +224,7 @@ Um die Schnittmenge zu bilden wird ein \textbf{kartesischer Produktautomat} ben�
 \caption{Kartesischer Produktautomat}
 \end{figure}
 \section*{Week 4}
-\label{sec:orgc77991f}
+\label{sec:orgceaf8ae}
 \begin{itemize}
 \item Reguläre Operationen
 \begin{itemize}
@@ -242,7 +242,7 @@ Um die Schnittmenge zu bilden wird ein \textbf{kartesischer Produktautomat} ben�
 
 
 \subsection*{Reguläre Ausdrücke (Regex)}
-\label{sec:org2dd8cf6}
+\label{sec:org137297b}
 Reguläre Ausdrücke sind eigentlich nichts anderes als eine kompakte Schreibweise für NEAs (folglich auch für DEAs).
 \begin{center}
 \begin{tabular}{ll}
@@ -263,7 +263,7 @@ r? & 0 oder 1 mal r\\
 
 
 \subsection*{DEAs in Regex umwandeln}
-\label{sec:org34b96eb}
+\label{sec:orgc5415d9}
 Jeder DEA kann mit Regex vereinfacht werden. Folgendes Vorgehen:
 \begin{enumerate}
 \item Neuer Akzeptiertzustand (q\textsubscript{accept}), alle andere werden zu normalen Zuständen degradiert und mit q\textsubscript{accept} verbunden
@@ -272,7 +272,7 @@ Jeder DEA kann mit Regex vereinfacht werden. Folgendes Vorgehen:
 \end{enumerate}
 
 \section*{Week 5}
-\label{sec:org7e1fd34}
+\label{sec:org06a6d7e}
 \begin{itemize}
 \item Kapitel 4: Stackautomaten und kontextfreie Sprachen
 \begin{itemize}
@@ -286,7 +286,7 @@ Jeder DEA kann mit Regex vereinfacht werden. Folgendes Vorgehen:
 
 
 \subsection*{Kontextfreie Sprachen}
-\label{sec:org8a8ca94}
+\label{sec:org66ee682}
 Eine kontextfreie Grammatik besteht aus:
 \begin{itemize}
 \item endliche Mengen von Variablen
@@ -310,7 +310,7 @@ Durch anwenden der Grammatik bis keine Variabel mehr übrigbleibt erzeugt eine \
 
 
 \subsection*{Chomsky Normalform}
-\label{sec:orge23ffb9}
+\label{sec:org16633ea}
 Um zwei Grammatiken vergleichen zu können braucht es eine Normalform. Diese ist die Chomsky Normalform. Um in diese Form zu gelangen geht man wie folgt vor:
 \begin{enumerate}
 \item Die Startvariabel darf rechts nicht vorkommen. Notfalls eine neue Startvariabel S\textsubscript{0} erstellen mit der Regel \(S_0 \rightarrow S\)
@@ -320,7 +320,7 @@ Um zwei Grammatiken vergleichen zu können braucht es eine Normalform. Diese ist
 \end{enumerate}
 
 \section*{Week 6}
-\label{sec:org93b8bef}
+\label{sec:orge2892a6}
 \begin{itemize}
 \item deterministischer Parse Algorithmus (Cocke-Younger-Kasami)
 \item Stackautomaten
@@ -335,11 +335,11 @@ Um zwei Grammatiken vergleichen zu können braucht es eine Normalform. Diese ist
 
 
 \subsection*{Cocke-Younger-Kasami}
-\label{sec:org3147b06}
+\label{sec:orge8f5787}
 Um zu überprüfen, ob eine Wort zu einer kontextfreien Sprache gehört gibt es den \textbf{Cocke-Younger-Kasami}-Algorithmus. Dieser geht für das ganze Wort durch die Chomsky Normalform. Wenn es akzeptiert wird gehört es zu der Sprache ansonsten nicht.
 
 \subsection*{Stackautomaten}
-\label{sec:orgdb56d4c}
+\label{sec:org14c5e03}
 Stackautomaten sind DEAs welche mit einem Speicher, einem Stack, ausgestattet sind. So kann die 0 auf den Stack gespeichert werden bei der Sprache \({0^n1^n | n \in \mathbb{N}}\). Wenn der Stack am ende leer ist, wird das Wort akzeptiert. Bei Stackautomaten gibt es noch ein zusätzliches Alphabet, das Stack-Alphabet. Dieses wird verwendet um Symbole auf den Stack zu schreiben, bzw. von dort lesen.
 
 Folgender Stackautomat, geht vom Zustand p nach q über, wenn ein a verarbeitet wird und gleichzeitig das Element c durch ein b ersetzt werden kann.
@@ -348,7 +348,7 @@ Folgender Stackautomat, geht vom Zustand p nach q über, wenn ein a verarbeitet 
 \end{center}
 
 \section*{Week 7}
-\label{sec:org889e8fe}
+\label{sec:org6f5cf57}
 \begin{itemize}
 \item Pumping Lemma für kontextfreie Sprachen
 \item Beispiel: \{ a\textsuperscript{n}b\textsuperscript{n}c\textsuperscript{n} | n \(\ge\) 0 \}
@@ -356,7 +356,7 @@ Folgender Stackautomat, geht vom Zustand p nach q über, wenn ein a verarbeitet 
 \end{itemize}
 
 \subsection*{Pumping Lemma für kontextfreie Sprachen}
-\label{sec:orge3c4f3b}
+\label{sec:orgd724a37}
 Ähnliche wie bei Regulären Sprachen gibt es auch ein Pumping Lemma für kontextfreie Sprachen.
 
 \begin{enumerate}
@@ -370,7 +370,7 @@ Folgender Stackautomat, geht vom Zustand p nach q über, wenn ein a verarbeitet 
 \end{enumerate}
 
 \section*{Week 8}
-\label{sec:org855c5c6}
+\label{sec:org7d8d657}
 \begin{itemize}
 \item Kapitel 5: Turing Maschinen
 \begin{itemize}
@@ -388,7 +388,7 @@ Turingmaschine.
 \end{quote}
 
 \section*{Week 9}
-\label{sec:org270d9f1}
+\label{sec:org281d5fb}
 \begin{itemize}
 \item Abzählbar unendlich und überabzählbar unendlich
 \item Die meisten Zahlen sind nicht berechenbar
@@ -423,7 +423,7 @@ Turingmaschine.
 
 
 \subsection*{Satz von Rice}
-\label{sec:orgfa42e04}
+\label{sec:orgfef1258}
 \begin{quote}
 Sei P eine nicht triviale Eigenschaft von Turing-erkennbaren Sprachen, dann
 ist P nicht entscheidbar
@@ -431,7 +431,7 @@ ist P nicht entscheidbar
 Nicht trivial meint, dass gewisse Sprachen die Eigenschaft haben und andere nicht.
 
 \section*{Week 10}
-\label{sec:org207de30}
+\label{sec:org30cd285}
 \begin{itemize}
 \item Kapitel 7: Komplexitätstheorie
 \item Laufzeitkomplexität
@@ -450,25 +450,25 @@ Nicht trivial meint, dass gewisse Sprachen die Eigenschaft haben und andere nich
 
 
 \subsection*{Verifizierer}
-\label{sec:orgbf5a5ef}
+\label{sec:org8094230}
 Wenn eine nichtdeterministische Turing Maschine ein Problem in polynomieller Zeit lösen kann, gibt es einen polynomieller Verifizieren. Ein polynomieller Verifizierer ist eine deterministische Turing Maschine, welche mit Hilfe eines Worts c (das Lösungszertifikat) überprüfen kann, ob das Wort w zu einer Sprache L gehört. Es gilt auch, wenn es einen Polynomieller Verifizierer gibt, dass eine nichtdeterministische TM in polynomieller Zeit entscheided.
 
 Bsp: Eine nichtdetermistische Turing Maschine kann in polynomieller ein Sudoku lösen. Wenn man dem Verifiziere nun die Lösung des Sudokus gibt (die fehlenden Zahlen und deren Position), kann dieser in polynomieller Zeit die Lösung überprüfen / nachvollziehen.
 \subsection*{Klasse P}
-\label{sec:org627b27e}
+\label{sec:org5a197ae}
 \begin{quote}
 Die Klasse P besteht aus den Sprachen, die mit einem Entscheider mit polyno-
 mieller Laufzeit entschieden werden können.
 \end{quote}
 
 \subsection*{Klasse NP}
-\label{sec:orgdcc0670}
+\label{sec:org3a60fc1}
 \begin{quote}
 Die Klasse der von einer nichtdeterministischen Turingmaschine in polynomi-
 eller Zeit entscheidbaren Sprachen heisst NP.
 \end{quote}
 \subsection*{NP-Vollständig}
-\label{sec:orgb0e0ffa}
+\label{sec:orga2e9c32}
 NP-Vollständige Probleme sind die schwierigsten Probleme in NP. NP-Vollständige Probleme sind untereinander alle gleich schwierig zu lösen.
 \begin{enumerate}
 \item \(B \in NP\)
@@ -480,7 +480,7 @@ NP-Vollständige Probleme sind die schwierigsten Probleme in NP. NP-Vollständig
 \end{center} 
 
 \subsection*{Polynomielle Reduktion}
-\label{sec:org9690234}
+\label{sec:org16f38c8}
 Die Polynomielle Reduktion ist die Idee, ein gegebenes Problem auf ein bekanntes Problem zu reduzieren.
 Bsp: Stundenplan- und k-VERTEX-COLORING-Problem. Bei k-VERTEX-COLORING-Problem möchte man einen Graphen, mit k verschiedenen Farben so einfärben, dass kein Vertex die selbe Farbe hat, wie die Nachbarn. Die Reduktion vom Stundenplan auf k-VERTEX-COLORING sieht wie folgt aus:
 
@@ -495,7 +495,7 @@ Bsp: Stundenplan- und k-VERTEX-COLORING-Problem. Bei k-VERTEX-COLORING-Problem m
 Somit gilt: \$S \(\le\)\textsubscript{p} k-VERTEX-COLORING
 
 \section*{Week 11}
-\label{sec:org66b8c5f}
+\label{sec:orgc521ec7}
 \begin{itemize}
 \item SAT: Satz von Cook-Levin
 \item Weitere Beispiele: 3SAT, k-CLIQUE, HAMPATH, SUBSET-SUM
@@ -503,52 +503,21 @@ Somit gilt: \$S \(\le\)\textsubscript{p} k-VERTEX-COLORING
 
 
 \subsection*{Satz von Cook-Levin}
-\label{sec:org75e306c}
+\label{sec:orgdcaaac6}
 \begin{quote}
 SAT ist NP-vollständig.
 \end{quote}
 
-\section*{Week 12}
-\label{sec:org74aa43f}
+\section*{Week 12\hfill{}\textsc{empty}}
+\label{sec:orgc350c08}
 \begin{itemize}
 \item Katalog von Karp
 \item Minesweeper
 \end{itemize}
 
 
-\newpage
-\subsection*{Katalog von Karp}
-\label{sec:org45d7577}
-\subsubsection*{SAT}
-\label{sec:orgbb8004d}
-\subsubsection*{CLIQUE}
-\label{sec:org6638974}
-\subsubsection*{VERTEX-COVER:}
-\label{sec:org82cb532}
-Gegeben ein Graph G und eine Zahl k, gibt es eine Teilmenge von k Vertizes so, dass jede Kante des Graphen ein Ende in dieser Teilmenge hat?
-
-\subsubsection*{FEEDBACK-NODE-SET:}
-\label{sec:orgb26e1c7}
-Gegeben ein gerichteter Graph G und eine Zahl k, gibt es eine endliche Teilmenge von k Vertizes von G so, dass jeder Zyklus in G einen Vertex in der Teilmenge enthält?
-
-\subsubsection*{FEEDBACK-ARC-SET:}
-\label{sec:org2515ffa}
-Gegeben ein gerichteter Graph G und eine Zahl k, gibt es eine Teilmenge von k Kanten so, dass jeder Zyklus in G eine Kante aus der Teilmenge enthält?
-
-\subsubsection*{SET-COVERING:}
-\label{sec:orgd6bea1c}
-Gegeben eine endliche Familie endlicher Mengen (S j )1≤ j≤n und eine Zahl k, gibt es eine Unterfamilie bestehend aus k Mengen, die die gleiche Vereinigung hat?
-
-\subsubsection*{EXACT-COVER:}
-\label{sec:org2076a0a}
-Gegeben eine Familie (S\textsubscript{j})\textsubscript{1 \(\le\) j \(\le\) n} von Teilmengen einer Menge U, gibt es eine Unterfamilie von Mengen, die disjunkt sind, aber die gleiche Vereinigung haben? Die Unterfamilie (S\textsubscript{ji})\textsubscript{1 \(\le\) i \(\le\) m} muss also S\textsubscript{ji} \(\cap\) S\textsubscript{jk} = \(\emptyset\) und
-$$
-\bigcup^n_{j=1} S_j = \bigcup^m_{i=1} S_{ji}
-$$
-erfüllen.
-
 \section*{Week 13}
-\label{sec:org7d1a823}
+\label{sec:org7196652}
 \begin{itemize}
 \item Kapitel 8: Turing-Vollständigkeit
 
@@ -561,7 +530,107 @@ erfüllen.
 
 
 
+
+\newpage
+\section*{Katalog von Karp}
+\label{sec:org9de6dfa}
+\subsubsection*{SAT}
+\label{sec:orgddbbb97}
+Eine logische Formel welche wahr werden muss.
+
+\subsubsection*{{\bfseries\sffamily TODO} CLIQUE}
+\label{sec:org719b9ff}
+\subsubsection*{SET-PACKING:}
+\label{sec:org1a965eb}
+Gegeben eine Familie (S\textsubscript{i} )\textsubscript{i \(\in\) I} von Mengen und eine Zahl \(k \in N\). Gibt es eine k-elementige Teilfamilie \((S_i)_{i \in J}\) mit \(J \subset I\),
+$$
+S_i \cap S_j = \emptyset \quad \forall i, j \in J \, \text{mit} \, i \neq j
+$$
+
+\subsubsection*{VERTEX-COVER:}
+\label{sec:org176373b}
+Gegeben ein Graph G und eine Zahl k, gibt es eine Teilmenge von k Vertizes so, dass jede Kante des Graphen ein Ende in dieser Teilmenge hat?
+
+\subsubsection*{FEEDBACK-NODE-SET:}
+\label{sec:org0c86b0d}
+Gegeben ein gerichteter Graph G und eine Zahl k, gibt es eine endliche Teilmenge von k Vertizes von G so, dass jeder Zyklus in G einen Vertex in der Teilmenge enthält?
+
+\subsubsection*{FEEDBACK-ARC-SET:}
+\label{sec:orgf3e9d21}
+Gegeben ein gerichteter Graph G und eine Zahl k, gibt es eine Teilmenge von k Kanten so, dass jeder Zyklus in G eine Kante aus der Teilmenge enthält?
+
+\subsubsection*{{\bfseries\sffamily TODO} HAMPATH}
+\label{sec:orgda5bf66}
+\subsubsection*{{\bfseries\sffamily TODO} UHAMPATH}
+\label{sec:org24b98c6}
+\subsubsection*{SET-COVERING:}
+\label{sec:org6a5f704}
+Gegeben eine endliche Familie endlicher Mengen (S j )1≤ j≤n und eine Zahl k, gibt es eine Unterfamilie bestehend aus k Mengen, die die gleiche Vereinigung hat?
+
+
+\subsubsection*{{\bfseries\sffamily TODO} BIP}
+\label{sec:orgb46c63b}
+
+\subsubsection*{3SAT}
+\label{sec:orgd5fbb64}
+Wie SAT nur in dreier Gruppen.
+\subsubsection*{{\bfseries\sffamily TODO} VERTEX-COLORING}
+\label{sec:org4f83da7}
+\subsubsection*{CLIQUE-COVER:}
+\label{sec:orgb53b067}
+Gegeben ein Graph G und eine positive Zahl k, gibt es k Cliquen so, dass jede Ecke in genau einer der Cliquen ist?
+
+\subsubsection*{EXACT-COVER:}
+\label{sec:org1db71d1}
+Gegeben eine Familie (S\textsubscript{j})\textsubscript{1 \(\le\) j \(\le\) n} von Teilmengen einer Menge U, gibt es eine Unterfamilie von Mengen, die disjunkt sind, aber die gleiche Vereinigung haben? Die Unterfamilie (S\textsubscript{ji})\textsubscript{1 \(\le\) i \(\le\) m} muss also S\textsubscript{ji} \(\cap\) S\textsubscript{jk} = \(\emptyset\) und
+$$
+\bigcup^n_{j=1} S_j = \bigcup^m_{i=1} S_{ji}
+$$
+erfüllen.
+
+\subsubsection*{{\bfseries\sffamily TODO} SUBSET-SUM}
+\label{sec:orgd01d323}
+\subsubsection*{3D-MATCHING:}
+\label{sec:org30c3a6e}
+Sei T eine endliche Menge und U eine Menge von Tripeln aus \(T: U \subset T \times T \times T\) . Gibt es eine Teilmenge \(W \subset U\) so, dass |W| = |T | und keine zwei Elemente von W stimmen in irgendeiner Koordinate überein?
+
+\subsubsection*{HITTING-SET:}
+\label{sec:orgf6a0c45}
+Gegeben eine Menge von Teilmengen \(S_i \subset S\) , gibt es eine Menge H, die jede Menge in genau einem Punkt trifft, also \(|H \cap S_i | = 1 \, \forall i\)?
+
+\subsubsection*{STEINER-TREE:}
+\label{sec:org5a4ad51}
+Gegeben ein Graph G, eine Teilmenge R von Vertizes, und eine Gewichtsfunktion \(w: E \rightarrow Z\) und eine postive Zahl k, gibt es einen Baum mit Gewicht \(\le\) k, dessen Knoten in R enthalten sind? Das Gewicht des Baumes ist die Summe der Gewichte \(w({u, v})\) über alle Kanten \({u, v}\) im Baum.
+
+\subsubsection*{SEQUENCING:}
+\label{sec:org24b5310}
+Gegeben sei ein Vektor \((t_1 , \dots , t_p) \in \mathbb{Z}^p\) von Laufzeiten von p Jobs, ein Vektor von spätesten Ausführungszeiten \((d_1 , \dots , d_p) \in \mathbb{Z}^p\) , einem Strafenvektor \((s_1 , \dots, s_p) \in \mathbb{Z}^p\) und eine positive ganze Zahl k. Gibt es eine Permutation \(\pi\) der Zahlen \(1, \dots, p\), so dass die Gesamtstrafe für verspätete Ausführung bei der Ausführung der Jobs in der Reihenfolge \(\pi(1), \dots, \pi(p)\) nicht grösser ist als k? Formal lautet die Bedingung
+$$
+\sum_{j=1}^p \theta (t_{\pi(1)} + \cdots + t_{\pi(j)} - d_{\pi(j)})_S_\pi(j) \leq k
+$$
+darin ist ϑ die Stufenfunktion definiert durch
+$$
+\theta(x) = \begin{case}
+1 & \quad x \geq 0
+0 & \quad x < 0
+$$
+
+\subsubsection*{PARTITION:}
+\label{sec:org298dae0}
+Gegeben eine Folge von s ganzen Zahlen \(c_1 , c_2 , \dots, c_s\) , kann man die Indizes \(1, 2, \dots , s\) in zwei Teilmengen \(I\) und \(\overline{I}\) teilen, so dass die Summe der zugehörigen c\textsubscript{i}
+identisch ist:
+$$
+\sum_{i \in I} c_i = \sum_{i \notin I} c_i
+$$
+
+\subsubsection*{MAX-CUT:}
+\label{sec:orgfc31a1c}
+Gegeben ein Graph G mit einer Gewichtsfunktion \(w : E \rightarrow Z\) und eine ganze Zahl W. Gibt es eine Teilmenge S der Vertizes, so dass das Gesamtgewicht der Kanten, die S mit seinem Komplement verbinden, mindestens so gross ist wie W:
+$$
+\sum_{\{u,v\}\in E\wedge u\in S\wedge v\not\in S} w(\{u,v\})\ge W
+$$
+
 \section*{End}
-\label{sec:org2b64b61}
+\label{sec:orgd3c66fd}
 \end{multicols}
 \end{document}

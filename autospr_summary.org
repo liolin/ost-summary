@@ -471,21 +471,32 @@ Somit gilt: $S \leq_p k-VERTEX-COLORING
 SAT ist NP-vollständig.
 #+end_quote
 
-* Week 12
+* Week 12                                                             :empty:
 - Katalog von Karp
 - Minesweeper
 
+* Week 13
+- Kapitel 8: Turing-Vollständigkeit
+  - Definition
+  - Universelle Turing-Maschine
+  - LOOP
+
+
+
+
+
+
 
 #+LATEX: \newpage
-** Katalog von Karp
+* Katalog von Karp
 *** SAT
 Eine logische Formel welche wahr werden muss.
-
-*** TODO CLIQUE
+*** CLIQUE
+Eine k-Clique in einem Graphen ist ein vollständiger (vollvermascht) Untergraph mit k Ecken in einem gegebenen Graphen. Im Cliquen-Problem müssen in einem gegebenen Graphen k Ecken gefunden werden, so dass jede mögliche Verbindung zwischen den Ecken auch im Graphen G besteht.
 *** SET-PACKING:
 Gegeben eine Familie (S_i )_{i \in I} von Mengen und eine Zahl $k \in N$. Gibt es eine k-elementige Teilfamilie $(S_i)_{i \in J}$ mit $J \subset I$,
 $$
-S_i \cap S_j = \emptyset \quad \forall i, j \in J mit i \neq j
+S_i \cap S_j = \emptyset \quad \forall i, j \in J \, \text{mit} \, i \neq j
 $$
 
 *** VERTEX-COVER:
@@ -497,17 +508,19 @@ Gegeben ein gerichteter Graph G und eine Zahl k, gibt es eine endliche Teilmenge
 *** FEEDBACK-ARC-SET:
 Gegeben ein gerichteter Graph G und eine Zahl k, gibt es eine Teilmenge von k Kanten so, dass jeder Zyklus in G eine Kante aus der Teilmenge enthält?
 
-*** TODO HAMPATH
-*** TODO UHAMPATH
+*** HAMPATH
+Ein Hamiltonscher Pfad in einem gerichteten Graphen ist ein Pfad, der jeden Vertex des Graphen genau einmal besucht.
+*** UHAMPATH
+Wie HAMPATH nur in einem ungerichteten Graphen. 
 *** SET-COVERING:
 Gegeben eine endliche Familie endlicher Mengen (S j )1≤ j≤n und eine Zahl k, gibt es eine Unterfamilie bestehend aus k Mengen, die die gleiche Vereinigung hat?
 
-
-*** TODO BIP
-
+*** BIP
+BIP ist “binary integer programming”, zu einer ganzzahligen Matrix C und einem ganzzahligen Vektor d ist ein binärer Vektor x zu finden mit Cx = d.
 *** 3SAT
 Wie SAT nur in dreier Gruppen.
-*** TODO VERTEX-COLORING
+*** VERTEX-COLORING
+Man sagt, die Vertizes eines Graphen G können mit k Farben eingefärbt werden, wenn sich für jeden Vertex eine der k Farben wählen lässt, so dass nie zwei durch eine Kante verbundene Vertizes die gleiche Farbe bekommen.
 *** CLIQUE-COVER:
 Gegeben ein Graph G und eine positive Zahl k, gibt es k Cliquen so, dass jede Ecke in genau einer der Cliquen ist?
 
@@ -518,18 +531,32 @@ $$
 $$
 erfüllen.
 
-*** TODO SUBSET-SUM
+*** SUBSET-SUM
+Das Problem SUBSET-SUM ist auch bekannt als das Rucksack-Problem. Gegeben ist eine Menge S von ganzen Zahlen, kann man darin eine Teilmenge finden, die als Summe einen bestimmten Wert t hat? Als Sprache formuliert:
+$$
+\text{\textsl{SUBSET-SUM}}
+=\left\{
+\langle S,t\rangle\,\left|\,
+\begin{minipage}{3truein}
+$S$ eine Liste von ganzen Zahlen, in der es eine Teilliste
+$T\subset S$ gibt mit
+\[
+\sum_{x\in T}x=t.
+\]
+\end{minipage}\right.
+\right\}
+$$
 *** 3D-MATCHING:
 Sei T eine endliche Menge und U eine Menge von Tripeln aus $T: U \subset T \times T \times T$ . Gibt es eine Teilmenge $W \subset U$ so, dass |W| = |T | und keine zwei Elemente von W stimmen in irgendeiner Koordinate überein?
 
 *** HITTING-SET:
-Gegeben eine Menge von Teilmengen $S_i \subset S$ , gibt es eine Menge H, die jede Menge in genau einem Punkt trifft, also $|H \cap S_i | = 1 \, \foralli?
+Gegeben eine Menge von Teilmengen $S_i \subset S$ , gibt es eine Menge H, die jede Menge in genau einem Punkt trifft, also $|H \cap S_i | = 1 \, \forall i$?
 
 *** STEINER-TREE:
 Gegeben ein Graph G, eine Teilmenge R von Vertizes, und eine Gewichtsfunktion $w: E \rightarrow Z$ und eine postive Zahl k, gibt es einen Baum mit Gewicht \leq k, dessen Knoten in R enthalten sind? Das Gewicht des Baumes ist die Summe der Gewichte $w({u, v})$ über alle Kanten ${u, v}$ im Baum.
 
 *** SEQUENCING:
-Gegeben sei ein Vektor $(t_1 , \dots , t_p ) \in \mathbb{Z}^p von Laufzeiten von p Jobs, ein Vektor von spätesten Ausführungszeiten $(d_1 , \dots , d_p) \in \mathbb{Z}^p$ , einem Strafenvektor $(s_1 , \dots, s_p) \in \mathbb{Z}^p$ und eine positive ganze Zahl k. Gibt es eine Permutation \pi der Zahlen $1, \dots, p$, so dass die Gesamtstrafe für verspätete Ausführung bei der Ausführung der Jobs in der Reihenfolge $\pi(1), \dot, \pi(p)$ nicht grösser ist als k? Formal lautet die Bedingung
+Gegeben sei ein Vektor $(t_1 , \dots , t_p) \in \mathbb{Z}^p$ von Laufzeiten von p Jobs, ein Vektor von spätesten Ausführungszeiten $(d_1 , \dots , d_p) \in \mathbb{Z}^p$ , einem Strafenvektor $(s_1 , \dots, s_p) \in \mathbb{Z}^p$ und eine positive ganze Zahl k. Gibt es eine Permutation \pi der Zahlen $1, \dots, p$, so dass die Gesamtstrafe für verspätete Ausführung bei der Ausführung der Jobs in der Reihenfolge $\pi(1), \dots, \pi(p)$ nicht grösser ist als k? Formal lautet die Bedingung
 $$
 \sum_{j=1}^p \theta (t_{\pi(1)} + \cdots + t_{\pi(j)} - d_{\pi(j)})_S_\pi(j) \leq k
 $$
@@ -541,7 +568,7 @@ $$
 $$
 
 *** PARTITION:
-Gegeben eine Folge von s ganzen Zahlen $c_1 , c_2 , \dots, c_s$ , kann man die Indizes $1, 2, \dots , s$ in zwei Teilmengen $I und \overline{I} teilen, so dass die Summe der zugehörigen c_i
+Gegeben eine Folge von s ganzen Zahlen $c_1 , c_2 , \dots, c_s$ , kann man die Indizes $1, 2, \dots , s$ in zwei Teilmengen $I$ und $\overline{I}$ teilen, so dass die Summe der zugehörigen c_i
 identisch ist:
 $$
 \sum_{i \in I} c_i = \sum_{i \notin I} c_i
@@ -552,15 +579,6 @@ Gegeben ein Graph G mit einer Gewichtsfunktion $w : E \rightarrow Z$ und eine ga
 $$
 \sum_{\{u,v\}\in E\wedge u\in S\wedge v\not\in S} w(\{u,v\})\ge W
 $$
-
-* Week 13
-- Kapitel 8: Turing-Vollständigkeit
-
-  - Definition
-  - Universelle Turing-Maschine
-  - LOOP
-
-
 
 * End
 #+LATEX: \end{multicols}
