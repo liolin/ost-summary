@@ -355,7 +355,7 @@ Folgender Stackautomat, geht vom Zustand p nach q über, wenn ein a verarbeitet 
 
 * Week 7
 - Pumping Lemma für kontextfreie Sprachen
-- Beispiel: { a^nba^nc^n | n ≥ 0 }
+- Beispiel: { a^{n}b^{n}c^{n} | n \geq 0 }
 - kontextfreie Grammatik eines Stackautomaten
 
 ** Pumping Lemma für kontextfreie Sprachen
@@ -369,7 +369,7 @@ Folgender Stackautomat, geht vom Zustand p nach q über, wenn ein a verarbeitet 
 5. v und y aufpumpen
 6. Widerspruch: L nicht kontextfrei
    
-* Week 8                                                              :empty:
+* Week 8
 - Kapitel 5: Turing Maschinen
   - Definition Turing Maschine, erkannte Sprache
   - Zustandsdiagramm
@@ -377,6 +377,10 @@ Folgender Stackautomat, geht vom Zustand p nach q über, wenn ein a verarbeitet 
   - Aufzähler
   - Nicht deterministische Turingmaschinen
 
+#+begin_quote
+Jede nichtdeterministische Turingmaschine ist äquivalent zu einer deterministischen
+Turingmaschine.
+#+end_quote 
 
 * Week 9
 - Abzählbar unendlich und überabzählbar unendlich
@@ -423,21 +427,132 @@ Nicht trivial meint, dass gewisse Sprachen die Eigenschaft haben und andere nich
   - Polynomielle Reduktion
 
 
+** Verifizierer
+Wenn eine nichtdeterministische Turing Maschine ein Problem in polynomieller Zeit lösen kann, gibt es einen polynomieller Verifizieren. Ein polynomieller Verifizierer ist eine deterministische Turing Maschine, welche mit Hilfe eines Worts c (das Lösungszertifikat) überprüfen kann, ob das Wort w zu einer Sprache L gehört. Es gilt auch, wenn es einen Polynomieller Verifizierer gibt, dass eine nichtdeterministische TM in polynomieller Zeit entscheided.
+
+Bsp: Eine nichtdetermistische Turing Maschine kann in polynomieller ein Sudoku lösen. Wenn man dem Verifiziere nun die Lösung des Sudokus gibt (die fehlenden Zahlen und deren Position), kann dieser in polynomieller Zeit die Lösung überprüfen / nachvollziehen.
 ** Klasse P
 #+begin_quote
 Die Klasse P besteht aus den Sprachen, die mit einem Entscheider mit polyno-
 mieller Laufzeit entschieden werden können.
 #+end_quote
 
-** Verifizierer
+** Klasse NP
+#+begin_quote
+Die Klasse der von einer nichtdeterministischen Turingmaschine in polynomi-
+eller Zeit entscheidbaren Sprachen heisst NP.
+#+end_quote
+** NP-Vollständig
+NP-Vollständige Probleme sind die schwierigsten Probleme in NP. NP-Vollständige Probleme sind untereinander alle gleich schwierig zu lösen.
+1. $B \in NP$
+2. $A \leq_p B \, \text{für alle} \, A \in NP$
+
+[[file:static/img/autospr/p_np_np_vollstaendig.png]] 
+
+** Polynomielle Reduktion
+Die Polynomielle Reduktion ist die Idee, ein gegebenes Problem auf ein bekanntes Problem zu reduzieren.
+Bsp: Stundenplan- und k-VERTEX-COLORING-Problem. Bei k-VERTEX-COLORING-Problem möchte man einen Graphen, mit k verschiedenen Farben so einfärben, dass kein Vertex die selbe Farbe hat, wie die Nachbarn. Die Reduktion vom Stundenplan auf k-VERTEX-COLORING sieht wie folgt aus:
+
+- S -> k-VERTEX-COLORING
+- Fach -> Vertex
+- Zeitfenster -> Farbe
+- Anzahl Zeitfenster -> k
+- Student / Anmeldung -> Kante
+
+Somit gilt: $S \leq_p k-VERTEX-COLORING
 
 * Week 11
 - SAT: Satz von Cook-Levin
 - Weitere Beispiele: 3SAT, k-CLIQUE, HAMPATH, SUBSET-SUM
 
+
+** Satz von Cook-Levin
+#+begin_quote
+SAT ist NP-vollständig.
+#+end_quote
+
 * Week 12
 - Katalog von Karp
 - Minesweeper
+
+
+#+LATEX: \newpage
+** Katalog von Karp
+*** SAT
+Eine logische Formel welche wahr werden muss.
+
+*** TODO CLIQUE
+*** SET-PACKING:
+Gegeben eine Familie (S_i )_{i \in I} von Mengen und eine Zahl $k \in N$. Gibt es eine k-elementige Teilfamilie $(S_i)_{i \in J}$ mit $J \subset I$,
+$$
+S_i \cap S_j = \emptyset \quad \forall i, j \in J mit i \neq j
+$$
+
+*** VERTEX-COVER:
+Gegeben ein Graph G und eine Zahl k, gibt es eine Teilmenge von k Vertizes so, dass jede Kante des Graphen ein Ende in dieser Teilmenge hat?
+
+*** FEEDBACK-NODE-SET:
+Gegeben ein gerichteter Graph G und eine Zahl k, gibt es eine endliche Teilmenge von k Vertizes von G so, dass jeder Zyklus in G einen Vertex in der Teilmenge enthält?
+
+*** FEEDBACK-ARC-SET:
+Gegeben ein gerichteter Graph G und eine Zahl k, gibt es eine Teilmenge von k Kanten so, dass jeder Zyklus in G eine Kante aus der Teilmenge enthält?
+
+*** TODO HAMPATH
+*** TODO UHAMPATH
+*** SET-COVERING:
+Gegeben eine endliche Familie endlicher Mengen (S j )1≤ j≤n und eine Zahl k, gibt es eine Unterfamilie bestehend aus k Mengen, die die gleiche Vereinigung hat?
+
+
+*** TODO BIP
+
+*** 3SAT
+Wie SAT nur in dreier Gruppen.
+*** TODO VERTEX-COLORING
+*** CLIQUE-COVER:
+Gegeben ein Graph G und eine positive Zahl k, gibt es k Cliquen so, dass jede Ecke in genau einer der Cliquen ist?
+
+*** EXACT-COVER:
+Gegeben eine Familie (S_j)_{1 \leq j \leq n} von Teilmengen einer Menge U, gibt es eine Unterfamilie von Mengen, die disjunkt sind, aber die gleiche Vereinigung haben? Die Unterfamilie (S_{ji})_{1 \leq i \leq m} muss also S_{ji} \cap S_{jk} = \emptyset und
+$$
+\bigcup^n_{j=1} S_j = \bigcup^m_{i=1} S_{ji}
+$$
+erfüllen.
+
+*** TODO SUBSET-SUM
+*** 3D-MATCHING:
+Sei T eine endliche Menge und U eine Menge von Tripeln aus $T: U \subset T \times T \times T$ . Gibt es eine Teilmenge $W \subset U$ so, dass |W| = |T | und keine zwei Elemente von W stimmen in irgendeiner Koordinate überein?
+
+*** HITTING-SET:
+Gegeben eine Menge von Teilmengen $S_i \subset S$ , gibt es eine Menge H, die jede Menge in genau einem Punkt trifft, also $|H \cap S_i | = 1 \, \foralli?
+
+*** STEINER-TREE:
+Gegeben ein Graph G, eine Teilmenge R von Vertizes, und eine Gewichtsfunktion $w: E \rightarrow Z$ und eine postive Zahl k, gibt es einen Baum mit Gewicht \leq k, dessen Knoten in R enthalten sind? Das Gewicht des Baumes ist die Summe der Gewichte $w({u, v})$ über alle Kanten ${u, v}$ im Baum.
+
+*** SEQUENCING:
+Gegeben sei ein Vektor $(t_1 , \dots , t_p ) \in \mathbb{Z}^p von Laufzeiten von p Jobs, ein Vektor von spätesten Ausführungszeiten $(d_1 , \dots , d_p) \in \mathbb{Z}^p$ , einem Strafenvektor $(s_1 , \dots, s_p) \in \mathbb{Z}^p$ und eine positive ganze Zahl k. Gibt es eine Permutation \pi der Zahlen $1, \dots, p$, so dass die Gesamtstrafe für verspätete Ausführung bei der Ausführung der Jobs in der Reihenfolge $\pi(1), \dot, \pi(p)$ nicht grösser ist als k? Formal lautet die Bedingung
+$$
+\sum_{j=1}^p \theta (t_{\pi(1)} + \cdots + t_{\pi(j)} - d_{\pi(j)})_S_\pi(j) \leq k
+$$
+darin ist ϑ die Stufenfunktion definiert durch
+$$
+\theta(x) = \begin{case}
+1 & \quad x \geq 0
+0 & \quad x < 0
+$$
+
+*** PARTITION:
+Gegeben eine Folge von s ganzen Zahlen $c_1 , c_2 , \dots, c_s$ , kann man die Indizes $1, 2, \dots , s$ in zwei Teilmengen $I und \overline{I} teilen, so dass die Summe der zugehörigen c_i
+identisch ist:
+$$
+\sum_{i \in I} c_i = \sum_{i \notin I} c_i
+$$
+
+*** MAX-CUT:
+Gegeben ein Graph G mit einer Gewichtsfunktion $w : E \rightarrow Z$ und eine ganze Zahl W. Gibt es eine Teilmenge S der Vertizes, so dass das Gesamtgewicht der Kanten, die S mit seinem Komplement verbinden, mindestens so gross ist wie W:
+$$
+\sum_{\{u,v\}\in E\wedge u\in S\wedge v\not\in S} w(\{u,v\})\ge W
+$$
+
 * Week 13
 - Kapitel 8: Turing-Vollständigkeit
 
