@@ -431,6 +431,13 @@ Nicht trivial meint, dass gewisse Sprachen die Eigenschaft haben und andere nich
 Wenn eine nichtdeterministische Turing Maschine ein Problem in polynomieller Zeit lösen kann, gibt es einen polynomieller Verifizieren. Ein polynomieller Verifizierer ist eine deterministische Turing Maschine, welche mit Hilfe eines Worts c (das Lösungszertifikat) überprüfen kann, ob das Wort w zu einer Sprache L gehört. Es gilt auch, wenn es einen Polynomieller Verifizierer gibt, dass eine nichtdeterministische TM in polynomieller Zeit entscheided.
 
 Bsp: Eine nichtdetermistische Turing Maschine kann in polynomieller ein Sudoku lösen. Wenn man dem Verifiziere nun die Lösung des Sudokus gibt (die fehlenden Zahlen und deren Position), kann dieser in polynomieller Zeit die Lösung überprüfen / nachvollziehen.
+
+*** Vorgehen
+1. Ist das Problem Entscheidbar? Nein $\rightarrow$ fertig
+2. Was ist das Lösungszertifikat?
+3. Wie ist der Verifikationsalgorithmus?
+4. Was ist die Laufzeit des Algorithmsu?
+5. Schlussfolgerung
 ** Klasse P
 #+begin_quote
 Die Klasse P besteht aus den Sprachen, die mit einem Entscheider mit polyno-
@@ -459,7 +466,7 @@ Bsp: Stundenplan- und k-VERTEX-COLORING-Problem. Bei k-VERTEX-COLORING-Problem m
 - Anzahl Zeitfenster -> k
 - Student / Anmeldung -> Kante
 
-Somit gilt: $S \leq_p k-VERTEX-COLORING
+Somit gilt: $S \leq_p k-VERTEX-COLORING$
 
 * Week 11
 - SAT: Satz von Cook-Levin
@@ -494,7 +501,7 @@ Eine logische Formel welche wahr werden muss.
 *** CLIQUE
 Eine k-Clique in einem Graphen ist ein vollständiger (vollvermascht) Untergraph mit k Ecken in einem gegebenen Graphen. Im Cliquen-Problem müssen in einem gegebenen Graphen k Ecken gefunden werden, so dass jede mögliche Verbindung zwischen den Ecken auch im Graphen G besteht.
 *** SET-PACKING:
-Gegeben eine Familie (S_i )_{i \in I} von Mengen und eine Zahl $k \in N$. Gibt es eine k-elementige Teilfamilie $(S_i)_{i \in J}$ mit $J \subset I$,
+Gegeben eine Familie (S_i )_{i \in I} von Mengen und eine Zahl $k \in \mathbb{N}$. Gibt es eine k-elementige Teilfamilie $(S_i)_{i \in J}$ mit $J \subset I$, d.h $|J| = k$, derart, dass die Mengen der Teilfamlie paarweise diskjunkt sind, also
 $$
 S_i \cap S_j = \emptyset \quad \forall i, j \in J \, \text{mit} \, i \neq j
 $$
@@ -513,7 +520,7 @@ Ein Hamiltonscher Pfad in einem gerichteten Graphen ist ein Pfad, der jeden Vert
 *** UHAMPATH
 Wie HAMPATH nur in einem ungerichteten Graphen. 
 *** SET-COVERING:
-Gegeben eine endliche Familie endlicher Mengen (S j )1≤ j≤n und eine Zahl k, gibt es eine Unterfamilie bestehend aus k Mengen, die die gleiche Vereinigung hat?
+Gegeben eine endliche Familie endlicher Mengen (S_j)_{1 \leq j \leq n} und eine Zahl k, gibt es eine Unterfamilie bestehend aus k Mengen, die die gleiche Vereinigung hat?
 
 *** BIP
 BIP ist “binary integer programming”, zu einer ganzzahligen Matrix C und einem ganzzahligen Vektor d ist ein binärer Vektor x zu finden mit Cx = d.
@@ -531,21 +538,6 @@ $$
 $$
 erfüllen.
 
-*** SUBSET-SUM
-Das Problem SUBSET-SUM ist auch bekannt als das Rucksack-Problem. Gegeben ist eine Menge S von ganzen Zahlen, kann man darin eine Teilmenge finden, die als Summe einen bestimmten Wert t hat? Als Sprache formuliert:
-$$
-\text{\textsl{SUBSET-SUM}}
-=\left\{
-\langle S,t\rangle\,\left|\,
-\begin{minipage}{3truein}
-$S$ eine Liste von ganzen Zahlen, in der es eine Teilliste
-$T\subset S$ gibt mit
-\[
-\sum_{x\in T}x=t.
-\]
-\end{minipage}\right.
-\right\}
-$$
 *** 3D-MATCHING:
 Sei T eine endliche Menge und U eine Menge von Tripeln aus $T: U \subset T \times T \times T$ . Gibt es eine Teilmenge $W \subset U$ so, dass |W| = |T | und keine zwei Elemente von W stimmen in irgendeiner Koordinate überein?
 
@@ -580,5 +572,20 @@ $$
 \sum_{\{u,v\}\in E\wedge u\in S\wedge v\not\in S} w(\{u,v\})\ge W
 $$
 
+*** SUBSET-SUM
+Das Problem SUBSET-SUM ist auch bekannt als das Rucksack-Problem. Gegeben ist eine Menge S von ganzen Zahlen, kann man darin eine Teilmenge finden, die als Summe einen bestimmten Wert t hat? Als Sprache formuliert:
+$$
+\text{\textsl{SUBSET-SUM}}
+=\left\{
+\langle S,t\rangle\,\left|\,
+\begin{minipage}{3truein}
+$S$ eine Liste von ganzen Zahlen, in der es eine Teilliste
+$T\subset S$ gibt mit
+\[
+\sum_{x\in T}x=t.
+\]
+\end{minipage}\right.
+\right\}
+$$
 * End
 #+LATEX: \end{multicols}
