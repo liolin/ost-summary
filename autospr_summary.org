@@ -107,10 +107,11 @@ Beweise dass $L = \{0^n1^n | n \in \mathbb{N}\}$ nicht regulär ist.
 2. Da regulär und lange genug, gibt es eine Pumping Length N
 3. Bilde ein Wort mit der Länge N (z.B. 0^{N}1^{N})
 4. Teile das Wort in xyz auf mit, $|xy| \leq N, |y| \geq 1$
-5. Wortteil y aufpumpen -> Wort nicht mehr in Sprache
+5. Wortteil y aufpumpen
+6. Widerspruch: Wort nicht mehr in Sprache
 
 #+begin_src ditaa :file static/img/autospr/pumping_lema.png :cmdline -E 
-  0            N                     2N
+  0                 N                 2N
   +-----------------+-----------------+
   | 0...          0 | 1...          1 |
   +-----------------+-----------------+
@@ -361,6 +362,24 @@ Folgender Stackautomat, geht vom Zustand p nach q über, wenn ein a verarbeitet 
 ** Pumping Lemma für kontextfreie Sprachen
 Ähnliche wie bei Regulären Sprachen gibt es auch ein Pumping Lemma für kontextfreie Sprachen.
 
+#+begin_src ditaa :file static/img/autospr/pumping_lema_cfg.png :cmdline -E 
+  0                      N                      2N                     3N
+  +----------------------+----------------------+----------------------+
+  | a...               a | b...               b | c...               c |
+  +----------------------+----------------------+----------------------+
+
+  +--------+--------+--------+---------+-------------------------------+
+  | c99E u | cE99 v | c9E9 x | cE99  y | c99E z                        |
+  +--------+--------+--------+---------+-------------------------------+
+
+  +--------+------------+--------+-------------+------------------------------+
+  | c99E u | cE99     v | c9E9 x | cE99      y | c99E z                       |
+  +--------+------------+--------+-------------+------------------------------+
+#+end_src
+
+#+RESULTS:
+[[file:static/img/autospr/pumping_lema_cfg.png]]
+
 1. Annahme: L ist kontextfrei
 2. Es gibt eine Pumping Length N
 3. Wort: w = a^{N}b^{N}c^{N}
@@ -433,7 +452,7 @@ Wenn eine nichtdeterministische Turing Maschine ein Problem in polynomieller Zei
 Bsp: Eine nichtdetermistische Turing Maschine kann in polynomieller ein Sudoku lösen. Wenn man dem Verifiziere nun die Lösung des Sudokus gibt (die fehlenden Zahlen und deren Position), kann dieser in polynomieller Zeit die Lösung überprüfen / nachvollziehen.
 
 *** Vorgehen
-1. Ist das Problem Entscheidbar? Nein $\rightarrow$ fertig
+1. Ist das Problem Entscheidbar? Ja $\rightarrow$ Verifizierer konstruieren, Nein $\rightarrow$ fertig
 2. Was ist das Lösungszertifikat?
 3. Wie ist der Verifikationsalgorithmus?
 4. Was ist die Laufzeit des Algorithmsu?
