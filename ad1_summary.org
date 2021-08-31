@@ -1,7 +1,7 @@
 #+title: Alghoritmen und Datenstruktur 1
 #+SETUPFILE: ~/roam/ost_exam_summary_setup.conf
 
-#+LATEX: \begin{multicols}{3}
+#+LATEX: \begin{multicols}{2}
 * General
 ** Arithmetic sequences
 *n-element*:
@@ -372,7 +372,6 @@ Support methods:
 - =Boolean isEmpty()=
 - =Iterator iterator()=
   
-
 *** Binary Tree
 A binary tree is tree which each node has max. two child nodes. A *real binary tree* has every internal node exact two child nodes. For the BinaryTree ADT has the following additional methods:
 - =Position left(p)=
