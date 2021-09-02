@@ -1,7 +1,3 @@
-:PROPERTIES:
-:ID:       c0bbf6c9-e32f-4f38-bf70-0607928e84d5
-:ROAM_ALIASES: AutoSpr
-:END:
 #+title: Automaten und Sprachen
 #+EMAIL: olivier.lischer@ost.ch
 #+OPTIONS: toc:2 num:2
@@ -10,6 +6,7 @@
 #+LATEX_HEADER: \usepackage[top=2cm,bottom=2cm,right=2cm,left=2cm,landscape]{geometry}
 #+LATEX_HEADER: \usepackage{multicol}
 #+LATEX_HEADER: \usepackage{enumitem}
+#+LATEX_HEADER: \usepackage[hidelinks]{hyperref}
 #+LATEX_HEADER: \setlist{noitemsep}
 #+LATEX_HEADER: \setlength{\parindent}{0pt}
 #+LATEX_HEADER: \setlength{\columnseprule}{0.2pt}
@@ -274,7 +271,7 @@ Um die Schnittmenge zu bilden wird ein *kartesischer Produktautomat* benötigt.
   - Performance von Regex-Engines
 
 
-** Reguläre Ausdrücke (Regex)
+** TODO Reguläre Ausdrücke (Regex)
 Reguläre Ausdrücke sind eigentlich nichts anderes als eine kompakte Schreibweise für NEAs (folglich auch für DEAs).
 | Ausdruck           | Bedeutung                                  |
 |--------------------+--------------------------------------------|
@@ -515,13 +512,34 @@ SAT ist NP-vollständig.
   - Universelle Turing-Maschine
   - LOOP
 
+#+begin_quote
+Eine Programmiersprache heisst Turing-vollständig, wenn sich jede berechenbare Abbildung in dieser Sprache formulieren lässt. Zu jeder berechenbare Abbildung $f: \sigma^*  \rightarrow \sigma^*$ gibt es also ein Programm w so, dass c(w) die Funktion f berechnet.
+#+end_quote
+
+** LOOP
+LOOP ist nicht Turing-Vollständig. Folgendes Listening wird x mal ausgeführt. LOOP liest 1x mal den Wert von x und führt die Operation P x-mal aus $\implies$ terminiert immer. Es gibt aber Turing-Maschinen die nicht terminieren.
+#+begin_example
+LOOP x DO P END
+#+end_example
+
+** WHILE
+Ähnlich wie LOOP. LOOP kann wie folgt durch WHILE gebildet werden:
+#+begin_example
+LOOP x DO P END
+
+y := x
+WHILE y > 0 DO P; y:= y -1 END
+#+end_example
+
+** GOTO
+#+begin_quote
+GOTO und WHILE sind äquivalent.
+#+end_quote
 
 
-
-
-
-
+#+LATEX: \end{multicols}
 #+LATEX: \newpage
+#+LATEX: \begin{multicols}{2}
 * Katalog von Karp
 *** SAT
 Eine logische Formel welche wahr werden muss.
@@ -614,5 +632,4 @@ $T\subset S$ gibt mit
 \end{minipage}\right.
 \right\}
 $$
-* End
 #+LATEX: \end{multicols}
