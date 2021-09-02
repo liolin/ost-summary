@@ -3,8 +3,16 @@
 :ROAM_ALIASES: AutoSpr
 :END:
 #+title: Automaten und Sprachen
-#+SETUPFILE: ~/roam/ost_exam_summary_setup.conf
-#+OPTIONS: toc:2
+#+EMAIL: olivier.lischer@ost.ch
+#+OPTIONS: toc:2 num:2
+#+LATEX_CLASS: article
+#+LATEX_CLASS_OPTIONS: [11pt,twoside,landscape]
+#+LATEX_HEADER: \usepackage[top=2cm,bottom=2cm,right=2cm,left=2cm,landscape]{geometry}
+#+LATEX_HEADER: \usepackage{multicol}
+#+LATEX_HEADER: \usepackage{enumitem}
+#+LATEX_HEADER: \setlist{noitemsep}
+#+LATEX_HEADER: \setlength{\parindent}{0pt}
+#+LATEX_HEADER: \setlength{\columnseprule}{0.2pt}
 
 #+LATEX: \begin{multicols}{3}
 * Week 1                                                              :empty:
@@ -272,8 +280,8 @@ Reguläre Ausdrücke sind eigentlich nichts anderes als eine kompakte Schreibwei
 |--------------------+--------------------------------------------|
 | a                  | das Zeichen $a \in \Sigma$                 |
 | .                  | beliebiges Zeichen aus $\Sigma$            |
-| [aei]              | ein Zeichen aus ${a, e, i} \subset \Sigma$ |
-| [a-z]              | für kleine Buchstaben von a-z              |
+| aei                | ein Zeichen aus ${a, e, i} \subset \Sigma$ |
+| a-z                | für kleine Buchstaben von a-z              |
 | $\epsilon$         | steht für das leere Wort                   |
 | $\emptyset$        | steht für die leere Sprach                 |
 | $r_{1}\vert r_{2}$ | Alternative                                |
@@ -328,7 +336,7 @@ Um zwei Grammatiken vergleichen zu können braucht es eine Normalform. Diese ist
 * Week 6
 - deterministischer Parse Algorithmus (Cocke-Younger-Kasami)
 - Stackautomaten
-  - Beispiel zur Motivation: {0^n1^n| n ≥ 0}
+  - Beispiel zur Motivation: 0^{n}1^{n}| n \geq 0
   - Formale Definition
   - Stackautomat als gerichterer beschrifteter Graph
   - Stackautomat einer kontextfreien Grammatik
