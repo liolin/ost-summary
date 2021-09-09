@@ -1,50 +1,108 @@
 #+title: Alghoritmen und Datenstruktur 1
-#+SETUPFILE: ~/roam/ost_exam_summary_setup.conf
+#+PROPERTY: header-args:latex :tangle ./ad1_summary.tex
 
-#+LATEX: \begin{multicols}{2}
-* General
-** Arithmetic sequences
-*n-element*:
-- recursive: $a_n = a_{n-1} + d; a_1 = c$
-- iterative: $a_n = a_1 + \sum_{i=2}^n d$
-- explicit: $a_n = a_1 + d(n-1)$ 
+* Preamble
+#+begin_src latex
+  \documentclass[11pt,twoside,landscape]{article}
+  \usepackage[utf8]{inputenc}
+  \usepackage[T1]{fontenc}
+  \usepackage{graphicx}
+  \usepackage{grffile}
+  \usepackage{longtable}
+  \usepackage{wrapfig}
+  \usepackage{rotating}
+  \usepackage[normalem]{ulem}
+  \usepackage{amsmath}
+  \usepackage{textcomp}
+  \usepackage{amssymb}
+  \usepackage{capt-of}
+  \usepackage{hyperref}
+  \usepackage[top=2cm,bottom=2cm,right=2cm,left=2cm,landscape]{geometry}
+  \usepackage{multicol}
+  \usepackage{enumitem}
+  \setlist{noitemsep}
+  \setlength{\parindent}{0pt}
+  \setlength{\columnseprule}{0.2pt}
+  \setcounter{secnumdepth}{0}
+  \author{Olivier Lischer}
+  \date{\today}
+  \title{Alghoritmen und Datenstruktur 1}
+  \hypersetup{
+    pdfauthor={Olivier Lischer},
+    pdftitle={Alghoritmen und Datenstruktur 1},
+    pdfkeywords={},
+    pdfsubject={},
+    pdfcreator={Emacs 27.2 (Org mode 9.4.6)}, 
+    pdflang={English}}
+#+end_src
 
-*Sum*:
-- recursive: $s_1 = c, s_n = s_{n-1} + d$
-- itertive: $s_n = \sum_{i=1}^{n}i$
-- explicit: $s_n = \frac{n(a_1 + a_n)}{2}$
-** Paradigms for Algorithm Design
-- Brute Force (determine the max. with a loo)
-- Greedy
-- Divide & Conquer
-- Dynamic Programming (dynamic bottom-up Fibonacci)
+* Document
+#+begin_src latex
+  \begin{document}
+  \maketitle
+#+end_src
 
-*** Divide & Conquer
-Divide the problem into two smaller sub-problems. Do this until the sub-problems are so small that it is trivially to solve it.
+*** General
+#+begin_src latex
+  \begin{multicols}{2}
+  \section*{General}
+  \subsection*{Arithmetic sequences}
+  \textbf{n-element}:
+  \begin{itemize}
+  \item recursive: \(a_n = a_{n-1} + d; a_1 = c\)
+  \item iterative: \(a_n = a_1 + \sum_{i=2}^n d\)
+  \item explicit: \(a_n = a_1 + d(n-1)\)
+  \end{itemize}
+  
+  \textbf{Sum}:
+  \begin{itemize}
+  \item recursive: \(s_1 = c, s_n = s_{n-1} + d\)
+  \item itertive: \(s_n = \sum_{i=1}^{n}i\)
+  \item explicit: \(s_n = \frac{n(a_1 + a_n)}{2}\)
+  \end{itemize}
+  \subsection*{Paradigms for Algorithm Design}
+  \begin{itemize}
+  \item Brute Force (determine the max. with a loo)
+  \item Greedy
+  \item Divide \& Conquer
+  \item Dynamic Programming (dynamic bottom-up Fibonacci)
+  \end{itemize}
+  
+  \subsubsection*{Divide \& Conquer}
+  Divide the problem into two smaller sub-problems. Do this until the sub-problems are so small that it is trivially to solve it.
+  
+  \subsection*{Linear Recursion}
+  linear recursion checks first if the the base case is fulfilled. If not go further with recursion.
+  
+  \subsection*{Tail Recursion}
+  A tail recursion is when the linear recursive method as the last step does the recursive call. This function are simple to rewrite in a non-recursive manner.
+  
+  \subsection*{Binary Recursion}
+  Binary recursion is a function which has two recursive calls in all non-base cases (e.g. Tower on Hanoi)
+  
+  \subsection*{Analysis}
+  The analysis of a algorithm is determined independent of HW and SW. Then the primitives steps in the algorithm are counted. HW and SW changes the run time of an algorithm, but not the amount of steps. After analysis you have something like \texttt{8n-2} steps in worst case. The Big-Oh Notation focus more on how the running time changes proportionally to n. For example \(3n^3 + 20^n + 5 = O(n^3)\).
+  \end{multicols}
+  \newpage
+#+end_src
 
-** Linear Recursion
-linear recursion checks first if the the base case is fulfilled. If not go further with recursion.
 
-** Tail Recursion
-A tail recursion is when the linear recursive method as the last step does the recursive call. This function are simple to rewrite in a non-recursive manner.
-
-** Binary Recursion
-Binary recursion is a function which has two recursive calls in all non-base cases (e.g. Tower on Hanoi)
-
-** Analysis
-The analysis of a algorithm is determined independent of HW and SW. Then the primitives steps in the algorithm are counted. HW and SW changes the run time of an algorithm, but not the amount of steps. After analysis you have something like =8n-2= steps in worst case. The Big-Oh Notation focus more on how the running time changes proportionally to n. For example $3n^3 + 20^n + 5 = O(n^3)$.
-#+LATEX: \newpage
-* Algorithms
-** Tree Traversal
-For trees different traversal methods exists:
-- *Preorder*: node is visited before its successors
-- *Postorder*: node is visited after its successors
-- *Breadth-First*: visit all nodes from depth t before t+1
-- *Inorder*: visit after right, visit before left
-
-The *Euler Traversal* is a generic traversal for binary trees. Each node is visited three times, first from left (preorder), from the bottom (inoder) and at last from right (postorder). With the *Template Method Pattern* the main algorithm (Euler Traversal) is written in a base class and subclasses will refine the algorithm without changing the structure.
-
-#+begin_src java
+*** Algorithms
+#+begin_src latex
+  \begin{multicols}{2}
+  \section*{Algorithms}
+  \subsection*{Tree Traversal}
+  For trees different traversal methods exists:
+  \begin{itemize}
+  \item \textbf{Preorder}: node is visited before its successors
+  \item \textbf{Postorder}: node is visited after its successors
+  \item \textbf{Breadth-First}: visit all nodes from depth t before t+1
+  \item \textbf{Inorder}: visit after right, visit before left
+  \end{itemize}
+  
+  The \textbf{Euler Traversal} is a generic traversal for binary trees. Each node is visited three times, first from left (preorder), from the bottom (inoder) and at last from right (postorder). With the \textbf{Template Method Pattern} the main algorithm (Euler Traversal) is written in a base class and subclasses will refine the algorithm without changing the structure.
+  
+  \begin{verbatim}
   public abstract class EulerTour {
       protected BinaryTree tree;
       protected void visitExernal(Position p, Result r) {};
@@ -66,26 +124,33 @@ The *Euler Traversal* is a generic traversal for binary trees. Each node is visi
           return r.finalResult;
       }
   }
+  \end{verbatim}
+  
+  \subsection*{Selection-Sort}
+  PQ sort with a unsorted list has a running time of O(n\textsuperscript{2}). Can be implemented in place just with the source data structure.
+  \subsection*{Insertion-Sort}
+  PQ sort with a sorted list has a running time of O(n\textsuperscript{2}). Can be implemented in place just with the source data structure.
+  
+  \subsection*{Heap Sort}
+  Uses a Heap as sorting data structure an has a running time of (log n) and is a lot faster than Select / Insertion sort.
+  \end{multicols}
 #+end_src
 
-** Selection-Sort
-PQ sort with a unsorted list has a running time of O(n^2). Can be implemented in place just with the source data structure.
-** Insertion-Sort
-PQ sort with a sorted list has a running time of O(n^2). Can be implemented in place just with the source data structure.
-
-** Heap Sort
-Uses a Heap as sorting data structure an has a running time of (log n) and is a lot faster than Select / Insertion sort.
-#+LATEX: \newpage
-* Data Structures
-** Comparator
-A Comparator hides the comperation between two objects. The methods for the Comperator are:
-- =Integer compare(a,b)=: returns < 0 if a < b, 0 if a = b or > 0 if a > b
-** Linked-Lists
-Linked List is a list where multiple knotes are linked together. The normal =LinkedList= is no synchronized. Thanks to this better in performance, but in multi threaded dangerous. To use a synchronized list use =List list = Collections.synchronizedList(new LinkedList());=
-
-*** Singly-Linked-List
-In the Singly-Linked-List each node stores a reference to the next element in the list. Normally the head and tail are stored separately in the Data structure. It's only possible to traverse the list from head to tail.
-#+begin_src java
+*** Data structures
+#+begin_src latex
+  \begin{multicols}{2}
+  \section*{Data Structures}
+  \subsection*{Comparator}
+  A Comparator hides the comperation between two objects. The methods for the Comperator are:
+  \begin{itemize}
+  \item \texttt{Integer compare(a,b)}: returns < 0 if a < b, 0 if a = b or > 0 if a > b
+  \end{itemize}
+  \subsection*{Linked-Lists}
+  Linked List is a list where multiple knotes are linked together. The normal \texttt{LinkedList} is no synchronized. Thanks to this better in performance, but in multi threaded dangerous. To use a synchronized list use \texttt{List list = Collections.synchronizedList(new LinkedList());}
+  
+  \subsubsection*{Singly-Linked-List}
+  In the Singly-Linked-List each node stores a reference to the next element in the list. Normally the head and tail are stored separately in the Data structure. It's only possible to traverse the list from head to tail.
+  \begin{verbatim}
   void addFirst(Node v) {
       v.setNext(head);
       head = v;
@@ -108,11 +173,11 @@ In the Singly-Linked-List each node stores a reference to the next element in th
       t.setNext(null);
       size = size - 1;
   }
-#+end_src
-
-*** Doubly-Linked-List
-Each node has store a reference to the next and the previous node. Normally the header and trailer are special nodes (*Sentinels* or *Guards*). Header and trailer are start nodes for the search.
-#+begin_src java
+  \end{verbatim}
+  
+  \subsubsection*{Doubly-Linked-List}
+  Each node has store a reference to the next and the previous node. Normally the header and trailer are special nodes (\textbf{Sentinels} or \textbf{Guards}). Header and trailer are start nodes for the search.
+  \begin{verbatim}
   void addFirst(Node v) {
       Node w = header.getNext();
       v.setNext(w);
@@ -121,7 +186,7 @@ Each node has store a reference to the next and the previous node. Normally the 
       header.setNext(v);
       size = size + 1;
   }
-
+  
   // Insert v after u
   void addAfter(Node u, Node v) { 
       Node w = u.getNext();
@@ -155,24 +220,28 @@ Each node has store a reference to the next and the previous node. Normally the 
       v.setNext(null);
       size = size - 1;
   }
-#+end_src
-
-*** Circularly-Linked-Lists
-If the last node of a linked list is linked to first node it is a Circulary-Linked-List.
-
-** Stacks
-A Stack stores various object according to the LIFO scheme (last-in, first-out). The main operations are:
-- =push(Object)=: add an element
-- =Object pop()=: removes and returns the top element
-
-The following operations are normally also implemented:
-- =Object top()=: returns the top element
-- =int size()=: returns the number of elements
-- =boolean isEmpty()=: checks if stack is empty
-
-*** Array-based Stacks
-The elements are stored in the array and are stored from left to right. In a variable $t$ the is the index stored from the top element.
-#+begin_src java
+  \end{verbatim}
+  
+  \subsubsection*{Circularly-Linked-Lists}
+  If the last node of a linked list is linked to first node it is a Circulary-Linked-List.
+  
+  \subsection*{Stacks}
+  A Stack stores various object according to the LIFO scheme (last-in, first-out). The main operations are:
+  \begin{itemize}
+  \item \texttt{push(Object)}: add an element
+  \item \texttt{Object pop()}: removes and returns the top element
+  \end{itemize}
+  
+  The following operations are normally also implemented:
+  \begin{itemize}
+  \item \texttt{Object top()}: returns the top element
+  \item \texttt{int size()}: returns the number of elements
+  \item \texttt{boolean isEmpty()}: checks if stack is empty
+  \end{itemize}
+  
+  \subsubsection*{Array-based Stacks}
+  The elements are stored in the array and are stored from left to right. In a variable \(t\) the is the index stored from the top element.
+  \begin{verbatim}
   int size() {
       return t + 1;
   }
@@ -186,11 +255,11 @@ The elements are stored in the array and are stored from left to right. In a var
           return S[t + 1];
       }
   }
-#+end_src
-
-When adding itmes to the stack / array it could happen that no space is left in the array. In this case a =IllegalStateException= could be thrown which is specific to this implementation.
-
-#+begin_src java
+  \end{verbatim}
+  
+  When adding itmes to the stack / array it could happen that no space is left in the array. In this case a \texttt{IllegalStateException} could be thrown which is specific to this implementation.
+  
+  \begin{verbatim}
   object push(object o) {
       if (t == S.length - 1) {
           thrown new IllegalStateException();
@@ -200,28 +269,32 @@ When adding itmes to the stack / array it could happen that no space is left in 
           S[t] = o;
       }
   }
-#+end_src
-
-For such an implementation all operations need O(1) time and O(n) storage. But the max size is fix and is specified over the constructor. If the max size is exceeded a implementation specific Exception is thrown.
-
-*** List-based Stacks 
-A stack could also implemented on top of a Single-Linked-List using the Adapter Patterns.
-
-** Queue
-A queue stores various objects in a FIFO (first-in first-out) schema. The elements are inserted at the end. Important operations are:
-- =enqueue(Object)=: inserts an element at the end
-- =Object dequeue()=: removes and returns the element at the begining
-
-The support operations are:
-- =Object first()=: returns the first element
-- =integer size()=: returns the amount of objects stored
-- =boolean isEmpty()=: checks if queue is empty
-
-If the queue is empty and the =dequeue= / =first= action is performed =null= is returned.
-
-The array is used in circular manner. With two variables are the front (f) and the current amount of elements (sz) stored. The first empty slot at the end of the queue is calculated with $r = (f + sz) mod N$
-
-#+begin_src java
+  \end{verbatim}
+  
+  For such an implementation all operations need O(1) time and O(n) storage. But the max size is fix and is specified over the constructor. If the max size is exceeded a implementation specific Exception is thrown.
+  
+  \subsubsection*{List-based Stacks}
+  A stack could also implemented on top of a Single-Linked-List using the Adapter Patterns.
+  
+  \subsection*{Queue}
+  A queue stores various objects in a FIFO (first-in first-out) schema. The elements are inserted at the end. Important operations are:
+  \begin{itemize}
+  \item \texttt{enqueue(Object)}: inserts an element at the end
+  \item \texttt{Object dequeue()}: removes and returns the element at the begining
+  \end{itemize}
+  
+  The support operations are:
+  \begin{itemize}
+  \item \texttt{Object first()}: returns the first element
+  \item \texttt{integer size()}: returns the amount of objects stored
+  \item \texttt{boolean isEmpty()}: checks if queue is empty
+  \end{itemize}
+  
+  If the queue is empty and the \texttt{dequeue} / \texttt{first} action is performed \texttt{null} is returned.
+  
+  The array is used in circular manner. With two variables are the front (f) and the current amount of elements (sz) stored. The first empty slot at the end of the queue is calculated with \(r = (f + sz) mod N\)
+  
+  \begin{verbatim}
   void enqueue(object o) {
       if (sz == N) {
           throw new IllegalStateException();
@@ -232,10 +305,10 @@ The array is used in circular manner. With two variables are the front (f) and t
           sz = sz + +;
       }
   }
-#+end_src
-If the array is full an exception is thrown.
-
-#+begin_src java
+  \end{verbatim}
+  If the array is full an exception is thrown.
+  
+  \begin{verbatim}
   void dequeue() {
       if (isEmpty()) {
           return null;
@@ -247,55 +320,71 @@ If the array is full an exception is thrown.
           return o;
       }
   }
-#+end_src
-
-The =java.util.Queue= has another naming for the functions. But apart from this it's pretty similar.
-| ADT        | throws exception | special value |
-|------------+------------------+-----------------------|
-| enqueue(e) | add(e)           | offer(e)              |
-| dequeue()  | remove(e)        | poll()                |
-| first()    | element()        | peek()                |
-| size()     | size()           | size()                |
-| isEmpty()  | isEmpty()        | isEmpty()             |
-*** List based Queues
-** Deque
-Double-Ended-Queue stores various objects in a FIFO scheme. Inserting and removing happens at the front or at the end. Important operations:
-- =addFirst(object e)=: inserts an element at the begin
-- =addLast(object e)=: inserts an element the end
-- =object removeFirst()=: removes the first element and returns it
-- =object removeLast()=: removes the last element and returns it
-- =object E first()=: returns the first element
-- =object E last()=: returns the last element
-
-Java has an interface Deque which is implemented by many classes: =ArrayDeque, ConcurrentLinkedDeque, LinkedBlockingDeque, LinkedList=
-Trying to read from an empty queue returns =null=. The element of the deque are doubly linked nodes. Thanks to this the basic operation of the Deque are very fast:
-| Method                  | O-Performance |
-|-------------------------+---------------|
-| size, isEmpty           | O(1)          |
-| getFirst, getLast       | O(1)          |
-| addFirst, addLast       | O(1)          |
-| removeFirst, removeLast | O(1)          |
-** Positional lists
-The *Position* ADT represents the idea of /Place/ in a data structure.
-
-The *Positional-List* ADT represents the idea of a sequence of Positions. Additional a previous / next relation between the positions is created. Access methods returns a Position:
-- =first(), last()=
-- =before(p), after(p)=
-
-Update Methods:
-- =E set(p, e)=
-- =Position addFirst(e)=
-- =Position addLast(e)=
-- =Position addBefore(p, e)=
-- =Position addAfter(p, e)=
-- =E remove(p)=
-
-Additional methods:
-- =Iterator<E> iterator()=
-- =Iterable<Position<E>> positions()=
-
-The PositionalList is simple to implement using a doubly linked list. The nodes form the list stores the element and references to the previous and next element.
-#+begin_src java
+  \end{verbatim}
+  
+  The \texttt{java.util.Queue} has another naming for the functions. But apart from this it's pretty similar.
+  \begin{center}
+  \begin{tabular}{lll}
+  ADT & throws exception & special value\\
+  \hline
+  enqueue(e) & add(e) & offer(e)\\
+  dequeue() & remove(e) & poll()\\
+  first() & element() & peek()\\
+  size() & size() & size()\\
+  isEmpty() & isEmpty() & isEmpty()\\
+  \end{tabular}
+  \end{center}
+  \subsubsection*{List based Queues}
+  \subsection*{Deque}
+  Double-Ended-Queue stores various objects in a FIFO scheme. Inserting and removing happens at the front or at the end. Important operations:
+  \begin{itemize}
+  \item \texttt{addFirst(object e)}: inserts an element at the begin
+  \item \texttt{addLast(object e)}: inserts an element the end
+  \item \texttt{object removeFirst()}: removes the first element and returns it
+  \item \texttt{object removeLast()}: removes the last element and returns it
+  \item \texttt{object E first()}: returns the first element
+  \item \texttt{object E last()}: returns the last element
+  \end{itemize}
+  
+  Java has an interface Deque which is implemented by many classes: \texttt{ArrayDeque, ConcurrentLinkedDeque, LinkedBlockingDeque, LinkedList}
+  Trying to read from an empty queue returns \texttt{null}. The element of the deque are doubly linked nodes. Thanks to this the basic operation of the Deque are very fast:
+  \begin{center}
+  \begin{tabular}{ll}
+  Method & O-Performance\\
+  \hline
+  size, isEmpty & O(1)\\
+  getFirst, getLast & O(1)\\
+  addFirst, addLast & O(1)\\
+  removeFirst, removeLast & O(1)\\
+  \end{tabular}
+  \end{center}
+  \subsection*{Positional lists}
+  The \textbf{Position} ADT represents the idea of \emph{Place} in a data structure.
+  
+  The \textbf{Positional-List} ADT represents the idea of a sequence of Positions. Additional a previous / next relation between the positions is created. Access methods returns a Position:
+  \begin{itemize}
+  \item \texttt{first(), last()}
+  \item \texttt{before(p), after(p)}
+  \end{itemize}
+  
+  Update Methods:
+  \begin{itemize}
+  \item \texttt{E set(p, e)}
+  \item \texttt{Position addFirst(e)}
+  \item \texttt{Position addLast(e)}
+  \item \texttt{Position addBefore(p, e)}
+  \item \texttt{Position addAfter(p, e)}
+  \item \texttt{E remove(p)}
+  \end{itemize}
+  
+  Additional methods:
+  \begin{itemize}
+  \item \texttt{Iterator<E> iterator()}
+  \item \texttt{Iterable<Position<E>> positions()}
+  \end{itemize}
+  
+  The PositionalList is simple to implement using a doubly linked list. The nodes form the list stores the element and references to the previous and next element.
+  \begin{verbatim}
   void addAfter(Node p, Node e) {
       Node v = new Node();
       v.setElement(e);
@@ -314,26 +403,30 @@ The PositionalList is simple to implement using a doubly linked list. The nodes 
       p.setNext(null);
       return t;
   }
-#+end_src
-
-All operations for the Positional list ADT needs O(1) time execept for searching. Searching needs O(n) time.
-
-** Tree
-A tree data structure represented abstract, hierarchical structure. A tree consists of node which have a parent-child relation.
-
-| root                   | node without a parent node              |
-| internal node / branch | node with min. one child                |
-| external node / leaf   | node without child nodes                |
-| predecessor node       | parent, great parents, ...              |
-| depth                  | number of predecessors                  |
-| height of a node       | external: 0;                            |
-|                        | internal: 1 + max height all successors |
-| height of the tree     | height of the root                      |
-| successor              | child node, ...                         |
-
-
-*depth*: depth is the number of predecessor v without v itself. 
-#+begin_src java
+  \end{verbatim}
+  
+  All operations for the Positional list ADT needs O(1) time execept for searching. Searching needs O(n) time.
+  
+  \subsection*{Tree}
+  A tree data structure represented abstract, hierarchical structure. A tree consists of node which have a parent-child relation.
+  
+  \begin{center}
+  \begin{tabular}{ll}
+  root & node without a parent node\\
+  internal node / branch & node with min. one child\\
+  external node / leaf & node without child nodes\\
+  predecessor node & parent, great parents, \ldots{}\\
+  depth & number of predecessors\\
+  height of a node & external: 0;\\
+   & internal: 1 + max height all successors\\
+  height of the tree & height of the root\\
+  successor & child node, \ldots{}\\
+  \end{tabular}
+  \end{center}
+  
+  
+  \textbf{depth}: depth is the number of predecessor v without v itself. 
+  \begin{verbatim}
   int depth(Tree T, Node v) {
       if (T.isRoot(v)) {
           return 0;
@@ -341,10 +434,10 @@ A tree data structure represented abstract, hierarchical structure. A tree consi
           return 1+ depth(T, v.parent());
       }
   }
-#+end_src
-
-*height*: height is equal to the greatest depth of a tree.
-#+begin_src java
+  \end{verbatim}
+  
+  \textbf{height}: height is equal to the greatest depth of a tree.
+  \begin{verbatim}
   int height(Position<E> v) {
       int h = 0;
       for(Position w : children(v)) {
@@ -353,88 +446,102 @@ A tree data structure represented abstract, hierarchical structure. A tree consi
       return h;
   }
   
-#+end_src
-*** ADT
-Access method:
-- =Position root()=
-- =Position parent(p)=
-- =PostionList children(p)=
-- =Integer numChildren(p)=
-
-Query methods:
-- =Boolean isInternal(p)=
-- =Boolean isExternal(p)=
-- =Boolean isRoot(p)=
-
-
-Support methods:
-- =Integer size()=
-- =Boolean isEmpty()=
-- =Iterator iterator()=
+  \end{verbatim}
+  \subsubsection*{ADT}
+  Access method:
+  \begin{itemize}
+  \item \texttt{Position root()}
+  \item \texttt{Position parent(p)}
+  \item \texttt{PostionList children(p)}
+  \item \texttt{Integer numChildren(p)}
+  \end{itemize}
   
-*** Binary Tree
-A binary tree is tree which each node has max. two child nodes. A *real binary tree* has every internal node exact two child nodes. For the BinaryTree ADT has the following additional methods:
-- =Position left(p)=
-- =Position right(p)=
-- =Position sibling(p)=
-
-A binary tree the following properties (n: number of nodes, e: number of externals, i: number of internals, h: height)
-\begin{align*}
-e &= i + 1 \leftrightarrow i = e - 1 \\
-n &= i + e = i + i + 1 \\
-&= 2i + 1 = 2e - 1 \\
-e &= (n+1)/2 \\
-i &= (n-1)/2 \\
-e &\leq 2^h \\
-h &\geq \log_2(e) \\
-h &\geq \log_2(n+1)-1 \\
-n &\leq 2^{h+1}-1 \\
-h &\leq i \\
-h &\leq (n-1)/2 \\
-n &\geq 2h + 1
-\end{align*}
-
-Properties of a real binary tree:
-\begin{align*}
-e &= i + 1 \\
-n &= 2e - 1 \\
-h &\leq i \\
-h &\leq (n-1)/2 \\
-e &\leq 2^h \\
-h &\geq \log_2(e) \\
-h &\geq \log_2(n+1)-1
-\end{align*}
-
-*** Linked based
-Each node stores the Element, has a reference to the parent node and has a reference to a list of its children. For the Binary Tree it is simpler. Just store the references to the left / right directly in the node.
-
-*** Array based
-Each node is stored in a specific location in the array. The index for the node is calculated as follows:
-\begin{align*}
-f(p) = \begin{cases}
-0, \quad \text{if p is root} \\
-2f(q) + 1, \quad \text{if p is left child of q} \\
-2f(q) + 2, \quad \text{if p is right child of q}
-\end{cases}
-\end{align*}
-
-** Priority Queue (PQ)
-*** Priority Queue ADT
-A Priority Queue stores a collection of Entries. Each entry is a key-value pair. The most important functions are:
-- =insert(k,v)=
-- =removeMin()=
-
-Additional methods:
-- =min()=
-- =size()=
-- =isEmpty()=
-
-The PriorityQueue Entry (Key-Value-Pair) has the following methods:
-- =key()=
-- =value()=
-
-*** Sorting with PQ
-#+begin_src java
+  Query methods:
+  \begin{itemize}
+  \item \texttt{Boolean isInternal(p)}
+  \item \texttt{Boolean isExternal(p)}
+  \item \texttt{Boolean isRoot(p)}
+  \end{itemize}
+  
+  
+  Support methods:
+  \begin{itemize}
+  \item \texttt{Integer size()}
+  \item \texttt{Boolean isEmpty()}
+  \item \texttt{Iterator iterator()}
+  \end{itemize}
+  
+  \subsubsection*{Binary Tree}
+  A binary tree is tree which each node has max. two child nodes. A \textbf{real binary tree} has every internal node exact two child nodes. For the BinaryTree ADT has the following additional methods:
+  \begin{itemize}
+  \item \texttt{Position left(p)}
+  \item \texttt{Position right(p)}
+  \item \texttt{Position sibling(p)}
+  \end{itemize}
+  
+  A binary tree the following properties (n: number of nodes, e: number of externals, i: number of internals, h: height)
+  \begin{align*}
+  e &= i + 1 \leftrightarrow i = e - 1 \\
+  n &= i + e = i + i + 1 \\
+  &= 2i + 1 = 2e - 1 \\
+  e &= (n+1)/2 \\
+  i &= (n-1)/2 \\
+  e &\leq 2^h \\
+  h &\geq \log_2(e) \\
+  h &\geq \log_2(n+1)-1 \\
+  n &\leq 2^{h+1}-1 \\
+  h &\leq i \\
+  h &\leq (n-1)/2 \\
+  n &\geq 2h + 1
+  \end{align*}
+  
+  Properties of a real binary tree:
+  \begin{align*}
+  e &= i + 1 \\
+  n &= 2e - 1 \\
+  h &\leq i \\
+  h &\leq (n-1)/2 \\
+  e &\leq 2^h \\
+  h &\geq \log_2(e) \\
+  h &\geq \log_2(n+1)-1
+  \end{align*}
+  
+  \subsubsection*{Linked based}
+  Each node stores the Element, has a reference to the parent node and has a reference to a list of its children. For the Binary Tree it is simpler. Just store the references to the left / right directly in the node.
+  
+  \subsubsection*{Array based}
+  Each node is stored in a specific location in the array. The index for the node is calculated as follows:
+  \begin{align*}
+  f(p) = \begin{cases}
+  0, \quad \text{if p is root} \\
+  2f(q) + 1, \quad \text{if p is left child of q} \\
+  2f(q) + 2, \quad \text{if p is right child of q}
+  \end{cases}
+  \end{align*}
+  
+  \subsection*{Priority Queue (PQ)}
+  \subsubsection*{Priority Queue ADT}
+  A Priority Queue stores a collection of Entries. Each entry is a key-value pair. The most important functions are:
+  \begin{itemize}
+  \item \texttt{insert(k,v)}
+  \item \texttt{removeMin()}
+  \end{itemize}
+  
+  Additional methods:
+  \begin{itemize}
+  \item \texttt{min()}
+  \item \texttt{size()}
+  \item \texttt{isEmpty()}
+  \end{itemize}
+  
+  The PriorityQueue Entry (Key-Value-Pair) has the following methods:
+  \begin{itemize}
+  \item \texttt{key()}
+  \item \texttt{value()}
+  \end{itemize}
+  
+  \subsubsection*{Sorting with PQ}
+  \begin{verbatim}
   List<T> pq_sort(List<T> s, Comperator c) {
       PriorityQueue<T> pq = new PriorityQueue();
       while(!s.isEmpty()) {
@@ -447,52 +554,62 @@ The PriorityQueue Entry (Key-Value-Pair) has the following methods:
           s.addLast(e)
       }
   }
-#+end_src
-
-Performance:
-|               | insert | removeMin / min |
-| unsorted list | O(1)   | O(n)            |
-| sorted list   | O(n)   | O(1)            |
-
-PQ-sort with a unsorted list is called *selection-sort*, with a sorted list *insertion-sort*
-** Heap
-Heap is a binary tree which stores in its nodes keys and has the following properties: for each node v which is not the root applies $key(v) \leq key(parent(v))$. Additional properties (h=height)
-- for i=0, ..., h-1 on each level 2^i nodes
-- filling up from left to right
-- max. one node with only one child
-- the last node is the farthest right on level h
-- heap with n nodes has height $\lfloor \log n \rfloor$
-
-
-*** Priority Queues with Heap
-The Heap stores key-value entries on each node and also the last node is stored in the data structure. The =insert()= method inserts the new element at the last position and then the *upheap* action is performed to restore the heap. Upheap compares the new inserted element with its parent until it is the root or the parent key is smaller or equal to its own key (O(log n)). The =removeMin()= method removes the root and the last element of the heap in inserted as root. After this the *downheap* action is performed to restore the heap. Downheap compares the new root with its children and swaps with the smaller one until node is a leaf or the children nodes are greater or equal.
-
-** Adaptable Priority Queue
-The idea of the Adaptable PQ is that the data structure creates the entries and returns it to the user. The entry stores the key, value and the position of the item in the list (index, pointers, ...). The position is updated if swaps occurs.
-*** ADT
-- =remove(e)=: removes Entry e and returns e
-- =replaceKey(e,k)=: key is replace from entry and old key is returned
-- =replaceValue(e,v)=: value is replace from entry and old value is returned
+  \end{verbatim}
   
-*** Heap implementation
-A location aware heap entry stores the key, value, and the current position inside the heap. Each heap node stores a such an entry. All Pointers are updated during swaps.
-
-** Maps
-Map represents a searchable collection of Key-Value entries. For each key only one entry is allowed.
-*** ADT
-- =get(k)=: returns the entry with key k; else null
-- =put(k, v)=: if a entry with key exists the value is updated and old value is returned; else a new entry is created and null is returned
-- =remove(k)=: removes entry with key k and returns it; if not exists returns null
-- =size(), isEmpty()=
-- =keySet()=: returns a iterable collection of the keys
-- =values()=: returns a iterable collection of the values (duplicates are possible)
-- =entrySet()=: returns a iterable collection with all entries
-
-
-*** list based
-With an unsorted list it is simple to implement the Map ADT. 
-
-#+begin_src java
+  Performance:
+  \begin{center}
+  \begin{tabular}{lll}
+   & insert & removeMin / min\\
+  unsorted list & O(1) & O(n)\\
+  sorted list & O(n) & O(1)\\
+  \end{tabular}
+  \end{center}
+  
+  PQ-sort with a unsorted list is called \textbf{selection-sort}, with a sorted list \textbf{insertion-sort}
+  \subsection*{Heap}
+  Heap is a binary tree which stores in its nodes keys and has the following properties: for each node v which is not the root applies \(key(v) \leq key(parent(v))\). Additional properties (h=height)
+  \begin{itemize}
+  \item for i=0, \ldots{}, h-1 on each level 2\textsuperscript{i} nodes
+  \item filling up from left to right
+  \item max. one node with only one child
+  \item the last node is the farthest right on level h
+  \item heap with n nodes has height \(\lfloor \log n \rfloor\)
+  \end{itemize}
+  
+  
+  \subsubsection*{Priority Queues with Heap}
+  The Heap stores key-value entries on each node and also the last node is stored in the data structure. The \texttt{insert()} method inserts the new element at the last position and then the \textbf{upheap} action is performed to restore the heap. Upheap compares the new inserted element with its parent until it is the root or the parent key is smaller or equal to its own key (O(log n)). The \texttt{removeMin()} method removes the root and the last element of the heap in inserted as root. After this the \textbf{downheap} action is performed to restore the heap. Downheap compares the new root with its children and swaps with the smaller one until node is a leaf or the children nodes are greater or equal.
+  
+  \subsection*{Adaptable Priority Queue}
+  The idea of the Adaptable PQ is that the data structure creates the entries and returns it to the user. The entry stores the key, value and the position of the item in the list (index, pointers, \ldots{}). The position is updated if swaps occurs.
+  \subsubsection*{ADT}
+  \begin{itemize}
+  \item \texttt{remove(e)}: removes Entry e and returns e
+  \item \texttt{replaceKey(e,k)}: key is replace from entry and old key is returned
+  \item \texttt{replaceValue(e,v)}: value is replace from entry and old value is returned
+  \end{itemize}
+  
+  \subsubsection*{Heap implementation}
+  A location aware heap entry stores the key, value, and the current position inside the heap. Each heap node stores a such an entry. All Pointers are updated during swaps.
+  
+  \subsection*{Maps}
+  Map represents a searchable collection of Key-Value entries. For each key only one entry is allowed.
+  \subsubsection*{ADT}
+  \begin{itemize}
+  \item \texttt{get(k)}: returns the entry with key k; else null
+  \item \texttt{put(k, v)}: if a entry with key exists the value is updated and old value is returned; else a new entry is created and null is returned
+  \item \texttt{remove(k)}: removes entry with key k and returns it; if not exists returns null
+  \item \texttt{size(), isEmpty()}
+  \item \texttt{keySet()}: returns a iterable collection of the keys
+  \item \texttt{values()}: returns a iterable collection of the values (duplicates are possible)
+  \item \texttt{entrySet()}: returns a iterable collection with all entries
+  \end{itemize}
+  
+  
+  \subsubsection*{list based}
+  With an unsorted list it is simple to implement the Map ADT. 
+  
+  \begin{verbatim}
   object get(Key k) {
       var B = S.positions();
       while (B.hasNext()) {
@@ -502,9 +619,9 @@ With an unsorted list it is simple to implement the Map ADT.
       }
       return null;
   }
-#+end_src
-
-#+begin_src java
+  \end{verbatim}
+  
+  \begin{verbatim}
   object put(Key k, Value v) {
       var B = S.positions();
       while(B.hasNext()) {
@@ -519,9 +636,9 @@ With an unsorted list it is simple to implement the Map ADT.
       n = n + 1;
       return null;
   }
-#+end_src
-
-#+begin_src java
+  \end{verbatim}
+  
+  \begin{verbatim}
   object remove(Key k) {
       var B = S.positions();
       while (B.hasNext()) {
@@ -535,45 +652,53 @@ With an unsorted list it is simple to implement the Map ADT.
           return null;
       }
   }
-#+end_src
-
-The running time of the unsorted list based map:
-- =put=: O(n), insertion itself is O(1) but first the whole list has to be search for possible occurence
-- =get=: O(n)
-- =remove=: O(n)
-
-**** Sentinel trick
-
-In the previous algorithms two queries are required (=while(B.hasNext()= and =if (p.element().key() = k=). With the insertion of a special node at the end with the searched key, only one query is left (=while(p.element().key !=k=). If a node is found (you found always a node) you only have to check if the node is a real one or the sentinel.
-
-** Multi map
-Similar to a map. But a multi map can store to a key multiple values. One possible solution is to adjust the data structure or the key points to a collection with the values of k.
-
-*** ADT
-- =get(k)=
-- =put(k, v,)=
-- =remove(k,v)=
-- =removeAll(k)=
-- =size()=
-- =entries()=: returns a collection of all entries
-- =keys()=: returns a collection of keys for all entries in the multi map (including duplicates for keys with multiple bindings)
-- =keySet()=: returns a non duplicative collection of keys 
-- =values()=: returns a collection of values for all entries
-** Set
-A set is a unsorted collection of elements without duplicates. The elements of a set are the keys of a map but without a value.:w
-*** ADT
-- =add(e)=
-- =remove(e)=
-- =contains(e)=
-- =iterator()=
-- =union(), intersection(), substraction=
-- =addAll(T)=
-- =retainAll(T)=
-- =removeAll(T)=
-
-*** list based
-The elements are sorted based on a defined order. Needed storage is O(n). A generic merge looks as follow. This algorithm uses again the Template Pattern. The running time is O(n_A + N_B).
-#+begin_src java
+  \end{verbatim}
+  
+  The running time of the unsorted list based map:
+  \begin{itemize}
+  \item \texttt{put}: O(n), insertion itself is O(1) but first the whole list has to be search for possible occurence
+  \item \texttt{get}: O(n)
+  \item \texttt{remove}: O(n)
+  \end{itemize}
+  
+  \begin{itemize}
+  \item Sentinel trick
+  
+  In the previous algorithms two queries are required (\texttt{while(B.hasNext()} and \texttt{if (p.element().key() = k}). With the insertion of a special node at the end with the searched key, only one query is left (\texttt{while(p.element().key !=k}). If a node is found (you found always a node) you only have to check if the node is a real one or the sentinel.
+  \end{itemize}
+  
+  \subsection*{Multi map}
+  Similar to a map. But a multi map can store to a key multiple values. One possible solution is to adjust the data structure or the key points to a collection with the values of k.
+  
+  \subsubsection*{ADT}
+  \begin{itemize}
+  \item \texttt{get(k)}
+  \item \texttt{put(k, v,)}
+  \item \texttt{remove(k,v)}
+  \item \texttt{removeAll(k)}
+  \item \texttt{size()}
+  \item \texttt{entries()}: returns a collection of all entries
+  \item \texttt{keys()}: returns a collection of keys for all entries in the multi map (including duplicates for keys with multiple bindings)
+  \item \texttt{keySet()}: returns a non duplicative collection of keys
+  \item \texttt{values()}: returns a collection of values for all entries
+  \end{itemize}
+  \subsection*{Set}
+  A set is a unsorted collection of elements without duplicates. The elements of a set are the keys of a map but without a value.:w
+  \subsubsection*{ADT}
+  \begin{itemize}
+  \item \texttt{add(e)}
+  \item \texttt{remove(e)}
+  \item \texttt{contains(e)}
+  \item \texttt{iterator()}
+  \item \texttt{union(), intersection(), substraction}
+  \item \texttt{addAll(T)}
+  \item \texttt{retainAll(T)}
+  \item \texttt{removeAll(T)}
+  \end{itemize}
+  
+  \subsubsection*{list based}
+  The elements are sorted based on a defined order. Needed storage is O(n). A generic merge looks as follow. This algorithm uses again the Template Pattern. The running time is O(n\textsubscript{A} + N\textsubscript{B}).
+  \begin{verbatim}
   Set generictMerge(Set A, Set B) {
       Set S = new Set();
       while (!A.isEmpty() && !B.isEmpty()) {
@@ -603,74 +728,90 @@ The elements are sorted based on a defined order. Needed storage is O(n). A gene
   
       return S;
   }
-#+end_src
-*** Multiset
-A set where duplicates are allowed.
-
-** Hash Tables
-*** Hash functions
-A hash function maps a key on integers in a fixed interval [0; N-1]. For example $h(x) = x \mod \, N$ is a hash function. A hash function can have two anomalies: *gaps* (space is wasted) and *collisions* (two different keys, same hash). A *perfect* hash function has no collisions. A hash function consists normally of two parts: *Hash code* (Key -> Integers) and the compression function (integer -> [0; N-1]). The goal of the hash function is distribute the keys as randomly as possible and the goal of the compression function is to transform the keys in a specific interval.
-
-*Hash codes*:
-- memory address: the location in the memory is used (default for Java)
-- integer cast: the key is interpreted as integer
-- component sum: key is separated in groups (fixed length) and then a sum is builded (overflow is ignored)
-- polynomial accumulation: dived bits of key in components and calculate polynomial (a_0 + a_1z + a_2z^2...), good for strings
-
-
-*Compression function*:
-- Division (Modulo): $h_2(y) = y \mod \, N$, N size of table normally a prim number
-- Multiply, Add and Divide (MAD): $h_2(y) = ((ay + b) \mod \, p) \mod \, N$, p is prim and bigger than N, a and b are arbitary numbers between [0, p-1] and a > 0
-
-
-*** Collision handling
-Most hashing procedures are different in its collision handling. It exists two methods how collisions can be handled:
-- separate chaining (buckets in a linked list)
-- open addressing (inserts in an other bucket)
-
-With separate chaining in each cell a list based map is inserted. With linear probing the collision is solved in which you inserts the item in the next available cell. Linear negative probe search backwards in the table. With Quadratic probing is not 1 added to the index but the quadratic. With alternating probing forward and backward (linear and quadratic). And random probing finds a new index with a fix random function.
-
-The remove operation in open addressing needs special treatment. If the item is normally removed a other item may not be found anymore. For each cell a state needs to be saved (free, used, deleted). During probing deleted cells are treated as used.
-
-Double hashing uses a second hash function in case a collision is occurred: $(h(k) + jd(k)) \mod \, N$ (j = Number of collisions, for all k: d(k) != 0, N has to be prime). The second compression functions is normally: $d(k) = q -k \mod q$ where q < N and q is prime.
-
-
-Worst Case all elements leads to collisions: O(n) for search, insert, remove. But if the hash values are distributed evenly then the numbers of access is $\frac{1}{1-a}$ (*load factor* $a = \frac{n}{N}$). The expected running time for all Map ADT is O(1). If the load factor is not to near at 1 (100%) then hashing is very efficient. *Rehash*: rebuild of the hash table with greater capacity.
+  \end{verbatim}
+  \subsubsection*{Multiset}
+  A set where duplicates are allowed.
   
-*** Hash tables
-Hash tables consists of hash function h and an array (table) of length N. In a map implementation using a Hash table the goal is that the entry (k,v) at the index i = h(k) is stored.
-
-** Skip Listen
-A Skip List consists of a series of lists. Each list  has a artificial start and end node ($-\infty, +\infty$). The list S_0 contains all keys in a ascending order. In a *perfect skip list* every list has in the middle a element.
-
-*Searching* in the skip list:
-1. Starting in the first element in the first element
-2. At a position p compare x with $y = key(next(p))$
-   - x = y: return element(next(p))
-   - x > y: scan forward
-   - x < y: drop down
-3. If we reached the bottom and should drop down further then return null
-
-*Insertion* in the skip list (k,o):
-1. Search unsuccessfully for k. The search ended at p_0 with the biggest key smaller than k
-2. creates new node p with Key k and randomly chosen height after the key p_0
-3. collect all nodes which points "through" p and adjust the connections
-
-
-*Remove* entry (e) from the skip list:
-1. search e in the skip list, find the positions in the all the lists (p_0, p_1, ..., p_i)
-2. remove the positions p_0, p_1, ..., p_i from the lists S_0, S_1, ..., S_2
-3. Remove all lists which contains only the first ($-\infty) and the last node (+\infty)
-
-
-*Storage analysis*: the expected amount of nodes is:
-\begin{equation*}
-\sum_{i=0}^h \frac{n}{2^i} = n \sum_{i=0}^h\frac{1}{2^i} < 2n
-\end{equation*}
-The skip lists needs O(n) memory.
-
-*Time analysis*: the expected time for search, insertion and removing is (log n)
-
+  \subsection*{Hash Tables}
+  \subsubsection*{Hash functions}
+  A hash function maps a key on integers in a fixed interval [0; N-1]. For example \(h(x) = x \mod \, N\) is a hash function. A hash function can have two anomalies: \textbf{gaps} (space is wasted) and \textbf{collisions} (two different keys, same hash). A \textbf{perfect} hash function has no collisions. A hash function consists normally of two parts: \textbf{Hash code} (Key -> Integers) and the compression function (integer -> [0; N-1]). The goal of the hash function is distribute the keys as randomly as possible and the goal of the compression function is to transform the keys in a specific interval.
+  
+  \textbf{Hash codes}:
+  \begin{itemize}
+  \item memory address: the location in the memory is used (default for Java)
+  \item integer cast: the key is interpreted as integer
+  \item component sum: key is separated in groups (fixed length) and then a sum is builded (overflow is ignored)
+  \item polynomial accumulation: dived bits of key in components and calculate polynomial (a\textsubscript{0} + a\textsubscript{1z} + a\textsubscript{2z}\textsuperscript{2}\ldots{}), good for strings
+  \end{itemize}
+  
+  
+  \textbf{Compression function}:
+  \begin{itemize}
+  \item Division (Modulo): \(h_2(y) = y \mod \, N\), N size of table normally a prim number
+  \item Multiply, Add and Divide (MAD): \(h_2(y) = ((ay + b) \mod \, p) \mod \, N\), p is prim and bigger than N, a and b are arbitary numbers between [0, p-1] and a > 0
+  \end{itemize}
+  
+  
+  \subsubsection*{Collision handling}
+  Most hashing procedures are different in its collision handling. It exists two methods how collisions can be handled:
+  \begin{itemize}
+  \item separate chaining (buckets in a linked list)
+  \item open addressing (inserts in an other bucket)
+  \end{itemize}
+  
+  With separate chaining in each cell a list based map is inserted. With linear probing the collision is solved in which you inserts the item in the next available cell. Linear negative probe search backwards in the table. With Quadratic probing is not 1 added to the index but the quadratic. With alternating probing forward and backward (linear and quadratic). And random probing finds a new index with a fix random function.
+  
+  The remove operation in open addressing needs special treatment. If the item is normally removed a other item may not be found anymore. For each cell a state needs to be saved (free, used, deleted). During probing deleted cells are treated as used.
+  
+  Double hashing uses a second hash function in case a collision is occurred: \((h(k) + jd(k)) \mod \, N\) (j = Number of collisions, for all k: d(k) != 0, N has to be prime). The second compression functions is normally: \(d(k) = q -k \mod q\) where q < N and q is prime.
+  
+  
+  Worst Case all elements leads to collisions: O(n) for search, insert, remove. But if the hash values are distributed evenly then the numbers of access is \(\frac{1}{1-a}\) (\textbf{load factor} \(a = \frac{n}{N}\)). The expected running time for all Map ADT is O(1). If the load factor is not to near at 1 (100\%) then hashing is very efficient. \textbf{Rehash}: rebuild of the hash table with greater capacity.
+  
+  \subsubsection*{Hash tables}
+  Hash tables consists of hash function h and an array (table) of length N. In a map implementation using a Hash table the goal is that the entry (k,v) at the index i = h(k) is stored.
+  
+  \subsection*{Skip Listen}
+  A Skip List consists of a series of lists. Each list  has a artificial start and end node (\(-\infty, +\infty\)). The list S\textsubscript{0} contains all keys in a ascending order. In a \textbf{perfect skip list} every list has in the middle a element.
+  
+  \textbf{Searching} in the skip list:
+  \begin{enumerate}
+  \item Starting in the first element in the first element
+  \item At a position p compare x with \(y = key(next(p))\)
+  \begin{itemize}
+  \item x = y: return element(next(p))
+  \item x > y: scan forward
+  \item x < y: drop down
+  \end{itemize}
+  \item If we reached the bottom and should drop down further then return null
+  \end{enumerate}
+  
+  \textbf{Insertion} in the skip list (k,o):
+  \begin{enumerate}
+  \item Search unsuccessfully for k. The search ended at p\textsubscript{0} with the biggest key smaller than k
+  \item creates new node p with Key k and randomly chosen height after the key p\textsubscript{0}
+  \item collect all nodes which points "through" p and adjust the connections
+  \end{enumerate}
+  
+  
+  \textbf{Remove} entry (e) from the skip list:
+  \begin{enumerate}
+  \item search e in the skip list, find the positions in the all the lists (p\textsubscript{0}, p\textsubscript{1}, \ldots{}, p\textsubscript{i})
+  \item remove the positions p\textsubscript{0}, p\textsubscript{1}, \ldots{}, p\textsubscript{i} from the lists S\textsubscript{0}, S\textsubscript{1}, \ldots{}, S\textsubscript{2}
+  \item Remove all lists which contains only the first (\$-\(\infty\)) and the last node (+\(\infty\))
+  \end{enumerate}
+  
+  
+  \textbf{Storage analysis}: the expected amount of nodes is:
+  \begin{equation*}
+  \sum_{i=0}^h \frac{n}{2^i} = n \sum_{i=0}^h\frac{1}{2^i} < 2n
+  \end{equation*}
+  The skip lists needs O(n) memory.
+  
+  \textbf{Time analysis}: the expected time for search, insertion and removing is (log n)
+  \end{multicols}
+#+end_src
 * End
-
-#+LATEX: \end{multicols}
+#+begin_src latex
+\end{document}
+#+end_src
