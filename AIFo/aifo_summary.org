@@ -1,0 +1,488 @@
+#+TITLE: AIFo Summary
+#+AUTHOR: Olivier Lischer
+#+SETUPFILE: ../latex_includes.conf
+
+#+LATEX: \begin{multicols}{3}
+
+* Keywords
+I should know all bold words:
+
+- predictive model :: the goal is to find a model that performs well on new / unseen data
+- new / unseen data :: data which the model did not seen during the training
+- (low) generalization error :: if the predicitve model has low generalization error it performs well on new / unseen data
+- test-error / out-of-sample error :: test-error is an estimate of the generalization error (splitting data in training- and test set - calculate error on test set). can be splited in to bias / variance.
+- bias :: simple models -> high bias (low variance). There is a risk of undertiffnt
+- variance :: complex models -> small bias (high variance). There is a risk of overfitting
+- underfitting ::
+- overfitting ::
+- regularization :: is a method to control the model complexity. Using regularization we can find the optimal balance in the bias-varance trade-off
+- bias-variance trade-off :: 
+- L1 / L2 norm :: Penalty for model complexity
+
+* Machine Learning Types- [[id:4b65afb0-718b-4153-b0ab-9457de0c0739][Unsupervised learning]]
+- [[id:4b65afb0-718b-4153-b0ab-9457de0c0739][Unsupervised learning]]
+- [[id:de9db671-8850-4d0f-b443-1328dfa9920b][Supervised learning]]
+- [[id:93e92c77-0fd3-4d90-ad6e-bc1b929889ac][Reinforcement learning]]
+
+* NLP
+*NLP*
+Natural Language Processing is a sub-field of artificial intelligence.
+It aims to understand and generate human (natural) language.
+NLP is often used in Chats Bots.
+
+*Dialogflow*
+- Intent matching: [[https://www.youtube.com/watch?v=9aHusGxntPw][Dialogflow Intents: Know what your users want]]
+- Dialogflow Entities: [[https://www.youtube.com/watch?v=kzdL6GxJ_WY][Dialogflow Entities: Identify things your users mention]]
+- Dialog Control: [[https://youtu.be/-tOamKtmxdY][Dialogflow Dialog Control: Shape the flow of your conversation]]
+
+
+
+*The 4 Ingredients of Machine Learning*
+1. *Data*:
+   - Sometimes you have to do some clean up or some normalization
+   - we can not do better than what is in this data
+2. *Cost-Function (loss)*:
+   - a formal (mathematical) expression for "good" / "bad"
+   - [[id:4fb32f9e-3434-4ab8-a1f7-836e6740bc7e][Mean Squared Error]] is commonly used
+3. *Model*:
+   - Something to map input to the output
+   - two parameter linear / complicated neural network
+4. *Optimization Procedure*:
+   - An algorithm that changes the parameters of the model such that the cost function is minimized.
+
++3 Steps for better ML:
+1. Performance optimization: Building efficient pipe-lines is difficult
+2. Visualization and evaluation of the learning Process: Learning curves, Performance Measures
+3. Cross-Validation & Regularization: goal to develop models that generalize
+
+
+
+*One-Hot Representation*
+One-Hot is possible way to represent words as vectors.
+The number of diffrent words is the dimension of the vector.
+Each word has now only set one possition to 1.
+
+Problems with this approach are:
+- the vectors are very hight dimensional
+- is not memory efficient, a single 1 and for example 99'9999 zeros
+- no generalization possible. This representation can not store the meaning of a word
+
+
+*Index Representation*
+Index is a *dense equivalent* to [[id:0bd1001e-e74b-4578-9063-e991fdfe802b][One-Hot Representation]].
+Each word is asigned an index.
+Indexing is often used as preprocessing step.
+
+
+*Distributed Representation*
+#+CAPTURE: Distributed Representation
+[[file:img/distributed_representation.png]]
+
+
+*Word Embedding*
+A Word embedding is something like a function / black box which maps a word to a vector \vec{v}.
+
+
+*Cosine Similarity*
+The cosine similarity is just the formula for the [[id:946ec0b8-1fce-4a15-b031-b242eb81cce4][Dot Product]] transformed:
+$$
+\cos(\phi) = \frac{A \cdot B}{|A||B|}
+$$
+
+* Probability
+The marginal probability is the general known probabiliy.
+
+The Joint Probaility $p(x, y)$ means that the event x and the event y occurs. If x and y are independent the formula is:
+$$
+p(x,y) = p(x) \cdot p(y)
+$$
+
+If x and y are *not* independent then the formula is:
+$$
+p(x,y) = p(x|y) \cdot p(y)
+$$
+
+Conditional Probability
+$$
+P(Y|X) = \frac{P(Y \cap X)}{P(Y)}$
+$$
+
+
+Bayes Rule
+$$
+P(Y|X) = \frac{P(X|Y) \cdot P(Y)}{P(X)}
+$$
+
+* Regression
+Linear Regression is a [[id:de9db671-8850-4d0f-b443-1328dfa9920b][Supervised learning]] algorithm.
+
+
+*MSE*
+\begin{align}
+E &= \frac{1}{2N} \sum_{i=1}^N e_i^2 \\
+&= \frac{1}{2N} \sum_{i=1}^N (y_i - (a \cdot x_i + b))^2
+\end{align}
+
+*Residual*
+The Residual $e$ is the difference between the original $y_i$ and the estimated $\hat{y_i}$.
+
+
+*Bias*
+The inability for a machine learning methods (e.g. Linear Regression) to capture the true relationship is called *bias*.
+
+*Variance*
+The difference in the fits between training and testing data.
+
+
+*Gradient Descent*
+Gradient Descent is an algorithm used for optimization problems.
+It works with an iterative approach using gradients. 
+On each iteration the error function is derived.
+
+*Update Rule*
+\begin{equation}
+  \begin{bmatrix}
+    a \\
+    b \\
+  \end{bmatrix}_{t+1} 
+  =    \begin{bmatrix}
+    a \\
+    b \\
+  \end{bmatrix}_{t} - \alpha 
+  \begin{bmatrix}
+    \frac{\partial E}{\partial a} \\
+    \frac{\partial E}{\partial b} \\
+  \end{bmatrix} \Big\rvert _{\begin{bmatrix}
+      a \\
+      b \\
+    \end{bmatrix}_{t} }
+\end{equation}
+
+*Derived MSE*
+\begin{align}
+  \textrm{E} &= \frac{1}{2N} \sum_{i=1}^{N} (y_i - (a \cdot x_i + b))^2 \\
+  \frac{\partial \textrm{E}}{\partial a} &= \frac{1}{N} \sum_{i=1}^{N} (y_i - (a \cdot x_i + b)) (-x_i) \\
+  &\approx \frac{1}{n} \sum_{j \in J_n} (y_j - (a \cdot x_j + b)) (-x_j)  \\
+  \frac{\partial \textrm{E}}{\partial b} &= \frac{1}{N} \sum_{i=1}^{N} (y_i - (a \cdot x_i + b)) (-1) \\
+  &\approx \frac{1}{n} \sum_{j \in J_n} (y_{j} - (a \cdot x_{j} + b)) (-1)  \\
+\end{align}
+
+
+*Annealed Learning*
+In the Update Rule is the learning rate $\alpha$ specified.
+At the beginning the learning rate $\alpha$ is high and over time the value is reduced.
+
+
+*In-sample error*
+The *in-sample error*, also called *training error*, is error which your model makes when predicting the sample data.
+It is possible to find a model which fits perfectly the data.
+
+*out-of-sample error*
+When you try to predict with a model *unseen* data the resulting error is called *out-of-sample error*.
+An other name is *generalization error* or *test error*.
+
+
+*Bias-Variance Trade-off*
+There is a trade-off: higher bias implies lower variance, lower bias implies higher variance.
+Normally we want reduce the variance (no surprise with out-of-sample data)
+
+
+*Regularization*
+Regularization is used to punish single parameters of the model to prevent overfitting.
+Normally the L1 and L2 Norms are used to measure the model complexity:
+1. L1 - Norm $\sum_i^p |\beta_i|$
+2. L2 - Norm $\sum_i^p |\beta_i|$
+
+\begin{equation}
+  \sum_{i=1}^n(y_i - \sum_{j=1}^p x_{ij}\beta_j)^2 + \lambda \sum_{j=1}^p\beta_i^2
+\end{equation}
+
+
+*Cross-Validation*
+To train your model you normally split your data in testing and training data.
+If you create this split only once you can not verify how well your model performs on new data.
+To solve this problem you can split your data in $k$ times in $k$ splits.
+k-fold Cross-Validation is an implementation of Cross-Validation
+
+
+*Hyper Parameters*
+By "parameter" or "model parameter" we usually mean the weights of a model.
+Parameters of the training procedure, (e.g. regularization parameter $\lambda$) are called hyper parameters.
+
+* ANN
+
+*Neurons*
+Artifical Nuerons are the building blocks for an ANN.
+An Neuron receives an input vector ($[x_1 \; x_2 \; \ldots]$).
+Each input has a different *weight* ($[w_1 \; w_2 \; \ldots]$) and bias b (=intercept).
+The neuron iteself:
+1. calculates the sum of the weighted input ($\vec{x} \cdot \vec{w}$)
+2. adds a bias $b$
+3. pass it through a nonlinear activation function (e.g. [[id:1188c47d-5d02-4bc7-bda8-bc3227a26720][ReLU]])
+
+
+*ANN*
+An ANN (Artifical Neural Network) consists of many [[id:1420efe2-118b-4f66-a1ee-f46eb75190b5][Artifical Neurons]].
+Basically the ANN is just a data-structure to define arbitrarily complex mathematical functions.
+The ANN has 3 types of layer:
+- one input layer
+- one or many input layers
+- one output layer
+
+
+*Train ANN*
+1. initial each weight randomly
+2. on optimizer reduces a cost-function (e.g. [[id:4fb32f9e-3434-4ab8-a1f7-836e6740bc7e][MSE]])
+   - for each weight the partial derived is calculated
+   - Backpropagation is used to optimized the weigts (trains the [[id:18fb95a0-233b-46c2-a90f-8e50c924d009][ANN]], used in Keras)
+
+* Classification
+Using classification you try to classify given data (X).
+
+*sigmoid*
+\begin{equation}
+  sigmoid(y) = \frac{1}{1 + e^{-y}}
+\end{equation}
+
+\begin{align}
+  y &= w_1x_1 + w_2x_2 + \cdots + w_nx_n \\
+  sigmoid(y) &= \frac{1}{1 + e^{-y}}
+\end{align}
+
+
+*Train classification*
+You have to minimize the cost by adjusting the weights.
+This is called *Maximum Likelihood*.
+We want to minimize the equation [[eqn:lossFunction]].
+This could be done with [[id:ea2badae-65f4-4da3-b156-0f18879b1a2e][Gradient Descent]].
+
+#+LABEL: eqn:lossFunction
+\begin{equation}
+  \frac{-1}{N}\sum_{i=1}^{N}(y_i \cdot \log(p_i) + (1 - y_i)\cdot \log(1-p_i))
+\end{equation}
+
+The loss depends on prediction and reality:
+- if I say it is very likely that it happens and it happens \rightarrow small loss
+- if I say it is very likely that it happens and but it does NOT happens \rightarrow big loss
+
+#+CAPTION: The Confusion Matrix
+[[file:img/confusion_matrix.png]]
+
+
+*Quality Classifier*
+Mean Accuracy: How often is the classifier correct?
+\begin{equation}
+Accuracy = \frac{t_p + t_n}{n}
+\end{equation}
+
+Mean Error: How often is the classifier wrong?
+\begin{equation}
+Error = \frac{f_p + f_n}{n}
+\end{equation}
+
+Precision: When the prediction is 1 how often is it correct?
+\begin{equation}
+Precision = \frac{t_p}{t_p + f_p}
+\end{equation}
+
+Sensitivity, Recall, True Positive Rate (TPR): How often the prediction is 1 when its actually 1
+\begin{equation}
+Recall = \frac{t_p}{t_p + f_n}
+\end{equation}
+
+Miss Rage, False Negative Rage (FNR)
+\begin{equation}
+Miss Rate = 1 - TPR
+\end{equation}
+
+False Positive Rate (FPR):
+\begin{equation}
+FPR = \frac{f_p}{f_p + t_n}
+\end{equation}
+
+
+*Precision vs. Recall*
+Application 1 - classify videos safe for kids (p = safe):
+- Low recall ($f_n$ is big) \rightarrow many safe videos are rejected.
+
+  High precision ($f_p$ is low) \rightarrow keeps only safe videos.
+
+- High recall ($f_n$ is low) \rightarrow no safe videos are rejected.
+
+  Low precision ($f_p$ is big) \rightarrow many unsafe videos are kept.
+
+
+Application 2 - classify shoplifters from a camera:
+- low precision but high recall \rightarrow false negatives are OK
+
+
+*ROC*
+#+begin_quote
+the greater the area under the curve (AUC), the higher the ration of true positive to false positives
+#+end_quote
+
+
+#+CAPTION: Receiver Operating Characteristics (ROC)
+[[file:img/roc.png]]
+
+
+*KNN*
+KNN is a classification algorithm.
+KNN calculates the $k$ nearest neighbors of it and returns the most frequent class of the $k$ neighbors.
+
+
+*KNN Algorithm*
+1. load the training data & test data
+2. choose the value of $k$
+3. For each test data points x_{test}
+   1. For all training data x_{train}, calculate the $d(x_{test}, x_{train})$
+      - distance metric: euclidean, Manhattan, cosine, ...
+   2. Sort training data in the ascending order of the distance
+   3. Choose the first $k$ data points from the sorted training data
+   4. Choose the most frequently occurring class from the $k$ data points as the classification result.
+
+
+KNN can be adjusted with the numbers of neighbors ($k$) and the distance metric.
+
+
+*Multiclass classification with linear regression*
+
+/One-vs.-rest/
+Train a single classifier for each class $c$.
+The samples of class $c$ as positive and all other samples as negative.
+Apply all classifiers to an unseen sample $x$.
+The classifier reports the highest $p$ is the class.
+
+
+/One-vs.-one/
+Train classifiers to distinguish between each pair of classes.
+Apply all classifiers to an unseen sample $x$.
+Combine the result to produce final classification.
+
+* Unsupervised learning
+#+begin_quote
+Goal: identify hidden patterns among the data.
+A simple example of a structure in the data
+are clusters: i.e the data points which
+have some shared properties will fall into
+one cluster or one alike group. ---Marko Lehmann
+#+end_quote
+
+
+*Clustering algorithm*
+1. Pick $k$ random data points (class).
+2. For each of the remaining data points calculate the similarity to the $k$ clusters.
+3. The data point is assigned to the most similar class.
+
+
+*Naive k-means clustering*
+k-means is a clustering algorithm.
+
+1. Assume the number of clusters $k_c$
+2. Initialize the value of the $k$ clusters centers / mean ($C_1$, $C_2$, ..., $C_{k_c}$)
+3. Assignment:
+   1. Find the *squared euclidean distance* between the centers and all the data points.
+   2. Assign each data point to the cluster of *the nearest center*
+4. Update: Each cluster now potentially has a new center.
+   1. New Centres ($C'_1, C'_2$, ..., $C'_3$) = Average of all the data points in the cluster.
+5. If some stopping criterions met, Done
+6. Else, go to Assignment / Step 3
+
+
+*Initialization*:
+- Run the algorithm multiple times with randomly chosen initial centers \rightarrow are the clusters stable?
+
+
+*Possible Stopping Criterions*:
+- When the centers don't changed (time-consuming)
+- The distance of data points from their centers <= threshold
+- Fixed number of iterations
+
+
+*Good Solution*
+In ML you execute the same algorithm multiple times with different staring parameters.
+With this approach you get a better view about the whole situation.
+Additional you can be sure that your parameters result in a good model.
+
+
+*Scale value*
+It is important that all data are in the same range.
+If not the extremes (min / max) may dominate the algorithm.
+
+
+*Cluster quality*
+/WCSS/
+For each cluster you calculate [[eqn:min]] try to minimize it.
+#+LABEL: eqn:min
+\begin{equation}
+\sum_{i=1}^n d(C_k, x)^2
+\end{equation}
+
+/Silhouette Score/
+- a :: average intra-cluster distance
+- b :: average inter-cluster distance
+\begin{equation}
+  \text{Silhouette Score of a point} = \frac{b-a}{\max(a,b)}
+\end{equation}
+
+Each point has multiple $a$ and $b$.
+For a data point $X$ the average distance to each other data point in the cluster is $a$.
+For a data point $X$ the average distance to each other data point in the other cluster is $b$.
+
+
+#+CAPTION: Elbow at 3 or 4
+[[file:img/elbow_method.png]]
+
+* Ensemble
+*Wisdom of Crowd*
+Suppose you have a very difficult question to answer.
+If you don't know the answer you can search for the best suited expert, who answers your question.
+But sometimes it is better to ask many random people and aggregate the answers.
+This might produce the better result.
+This is called the *Wisdom of Crowd*.
+
+*Ensemble*
+A group of predictors is called Ensemble.
+In ML you can aggregate several weak models.
+If you aggregate predictors of regressors or classifiers you might get a better predictor than the best predictor!
+This is a type of [[id:01339a6c-8829-4c5d-ae8e-8569bdb6917e][Wisdom of crowd]].
+
+*Enseble Learning*
+Ensemble Learning use different models.
+A model can be different in the following dimensions:
+- algorithms
+- hyperparameters
+- training data
+
+
+Different model predict a solution.
+And in a vote the final prediction is chosen.
+
+#+CAPTION: Ensemble Learning Example
+[[file:img/ensemble_learning_example.png]]
+
+
+*Hard / Soft Voting*
+Hard and soft voting are used to decide which prediction should be used in [[id:d79e7257-bdec-4d59-9ebe-16c0da577c23][Ensemble Learning]].
+- *Hard voting*: the prediction with the most votes is used
+- *Soft voting*: the prediction with the highest class probability
+
+
+*Bagging / Pasting*
+Sampling with replacement is called *Bagging* (Bootstrap Aggregating).
+Sampling without replacement is called *Pasting*.
+
+
+*No free luch theorem*
+#+begin_quote
+No free lunch theorem (informal): no single machine learning algorithm is universally the best-performing algorithm for all problems
+-- Marko Lehmann
+#+end_quote
+
+
+*Out-Of-Bag*
+In Bagging some data points may be used several times.
+Other data points may not be used at all.
+This not seen data are called *out-of-bag* (oob) data and can be used for evaluation.
+
+#+LATEX: \end{multicols}
