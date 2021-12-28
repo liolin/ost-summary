@@ -1,0 +1,501 @@
+% Created 2021-08-26 Thu 10:59
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt,twoside,landscape]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage[top=2cm,bottom=2cm,right=2cm,left=2cm,landscape]{geometry}
+\usepackage{multicol}
+\usepackage{enumitem}
+\setlist{noitemsep}
+\setlength{\parindent}{0pt}
+\setlength{\columnseprule}{0.2pt}
+\setcounter{secnumdepth}{0}
+\author{Olivier Lischer}
+\date{\today}
+\title{Web Engineering + Design 1}
+\hypersetup{
+ pdfauthor={Olivier Lischer},
+ pdftitle={Web Engineering + Design 1},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 27.2 (Org mode 9.4.6)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\begin{multicols}{4}
+\section*{Begriffe}
+\label{sec:org9824f5c}
+HTML (Hyper Text Markup Language) ist für die Semantic zuständing. CSS für das styling der Elemente und JS für das interaktive Verhalten der Website.
+
+\textbf{Web-Seite} ist ein einzelnes HTML-Dokument, eine \textbf{Web-Site} mehrer verlinkte Web-Seiten unter der selben Domain.
+
+\section*{HTML - Basics}
+\label{sec:orgb4bcfee}
+Parsing: Load HTML -> Parse HTML -> Generate DOM -> Display
+Encoding muss angegeben werden (\texttt{<meta charset ="UTF-8>}. \textbf{Void-Elemente} haben kein Content und kein End-Tag. Ein End-Slash ist erlaubt (\texttt{<tag attribute ="value"/h>}
+
+Im head-Element stehen Meta-Informatinen zur Website (charset, Language, Title, \ldots{}).
+
+\subsection*{Content Model}
+\label{sec:org73b6e07}
+Nicht alle Tags können beliebig in einander verschachtelt werden. Bei jedem Tag sind folgende Eigenschaften angegeben: \textbf{Permitted Content}, \textbf{Tag omission}, \textbf{Permitted parents}, \textbf{Permitted ARIA roles} und \textbf{DOM interface}.
+
+\textbf{Tag-Omission} gibt an, ob ein Tag (Start / End) vorhanden sein muss, weggelassen werden kann, oder nicht vorhanden sein darf (Void-Elemente). Es sollte dennoch alle erlaubten Start- und End-Tags gesetzt werden.
+
+\subsection*{Section}
+\label{sec:orgb482018}
+body, article, aside, nav und section können einen header, footer, h1 besitzten. Bei neuen Sections ist zwar ein neues h1 erlaubt, gilt aber nicht als best-practice (Screenreaders)
+
+\subsection*{Semantic}
+\label{sec:org6cedca4}
+Tags für die Semantic korrekt einsetzten
+\begin{itemize}
+\item main
+\item header
+\item footer
+\item nav
+\item figure
+\item figcaption
+\item article
+\item section
+\item aside
+\item details
+\end{itemize}
+
+\section*{JavaScript (JS)}
+\label{sec:org7a1f731}
+Offizieller Name \textbf{ECMAScript}. JS ist \textbf{dynamisch},  \textbf{dynamisch typisiert}, \textbf{funktional}, \textbf{objekt-orientiert}. Häufig wird keine Exception geworfen und ist meistens interpretiert. 
+
+Typen in JS:
+\begin{itemize}
+\item \textbf{Primitive Type}:
+\item string, number, boolean, null, undefined, symbol (ECMAScript 6)
+\item compared by value
+\item immer immutable
+
+\item \textbf{Objekte}:
+\item Plain Objects, Arrays, Regular Expresions, Functions
+\item compared by reference
+\item mutable by default
+\end{itemize}
+
+
+\textbf{Achtung}: \texttt{typeof(null)} gibt \texttt{'object'} zurück
+
+\subsection*{Falsy / Truthy}
+\label{sec:org3935f94}
+Als \texttt{false}-Werte werden folgende Werte interpretiert:
+\begin{itemize}
+\item false,
+\item 0
+\item "" (empty string)
+\item null
+\item undefined
+\item NaN
+\end{itemize}
+
+Der Rest wird als \texttt{true}  interpretiert.
+
+\subsection*{Number}
+\label{sec:org486a7af}
+Alle Zahlen sind \texttt{float}. Wenn möglich werden \texttt{float} als \texttt{integers} abgebildet. \texttt{NaN} (Not a Number)ist ein Error-Wert vom Typ \texttt{number}. Vergleich zwischen zwei \texttt{NaNs} ergibt immer \texttt{false}. Zur Überprüfung muss \texttt{isNaN()} verwendet werden. \texttt{Infinity} kann auch positiv und negativ sein. Jeder Wert kann in eine Zahl verwandelt werden, ausser \texttt{symbol}.
+\begin{verbatim}
++(true) == 1
+Number(true) == 1
+isNaN(Number('abc')) == true
+\end{verbatim}
+
+Die Funktionen \texttt{parseInt()} und \texttt{parseFloat} parsen bis zum ersten Fehler.
+
+
+\subsection*{String}
+\label{sec:org27c7926}
+Single und Double Quotes sind möglich. Seit ECMAScript 6 gibt es auch \textbf{Template Literals} / \textbf{Template Strings}. Ermöglicht Strings mit Plateholder. Werden durch Backticks (`) eingeleitet. Innerhalb von \texttt{\$\{...\}} wird JS ausgeführt.
+
+\subsection*{Operatoren}
+\label{sec:orgbeddc6c}
+Es gilt \textbf{Punkt vor Strich} und es wird von links nach rechts aufgelöst. \textbf{Achtung}: \texttt{String + Value = String} und \texttt{Value + String = String}.
+Mit dem \texttt{==} muss aufgepasst werden, da automatische Typumwandlungen statt finden. Um die Typumwandlung zu vermeiden sollte \texttt{===} verwendet werden.
+
+\subsection*{null != undefined}
+\label{sec:org1d65242}
+\textbf{undefined}: Variable ist nicht definiert oder wurde nicht initialisiert. \textbf{null} wird verwendet, wenn ein Objekt erwartet wird. Funktionen die undefined zurückgeben haben keinen Rückgabewert, Funktionen die null zurückgeben haben einen Rückgabe werde, aber nicht in diesem Fall. \textbf{Achtung:} \texttt{null =} undefined= ergibt \texttt{true}.
+
+\subsection*{array}
+\label{sec:org084a144}
+Zwei for-each-Loops für Arrays: \textbf{For-In} iteriert über die Propery Name und *For-Of*über die Werte:
+\begin{verbatim}
+for (const x in arr) {
+    console.log('for in', x + ':' + arr[x]);
+}
+
+for (const x of arr) {
+    console.log('for of', x);
+}
+\end{verbatim}
+Unterstützt ganzzahlige Nummern als Indexe, andere werden in String umgewandelt (verhält sich wie ein Objekt). Die Funktion \texttt{length} des Arrays beachtet aber nur die echten Array Einträgen. \textbf{Wichtig}: Arrays wie Arrays verwenden.
+
+\subsection*{Object}
+\label{sec:orgfeb8180}
+Object ist eine Sammlung von Properties. Properties und Methoden können hinzugefügt und verändert werden. Auch von Standard-Objekten, sollte aber nicht gemacht werden. Jedes Objekt ist eine HashTable (ausgenommen null, undefined). Es kann mittels \texttt{obj[PropertyName]} auf die Properties zugegriffen werden. Alle Index werden in String umgewandelt.
+
+\subsection*{Functions}
+\label{sec:orgbafc31d}
+Bei Funktionen können mehr oder weniger als geforderte Anzahl Parameter übergeben. Funktionen besitzen auch Properties. \texttt{name} der Funktion, \texttt{length} die Anzahl Parameter. Es können aber weiter Eigenschaften hinzugefügt werden. Funktionen können Funktionen zurückgeben. Alle Parameter werden in \texttt{arguments} abgelegt, sollte in Array umgewandelt werden (\texttt{Array.from(arguments);}). Mit \texttt{...name} kann der letzte Parameter der Funktion mit allen restlichen Werten gefüllt werden als (Array).
+JS kennt kein \textbf{Function Overloading}, die letzte Funktion mit selben Name überschreibt die Vorherigen. Interne Weiche oder default-Werte.
+
+\textbf{Arrow Funktionen} werden oft auch Lambda genannt. Sinnvoll für kleine Funktionen z.B. als Filter Parameter:
+\begin{verbatim}
+[1, 2, 3].map(x => x*x)
+\end{verbatim}
+Bei Arrow-Funktionen ist der Context immer auf das selbe Objekt gebunden.
+
+\subsection*{Scope}
+\label{sec:org7b4bbd2}
+Geltungsbereich, wo etwas gültig oder verfügbar ist. Globale variabel können im Browser über \texttt{window.myGlobalVariable} bzw. in Node über \texttt{global.myGlobalVariable} zugegriffen werden. Globale Variablen vermeiden, aufgrund von \textbf{Global Namespace Pollution} (zu viele Variablen / Funktionen => überschreiben sich gegenseitig). Lösung sind \hyperref[sec:orge2cc30a]{Module}. Script-Tags erzeugen kann neuen Scope.
+
+\subsection*{Context}
+\label{sec:org8b4c0b6}
+\texttt{this} ist der aktuelle Context. Je nach Aufrufart wird ein anders Objekt referenziert. Bei \texttt{object.foo()} wird \texttt{object} referenziert. Bei \emph{unbound} Funktionen zeigt \texttt{this} auf das globale Objekt. Mittels \texttt{apply()} oder \texttt{call()} kann der Context gesetzt werden. Die vorherigen Regel werden ignoriert. Z.B. \texttt{foo.call(\{ counter: 123\});}
+
+\subsection*{Strict Mode}
+\label{sec:org456f52a}
+Mittels \textbf{use strict} werden folgenden 
+\begin{itemize}
+\item Eliminiert \emph{fails slently}
+\item Probleme welche es dem Compiler verermöglicht den Code zu optimieren
+\item Security wird leicht verbessert
+\end{itemize}
+
+Strict Mode kann nicht mehr entfernt werden, wenn mal aktiviert, muss pro File aktiviert werden und Strict Mode JS sollte nicht mit Non Strict Mode JS zu einem JS file vereint werden. Sollte nach Möglichkeit immer genutzt werden.
+
+\subsection*{Klassen}
+\label{sec:org4d85918}
+Ähnlich wie in Java. Private wird mit dem Prefix \texttt{\#} ermöglicht. Es gibt getter und setter (\texttt{get time() \{...\} / set time()\{...\}}. JS unterstützt Vererbung (\texttt{class AlarmClock extends Clock \{...\}}). Mittels \texttt{instanceof} kann überprüft werden ob ein Objekt eine Instanz einer Klasse ist. Mittels \texttt{super} kann auf den Parent zugegriffen werden.
+
+Es gibt auch \textbf{Prototype} - \textbf{kein Prüfungsstoff}
+
+\subsection*{Module}
+\label{sec:orge2cc30a}
+Script-Tags erzeugen kein neuen Scope, Reihenfolge wie die Files eingebunden werden ist relevant. Um die Probleme zu umgehen können EcmaScript Module (ESM) eingesetzt werden. Werden im HTML wie folgt eingebunden:
+\begin{verbatim}
+<script src="main.js" defer type="module"></script>
+\end{verbatim}
+Mit \texttt{import ... from '...'} werden Funktionalität aus einem Modul importiert. Mittels \texttt{export} wird Funktionalität exportiert. Es gibt beim Import Named (\texttt{bar as b}) und Default. Sind immer im \emph{strict mode}
+
+\subsection*{Shim / Polyfill}
+\label{sec:org0702180}
+\textbf{A polyfill is a shim for a browser API}. Implementieren API's die noch nicht zur Verfügung stehen, fix JS Bugs in alten Browser, können entfernt werden, wenn nicht mehr notwendig.
+
+\subsection*{Symbol}
+\label{sec:org1e14fd1}
+A symbol is a unique and immutable data type and may be used as an identifier for object properteis
+
+\section*{CSS}
+\label{sec:org146f093}
+\subsection*{Selektor}
+\label{sec:org67392bd}
+\begin{itemize}
+\item \texttt{\#} ID
+\item \texttt{.} class
+\item Typen (tags)
+\item \texttt{*} Universal
+\item \texttt{tag[attribute]}
+\item \texttt{a::before} Pseudo-Element
+\item \texttt{a:hover} = Pseudo-Element
+\item \texttt{article.recent} Compound
+\item \texttt{.recent h1} decendant
+\item \texttt{>} child
+\item \texttt{+} next sibling
+\item \texttt{\textasciitilde{}} subsequent siblings
+\end{itemize}
+
+
+\subsection*{Attribut Selektoren}
+\label{sec:org732c309}
+Mit dem Attribut-Selektor kann man vergleiche Anstellen:
+\begin{itemize}
+\item \texttt{[a=v]}: ist gleich v
+\item \texttt{[a\textasciitilde{}=v]}: enthält v
+\item \texttt{[a|=v]}: beginnt mit v-
+\item \texttt{[a\textasciicircum{}=v]}: beginnt mit v
+\item \texttt{[a\$=v]}: endet mit v
+\item \texttt{[a*=v]}: v ist mindestens einmal enthalten
+\end{itemize}
+
+
+\subsection*{Pseudoelement}
+\label{sec:orga136a16}
+Pseudoelemente erlauben es, bestimmte Teile eines Elements zu formatieren.
+\begin{itemize}
+\item \texttt{::first-line}
+\item \texttt{::first-letter}
+\item \texttt{::before} (erstellt neues Element)
+\item \texttt{::after} (erstellt neues Element)
+\item \texttt{::selection}
+\end{itemize}
+
+
+\subsection*{Pseudoklassen}
+\label{sec:orge8eb865}
+Pseudklassen werden verwendet, um auf Basis von verschiedenen Zuständen oder Eigenschaften Elemente zu selektieren.
+\begin{itemize}
+\item dynamische Klassen: \texttt{:hover}, \texttt{:focus}, \texttt{:visited}, \ldots{}
+\item strukturelle Klassen: \texttt{:root}, \texttt{:first-child}, \texttt{:nth-child()}, \texttt{:empty}, \ldots{}
+\item andere: \texttt{:lang()}, \texttt{:not()}, \ldots{}
+\end{itemize}
+
+
+Bei den Pseudoklassen die mit \texttt{nth-} beginnen, starte der Index bei 1. Die Pseudoklasse \texttt{:not} darf keine Pseudoelemente und keine weiteres \texttt{:not} enthalten.
+
+
+\subsection*{Kombinatoren}
+\label{sec:orgbefb30e}
+\begin{itemize}
+\item \texttt{e > s}: Kindselektor
+\item \texttt{e s}: Nachfarenselektor
+\item \texttt{e + s}: Angrenzende Geschwister (Nachbar)
+\item \texttt{e \textasciitilde{} s}: Allgemeine Geschwister
+\end{itemize}
+
+
+\subsection*{Spezifität}
+\label{sec:org6836d57}
+Mit CSS können verschiedene gegensätzliche Anweisungen verwendet werden. Hier entscheidet die Spezifizität. Quellen nach Priorität:
+\begin{enumerate}
+\item Browser (mit Default Werten)
+\item Benutzer (Vom Nutzer des Browser)
+\item Autor (Stylesheets, welche mit der Webseite mitgeliefert werden.
+\end{enumerate}
+
+
+Um die Spezifität wird aus dem gesamten Selektor berechnet:
+\begin{enumerate}
+\item Drei Zähler (A, B, C) mit Startwert 0
+\item A++ für jeden Selektor von IDs (\#\ldots{})
+\item B++ für jeden Selektor von Klassen (. \ldots{}), sowie Pseudoklassen (: \ldots{}) und Attributen ([\ldots{}])
+\item C++ für jeden Selektor von Element-Typen sowie Pseudoelementen (:: \ldots{})
+\item Spzifität = \(A \cdot 100 + B \cdot 10 + C\)
+\end{enumerate}
+
+Der Universalselektor \texttt{*} wird ignoriert.
+
+Das Keyword \texttt{!important} kann ein Style als wichtig markieren. Sollte nie verwendet werden, wenn das CSS unter eigener Kontrolle ist.
+\section*{DOM}
+\label{sec:org1a28819}
+\textbf{Document Object Model (DOM)} repräsentiert HTML-Dokument als Busstruktur. Attribute Nodes sind zugreifbar mit \texttt{elementNode.getAttributeNode()} gelten aber nicht als Teil des DOM Trees.
+
+\subsection*{DOM suchen}
+\label{sec:org2ee09f2}
+\begin{itemize}
+\item \texttt{document.getElementById()}
+\item \texttt{document.getElemtsByName()}
+\item \texttt{<searchRoot>.getElementsByClassName()}
+\item \texttt{<searchRoot>.getElementsByTagName()}
+\item \texttt{<searchRoot>.querySelector()}
+\item \texttt{<searchRoot>.querySelectorAll()}
+\item \texttt{<searchRoot>.closets()}
+\item \texttt{<searchRoot>.matches()}
+\end{itemize}
+
+die \texttt{getElementsBy...} Funktionen geben eine \texttt{HTMLCollection} zurück (kein Array). Beim Anpassen des DOMs wird die Collection angepasst (Live-Queries, gefährlich). Es sollte daher die modernen Such-Funktionen verwendet werden. Diese erzeugen keine Live-Queries. Auch die neuen Funktionen geben \textbf{kein} Array zurück (umwandlung mittels \texttt{Array.from()} oder \texttt{[...nodeList]})
+
+\subsection*{DOM Navigation}
+\label{sec:orgb8a2b81}
+Node Interface hat Methoden zur Navigation in DOM (read-only!):
+\begin{itemize}
+\item \texttt{<node>.parentElement}
+\item \texttt{<node>.childNodes} (auch Text-Nods, Kommentare)
+\item \texttt{<node>.children} (nur HTMLElemente)
+\item \texttt{<node>.firstChild} (auch text-Nodes, Kommentare)
+\item \texttt{<node>.firstElementChild} (HTMLElemente)
+\item \texttt{<node>.nextSibling} (auch Text, Kommentare)
+\item \texttt{<node>.nextElementSibling} (Element)
+\end{itemize}
+
+\subsection*{DOM Manipulation}
+\label{sec:org952103d}
+Neues Element erstellen:
+\begin{itemize}
+\item \texttt{document.createElement()}
+\item \texttt{document.createTextNode()}
+\item \texttt{document.createDocumentFragment}
+\end{itemize}
+
+Empfohlen über \texttt{container.insertAdjacentHTML()}. Um CSS-Classen zu manipulieren sollten \texttt{<element>.classList} genutzt werden und nicht mehr \texttt{className}. Die Property Style sollte nicht genutzt werden. Besser ist das setzten einer CSS-Klasse.
+
+Bezüglich Performance sollte \textbf{nicht} innerHTML in einer Schleife verwendet werden (Einmalig OK).
+
+\subsection*{Attribute}
+\label{sec:org2f4de56}
+\begin{itemize}
+\item \texttt{setAttribute()}
+\item \texttt{removeAttribute()}
+\end{itemize}
+
+Wenn boolesche Attribute im HTML gesetzt werden sind sie true (auch \texttt{checked ="false"} ist true). Wenn das Attribute nicht vorhanden ist, ist es false.
+
+\subsection*{DOM Events}
+\label{sec:org80bb851}
+Um Events auf einem Element zu registrieren geht man wie folgt vor:
+\begin{verbatim}
+const element = document.querySelector('#myID');
+element.addEventListner('click', () => alert('1'));
+\end{verbatim}
+Möglich auch über \texttt{element.on...} oder im HTML inline. Mittels \texttt{addEventListener} sind mehrere Registrierungen möglich. Die \texttt{on...} Variante überschreibt die vorherige Zuweisung. Die Inline-Version ist geeignet für Prototypen / Prüfung / Generierten Code).
+
+Eine Event durchläuft 3. Phasen: 
+\begin{enumerate}
+\item \textbf{Capture-Phase}: vom Root zum Leaf (jedes Element kann reagieren)
+\item \textbf{Target-Phase}: Event wird auf dem \emph{Ziel} ausgelöst
+\item \textbf{Bubble Phase}: Das Event durchläuft den DOM von Leaf zum Root (nicht jedes Event)
+\end{enumerate}
+
+Bei den meisten Events werden Zusatzinformationen mit gegeben. Diese werden der Event-Callback-Funktion als Parmeter mitgegeben. Das Event-Object hat folgende wichtigen Properties / Methoden: 
+\begin{itemize}
+\item \texttt{target}: Element auf dem der Event ausgelöst wurde (z.B: l
+\item \texttt{preventDefault()}: verhindert Default-Aktionen.
+\item \texttt{currentTarget}
+\item \texttt{stopPropagation()}: Ermöglicht das deaktivieren von \emph{Bubbling} und \emph{Capturing}
+\end{itemize}
+
+\subsection*{DOM lifecycle}
+\label{sec:orgd6bcef9}
+DOM kennt drei unterschiedliche Zustände: 
+\begin{itemize}
+\item \textbf{loading}: Dokument wird geladen
+\item \textbf{interactive}: Dokument wurde geladen, gewisse Ressourcen fehlen noch (Bilder, Stylsheets, Frames)
+\item \textbf{complete}: Das Dokument und alle Ressourcen sind geladen (wird durch das Event \texttt{load} representiert)
+\end{itemize}
+
+Script tags können mit \texttt{defer} oder \texttt{async} markiert werden. \textbf{defer} Script Files sollen erst name dem Parsen vom Dokument ausgeführt werden. Reihenfolge der Files wird gewährleistet. Bei \textbf{async} werden die Script-Files asynchron geladen, die Reihenfolge der Files wird nicht gewährleistet.
+
+\subsection*{Data-* Attribute}
+\label{sec:orgb2ab0a2}
+HTML Elemente habe fest definierte Attribute. Eigenen Attribute müssen mit dem Prefix \texttt{data} beginnen. Diese Attribute könne benutzt werden um Daten zwischen HTML und JS auszutauschen. Die Werte werden als \emph{Dictionary} im Property \texttt{dataset} abgelegt. Im HTML wird kebab-case verwendet. Im Dictionary wird es als camelCase verwendet (\texttt{data-factory-id => dataSet.factoryId})
+
+\section*{Clean Code}
+\label{sec:org6d5d41f}
+Clean Code meint sauberen, gut wartbaren und gut lesbaren Code. Clean Code sollte immer das Ziel sein. Um dieses Ziel zu erreichen sollten Linter zum Einsatz kommen, welche Style-Regeln aufzwingen sollen. 
+Wichtige Punkte für Clean Code:
+\begin{itemize}
+\item Names: Descripitive Names, Use Standard Nomeclature Where Possible
+\item Functions: Too Many Arguments, Output Arguments, Flag Arguments => Split, any dead code
+\item Comments: Obsolet Comment, Commented-Out Code
+\item General: Use Explanatory Varaibles, Follow Standard Conventions, Replace Magic Number with Named Constats
+\end{itemize}
+
+\subsection*{Clean DOM - MVC}
+\label{sec:org53a2fae}
+\textbf{Model-View-Controller (MVC)} ist eine GUI Architektur. Das \textbf{Model} speichert den Status der App (User Data, UI State) und die Busniness Logic. Das Model hat keine Referenzen auf den DOM. Die \textbf{View} ist für die Darstellung zuständig. Der \textbf{Controller} verarbeitet User Input und wechselt die View (Routing).
+
+\subsection*{async JS}
+\label{sec:orgd37fbee}
+Async JS ist JavaScript, dass in Callbacks ausgeführt wird. (\href{https://youtu.be/cCOL7MC4Pl0?t=411}{Jake Archibald: In The Loop - JSConf.Asia - YouTube}). Event Handler, Timer Callbacks (setTimout), Network Callbacks (fetch) und async Functions, Promise, await sind async. Es sollten keine DOM Updates im Main-Thread gemacht werden (blocking)
+
+
+\section*{HTTP}
+\label{sec:org8dd472d}
+URL: Anchor / Frament identifyer wird nicht an den Server geschickt. Für das URL encoding sollten \texttt{encdeURI} und \texttt{encodeURIComponent}
+
+
+\subsection*{Promise}
+\label{sec:orgd593752}
+Wichtige Zustände:
+\begin{itemize}
+\item \textbf{pending}: Async-Operation aktiv
+\item \textbf{fullfilled}: Async-Operation erfolgreich beendet, Wert verfügbar
+\item \textbf{rejected}: Async-Operation erfolgreich beendet, Fehler-Detail verfügbar
+\end{itemize}
+
+Funktionen mit Promises \texttt{.then()}, \texttt{.cancel()}, \texttt{await}, \texttt{try-catch}.
+
+\subsection*{Fetch}
+\label{sec:orge04d172}
+\begin{verbatim}
+fetch(url)
+    .then(response => {
+	console.log(response);
+	return response.text();
+    })
+    .then(text => console.log(text));
+\end{verbatim}
+
+\begin{verbatim}
+const response = fetch(url);
+console.log(response);
+const responseText = response.text();
+console.log(responseText);
+\end{verbatim}
+
+\texttt{.catch()} kann am Schluss angehängt werden und es fängt alle vorherigen Erros auf. Alternative kann mit \texttt{try-catch} gearbeitet werden.
+
+Um eine POST Request zu erstellen, müssen die Optionen als Objekt an \texttt{fetch} übergeben werden.
+\begin{verbatim}
+const fetchOptions = {
+    "method": "POST",
+    "header": {
+	"accept": "application/json",
+	"content-type": "application/json"
+    },
+    "body": JSON.stringify(song)
+}
+const response = await fetch(url, fetchOptions);
+\end{verbatim}
+
+\section*{Node}
+\label{sec:orgda3e902}
+\subsection*{Webserver}
+\label{sec:org02df8a2}
+Um mit Node einen Webserver zu programmieren muss das Modul \texttt{http} importiert werden.
+
+\begin{verbatim}
+import http from 'http';
+
+const PORT = 8080;
+
+function requestHandler(req, res) {
+    res.write('<h1>Hello ');
+    res.end('World</h1>');
+}
+
+const server = http.createServer();
+server.on('request', requestHandler);
+
+server.listen(PORT,
+	() => console.log('Node listening on Port ', PORT));
+\end{verbatim}
+
+\begin{verbatim}
+const parsedURL = new URL(req.url, `http://${req.headers.host}`);
+\end{verbatim}
+
+\textbf{Do not implement your own file server!} Benutzt ein Package, z.B. node-static.
+
+
+\subsection*{SOP / CORS}
+\label{sec:org4a37bac}
+\textbf{Same Origin Policy (SOP)}: Nur Seiten dürfen sich verbinden, die auch von diesem Server geservt wurde. \textbf{Cross Origin Resource Sharing (CORS)} wenn ein Server auch von anderen Origins kontaktiert wird, muss der Server im Header der Response das Feld \texttt{Access-Control-Allow-Origin} auf die Origin des Browser bzw. auf \texttt{*} setzten.
+
+
+\section*{REST}
+\label{sec:org75ea070}
+\textbf{Representational State Transfer (REST)}
+Levels of REST: Level 0 - The Swamp of POX, Level 1 - Resources, Level 2 - HTTP Verbs, Level 3 - Hypermedia Controls
+
+\section*{End}
+\label{sec:orgd00eec7}
+\end{multicols}
+\end{document}

@@ -1,0 +1,635 @@
+#+title: Automaten und Sprachen
+#+EMAIL: olivier.lischer@ost.ch
+#+OPTIONS: toc:2 num:2
+#+LATEX_CLASS: article
+#+LATEX_CLASS_OPTIONS: [11pt,twoside,landscape]
+#+LATEX_HEADER: \usepackage[top=2cm,bottom=2cm,right=2cm,left=2cm,landscape]{geometry}
+#+LATEX_HEADER: \usepackage{multicol}
+#+LATEX_HEADER: \usepackage{enumitem}
+#+LATEX_HEADER: \usepackage[hidelinks]{hyperref}
+#+LATEX_HEADER: \setlist{noitemsep}
+#+LATEX_HEADER: \setlength{\parindent}{0pt}
+#+LATEX_HEADER: \setlength{\columnseprule}{0.2pt}
+
+#+LATEX: \begin{multicols}{3}
+* Week 1                                                              :empty:
+** Basics
+Das folgende ist *kein* Graph, weil jede Kante brauch einen Anfangs- und Endknoten.
+#+begin_src dot :file img/no_graph.png 
+  graph {
+      rankdir=LR;
+      a -- b;
+      a -- a;
+    }
+#+end_src
+
+#+RESULTS:
+[[file:/img/no_graph.png]]
+
+Dies ist allerdings ein Graph (Ein Anfangskonten und Endknoten definiert durch die Pfeile).
+#+begin_src dot :file img/graph.png 
+  digraph {
+      rankdir=LR;
+      a -> b;
+      a -> a;
+    }
+#+end_src
+
+#+RESULTS:
+[[file:/img/graph.png]]
+
+** Sprache
+- Alphabet: normalerweise griechische Buchstaben ($\Sigma$)
+- Die Menge aller Wörter: $\Sigma^*$
+- Das leere Wort: $\epsilon$
+- Die Sprache ist eine Teilmenge aller Wörter: $L \subset \Sigma^*$
+
+* Week 2
+** DEA (Deterministische endliche Automaten)
+*** Definition
+1. $Q$ endliche Menge von Zuständen
+2. $\Sigma$ endliche Menge, das Alphabet
+3. $\delta: Q \times \Sigma \to Q$ Übergangsfunktion
+4. $q_0 \in Q$ Startzustand
+5. $F \subset Q$ Menge der Akzeptiertzustände
+
+   Von jedem Zustand, muss es für jedes Zeichen genau einen Übergang geben. Es ist also zu jeder Zeit klar, wo der Automat genau ist.
+*** Beispiel
+| q  | a | $\delta(q,a)$ |
+|----+---+---------------|
+| q0 | 0 | q0            |
+| q0 | 1 | q1            |
+| q1 | 0 | q0            |
+| q1 | 1 | q1            |
+
+#+begin_src dot :file img/even_binary_dea.png 
+  digraph {
+      rankdir=LR;
+      q0 -> q0 [label=0];
+      q0 -> q1 [label=1];
+      q1 -> q0 [label=0];
+      q1 -> q1 [label=1];
+    }
+#+end_src
+
+#+RESULTS:
+[[file:img/even_binary_dea.png]]
+
+*** Myhill-Nerode
+#+begin_quote
+Ist L eine requläre Sprache, dann wird L von dem endliche Automaten $A = (Q,\Sigma,\delta,q_0,F)$ akzeptiert mit
+#+end_quote
+\begin{align*}
+Q = \{L(w) | w \in \Sigma^*\} \\
+q_0 = L \\
+F = \{q \in Q | \epsilon \in q\} \\
+\delta = Q \times \Sigma \to Q : (L(w),a) \mapsto L(wa) 
+\end{align*}
+
+Dieser Satz kann benutz werden, um zu entscheiden ob eine Sprache regulär ist: Wenn $\{L(w) | w \in \Sigma^*\}$ endlich ist, ist die Sprache regulär. Als Beispiel ist die Sprache $\{0^n1^n | n \in \mathbb{N}\}$ über $\Sigma = \{0,1\}$ nicht regulär, da man unendliche viele Zustände benötigt. Eine DEA hat *kein* Gedächnis.
+*** Minimaler Automat
+Automaten können reduziert werden zu einem minimalen Automaten. Wenn zwei verschiedene DEAs auf den selben minimalen DEA reduziert werden können, akzeptieren die beiden Automaten die selbe Sprache. Der minimale Automat kann mit dem Kreuzchen Algorithmus konstruiert werden.
+* Week 3
+- Nicht deterministische endliche Automaten
+  - "Könnte"-Automat
+  - Transformation NEA -> DEA
+
+- Mengenoperationen
+  - Vereinigung
+  - Durchschnitt (Produktautomat)
+  - Differenz
+
+** Pumping Lema - Reguläre Sprachen
+Mit dem Pumping Lema kann erkennt werden, ob eine Sprache nicht regulär ist. Wenn das Wort lange genug ist (Puming Length N), dann kann das Wort in drei Teile (x, y, z) aufgeteilt werden:
+1. $|y| > 0$
+2. $|xy| \leq \mathbb{N}$
+3. $xy^kz \in L  \forall \geq 0$
+
+*** Beispiel
+Beweise dass $L = \{0^n1^n | n \in \mathbb{N}\}$ nicht regulär ist.
+
+1. Annahme $L$ sei regulär
+2. Da regulär und lange genug, gibt es eine Pumping Length N
+3. Bilde ein Wort mit der Länge N (z.B. 0^{N}1^{N})
+4. Teile das Wort in xyz auf mit, $|xy| \leq N, |y| \geq 1$
+5. Wortteil y aufpumpen
+6. Widerspruch: Wort nicht mehr in Sprache
+
+#+begin_src ditaa :file img/pumping_lema.png :cmdline -E 
+  0                 N                 2N
+  +-----------------+-----------------+
+  | 0...          0 | 1...          1 |
+  +-----------------+-----------------+
+
+  +--------+--------+-----------------+
+  | c9E9 x | cE99 y | c99E z          |
+  +--------+--------+-----------------+
+
+  +--------+--------+--------+-----------------+
+  | c9E9 x | cE99 y | cE99 y | c99E z          |
+  +--------+--------+--------+-----------------+
+#+end_src
+
+** NEA (Nicht deterministische endliche Automaten
+NEAs unterscheiden sich von [[*DEA (Deterministische endliche Automaten)][DEAs]] nur geringfügig. Bei einem NEA ist es nicht notwendig, für jedes Zeichen einen Übergang zu haben. Zusätzlich können für das selbe Zeichen auch mehrere Übergänge existieren. Neben den bekannten Übergängen existieren im NEA auch \epsilon-Übergänge. Diese Übergänge können zu jeder Zeit, ohne ein Inputzeichen zu verwenden, benutzt werden.
+
+NEAs können aber nicht mehr Sprachen erkennen als die DEAs. Sie sind daher gleichwertig.
+
+Als Beispiel einen NEA, welcher Wörter erkennt, welche mit 2 b enden.
+#+begin_src dot :file img/nea_example.png 
+  digraph {
+      rankdir=LR;
+      q0 -> q1 [label=a];
+      q1 -> q1 [label="a,b"];
+      q1 -> q2 [label=b];
+      q2 -> q3 [label=b];
+    }
+#+end_src
+
+#+RESULTS:
+[[file:img/nea_example.png]]
+
+** Thompson-NEA (Könnte-Automat)
+Bei diesem NEA wird sich immer gemerkt, in welchem Zustand der Automat sein könnte.
+
+** Transformation von NEA zu DEA
+Bei der Transformaiton von einem NEA zu einem DEA geht es darum, die \epsilon-Übergänge und die Mehrfachübergänge zu eliminieren. Das erreicht man, in dem der DEA Buch führt, in welchen Zuständen der NEA sein könnte. Das wird realisiert, in dem die Zustände des DEA die möglichen Zuständen des NEAs repräsentieren. Die Zustände $Q$ des DEA ist die Potzenmenge der Menge $Q$ des NEAs.
+
+*** Beispiel
+Folgender NEA soll in einen DEA überführt werden:
+#+begin_src dot :file img/nea_example_2.png 
+  digraph {
+      q0 [shape=doublecircle]
+      q0 -> q1 [label=b];
+      q1 -> q1 [label=a];
+      q1 -> q2 [label="a,b"];
+      q2 -> q0 [label=a];
+    }
+#+end_src
+
+#+RESULTS:
+[[file:img/nea_example_2.png]]
+
+Dafür müssen die Potzenmenge der Zustände des NEAs gebildet werden:
+- q_000 = {}
+- q_001 = {q_0}
+- q_010 = {q_1}
+- q_100 = {q_2}
+- q_110 = {q_2,q_1}
+- q_101 = {q_2,q_0}
+- q_011 = {q_1,q_0}
+- q_111 = {q_2,q_1,q_0}
+
+
+Akzeptiertzustände sind alle welche den Status q_0 beinhalten => F = {q_001, q_101, q_011, q_111}. Startzustand ist q_001. Nun kann das Zustandsdiagramm gezeichnet werden:  
+
+#+begin_src dot :file img/transformed_nea_example_2.png 
+  digraph {
+      rankdir=LR
+	 size="8,5"
+      node [shape = circle];
+      q001 [shape=doublecircle]
+      q110
+      q000
+      q010 
+      q101 [shape=doublecircle]
+      q111 [shape=doublecircle]
+      q100
+      q011 [shape=doublecircle]
+  
+      q001 -> q000 [label=a]
+      q001 -> q010 [label=b]
+      q000 -> q000 [label="a,b"]
+      q010 -> q100 [label=b]
+      q010 -> q110 [label=a]
+      q100 -> q000 [label=b]
+      q100 -> q001 [label=a]
+      q110 -> q100 [label=b]
+      q110 -> q111 [label=a]
+      q101 -> q001 [label=a]
+      q101 -> q010 [label=b]
+      q011 -> q110 [label="a,b"]
+      q111 -> q110 [label=b]
+      q111 -> q111 [label=a]
+    }
+#+end_src
+
+#+RESULTS:
+[[file:img/transformed_nea_example_2.png]]
+
+Im Bild ist ersichtlich, dass die Zustände q_101 und q_011 nie erreicht werden können und somit weggelassen werden können.
+
+** Mengenoperationen
+Sprachen sind Menge von Wörter. Folglich sind auch deren Vereinigung, Durchschnitt, Differenz etc. auch Sprachen. Wenn die Sprachen reguläre sind, ist auch dessen Vereinigung etc. Dies lässt sich mit einem NEA einfach beweisen.
+
+#+CAPTION: Vereinigung zweicher Regulären Sprachen
+[[file:img/regulary_lang_cup.png]]
+
+Um die Schnittmenge zu bilden wird ein *kartesischer Produktautomat* benötigt.
+
+#+begin_src dot :file img/even_zero_dea.png 
+  digraph {
+      rankdir=LR
+	size="8,5"
+      node [shape = circle];
+      q0 [shape=doublecircle]
+      q0 -> q1 [label=0];
+      q0 -> q0 [label=1];
+      q1 -> q0 [label=0];
+      q1 -> q1 [label=1];
+    }
+#+end_src
+
+#+RESULTS:
+[[file:img/even_zero_dea.png]]
+
+#+begin_src dot :file img/divide_by_3_dea.png 
+  digraph {
+      rankdir=LR
+        size="8,5"
+      node [shape = circle];
+      q0 [shape=doublecircle]
+      q0 -> q1 [label=1];
+      q0 -> q0 [label=0];
+      q1 -> q0 [label=1];
+      q1 -> q2 [label=0];
+      q2 -> q1 [label=0];
+      q2 -> q2 [label=1];
+    }
+#+end_src
+
+#+CAPTION: Kartesischer Produktautomat
+[[file:img/kartesischer_automata.png]]
+* Week 4
+- Reguläre Operationen
+  - Alternative
+  - Verkettung
+  - *-Operation
+- Umwandlung DEA <-> regulärer Ausdruck
+- Reguläre Ausdrücke in der Praxis
+  - Scanner-Generator flex
+  - Performance von Regex-Engines
+
+
+** TODO Reguläre Ausdrücke (Regex)
+Reguläre Ausdrücke sind eigentlich nichts anderes als eine kompakte Schreibweise für NEAs (folglich auch für DEAs).
+| Ausdruck           | Bedeutung                                  |
+|--------------------+--------------------------------------------|
+| a                  | das Zeichen $a \in \Sigma$                 |
+| .                  | beliebiges Zeichen aus $\Sigma$            |
+| aei                | ein Zeichen aus ${a, e, i} \subset \Sigma$ |
+| a-z                | für kleine Buchstaben von a-z              |
+| $\epsilon$         | steht für das leere Wort                   |
+| $\emptyset$        | steht für die leere Sprach                 |
+| $r_{1}\vert r_{2}$ | Alternative                                |
+| r*                 | Mehrfaches vorkommen von r                 |
+| r+                 | Mindestens einmal r                        |
+| r?                 | 0 oder 1 mal r                             |
+
+
+** DEAs in Regex umwandeln
+Jeder DEA kann mit Regex vereinfacht werden. Folgendes Vorgehen:
+1. Neuer Akzeptiertzustand (q_accept), alle andere werden zu normalen Zuständen degradiert und mit q_accept verbunden
+2. Neuer Startzustand (q_start), andere werden zu normalen Zuständen degradiert und mit q_start verbunden
+3. Nach und nach alle Verbindungen raus nehmen und durch Regex reduzieren bis nur noch q_start -> q_accept vorig ist
+
+* Week 5
+- Kapitel 4: Stackautomaten und kontextfreie Sprachen
+  - Kontextfreie Grammatiken
+  - Kontextfreie Sprachen
+  - Beispiele
+  - Reguläre Operationen für kontextfreie Grammatiken
+  - Chomsky Normalform
+
+
+** Kontextfreie Sprachen
+Eine kontextfreie Grammatik besteht aus:
+- endliche Mengen von Variablen
+- endliche Menge von Zeichen (Terminalsymbole)
+- eine Menge von Regel
+- Eine Startvariabel
+
+
+Kontextfrei bedeutet in diesem Fall, dass es auf der linken Seite der Regel immer nur eine Variabel gibt.
+Kontextsensitive Regel:
+$$
+aA \rightarrow AA, bA \rightarrow BB
+$$
+Kontextfrei Regel:
+$$
+A \rightarrow AA
+$$
+
+Durch anwenden der Grammatik bis keine Variabel mehr übrigbleibt erzeugt eine *Kontextfreie Sprache*. Reguläre Sprachen sind eine Untermenge von kontextfreien Sprachen
+
+
+** Chomsky Normalform
+Um zwei Grammatiken vergleichen zu können braucht es eine Normalform. Diese ist die Chomsky Normalform. Um in diese Form zu gelangen geht man wie folgt vor:
+1. Die Startvariabel darf rechts nicht vorkommen. Notfalls eine neue Startvariabel S_0 erstellen mit der Regel $S_0 \rightarrow S$
+2. Alle $\epsilon$ Regel entfernen. Die einzige Ausnahme ist $S_0 \rightarrow \epsilon$
+3. Entfernen von /unit rules/: Regeln mit einer einzelnen Variabel auf der rechten Seite ($A \rightarrow B$)
+4. Verkettungen auflössen: $A \rightarrow u_1A_1$. u_1 wird durch U_1 ersetzte und $U_1 \rightarrow u_1$
+
+* Week 6
+- deterministischer Parse Algorithmus (Cocke-Younger-Kasami)
+- Stackautomaten
+  - Beispiel zur Motivation: 0^{n}1^{n}| n \geq 0
+  - Formale Definition
+  - Stackautomat als gerichterer beschrifteter Graph
+  - Stackautomat einer kontextfreien Grammatik
+- Anwendung: Parser-Generator Bison
+
+
+** Cocke-Younger-Kasami
+Um zu überprüfen, ob eine Wort zu einer kontextfreien Sprache gehört gibt es den *Cocke-Younger-Kasami*-Algorithmus. Dieser geht für das ganze Wort durch die Chomsky Normalform. Wenn es akzeptiert wird gehört es zu der Sprache ansonsten nicht.
+
+** Stackautomaten
+Stackautomaten sind DEAs welche mit einem Speicher, einem Stack, ausgestattet sind. So kann die 0 auf den Stack gespeichert werden bei der Sprache ${0^n1^n | n \in \mathbb{N}}$. Wenn der Stack am ende leer ist, wird das Wort akzeptiert. Bei Stackautomaten gibt es noch ein zusätzliches Alphabet, das Stack-Alphabet. Dieses wird verwendet um Symbole auf den Stack zu schreiben, bzw. von dort lesen.
+
+Folgender Stackautomat, geht vom Zustand p nach q über, wenn ein a verarbeitet wird und gleichzeitig das Element c durch ein b ersetzt werden kann.
+#+begin_src dot :file img/even_zero_dea.png 
+  digraph {
+      rankdir=LR
+	size="8,5"
+      node [shape = circle];
+      p -> q [label="a,b -> c"];
+    }
+#+end_src
+
+#+RESULTS:
+[[file:img/even_zero_dea.png]]
+
+* Week 7
+- Pumping Lemma für kontextfreie Sprachen
+- Beispiel: { a^{n}b^{n}c^{n} | n \geq 0 }
+- kontextfreie Grammatik eines Stackautomaten
+
+** Pumping Lemma für kontextfreie Sprachen
+Ähnliche wie bei Regulären Sprachen gibt es auch ein Pumping Lemma für kontextfreie Sprachen.
+
+#+begin_src ditaa :file img/pumping_lema_cfg.png :cmdline -E 
+  0                      N                      2N                     3N
+  +----------------------+----------------------+----------------------+
+  | a...               a | b...               b | c...               c |
+  +----------------------+----------------------+----------------------+
+
+  +--------+--------+--------+---------+-------------------------------+
+  | c99E u | cE99 v | c9E9 x | cE99  y | c99E z                        |
+  +--------+--------+--------+---------+-------------------------------+
+
+  +--------+------------+--------+-------------+------------------------------+
+  | c99E u | cE99     v | c9E9 x | cE99      y | c99E z                       |
+  +--------+------------+--------+-------------+------------------------------+
+#+end_src
+
+#+RESULTS:
+[[file:img/pumping_lema_cfg.png]]
+
+1. Annahme: L ist kontextfrei
+2. Es gibt eine Pumping Length N
+3. Wort: w = a^{N}b^{N}c^{N}
+4. Wort in u, v, x, y, z zerlegen
+   $|vy| > 0$, $|vxy| \leq N$, $uv^kxy^kz \in L \forall k \in \mathbb{N}$
+5. v und y aufpumpen
+6. Widerspruch: L nicht kontextfrei
+   
+* Week 8
+- Kapitel 5: Turing Maschinen
+  - Definition Turing Maschine, erkannte Sprache
+  - Zustandsdiagramm
+  - Varianten (Bandalphabet, Anzahl Spuren, Anzahl Schreib-/Leseköpfe)
+  - Aufzähler
+  - Nicht deterministische Turingmaschinen
+
+#+begin_quote
+Jede nichtdeterministische Turingmaschine ist äquivalent zu einer deterministischen
+Turingmaschine.
+#+end_quote 
+
+* Week 9
+- Abzählbar unendlich und überabzählbar unendlich
+- Die meisten Zahlen sind nicht berechenbar
+- Das 10. Hilbertsche Problem
+
+- Kapitel: 6 Entscheidbarkeit
+  - Akzeptanzprobleme für reguläre Sprachen
+  - Leerheitsproblem für reguläre Sprachen
+  - Gleichheitsproblem für reguläre Sprachen
+  - Akzeptanzproblem für kontextfreie Sprachen
+  - Leerheitsproblem für kontextfreie Sprachen
+  - Gleichheitsproblem für kontextfreie Sprachen
+
+- Entscheidbarkeitsprobleme für kontextfreie Sprachen
+  - Akzeptanzproblem für kontextfreie Sprachen
+  - Leerheitsproblem für kontextfreie Sprachen
+  - Gleichheitsproblem für kontextfreie Sprachen
+
+- Halteproblem
+  - Akzeptanzproblem für Turing Maschinen Reduktion
+  - Allgemeines Halteproblem
+  - Leerheitsproblem für TM
+- Reduktion
+- Satz von Rice
+
+
+** Satz von Rice
+#+begin_quote
+Sei P eine nicht triviale Eigenschaft von Turing-erkennbaren Sprachen, dann
+ist P nicht entscheidbar
+#+end_quote
+Nicht trivial meint, dass gewisse Sprachen die Eigenschaft haben und andere nicht.
+
+* Week 10
+- Kapitel 7: Komplexitätstheorie
+- Laufzeitkomplexität
+  - Definition der Laufzeit
+  - Laufzeit für Varianten von Turingmaschinen
+
+- Komplexitätsklassen P und NP
+  - Beispiele von Sprachen in P
+  - Verifizierer
+  - Polynomielle Reduktion
+
+
+** Verifizierer
+Wenn eine nichtdeterministische Turing Maschine ein Problem in polynomieller Zeit lösen kann, gibt es einen polynomieller Verifizieren. Ein polynomieller Verifizierer ist eine deterministische Turing Maschine, welche mit Hilfe eines Worts c (das Lösungszertifikat) überprüfen kann, ob das Wort w zu einer Sprache L gehört. Es gilt auch, wenn es einen Polynomieller Verifizierer gibt, dass eine nichtdeterministische TM in polynomieller Zeit entscheided.
+
+Bsp: Eine nichtdetermistische Turing Maschine kann in polynomieller ein Sudoku lösen. Wenn man dem Verifiziere nun die Lösung des Sudokus gibt (die fehlenden Zahlen und deren Position), kann dieser in polynomieller Zeit die Lösung überprüfen / nachvollziehen.
+
+*** Vorgehen
+1. Ist das Problem Entscheidbar? Ja $\rightarrow$ Verifizierer konstruieren, Nein $\rightarrow$ fertig
+2. Was ist das Lösungszertifikat?
+3. Wie ist der Verifikationsalgorithmus?
+4. Was ist die Laufzeit des Algorithmsu?
+5. Schlussfolgerung
+** Klasse P
+#+begin_quote
+Die Klasse P besteht aus den Sprachen, die mit einem Entscheider mit polyno-
+mieller Laufzeit entschieden werden können.
+#+end_quote
+
+** Klasse NP
+#+begin_quote
+Die Klasse der von einer nichtdeterministischen Turingmaschine in polynomi-
+eller Zeit entscheidbaren Sprachen heisst NP.
+#+end_quote
+** NP-Vollständig
+NP-Vollständige Probleme sind die schwierigsten Probleme in NP. NP-Vollständige Probleme sind untereinander alle gleich schwierig zu lösen.
+1. $B \in NP$
+2. $A \leq_p B \, \text{für alle} \, A \in NP$
+
+[[file:img/p_np_np_vollstaendig.png]] 
+
+** Polynomielle Reduktion
+Die Polynomielle Reduktion ist die Idee, ein gegebenes Problem auf ein bekanntes Problem zu reduzieren.
+Bsp: Stundenplan- und k-VERTEX-COLORING-Problem. Bei k-VERTEX-COLORING-Problem möchte man einen Graphen, mit k verschiedenen Farben so einfärben, dass kein Vertex die selbe Farbe hat, wie die Nachbarn. Die Reduktion vom Stundenplan auf k-VERTEX-COLORING sieht wie folgt aus:
+
+- S -> k-VERTEX-COLORING
+- Fach -> Vertex
+- Zeitfenster -> Farbe
+- Anzahl Zeitfenster -> k
+- Student / Anmeldung -> Kante
+
+Somit gilt: $S \leq_p k-VERTEX-COLORING$
+
+* Week 11
+- SAT: Satz von Cook-Levin
+- Weitere Beispiele: 3SAT, k-CLIQUE, HAMPATH, SUBSET-SUM
+
+
+** Satz von Cook-Levin
+#+begin_quote
+SAT ist NP-vollständig.
+#+end_quote
+
+* Week 12                                                             :empty:
+- Katalog von Karp
+- Minesweeper
+
+* Week 13
+- Kapitel 8: Turing-Vollständigkeit
+  - Definition
+  - Universelle Turing-Maschine
+  - LOOP
+
+#+begin_quote
+Eine Programmiersprache heisst Turing-vollständig, wenn sich jede berechenbare Abbildung in dieser Sprache formulieren lässt. Zu jeder berechenbare Abbildung $f: \sigma^*  \rightarrow \sigma^*$ gibt es also ein Programm w so, dass c(w) die Funktion f berechnet.
+#+end_quote
+
+** LOOP
+LOOP ist nicht Turing-Vollständig. Folgendes Listening wird x mal ausgeführt. LOOP liest 1x mal den Wert von x und führt die Operation P x-mal aus $\implies$ terminiert immer. Es gibt aber Turing-Maschinen die nicht terminieren.
+#+begin_example
+LOOP x DO P END
+#+end_example
+
+** WHILE
+Ähnlich wie LOOP. LOOP kann wie folgt durch WHILE gebildet werden:
+#+begin_example
+LOOP x DO P END
+
+y := x
+WHILE y > 0 DO P; y:= y -1 END
+#+end_example
+
+** GOTO
+#+begin_quote
+GOTO und WHILE sind äquivalent.
+#+end_quote
+
+
+#+LATEX: \end{multicols}
+#+LATEX: \newpage
+#+LATEX: \begin{multicols}{2}
+* Katalog von Karp
+*** SAT
+Eine logische Formel welche wahr werden muss.
+*** CLIQUE
+Eine k-Clique in einem Graphen ist ein vollständiger (vollvermascht) Untergraph mit k Ecken in einem gegebenen Graphen. Im Cliquen-Problem müssen in einem gegebenen Graphen k Ecken gefunden werden, so dass jede mögliche Verbindung zwischen den Ecken auch im Graphen G besteht.
+*** SET-PACKING:
+Gegeben eine Familie (S_i )_{i \in I} von Mengen und eine Zahl $k \in \mathbb{N}$. Gibt es eine k-elementige Teilfamilie $(S_i)_{i \in J}$ mit $J \subset I$, d.h $|J| = k$, derart, dass die Mengen der Teilfamlie paarweise diskjunkt sind, also
+$$
+S_i \cap S_j = \emptyset \quad \forall i, j \in J \, \text{mit} \, i \neq j
+$$
+
+*** VERTEX-COVER:
+Gegeben ein Graph G und eine Zahl k, gibt es eine Teilmenge von k Vertizes so, dass jede Kante des Graphen ein Ende in dieser Teilmenge hat?
+
+*** FEEDBACK-NODE-SET:
+Gegeben ein gerichteter Graph G und eine Zahl k, gibt es eine endliche Teilmenge von k Vertizes von G so, dass jeder Zyklus in G einen Vertex in der Teilmenge enthält?
+
+*** FEEDBACK-ARC-SET:
+Gegeben ein gerichteter Graph G und eine Zahl k, gibt es eine Teilmenge von k Kanten so, dass jeder Zyklus in G eine Kante aus der Teilmenge enthält?
+
+*** HAMPATH
+Ein Hamiltonscher Pfad in einem gerichteten Graphen ist ein Pfad, der jeden Vertex des Graphen genau einmal besucht.
+*** UHAMPATH
+Wie HAMPATH nur in einem ungerichteten Graphen. 
+*** SET-COVERING:
+Gegeben eine endliche Familie endlicher Mengen (S_j)_{1 \leq j \leq n} und eine Zahl k, gibt es eine Unterfamilie bestehend aus k Mengen, die die gleiche Vereinigung hat?
+
+*** BIP
+BIP ist “binary integer programming”, zu einer ganzzahligen Matrix C und einem ganzzahligen Vektor d ist ein binärer Vektor x zu finden mit Cx = d.
+*** 3SAT
+Wie SAT nur in dreier Gruppen.
+*** VERTEX-COLORING
+Man sagt, die Vertizes eines Graphen G können mit k Farben eingefärbt werden, wenn sich für jeden Vertex eine der k Farben wählen lässt, so dass nie zwei durch eine Kante verbundene Vertizes die gleiche Farbe bekommen.
+*** CLIQUE-COVER:
+Gegeben ein Graph G und eine positive Zahl k, gibt es k Cliquen so, dass jede Ecke in genau einer der Cliquen ist?
+
+*** EXACT-COVER:
+Gegeben eine Familie (S_j)_{1 \leq j \leq n} von Teilmengen einer Menge U, gibt es eine Unterfamilie von Mengen, die disjunkt sind, aber die gleiche Vereinigung haben? Die Unterfamilie (S_{ji})_{1 \leq i \leq m} muss also S_{ji} \cap S_{jk} = \emptyset und
+$$
+\bigcup^n_{j=1} S_j = \bigcup^m_{i=1} S_{ji}
+$$
+erfüllen.
+
+*** 3D-MATCHING:
+Sei T eine endliche Menge und U eine Menge von Tripeln aus $T: U \subset T \times T \times T$ . Gibt es eine Teilmenge $W \subset U$ so, dass |W| = |T | und keine zwei Elemente von W stimmen in irgendeiner Koordinate überein?
+
+*** HITTING-SET:
+Gegeben eine Menge von Teilmengen $S_i \subset S$ , gibt es eine Menge H, die jede Menge in genau einem Punkt trifft, also $|H \cap S_i | = 1 \, \forall i$?
+
+*** STEINER-TREE:
+Gegeben ein Graph G, eine Teilmenge R von Vertizes, und eine Gewichtsfunktion $w: E \rightarrow Z$ und eine postive Zahl k, gibt es einen Baum mit Gewicht \leq k, dessen Knoten in R enthalten sind? Das Gewicht des Baumes ist die Summe der Gewichte $w({u, v})$ über alle Kanten ${u, v}$ im Baum.
+
+*** SEQUENCING:
+Gegeben sei ein Vektor $(t_1 , \dots , t_p) \in \mathbb{Z}^p$ von Laufzeiten von p Jobs, ein Vektor von spätesten Ausführungszeiten $(d_1 , \dots , d_p) \in \mathbb{Z}^p$ , einem Strafenvektor $(s_1 , \dots, s_p) \in \mathbb{Z}^p$ und eine positive ganze Zahl k. Gibt es eine Permutation \pi der Zahlen $1, \dots, p$, so dass die Gesamtstrafe für verspätete Ausführung bei der Ausführung der Jobs in der Reihenfolge $\pi(1), \dots, \pi(p)$ nicht grösser ist als k? Formal lautet die Bedingung
+$$
+\sum_{j=1}^p \theta (t_{\pi(1)} + \cdots + t_{\pi(j)} - d_{\pi(j)})_S_\pi(j) \leq k
+$$
+darin ist ϑ die Stufenfunktion definiert durch
+$$
+\theta(x) = \begin{case}
+1 & \quad x \geq 0
+0 & \quad x < 0
+$$
+
+*** PARTITION:
+Gegeben eine Folge von s ganzen Zahlen $c_1 , c_2 , \dots, c_s$ , kann man die Indizes $1, 2, \dots , s$ in zwei Teilmengen $I$ und $\overline{I}$ teilen, so dass die Summe der zugehörigen c_i
+identisch ist:
+$$
+\sum_{i \in I} c_i = \sum_{i \notin I} c_i
+$$
+
+*** MAX-CUT:
+Gegeben ein Graph G mit einer Gewichtsfunktion $w : E \rightarrow Z$ und eine ganze Zahl W. Gibt es eine Teilmenge S der Vertizes, so dass das Gesamtgewicht der Kanten, die S mit seinem Komplement verbinden, mindestens so gross ist wie W:
+$$
+\sum_{\{u,v\}\in E\wedge u\in S\wedge v\not\in S} w(\{u,v\})\ge W
+$$
+
+*** SUBSET-SUM
+Das Problem SUBSET-SUM ist auch bekannt als das Rucksack-Problem. Gegeben ist eine Menge S von ganzen Zahlen, kann man darin eine Teilmenge finden, die als Summe einen bestimmten Wert t hat? Als Sprache formuliert:
+$$
+\text{\textsl{SUBSET-SUM}}
+=\left\{
+\langle S,t\rangle\,\left|\,
+\begin{minipage}{3truein}
+$S$ eine Liste von ganzen Zahlen, in der es eine Teilliste
+$T\subset S$ gibt mit
+\[
+\sum_{x\in T}x=t.
+\]
+\end{minipage}\right.
+\right\}
+$$
+#+LATEX: \end{multicols}

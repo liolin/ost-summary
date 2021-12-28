@@ -1,0 +1,747 @@
+:PROPERTIES:
+:ID:       42d785a2-2166-44e4-baaf-31fb18b052b5
+:ROAM_ALIASES: exev
+:END:
+#+title: Experimentieren und Evaluieren
+#+SETUPFILE: ~/roam/ost_exam_summary_setup.conf
+
+#+LATEX: \begin{multicols}{3}
+* TODO Versuchsplanung
+** TODO Grundbegriffe
+- *Testverteilung*: Können benutzt werden um Ergebnisse von Experimente miteinander zu vergleichen
+- *Hypothese*: Eine Annahme
+- *Zielgrösse*: Ergebnis eines Versuchs
+- *Einflussgrössen*:
+  - *Störgrössen (Rauschen)*: können nicht eingestellt werden
+  - *Steuergrösse*: können eingestellt und gehalten werden
+- *Faktoren*: für den Verusch wesentlichen Einflussgrössen
+- *Faktorarten*:
+  - *Quantitativ*: beschreiben Zahlenwerte auf der Messskala
+  - *Qualitativ*: Name, Beschreibung, Bezeichnung
+** Wissenserwerbs Shewhart
+[[file:img/shewhart.png]]
+
+** DoE
+1. Ausgangssituation und Problem beschreiben: Problem wirklich verstanden?
+2. Untersuchungsziel festlegen: Was wollen wir erreichen?
+3. Zielgrössen und Faktoren festlegen
+4. Entscheidung: Soll das Problem analytisch / experimentell gelöst werden? Nein => Ende
+5. Planung
+   Versuchplan aufstellen, Blockbildung, Aufwandsabschätzung
+6. Entscheidung: Experiment am realen Object oder Model durchführen?
+7. Nachbearbeitung
+   Versuch durchführen, Ergebnisse auswerten, intepretieren und Massnahmen ableiten, Absicherung, Dokumentation und weiteres Vorgehen
+
+** Daten sammeln
+Was ist der Anlass, Daten zu sammeln?
+- Reine Sammelwut (Big Data, Data Minig) um im Nachgang Zusammenhänge zu finden
+- bewusstes erfassen von Daten (Data-Farming) um Normen einhalten zu könne, Schwachstellen zu erkennen
+  
+** Statitische Grundbegriffe
+*Merkmalsträger* (Mensch, Maschine, etc.). *Grundgesamtheit* ist die Menge aller Merkmalsträger. *Merkmal* (Augenfarbe, Ausfallrate) sind die Eingeschaften des Merkmalträgers. *Merkmalswert* (Blaue Auge, 5mal pro Stunde) sind die Ausprägung der Merkmale.
+** Skalen
+- *Nominalskala* (qualitative Merkmale wie z.B. verheiratet, Feminin / Maskulin, etc.)
+- *Ordinalskala* (Klassen, Rangfolge, sehr gut, gut, ...)
+- *Metrische Skala* (reelen Zahlen, quantitative Merkmale)
+  - *Intervallskala* (willkürlicher Nullpunkt Temperatur in Grad Celsius
+  - *Verhältnisskala* (absoulter Nullpunkt, Gewicht in kg)
+
+** Ablauf
+*Datenerhebung*, *Datenaufbereitung* und *-darstellung*, *Datenanalyse* und *-intpretation*
+  
+* Fehlerfortpflanzung
+*Absoulter Fehler* (Addiert sich bei Summer und Differenz). *Relativer Fehler* (Addiert sich bei Produkt und Quotiente). Berechnung mittels Partiele Differnatiation
+
+Fehlerabschätzung ohne Angaben:
+- min. halben Einheit von letzten signifikante Stelle
+- max. 4 Einheiten der letzten signifikante Stelle
+
+*Relativer Fehler*
+\begin{equation*}
+\Delta x / x
+\end{equation*}
+
+*Partiele Differnetiation*
+\begin{align*}
+E &= \frac{xy^2}{z} \\
+\Delta E &= |\frac{\delta E}{\delta x}\Delta x| + |\frac{\delta E}{\delta y}\Delta y| + |\frac{\delta E}{\delta z}\Delta z|
+\end{align*}
+
+* Häufigkeitsverteilung
+Nach Erhebung liegen die Daten in Form einer *Urliste* vor (geordnet nach Erfassung).
+** Einfach Häufigkeisverteilung
+Gibt an wie häufig ein Merkmalswert $x_i$ aufgetreten ist (absolut oder relativ). $h_i$ entspricht der *absoluten* Häufigkeits, $f_i$ der *relativen Häufigkeit*
+\begin{equation*}
+f_i = \frac{h_i}{n}
+\end{equation*}
+
+** Kumulierte Häufigkeitsverteilung
+Die kumulierte /absoulte/ Häufigkeitsverteilung gibt die Anzahl Objekte kleiner oder gleich $x_i$
+\begin{equation*}
+H_i = \sum_{i=1}^{k}h_i
+\end{equation*}
+
+Die kumulierte /relative/ Häufigkeitsverteilung gibt den Anteil der Messungen an mit kleiner oder gleich $x_i$
+\begin{equation*}
+F_i = \sum_{i=1}^{k}f_i
+\end{equation*}
+
+** Klassifizierte Häufigkeitsvereilung
+Bei mehr als 15 verschieden Merkmalswerten sollte die Werten in Klassen gruppiert werden, um eine überschaubare Darstellung zu erreichen. Die Anzahl Klassen sollte nicht $\sqrt{n}$ überschreiten.
+
+- *Klassenbreite*: $b_m = x_m^o - x_m^u$
+- *Klassenmitte*: $\frac{x_m^o + x_m^u}{2}$
+- *Klassendichte*: $d_m = \frac{h_m}{b_j}$
+* Prognosen
+Formale Abhängikeit (Zahlenmässiger Zusammenhang, muss nicht zwingend ein echter *Zusammenhang* haben). Sachliche Abhängikeit (Ist Anstieg von a Ursache für den Anstieg von b). Korrelation (Stäre des linearen rechnerischen Zusammenhangs)
+
+*Kovarianz*:
+\begin{align*}
+\sigma_{XY} &= \frac{1}{n}\sum_{i=1}^{n}(x_i-\overline{x})(y_i-\overline{y}) \\
+\sigma_{XY} &= \frac{1}{n}\sum_{i=1}^{n}x_iy_i - \overline{x} \ \overline{y}
+\end{align*}
+Variante 2 Analog zu der Varianz
+
+*Korrelationskoeffizient* (-1 - 1):
+\begin{align*}
+r &= \frac{\sigma_{XY}}{\sigma_X\sigma_Y} \quad mit \ |\sigma_{XY}| \leq \sigma_X\sigma_Y \\
+r &= \frac{\sum_{i=1}^{n}(x_i-\overline{x})(y_i-\overline{y})}{\sqrt{(\sum_{i=1}^{n}(x_i-\overline{x})^2)(\sum_{i=1}^n(y_i-\overline{y})^2)}}
+\end{align*}
+  
+*gleitender Mittelwert*
+\begin{align*}
+M_t = \frac{1}{T+t}(\sum_{T=1}^{t-1} x_T +x_t)
+\end{align*}
+
+*Lineare Regression* funktioniert nur mit linearen zusammenhang. Bei einem exponentiellen kann dieser aber logrimiert werden. Bei einem logrimischen Zusammenhang kann potenziert werden um einen linearen Zusammenhang zu erhalten.
+\begin{align*}
+y &= a_1 + b_1x_i \\
+a_1 &= \overline{y} - b_1\overline{x} \\
+b_1 &= \frac{\sum_{i=1}^n x_iy_i - n\overline{x} \ \overline{y}}{\sum_{i=1}^n x_i^2 - n\overline{x}^2}
+\end{align*}
+
+*Newton - Algorithmus* (TI-Nspire):
+\begin{align*}
+f(x) = a_0 + a_1(x-x_1) + a_2(x-x_1)(x-x_2)+...+a_n(x-x_1)...(x-x_n)
+\end{align*}
+* Wahrscheinlichkeit
+- Zufallsexperiment
+- Ergebnismenge / Ergebnisraum $\Omega$ (Alle mögliche Ergebnisse eines Zufalsexperiment)
+- (System A der) Ereignisse (Teilmenge der Ergebnismenge)
+- Wahrscheinlichkeitsraum
+  - Beschrieben durch Ereignismenge, System der Erignisse und Wahrscheinlichkeitsmass P
+
+| Logisch              | Menge        |
+|----------------------+--------------|
+| A oder B treffen ein | $$A \cup B$$ |
+| A und B treffen ein  | $$A \cap B$$ |
+| Nicht A trifft ein   | $$A^C$$      |
+
+- Bedingte Wahrscheinlichkeit
+  - $P(A|B)$
+  
+[[file:img/w06-wahrscheinlichkeit-and.png]]
+[[file:img/w06-wahrscheinlichkeit-or.png]]
+[[file:img/w06-wahrscheinlichkeit-not.png]]
+[[file:img/w06-wahrscheinlichkeit-bedingte.png]]
+
+- Laplace-Experiment
+- stochastisch unabhängig
+
+*Wahrscheinlichkeitsmass-Regeln*:
+\begin{equation*}
+P(A \cup B) = P(A) + P(B) - P(A \cap B)
+\end{equation*}
+\begin{equation*}
+P(A \cap B) = P(A) \cdot P(B)
+\end{equation*}
+\begin{align*}
+P(A \cap B) &= P(B \cap A) \\
+P(A) \cdot P(B|A) &= P(B) \cdot P(A|B)
+\end{align*}
+\begin{equation*}
+P(A|B) = \frac{P(A \cap B)}{P(B)}
+\end{equation*}
+
+*Baysschen Regel*
+\begin{equation*}
+P(A) \cdot P(B|A) = P(B) \cdot P(A|B)
+\end{equation*}
+
+*Laplace-Experiment*
+\begin{equation*}
+P(A) = \frac{|A|}{|\Omega|}
+\end{equation*}
+
+*Vollständige Wahrscheinlichkeit*:
+\begin{align*}
+\bigcup_{i}^{n} B_i &= \Omega \text{ und } P(B_i) > 0 \forall i \\
+P(A) &= \sum_{i}^{n} P(A|B_i) \cdot P(B_i) \\
+&= \sum_{i}^{n} \frac{P(A \cap B) \cdot P(B)}{P(B)} \\
+&= \sum_{i}^{n} P(A \cap B)
+\end{align*}
+[[file:img/w07-wahrscheinlichkeit-vollstaendige-wahrscheinlichkeit.png]]
+
+* Kombinatorik 
+- Mengen (Reihenfolge unwichtig)
+- Tupel (Reihenfolge *wichtig*)
+- Urnenexperiment
+  - Kugel zurücklegen (wiederholen) 
+  - Reihenfolge beachten (geordnet)
+
+
+- Geordnete Proben mit Wiederholung
+  - Pin Code iPhone (4 Stellen, 10 Ziffern entsprechen $10^4$ Möglichkeiten)
+- Geordnete Proben ohne Wiederholung
+  - Anzahl Möglichkeiten: $A = n (n-1) (n-2) ... (n-k+)$
+  - Formel: $A = \frac{n!}{(n-k)!}$
+
+*Anzahl Permutation einer n-Menge*:
+\begin{align*}
+n!
+\end{align*}
+
+*Binominal Koeffizient*:
+\begin{align*}
+\binom{n}{k} = \frac{n(n-1)..(n-k+)}{k!}
+\end{align*}
+
+*Reihenfolge relevant, mit Zurücklegen*:
+\begin{align*}
+A = n^k
+\end{align*}
+
+*Reihenfolge nicht releveant, mit Zurücklegen*:
+\begin{align*}
+A = \binom{n+k-1}{k}
+\end{align*}
+
+*Reihenfolge relevant, ohne Zurücklegen*:
+\begin{align*}
+A &= \frac{n!}{(n-k)!} = \binom{n}{k} \cdot k!\\
+A &= \prod_{n}^{(n-k+1)}n
+\end{align*}
+
+*Reihenfolge nicht relevant, ohne Zurücklegen*:
+\begin{align*}
+A = \frac{n!}{k!(n-k)!} = \binom{n}{k}
+\end{align*}
+
+* Zufallsvariable und die wichtigsten theoretischen Verteilungen
+- Zufallsvariable, Abbildung / Funktion die den Elementen der Ergebnismenge eine Zahle zuordnet
+\begin{align*}
+X&: \{Wappen, Zahl\} \rightarrow \mathbb{R},  \\
+X(\omega) &=
+\begin{cases}
+1, &  \quad \text{falls} \omega = \text{Wappen} \\
+-1, & \quad \text{falls} \omega = \text{Zahl}
+\end{cases}
+\end{align*}
+
+[[file:img/w08-wahrscheinlichkeitsfunktion-verteilsfunktion.png]]
+
+*** Diskrete Wahrscheinlichkeitsfunktion
+- Summer aller Einzelwahrscheinlichkeit ist 1 (Fläche)
+\begin{align*}
+P(x_i \leq X \leq x_n) = \sum_{j=i}^{n} f(x_j)
+\end{align*}
+
+**** Wichtige diskrete Verteilungen
+*Bernoulli*:
+- Binär (ja / nein)
+- Erfolgswahrscheinlichkeit $p$ bleiben gleich
+\begin{align*}
+E(X) &= \overline{x} = p \\
+\sigma^2 &= pq
+\end{align*}
+
+*Binominal*:
+- Binär
+- wird n-mal wiederholt
+\begin{equation*}
+f(x) = \binom{n}{x}p^x(1-p)^{n-x}
+\end{equation*}
+
+\begin{equation*}
+E(X) = np
+\end{equation*}
+
+\begin{equation*}
+\sigma^2 = np(1-p)
+\end{equation*}
+
+*Poisonverteilung*:
+- Näherung der Binominalverteilung wenn $np \leq 10$ und $n \geq 1500p$
+- Wie hoch die Wahrscheinlichkeit, dass Ereignis E im Intervall I genau / höchstens x-mal auftritt, wenn bekannt ist, dass E $\mu$ -mal auftritt
+- Anzahl Anrufe an der Hotline zwischen 10:00 und 12:00
+
+\begin{equation*}
+f(x) = P(X = x) = \frac{\mu^x}{x!}e^{-\mu}
+\end{equation*}
+
+\begin{equation*}
+E(X) = \sigma^2 = \mu
+\end{equation*}
+
+*** Kontinuierliche Verteilungsdichtefunktion
+- Summer aller Wahrscheinlichkeit ist 1 (Fläche)
+- Die Berechnung der Wahrscheinlichkeit nur in Bereichen möglich
+
+\begin{align*}
+P(a \leq X \leq b) = \int_{a}^{b} f(x) dx
+\end{align*}
+
+*** Grundlegende Begriffe der Statistik
+- Erwartungs- oder Mittelwert: $E[X] = \mu = \sum_{i} x_i f(x_i)$
+* Stetige Verteilungen
+** Verteilungen
+*Normalverteilung*:
+\begin{equation*}
+z = \frac{x - \mu}{\sigma}
+\end{equation*}
+
+*Normalverteilung - Stichprobe*:
+\begin{equation*}
+Z_{stichprobe} = \frac{\overline{X} - \mu}{\frac{\sigma}{\sqrt{n}}}
+\end{equation*}
+
+*t-Verteilung*:
+\begin{equation*}
+t = \frac{\overline{x} - \mu}{\frac{\sigma}{\sqrt{n}}}
+\end{equation*}
+
+\begin{equation*}
+r = n -1
+\end{equation*}
+\begin{equation*}
+E(X) = 0 (\text{für} r > 1)
+\end{equation*}
+
+\begin{equation*}
+\sigma^2 = \frac{r}{r-2} (\text{für} r > 2)
+\end{equation*}
+
+*Chi-Quadrat*:
+\begin{equation*}
+\chi_{(p,k)}^2
+\end{equation*}
+
+\begin{equation*}
+E(X) = r
+\end{equation*}
+\begin{equation*}
+\sigma^2 = 2r
+\end{equation*}
+
+Chi-Quadrat - untere Grenze:
+\begin{equation*}
+S_u = S \sqrt{\frac{n-1}{\chi_{(1-\frac{\alpha}{2},n-1)}^2}}
+\end{equation*}
+
+Chi-Quadrat - obere Grenze:
+\begin{equation*}
+S_o = S \sqrt{\frac{n-1}{\chi_{(\frac{\alpha}{2},n-1)}^2}}
+\end{equation*}
+
+- echte Zufallszahlen schlecht für Experimente
+- besser Pseudo-Zufallszahlen
+* TODO Schliessende Statistik
+1. Normalverteilung, wenn $n \geq 30$
+2. t-Verteilung, wenn n $n < 30$
+3. Chi Quadrat Verteilung
+*** Stichproben und Experimente
+1. Isolierende Abstraktion
+   - What are the objectives?
+2. Generalisierende Abstraktion
+   - Modellverifikation
+   - Modellvalidierung
+*** Chi-Quadrat-Verteilung
+- Zufallsvariablen, die unabhängig und Normalverteilt sind:
+\begin{equation*}
+Y = X_1^2 + X_2^2 + X_3^2 + \cdots + X_r^2
+\end{equation*}
+
+| "Echte" Grösse | Stichproben Grösse                               |
+|----------------+--------------------------------------------------|
+| $\mu$          | $\overline{X} \rightarrow \sigma_{\overline{x}}$ |
+| $\sigma$       | $\hat{\sigma}$                                   |
+
+- Konfidenzintervall
+
+* TODO Schätzverfahren
+- Nicht blind raten:
+  - Schätzverfahren
+  - Schätzfunktionen
+  - Gütekriterien für Schätzfunktionen
+
+- Schätzverfahren:
+  - die unbekannten Parameter anhand einer Stichprobe zu schätzen
+  - durch Angabe eines Punktes: Punktschätzung
+  - durch Angabe eines Intervalls: Intervallschätzung
+
+- Schätzfunktion:
+  - Punktschätzung: Hier werden die Werte für $\mu$, $\sigma^2$ und für unbekannte Wahrscheinlichkeiten p geschätzt
+  - Intervallschätzung: Hier geht es um die Bestimmung eines Vertrauensintervall für die oben genannten Parametern
+
+*** Erstellen eines Konfidenzintervall
+1. Feststellung der Verteilungsform von $\overline{X}$ bzw. P
+2. Festellung der Varianz von $\overline{X}$ / P ggf. schätzen.
+3. Ermittlung der Quantilwertes z oder t aus Tabelle / Rechner
+4. Berechnung des maximalen Schätzfehlers (Produkt aus Quantilswert und Standardabweichung von X)
+5. Ermittlung der Konfidenzgrenzen (Schätzfehler $\pm$ Stichprobenmittel $\overline{X}$
+
+* TODO Testverfahren
+- Testverfahren
+  - Parametertest
+  - Verteilungs- bzw. Anpassungstest
+  - Unabhängigkeitstest
+- Fehler
+  - Fehler erster Art (fehlerhaftes Ablehnen einer Hypothese)
+  - Fehler zweiter Art (fehlerhaftes Annehmen einer Hypothese)
+
+
+1. Fehler
+  - Wenn der ermittelte Werte ausserhalb des Annahmebereichs, wird die Hypothese verworfen
+2. Fehler (siehe Bild)
+  - $\mu1$ echter Wert, gemäss Hypothese ist H1 der Mittelwert
+  - Nun wird die Hypothese angenommen; es wird ein Fehler gemacht
+  [[file:img/w12-testverfahren-2-fehler.png]]
+
+*** Hypothese
+1. Nullhypothese $H_0$ und der Alternativhypothese $H_1$ (im Allgemeinen die Verneinung der Nullhypothese)
+2. Festlegen der Signifikanzzahl $\alpha$, bzw. das Vertrauensintervall $1-\alpha$
+3. Bestimmen der Testgrössen und Annahme- und Ablehungsbereiches
+4. Berechnen der Werten
+
+Um die Hypothese zu beweisen, wird oft die Verneinung als Nullhypothese formuliert und versucht diese durch einen statistischen Test zu widerlegen.
+  
+*** Testverfahren
+- Parametertest
+- Anteilswert
+- Differenztests
+**** Abhängige Stichprobe 
+1. Bilder der Nullhypothese $H_0: \mu_1 = \mu_2$, folglich $\overline{x} = 0$
+2. Die Differenzen der Stichprobe $d_i = x_i - y_i$ für alle i erfassen
+3. Die Nullhypothese $H_0$ gilt, wenn der Mittelwert von $d_i$ im Bereich von $1-\alpha$ liegt
+4. Signifikanzzahl $\alpha$ wählen
+5. Grenzen festlegen (mit Tabellen)
+**** Unabhängige Stichprobe
+1. Lege Signifikanzzahl $\alpha$ fest
+2. Mit Hilfe der Tabelle den Z-Wert festlegen
+3. Berechne den Annahmebereich:
+   \begin{equation*}
+     c = \pm z \sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}}
+   \end{equation*}
+
+4. Berechne die Mittelwerte der Stichproben $\mu_1$ und $\mu_2$
+5. Man nehme die Nullhypothese $H_0: \mu_1 = \mu_2$ an, wenn die Differenz $d_i = \mu_1 - \mu_2$ in den Annahmenbereich fällt
+
+
+* TI-Nspire
+** Shortcuts
+Summenzeichen $\Sigma$: =menu, 4, 5=
+
+Produktzeichen $\Pi$: =menu, 4, 6=
+
+Fakultät !: =menu, 5, 1=
+
+nCr: =menu, 5, 3=
+
+solve: =menu, 3, 1=
+
+Numerisch Lösen: =menu, 3, 6=
+
+Ableitung: =menu, 4, 1=
+
+Integral: =menu, 4, 3=
+
+** Funktionen
+Allgemein: =menu, 6, 3, <Zahl>=
+
+Datensatzlänge: =count(x)=
+
+Datensatzlänge mit Wert y: =count(x)=
+
+Median: =median(x)=
+
+Maximum: =max(x)=
+
+Minimum: =min(x)=
+
+Absoluter Wert: =abs(x)= oder =|x|=
+
+Arithm. Mittelwert $\overline{x}$: =mean(x)=
+
+Empirishe-Varianz $\sigma_x^2$: =varPop(x)=
+
+Standardabweichung $\sigma_x$: =stDevPop(x)=
+
+Stichproben-Varianz: =varSamp(x)=
+
+Summe $\Sigma$: =sum(x)=
+
+Approx. Zahlenwert $\approx$: =approx(x)=
+
+Kombinationen $\binom{n}{k}$: =nCr(n,k)=
+
+** Verteilungen
+Verteilungen die mit /Pdf/ (probability density function) enden sind die Dichtefunktionen f, solche die mit /Cdf/ (cumulative distribution function) enden sind die Verteilungsfunktionen F. Im Ti-Nspire zugänglich über =menu, 6, 5, <Zahl>=.
+
+
+*** Normalverteilungs-
+
+Dichte: /normPdf(x, \mu, \sigma)/
+
+Summe: /normCdf(a, b, \mu, \sigma)/
+
+Inverses: /invNorm(%, \mu, \sigma)/
+
+z-Value: /invNorm(%, 0,1)/
+
+
+*** Student-T Verteilungs-
+
+Dichte: =tPdf(x, \nu)=
+
+Summe: =tCdf(a, b, \nu)=
+
+Inverses: =invT(%, \nu)=
+
+*** \chi^2-Verteilungs-
+Summe: =menu, 6, 5, 8, (a, b, \nu)=
+
+Inverse: =menu, 6, 5, 9, (%, \nu)=
+
+*** Zentralle Konfidenzintervalle
+1. =menu 6, 6, 1 (2 falls t)=
+2. Dateneingabe: Statistik
+3. \sigma = Standardabweichung (nicht Stichprobenwert)
+4. \mu eintragen und $n$ eintragen
+5. Konfidenzniveau korrekt eintragen
+
+** Liste
+Lineare Regression:
+1. x-liste und y-liste eintragen
+2. =menu, 6, 1, 4=
+
+Statistische Berechnungen:
+1. x-liste (und y-liste) eintragen
+2. =menu, 6, 1, <Zahl>=
+
+** Spreadsheet
+Datensatz hinzufügen:
+1. Name in erste Zelle einfügen
+2. Daten eintragen
+
+
+Spalte link einfügen: =menu, 2, 3=
+
+Spalte verschieben: =menu, 1, 1=
+
+Zellenname: SpalteIndex (e.g. a1)
+
+Bereichsreferenz: Startzelle:Endzelle
+
+Datensatz kopieren:
+1. Shift + Pfeile (selektieren)
+2. ctrl, c
+3. Zu obersten Punkt neuer Spalte navigieren
+4. ctrl, v
+
+
+Datensatz sortieren:
+1. Spalte selektiren
+2. =menu, 1, 6=
+
+
+Kumulierte Spalte hinzufügen:
+1. In neuer Spalte ins Ausdruckszelle (Zweite Zellen von oben) gehen
+2. =menu, 3, 7, 1= oder =cumultativeSum(<var>)=
+
+
+Gleitender Mittelwert:
+1. Werte eintragen
+2. In Zielspalte, Zelle $n$ den Wert eintragen in der Form: (a1+a2+...+an) / n
+3. Mit selektierter Zelle: =menu, 3, 3=
+4. Mit Pfeilen neue Zellen selektieren
+
+
+Newton-Alorithmus:
+1. X-Werte in Spalte a, Y-Werte in Spalte b
+2. In Zelle c2, den Wert ==approx((b2-b1)/(a2-a1))= eintragen
+3. Mit selektierte Zelle: =menu, 3, 3=
+4. Mit Pfeilen ganze Spalte ausfüllen
+5. Ab Schritt 2 in Zelle d3 wiederholen: ==approx((c3-c2)/(a3-a1))=
+
+
+
+#+LATEX: \newpage
+#+LATEX: \end{multicols}
+#+LATEX: \begin{multicols}{2}
+* Formelsammlung
+** Lageparameter
+- *Klassenbreite*: $b_m = x_m^o - x_m^u$
+- *Klassenmitte*: $\frac{x_m^o + x_m^u}{2}$
+- *Klassendichte*: $d_m = \frac{h_m}{b_j}$
+
+*Modus*:
+Bei unterschiedlicher Klassenbreite anstellen von $h_m$ Klassendichte nutzen.
+\begin{equation*}
+  Mo = x_m^u + \frac{h_m - h_{m-1}}{(h_m-h_{m-1})+(h_m-h_{m+1})}\cdot (x_m^o - x_m^u)
+\end{equation*}
+
+*Median*:
+\begin{equation*}
+  Me = x_m^u + \frac{\frac{n}{2}-H_{m-1}}{H_m - H_{m-1}} \cdot (x_m^o - x_m^u)
+\end{equation*}
+Quantile, Quartile, Dezile, Perzentile analog zu Median, einfach $\frac{n}{2}$ passend ersetzen
+
+*arithmetisches Mittel (mean, average)*:
+\begin{align*}
+\overline{x} &= \frac{1}{n} \sum_{i=1}^v x_i \cdot h_i \\
+\overline{x} &= \frac{1}{n} \sum_{i=1}^v x_i \cdot f_i
+\end{align*}
+
+*arithmetisches Mittel - Klassifiziert* ($\grave{x_i}$ Klassenmittelwert):
+\begin{align*}
+\overline{x} &= \frac{1}{n} \sum_{i=1}^v \grave{x_i} \cdot h_i \\
+\overline{x} &= \frac{1}{n} \sum_{i=1}^v \grave{x_i} \cdot f_i
+\end{align*}
+
+*Harmonisches Mittel*:
+Merkmal muss verhältnisskaliert sein
+\begin{align*}
+\overline{MH} = \frac{\sum_{i=1}^v h_i}{\sum_{i=1}^v \frac{h_i}{x_i}}
+\end{align*}
+
+*Geometrisches Mittel*:
+\begin{align*}
+MG = \sqrt[n]{\prod_{i=1}^n x_i} = \sqrt[n]{\frac{endwert}{anfangswert}}
+\end{align*}
+
+*Spannweite*:
+\begin{equation*}
+  R = x_{max} - x_{min}
+\end{equation*}
+
+*Zentraller Quartilsabstand*:
+\begin{align*}
+ZQA = Q_3 - Q_1
+\end{align*}
+
+*Mittlere absoulte Abweichung* ($h_i$ absoulte Häufigkeit):
+\begin{align*}
+\delta = \frac{1}{n} \sum_{i=1}^{v}|x_i - \overline{x}| h_i
+\end{align*}
+
+*Varianz* ($h_i$ absoulte Häufigkeit):
+\begin{align*}
+\sigma^2 &= \frac{1}{n} \sum_{i=1}^{v} (x_i - \overline{x})^2 h_i
+\end{align*}
+
+*Stichprobenvarianz* ($h_i$ absoulte Häufigkeit):
+\begin{align*}
+  s^2 &= \frac{1}{n-1} \sum_{i=1}^{v} (x_i - \overline{x})^2 h_i \\
+  &= \frac{n}{n-1}\sigma^2
+\end{align*}
+
+\begin{equation*}
+\sigma_{\overline{x}}^2 = \frac{\sigma^2}{n}
+\end{equation*}
+
+*Standardabweichung* (Wurzerl der Varianz):
+\begin{align*}
+\sigma = \sqrt{\sigma^2} 
+\end{align*}
+
+*Variantionskoeffizienten*: Misst die relative Streuung
+\begin{align*}
+VK = \frac{\sigma}{\overline{x}} \cdot 100
+\end{align*}
+
+*Kovarianz*:
+\begin{align*}
+\sigma_{XY} &= \frac{1}{n}\sum_{i=1}^{n}(x_i-\overline{x})(y_i-\overline{y}) \\
+\sigma_{XY} &= \frac{1}{n}\sum_{i=1}^{n}x_iy_i - \overline{x} \ \overline{y}
+\end{align*}
+Variante 2 Analog zu der Varianz
+
+*Korrelationskoeffizient* (-1 - 1):
+\begin{align*}
+r &= \frac{\sigma_{XY}}{\sigma_X\sigma_Y} \quad mit \ |\sigma_{XY}| \leq \sigma_X\sigma_Y \\
+r &= \frac{\sum_{i=1}^{n}(x_i-\overline{x})(y_i-\overline{y})}{\sqrt{(\sum_{i=1}^{n}(x_i-\overline{x})^2)(\sum_{i=1}^n(y_i-\overline{y})^2)}}
+\end{align*}
+  
+** Prognossen
+*gleitender Mittelwert*
+\begin{align*}
+M_t = \frac{1}{T+t}(\sum_{T=1}^{t-1} x_T +x_t)
+\end{align*}
+
+*Lineare Regression* funktioniert nur mit linearen zusammenhang. Bei einem exponentiellen kann dieser aber logrimiert werden. Bei einem logrimischen Zusammenhang kann potenziert werden um einen linearen Zusammenhang zu erhalten.
+\begin{align*}
+y &= a_1 + b_1x_i \\
+a_1 &= \overline{y} - b_1\overline{x} \\
+b_1 &= \frac{\sum_{i=1}^n x_iy_i - n\overline{x} \ \overline{y}}{\sum_{i=1}^n x_i^2 - n\overline{x}^2}
+\end{align*}
+
+*Newton - Algorithmus* (TI-Nspire):
+\begin{align*}
+f(x) = a_0 + a_1(x-x_1) + a_2(x-x_1)(x-x_2)+...+a_n(x-x_1)...(x-x_n)
+\end{align*}
+** Anteilswert / Wahrscheinlichkeit (p)
+k = Anzahl gute-Fälle, n = Stichprobenumfang
+\begin{equation*}
+\overline{p} = \frac{k}{n}
+\end{equation*}
+
+** Fehler
+*Fehler*:
+\begin{equation*}
+e = z\frac{\sigma}{\sqrt{n}}
+\end{equation*}
+*Maximaler Fehler - mit zurücklegen (grosse Grundgesamtheit)*:
+\begin{equation*}
+n \geq \frac{z^2\sigma^2}{e^2}
+\end{equation*}
+
+*Maximaler Fehler - ohne zurücklegen*:
+\begin{equation*}
+n \geq \frac{z^2N\sigma^2}{e^2(N-1)+z^2\sigma^2}
+\end{equation*}
+
+*Vertrauensintervall - $\overline{x}$*:
+\begin{equation*}
+  \mu_0 - z \frac{\sigma}{\sqrt{n}} \leq \overline{x}\leq \mu_0 + z \frac{\sigma}{\sqrt{n}}
+\end{equation*}
+
+*Vertrauensintervall - Anteilswert*:
+\begin{align*}
+  c_u &= p_0 - z \sqrt{\frac{p_0(1-p0)}{n}} \\
+  c_u &= p_0 - z \sqrt{\frac{p_0(1-p0)}{n}} \sqrt{\frac{N-n}{N-1}} \quad | \frac{n}{N} \geq 0.05
+\end{align*}
+
+\begin{align*}
+  c_o &= p_0 + z \sqrt{\frac{p_0(1-p0)}{n}} \\
+  c_o &= p_0 + z \sqrt{\frac{p_0(1-p0)}{n}} \sqrt{\frac{N-n}{N-1}} \quad | \frac{n}{N} \geq 0.05
+\end{align*}
+
+\end{multicols}
+
+** Varianz für das Stichprobenmittel $\overline(X)$:
+| Stichprobe                 | $\sigma^2$ bekannt ($\sigma_{\overline{X}}^2$) | $\sigma^2$ unbekannt ($\hat{\sigma}_{\overline{X}}^2$) |
+|----------------------------+------------------------------------------------+--------------------------------------------------------|
+| Unendliche Grundgesamtheit | $\frac{\sigma^2}{n}$                           | $\frac{s^2}{n}$                                        |
+| $\frac{n}{N} < 0.05$       | $\approx \frac{\sigma^2}{n}$                   | $\approx \frac{s^2}{n}$                                |
+| $\frac{n}{N} \geq 0.05$    | $\frac{\sigma^2}{n} \cdot \frac{N-n}{N-1}$     | $\frac{s^2}{n} \cdot \frac{N-n}{N}$                    |
+
+** Varianz für den Anteilswert (P):
+
+für $np (1-P) > 9$ aprox. normalverteilt
+| Stichprobe                 | $\sigma^2$ bekannt ($\sigma_{P}^2$)        | $\sigma^2$ unbekannt ($\hat{\sigma}_{P}^2$) |
+|----------------------------+--------------------------------------------+---------------------------------------------|
+| Unendliche Grundgesamtheit | $\frac{P(1-P)}{n}$                         | $\frac{P(1-P)}{n}$                          |
+| $\frac{n}{N} < 0.05$       | $\approx \frac{P(1-P)}{n}$                 | $\approx \frac{P(1-P)}{n}$                  |
+| $\frac{n}{N} \geq 0.05$    | $\frac{P(1-P)}{n} \cdot \frac{N-n}{N-1}$ | $\frac{P(1-p)}{n} \cdot \frac{N-n}{N}$   |
+
+
