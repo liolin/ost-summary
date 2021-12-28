@@ -1,4 +1,4 @@
-% Created 2021-12-28 Tue 18:39
+% Created 2021-12-28 Tue 18:45
 % Intended LaTeX compiler: xelatex
 \documentclass[11pt,twoside,landscape]{article}
 \usepackage{graphicx}
@@ -19,7 +19,6 @@
 \setlist{noitemsep}
 \setlength{\parindent}{0pt}
 \setlength{\columnseprule}{0.2pt}
-\setcounter{secnumdepth}{0}
 \author{Olivier Lischer}
 \date{\today}
 \title{Experimentieren und Evaluieren}
@@ -33,10 +32,10 @@
 \begin{document}
 
 \begin{multicols}{3}
-\section*{{\bfseries\sffamily TODO} Versuchsplanung}
-\label{sec:org8a1115c}
-\subsection*{{\bfseries\sffamily TODO} Grundbegriffe}
-\label{sec:org58ed7dd}
+\section{{\bfseries\sffamily TODO} Versuchsplanung}
+\label{sec:org6601c85}
+\subsection{{\bfseries\sffamily TODO} Grundbegriffe}
+\label{sec:orgdf7394d}
 \begin{itemize}
 \item \textbf{Testverteilung}: Können benutzt werden um Ergebnisse von Experimente miteinander zu vergleichen
 \item \textbf{Hypothese}: Eine Annahme
@@ -53,14 +52,14 @@
 \item \textbf{Qualitativ}: Name, Beschreibung, Bezeichnung
 \end{itemize}
 \end{itemize}
-\subsection*{Wissenserwerbs Shewhart}
-\label{sec:org3ce64d2}
+\subsection{Wissenserwerbs Shewhart}
+\label{sec:orgac77370}
 \begin{center}
 \includegraphics[width=.9\linewidth]{img/shewhart.png}
 \end{center}
 
-\subsection*{DoE}
-\label{sec:org1c92871}
+\subsection{DoE}
+\label{sec:org1e0c73e}
 \begin{enumerate}
 \item Ausgangssituation und Problem beschreiben: Problem wirklich verstanden?
 \item Untersuchungsziel festlegen: Was wollen wir erreichen?
@@ -73,19 +72,19 @@ Versuchplan aufstellen, Blockbildung, Aufwandsabschätzung
 Versuch durchführen, Ergebnisse auswerten, intepretieren und Massnahmen ableiten, Absicherung, Dokumentation und weiteres Vorgehen
 \end{enumerate}
 
-\subsection*{Daten sammeln}
-\label{sec:org0020847}
+\subsection{Daten sammeln}
+\label{sec:orgb0eb688}
 Was ist der Anlass, Daten zu sammeln?
 \begin{itemize}
 \item Reine Sammelwut (Big Data, Data Minig) um im Nachgang Zusammenhänge zu finden
 \item bewusstes erfassen von Daten (Data-Farming) um Normen einhalten zu könne, Schwachstellen zu erkennen
 \end{itemize}
 
-\subsection*{Statitische Grundbegriffe}
-\label{sec:org2707339}
+\subsection{Statitische Grundbegriffe}
+\label{sec:org635ad3b}
 \textbf{Merkmalsträger} (Mensch, Maschine, etc.). \textbf{Grundgesamtheit} ist die Menge aller Merkmalsträger. \textbf{Merkmal} (Augenfarbe, Ausfallrate) sind die Eingeschaften des Merkmalträgers. \textbf{Merkmalswert} (Blaue Auge, 5mal pro Stunde) sind die Ausprägung der Merkmale.
-\subsection*{Skalen}
-\label{sec:org50920a1}
+\subsection{Skalen}
+\label{sec:org85e1d65}
 \begin{itemize}
 \item \textbf{Nominalskala} (qualitative Merkmale wie z.B. verheiratet, Feminin / Maskulin, etc.)
 \item \textbf{Ordinalskala} (Klassen, Rangfolge, sehr gut, gut, \ldots{})
@@ -96,12 +95,12 @@ Was ist der Anlass, Daten zu sammeln?
 \end{itemize}
 \end{itemize}
 
-\subsection*{Ablauf}
-\label{sec:org684365e}
+\subsection{Ablauf}
+\label{sec:org14ec37b}
 \textbf{Datenerhebung}, \textbf{Datenaufbereitung} und \textbf{-darstellung}, \textbf{Datenanalyse} und \textbf{-intpretation}
 
-\section*{Fehlerfortpflanzung}
-\label{sec:orgb2a2023}
+\section{Fehlerfortpflanzung}
+\label{sec:org362caa1}
 \textbf{Absoulter Fehler} (Addiert sich bei Summer und Differenz). \textbf{Relativer Fehler} (Addiert sich bei Produkt und Quotiente). Berechnung mittels Partiele Differnatiation
 
 Fehlerabschätzung ohne Angaben:
@@ -121,18 +120,18 @@ E &= \frac{xy^2}{z} \\
 \Delta E &= |\frac{\delta E}{\delta x}\Delta x| + |\frac{\delta E}{\delta y}\Delta y| + |\frac{\delta E}{\delta z}\Delta z|
 \end{align*}
 
-\section*{Häufigkeitsverteilung}
-\label{sec:org16678d6}
+\section{Häufigkeitsverteilung}
+\label{sec:org418da39}
 Nach Erhebung liegen die Daten in Form einer \textbf{Urliste} vor (geordnet nach Erfassung).
-\subsection*{Einfach Häufigkeisverteilung}
-\label{sec:org56ffb63}
+\subsection{Einfach Häufigkeisverteilung}
+\label{sec:orgfa7c987}
 Gibt an wie häufig ein Merkmalswert \(x_i\) aufgetreten ist (absolut oder relativ). \(h_i\) entspricht der \textbf{absoluten} Häufigkeits, \(f_i\) der \textbf{relativen Häufigkeit}
 \begin{equation*}
 f_i = \frac{h_i}{n}
 \end{equation*}
 
-\subsection*{Kumulierte Häufigkeitsverteilung}
-\label{sec:orgaf37fae}
+\subsection{Kumulierte Häufigkeitsverteilung}
+\label{sec:org23a85a1}
 Die kumulierte \emph{absoulte} Häufigkeitsverteilung gibt die Anzahl Objekte kleiner oder gleich \(x_i\)
 \begin{equation*}
 H_i = \sum_{i=1}^{k}h_i
@@ -143,8 +142,8 @@ Die kumulierte \emph{relative} Häufigkeitsverteilung gibt den Anteil der Messun
 F_i = \sum_{i=1}^{k}f_i
 \end{equation*}
 
-\subsection*{Klassifizierte Häufigkeitsvereilung}
-\label{sec:org2f94905}
+\subsection{Klassifizierte Häufigkeitsvereilung}
+\label{sec:orgf7f120d}
 Bei mehr als 15 verschieden Merkmalswerten sollte die Werten in Klassen gruppiert werden, um eine überschaubare Darstellung zu erreichen. Die Anzahl Klassen sollte nicht \(\sqrt{n}\) überschreiten.
 
 \begin{itemize}
@@ -152,8 +151,8 @@ Bei mehr als 15 verschieden Merkmalswerten sollte die Werten in Klassen gruppier
 \item \textbf{Klassenmitte}: \(\frac{x_m^o + x_m^u}{2}\)
 \item \textbf{Klassendichte}: \(d_m = \frac{h_m}{b_j}\)
 \end{itemize}
-\section*{Prognosen}
-\label{sec:orgaf2004f}
+\section{Prognosen}
+\label{sec:org4273717}
 Formale Abhängikeit (Zahlenmässiger Zusammenhang, muss nicht zwingend ein echter \textbf{Zusammenhang} haben). Sachliche Abhängikeit (Ist Anstieg von a Ursache für den Anstieg von b). Korrelation (Stäre des linearen rechnerischen Zusammenhangs)
 
 \textbf{Kovarianz}:
@@ -185,8 +184,8 @@ b_1 &= \frac{\sum_{i=1}^n x_iy_i - n\overline{x} \ \overline{y}}{\sum_{i=1}^n x_
 \begin{align*}
 f(x) = a_0 + a_1(x-x_1) + a_2(x-x_1)(x-x_2)+...+a_n(x-x_1)...(x-x_n)
 \end{align*}
-\section*{Wahrscheinlichkeit}
-\label{sec:org8deb343}
+\section{Wahrscheinlichkeit}
+\label{sec:org23c31cd}
 \begin{itemize}
 \item Zufallsexperiment
 \item Ergebnismenge / Ergebnisraum \(\Omega\) (Alle mögliche Ergebnisse eines Zufalsexperiment)
@@ -268,8 +267,8 @@ P(A) &= \sum_{i}^{n} P(A|B_i) \cdot P(B_i) \\
 \includegraphics[width=.9\linewidth]{img/w07-wahrscheinlichkeit-vollstaendige-wahrscheinlichkeit.png}
 \end{center}
 
-\section*{Kombinatorik}
-\label{sec:orgb48dea1}
+\section{Kombinatorik}
+\label{sec:org615f1fb}
 \begin{itemize}
 \item Mengen (Reihenfolge unwichtig)
 \item Tupel (Reihenfolge \textbf{wichtig})
@@ -324,8 +323,8 @@ A &= \prod_{n}^{(n-k+1)}n
 A = \frac{n!}{k!(n-k)!} = \binom{n}{k}
 \end{align*}
 
-\section*{Zufallsvariable und die wichtigsten theoretischen Verteilungen}
-\label{sec:org535331f}
+\section{Zufallsvariable und die wichtigsten theoretischen Verteilungen}
+\label{sec:orgc511cd6}
 \begin{itemize}
 \item Zufallsvariable, Abbildung / Funktion die den Elementen der Ergebnismenge eine Zahle zuordnet
 \end{itemize}
@@ -342,8 +341,8 @@ X(\omega) &=
 \includegraphics[width=.9\linewidth]{img/w08-wahrscheinlichkeitsfunktion-verteilsfunktion.png}
 \end{center}
 
-\subsubsection*{Diskrete Wahrscheinlichkeitsfunktion}
-\label{sec:org1e39eb1}
+\subsubsection{Diskrete Wahrscheinlichkeitsfunktion}
+\label{sec:orge7e1268}
 \begin{itemize}
 \item Summer aller Einzelwahrscheinlichkeit ist 1 (Fläche)
 \end{itemize}
@@ -351,9 +350,9 @@ X(\omega) &=
 P(x_i \leq X \leq x_n) = \sum_{j=i}^{n} f(x_j)
 \end{align*}
 
-\begin{itemize}
+\begin{enumerate}
 \item Wichtige diskrete Verteilungen
-\label{sec:orgef8a9e4}
+\label{sec:org2c59fd3}
 \textbf{Bernoulli}:
 \begin{itemize}
 \item Binär (ja / nein)
@@ -395,10 +394,10 @@ f(x) = P(X = x) = \frac{\mu^x}{x!}e^{-\mu}
 \begin{equation*}
 E(X) = \sigma^2 = \mu
 \end{equation*}
-\end{itemize}
+\end{enumerate}
 
-\subsubsection*{Kontinuierliche Verteilungsdichtefunktion}
-\label{sec:org3b0d2ae}
+\subsubsection{Kontinuierliche Verteilungsdichtefunktion}
+\label{sec:org28753ff}
 \begin{itemize}
 \item Summer aller Wahrscheinlichkeit ist 1 (Fläche)
 \item Die Berechnung der Wahrscheinlichkeit nur in Bereichen möglich
@@ -408,15 +407,15 @@ E(X) = \sigma^2 = \mu
 P(a \leq X \leq b) = \int_{a}^{b} f(x) dx
 \end{align*}
 
-\subsubsection*{Grundlegende Begriffe der Statistik}
-\label{sec:org5346ee9}
+\subsubsection{Grundlegende Begriffe der Statistik}
+\label{sec:org45be631}
 \begin{itemize}
 \item Erwartungs- oder Mittelwert: \(E[X] = \mu = \sum_{i} x_i f(x_i)\)
 \end{itemize}
-\section*{Stetige Verteilungen}
-\label{sec:orga70de46}
-\subsection*{Verteilungen}
-\label{sec:org833734e}
+\section{Stetige Verteilungen}
+\label{sec:orgb01ad37}
+\subsection{Verteilungen}
+\label{sec:org392c2a0}
 \textbf{Normalverteilung}:
 \begin{equation*}
 z = \frac{x - \mu}{\sigma}
@@ -469,15 +468,15 @@ S_o = S \sqrt{\frac{n-1}{\chi_{(\frac{\alpha}{2},n-1)}^2}}
 \item echte Zufallszahlen schlecht für Experimente
 \item besser Pseudo-Zufallszahlen
 \end{itemize}
-\section*{{\bfseries\sffamily TODO} Schliessende Statistik}
-\label{sec:org0f8d709}
+\section{{\bfseries\sffamily TODO} Schliessende Statistik}
+\label{sec:org2144b4b}
 \begin{enumerate}
 \item Normalverteilung, wenn \(n \geq 30\)
 \item t-Verteilung, wenn n \(n < 30\)
 \item Chi Quadrat Verteilung
 \end{enumerate}
-\subsubsection*{Stichproben und Experimente}
-\label{sec:orgd2e6b83}
+\subsubsection{Stichproben und Experimente}
+\label{sec:org2a2026e}
 \begin{enumerate}
 \item Isolierende Abstraktion
 \begin{itemize}
@@ -489,8 +488,8 @@ S_o = S \sqrt{\frac{n-1}{\chi_{(\frac{\alpha}{2},n-1)}^2}}
 \item Modellvalidierung
 \end{itemize}
 \end{enumerate}
-\subsubsection*{Chi-Quadrat-Verteilung}
-\label{sec:orgb152577}
+\subsubsection{Chi-Quadrat-Verteilung}
+\label{sec:org87647f1}
 \begin{itemize}
 \item Zufallsvariablen, die unabhängig und Normalverteilt sind:
 \end{itemize}
@@ -511,8 +510,8 @@ Y = X_1^2 + X_2^2 + X_3^2 + \cdots + X_r^2
 \item Konfidenzintervall
 \end{itemize}
 
-\section*{{\bfseries\sffamily TODO} Schätzverfahren}
-\label{sec:org0e67973}
+\section{{\bfseries\sffamily TODO} Schätzverfahren}
+\label{sec:orgeae42fe}
 \begin{itemize}
 \item Nicht blind raten:
 \begin{itemize}
@@ -535,8 +534,8 @@ Y = X_1^2 + X_2^2 + X_3^2 + \cdots + X_r^2
 \end{itemize}
 \end{itemize}
 
-\subsubsection*{Erstellen eines Konfidenzintervall}
-\label{sec:org62df8cd}
+\subsubsection{Erstellen eines Konfidenzintervall}
+\label{sec:org37e3c2d}
 \begin{enumerate}
 \item Feststellung der Verteilungsform von \(\overline{X}\) bzw. P
 \item Festellung der Varianz von \(\overline{X}\) / P ggf. schätzen.
@@ -545,8 +544,8 @@ Y = X_1^2 + X_2^2 + X_3^2 + \cdots + X_r^2
 \item Ermittlung der Konfidenzgrenzen (Schätzfehler \(\pm\) Stichprobenmittel \(\overline{X}\)
 \end{enumerate}
 
-\section*{{\bfseries\sffamily TODO} Testverfahren}
-\label{sec:org17e8b26}
+\section{{\bfseries\sffamily TODO} Testverfahren}
+\label{sec:orgfdd8989}
 \begin{itemize}
 \item Testverfahren
 \begin{itemize}
@@ -577,8 +576,8 @@ Y = X_1^2 + X_2^2 + X_3^2 + \cdots + X_r^2
 \end{center}
 \end{enumerate}
 
-\subsubsection*{Hypothese}
-\label{sec:orge14218b}
+\subsubsection{Hypothese}
+\label{sec:orgddbed55}
 \begin{enumerate}
 \item Nullhypothese \(H_0\) und der Alternativhypothese \(H_1\) (im Allgemeinen die Verneinung der Nullhypothese)
 \item Festlegen der Signifikanzzahl \(\alpha\), bzw. das Vertrauensintervall \(1-\alpha\)
@@ -588,16 +587,16 @@ Y = X_1^2 + X_2^2 + X_3^2 + \cdots + X_r^2
 
 Um die Hypothese zu beweisen, wird oft die Verneinung als Nullhypothese formuliert und versucht diese durch einen statistischen Test zu widerlegen.
 
-\subsubsection*{Testverfahren}
-\label{sec:org6179ad0}
+\subsubsection{Testverfahren}
+\label{sec:orgd5eb79e}
 \begin{itemize}
 \item Parametertest
 \item Anteilswert
 \item Differenztests
 \end{itemize}
-\begin{itemize}
+\begin{enumerate}
 \item Abhängige Stichprobe
-\label{sec:org3eb6f56}
+\label{sec:org91af9bc}
 \begin{enumerate}
 \item Bilder der Nullhypothese \(H_0: \mu_1 = \mu_2\), folglich \(\overline{x} = 0\)
 \item Die Differenzen der Stichprobe \(d_i = x_i - y_i\) für alle i erfassen
@@ -606,7 +605,7 @@ Um die Hypothese zu beweisen, wird oft die Verneinung als Nullhypothese formulie
 \item Grenzen festlegen (mit Tabellen)
 \end{enumerate}
 \item Unabhängige Stichprobe
-\label{sec:orgfffcce8}
+\label{sec:org86772e5}
 \begin{enumerate}
 \item Lege Signifikanzzahl \(\alpha\) fest
 \item Mit Hilfe der Tabelle den Z-Wert festlegen
@@ -618,13 +617,13 @@ Um die Hypothese zu beweisen, wird oft die Verneinung als Nullhypothese formulie
 \item Berechne die Mittelwerte der Stichproben \(\mu_1\) und \(\mu_2\)
 \item Man nehme die Nullhypothese \(H_0: \mu_1 = \mu_2\) an, wenn die Differenz \(d_i = \mu_1 - \mu_2\) in den Annahmenbereich fällt
 \end{enumerate}
-\end{itemize}
+\end{enumerate}
 
 
-\section*{TI-Nspire}
-\label{sec:orgf440a9e}
-\subsection*{Shortcuts}
-\label{sec:org3c7e253}
+\section{TI-Nspire}
+\label{sec:orga1d35b9}
+\subsection{Shortcuts}
+\label{sec:orgcc16a72}
 Summenzeichen \(\Sigma\): \texttt{menu, 4, 5}
 
 Produktzeichen \(\Pi\): \texttt{menu, 4, 6}
@@ -641,8 +640,8 @@ Ableitung: \texttt{menu, 4, 1}
 
 Integral: \texttt{menu, 4, 3}
 
-\subsection*{Funktionen}
-\label{sec:org5d2951c}
+\subsection{Funktionen}
+\label{sec:org790ea99}
 Allgemein: \texttt{menu, 6, 3, <Zahl>}
 
 Datensatzlänge: \texttt{count(x)}
@@ -671,13 +670,13 @@ Approx. Zahlenwert \(\approx\): \texttt{approx(x)}
 
 Kombinationen \(\binom{n}{k}\): \texttt{nCr(n,k)}
 
-\subsection*{Verteilungen}
-\label{sec:org8666d88}
+\subsection{Verteilungen}
+\label{sec:org7a38618}
 Verteilungen die mit \emph{Pdf} (probability density function) enden sind die Dichtefunktionen f, solche die mit \emph{Cdf} (cumulative distribution function) enden sind die Verteilungsfunktionen F. Im Ti-Nspire zugänglich über \texttt{menu, 6, 5, <Zahl>}.
 
 
-\subsubsection*{Normalverteilungs-}
-\label{sec:org3045d69}
+\subsubsection{Normalverteilungs-}
+\label{sec:org41a83e0}
 
 Dichte: \emph{normPdf(x, \(\mu\), \(\sigma\))}
 
@@ -688,8 +687,8 @@ Inverses: \emph{invNorm(\%, \(\mu\), \(\sigma\))}
 z-Value: \emph{invNorm(\%, 0,1)}
 
 
-\subsubsection*{Student-T Verteilungs-}
-\label{sec:orgd7ad920}
+\subsubsection{Student-T Verteilungs-}
+\label{sec:orgdc21b50}
 
 Dichte: \texttt{tPdf(x, \textbackslash{}nu)}
 
@@ -697,14 +696,14 @@ Summe: \texttt{tCdf(a, b, \textbackslash{}nu)}
 
 Inverses: \texttt{invT(\%, \textbackslash{}nu)}
 
-\subsubsection*{\(\chi\)\textsuperscript{2}-Verteilungs-}
-\label{sec:org58c633c}
+\subsubsection{\(\chi\)\textsuperscript{2}-Verteilungs-}
+\label{sec:org9e56c73}
 Summe: \texttt{menu, 6, 5, 8, (a, b, \textbackslash{}nu)}
 
 Inverse: \texttt{menu, 6, 5, 9, (\%, \textbackslash{}nu)}
 
-\subsubsection*{Zentralle Konfidenzintervalle}
-\label{sec:orga83b057}
+\subsubsection{Zentralle Konfidenzintervalle}
+\label{sec:orgb753a6e}
 \begin{enumerate}
 \item \texttt{menu 6, 6, 1 (2 falls t)}
 \item Dateneingabe: Statistik
@@ -713,8 +712,8 @@ Inverse: \texttt{menu, 6, 5, 9, (\%, \textbackslash{}nu)}
 \item Konfidenzniveau korrekt eintragen
 \end{enumerate}
 
-\subsection*{Liste}
-\label{sec:orge2366d5}
+\subsection{Liste}
+\label{sec:org7bc7fdc}
 Lineare Regression:
 \begin{enumerate}
 \item x-liste und y-liste eintragen
@@ -727,8 +726,8 @@ Statistische Berechnungen:
 \item \texttt{menu, 6, 1, <Zahl>}
 \end{enumerate}
 
-\subsection*{Spreadsheet}
-\label{sec:org13a2508}
+\subsection{Spreadsheet}
+\label{sec:orgcb81a62}
 Datensatz hinzufügen:
 \begin{enumerate}
 \item Name in erste Zelle einfügen
@@ -790,10 +789,10 @@ Newton-Alorithmus:
 \newpage
 \end{multicols}
 \begin{multicols}{2}
-\section*{Formelsammlung}
-\label{sec:org6542903}
-\subsection*{Lageparameter}
-\label{sec:orgb04c5e0}
+\section{Formelsammlung}
+\label{sec:org96e5a86}
+\subsection{Lageparameter}
+\label{sec:org558d8bb}
 \begin{itemize}
 \item \textbf{Klassenbreite}: \(b_m = x_m^o - x_m^u\)
 \item \textbf{Klassenmitte}: \(\frac{x_m^o + x_m^u}{2}\)
@@ -888,8 +887,8 @@ r &= \frac{\sigma_{XY}}{\sigma_X\sigma_Y} \quad mit \ |\sigma_{XY}| \leq \sigma_
 r &= \frac{\sum_{i=1}^{n}(x_i-\overline{x})(y_i-\overline{y})}{\sqrt{(\sum_{i=1}^{n}(x_i-\overline{x})^2)(\sum_{i=1}^n(y_i-\overline{y})^2)}}
 \end{align*}
 
-\subsection*{Prognossen}
-\label{sec:org65432de}
+\subsection{Prognossen}
+\label{sec:org588ba48}
 \textbf{gleitender Mittelwert}
 \begin{align*}
 M_t = \frac{1}{T+t}(\sum_{T=1}^{t-1} x_T +x_t)
@@ -906,15 +905,15 @@ b_1 &= \frac{\sum_{i=1}^n x_iy_i - n\overline{x} \ \overline{y}}{\sum_{i=1}^n x_
 \begin{align*}
 f(x) = a_0 + a_1(x-x_1) + a_2(x-x_1)(x-x_2)+...+a_n(x-x_1)...(x-x_n)
 \end{align*}
-\subsection*{Anteilswert / Wahrscheinlichkeit (p)}
-\label{sec:org59a5ac8}
+\subsection{Anteilswert / Wahrscheinlichkeit (p)}
+\label{sec:org3838ad8}
 k = Anzahl gute-Fälle, n = Stichprobenumfang
 \begin{equation*}
 \overline{p} = \frac{k}{n}
 \end{equation*}
 
-\subsection*{Fehler}
-\label{sec:org582c5e6}
+\subsection{Fehler}
+\label{sec:org1288a39}
 \textbf{Fehler}:
 \begin{equation*}
 e = z\frac{\sigma}{\sqrt{n}}
@@ -947,8 +946,8 @@ n \geq \frac{z^2N\sigma^2}{e^2(N-1)+z^2\sigma^2}
 
 \end{multicols}
 
-\subsection*{Varianz für das Stichprobenmittel \(\overline(X)\):}
-\label{sec:orgaab308f}
+\subsection{Varianz für das Stichprobenmittel \(\overline(X)\):}
+\label{sec:org3917da5}
 \begin{center}
 \begin{tabular}{lll}
 Stichprobe & \(\sigma^2\) bekannt (\(\sigma_{\overline{X}}^2\)) & \(\sigma^2\) unbekannt (\(\hat{\sigma}_{\overline{X}}^2\))\\
@@ -959,8 +958,8 @@ Unendliche Grundgesamtheit & \(\frac{\sigma^2}{n}\) & \(\frac{s^2}{n}\)\\
 \end{tabular}
 \end{center}
 
-\subsection*{Varianz für den Anteilswert (P):}
-\label{sec:org7cea2af}
+\subsection{Varianz für den Anteilswert (P):}
+\label{sec:org61677a4}
 
 für \(np (1-P) > 9\) aprox. normalverteilt
 \begin{center}

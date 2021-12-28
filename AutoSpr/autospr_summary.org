@@ -1,15 +1,6 @@
 #+title: Automaten und Sprachen
 #+EMAIL: olivier.lischer@ost.ch
-#+OPTIONS: toc:2 num:2
-#+LATEX_CLASS: article
-#+LATEX_CLASS_OPTIONS: [11pt,twoside,landscape]
-#+LATEX_HEADER: \usepackage[top=2cm,bottom=2cm,right=2cm,left=2cm,landscape]{geometry}
-#+LATEX_HEADER: \usepackage{multicol}
-#+LATEX_HEADER: \usepackage{enumitem}
-#+LATEX_HEADER: \usepackage[hidelinks]{hyperref}
-#+LATEX_HEADER: \setlist{noitemsep}
-#+LATEX_HEADER: \setlength{\parindent}{0pt}
-#+LATEX_HEADER: \setlength{\columnseprule}{0.2pt}
+#+SETUPFILE: ../latex_includes.conf
 
 #+LATEX: \begin{multicols}{3}
 * Week 1                                                              :empty:

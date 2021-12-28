@@ -3,20 +3,11 @@
 :ROAM_ALIASES: CySec
 :END:
 #+title: Cyber Security Foundations
-#+SETUPFILE: ~/roam/ost_exam_summary_setup.conf
+#+SETUPFILE: ../latex_includes.conf
 #+LANGUAGE: en
-#+LATEX_HEADER: \usepackage{fancyhdr}
-#+LATEX_HEADER: \pagestyle{fancy} %eigener Seitenstil
-#+LATEX_HEADER: \fancyhf{} %alle Kopf- und Fußzeilenfelder bereinigen
-#+LATEX_HEADER: \fancyhead[L]{CySec FS2021} %Kopfzeile links
-#+LATEX_HEADER: \fancyhead[C]{} %zentrierte Kopfzeile
-#+LATEX_HEADER: \fancyhead[R]{Olivier Lischer} %Kopfzeile rechts
-#+LATEX_HEADER: \renewcommand{\headrulewidth}{0.4pt} %obere Trennlinie
-#+LATEX_HEADER: \fancyfoot[C]{\thepage} %Seitennummer
-#+LATEX_HEADER: \renewcommand{\footrulewidth}{0.4pt} %untere Trennlinie
 
 
-\begin{multicols}{4}
+#+LATEX: \begin{multicols}{4}
 
 * Week 01 - Cybersecurity Concepts
 ** Asset
@@ -1441,4 +1432,4 @@ Threat and incident management best practice
 - *A9: Using Components with known vulnerabilities*: check regularly for known bugs in your library
 - *A10: Insufficient Logging & Monitoring*: allows attack to maintain persistence, tamper, extract or destroy data. Most breaches are over 200 days old until detected, typically detected by external parties rather than internal processes
 * End
-\end{multicols}
+#+LATEX: \end{multicols}

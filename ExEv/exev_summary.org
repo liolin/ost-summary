@@ -3,7 +3,7 @@
 :ROAM_ALIASES: exev
 :END:
 #+title: Experimentieren und Evaluieren
-#+SETUPFILE: ~/roam/ost_exam_summary_setup.conf
+#+SETUPFILE: ../latex_includes.conf
 
 #+LATEX: \begin{multicols}{3}
 * TODO Versuchsplanung

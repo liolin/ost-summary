@@ -1,7 +1,7 @@
 #+title: Web Engineering + Design 1
-#+SETUPFILE: ~/roam/ost_exam_summary_setup.conf
+#+SETUPFILE: ../latex_includes.conf
 
-\begin{multicols}{4}
+#+LATEX: \begin{multicols}{4}
 * Begriffe
 HTML (Hyper Text Markup Language) ist für die Semantic zuständing. CSS für das styling der Elemente und JS für das interaktive Verhalten der Website.
 
@@ -377,4 +377,4 @@ const parsedURL = new URL(req.url, `http://${req.headers.host}`);
 Levels of REST: Level 0 - The Swamp of POX, Level 1 - Resources, Level 2 - HTTP Verbs, Level 3 - Hypermedia Controls
 
 * End
-\end{multicols}
+#+LATEX: \end{multicols}

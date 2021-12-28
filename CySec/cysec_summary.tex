@@ -1,4 +1,4 @@
-% Created 2021-12-28 Tue 18:41
+% Created 2021-12-28 Tue 18:45
 % Intended LaTeX compiler: xelatex
 \documentclass[11pt,twoside,landscape]{article}
 \usepackage{graphicx}
@@ -19,16 +19,6 @@
 \setlist{noitemsep}
 \setlength{\parindent}{0pt}
 \setlength{\columnseprule}{0.2pt}
-\usepackage{fancyhdr}
-\pagestyle{fancy} %eigener Seitenstil
-\fancyhf{} %alle Kopf- und Fußzeilenfelder bereinigen
-\fancyhead[L]{CySec FS2021} %Kopfzeile links
-\fancyhead[C]{} %zentrierte Kopfzeile
-\fancyhead[R]{Olivier Lischer} %Kopfzeile rechts
-\renewcommand{\headrulewidth}{0.4pt} %obere Trennlinie
-\fancyfoot[C]{\thepage} %Seitennummer
-\renewcommand{\footrulewidth}{0.4pt} %untere Trennlinie
-\setcounter{secnumdepth}{0}
 \author{Olivier Lischer}
 \date{\today}
 \title{Cyber Security Foundations}
@@ -43,10 +33,10 @@
 
 \begin{multicols}{4}
 
-\section*{Week 01 - Cybersecurity Concepts}
-\label{sec:org3f025e9}
-\subsection*{Asset}
-\label{sec:orgb28ed0d}
+\section{Week 01 - Cybersecurity Concepts}
+\label{sec:org618c041}
+\subsection{Asset}
+\label{sec:orgc162403}
 \textbf{Asset}: anything within an enviornment that should be protected
 loss or disclosure could result in:
 \begin{itemize}
@@ -65,8 +55,8 @@ loss or disclosure could result in:
 \item intellectual property
 \end{itemize}
 
-\subsubsection*{How to proectect intellectual property}
-\label{sec:org1d8e575}
+\subsubsection{How to proectect intellectual property}
+\label{sec:org3d64284}
 \textbf{copyright}
 \begin{itemize}
 \item law guarantees that the creators authorship is protected against unauthorized duplication
@@ -98,8 +88,8 @@ loss or disclosure could result in:
 \end{itemize}
 \item it's one of the best technique to protect computer software (Microsoft, Cisco, Apple, \ldots{})
 \end{itemize}
-\subsection*{CIA triad}
-\label{sec:orgef482d3}
+\subsection{CIA triad}
+\label{sec:orge0ee21d}
 \begin{center}
 \includegraphics[width=.9\linewidth]{img/cia_triad.png}
 \end{center}
@@ -134,8 +124,8 @@ loss or disclosure could result in:
 \item nonrepudiation is an essential part of accountability
 \end{itemize}
 
-\subsection*{Data classification}
-\label{sec:org6f93e9e}
+\subsection{Data classification}
+\label{sec:orgb9b0469}
 \begin{itemize}
 \item is used to determine how much effort, money and resources are allocated to protect the data
 \end{itemize}
@@ -216,8 +206,8 @@ tracing or hiding sensitive data:
 \end{itemize}
 \end{itemize}
 
-\subsection*{Threat}
-\label{sec:orgea00fb0}
+\subsection{Threat}
+\label{sec:org4760b5f}
 \textbf{threat}: any potential danger to an asset (intentional or accidental)
 
 \textbf{threat actor / agent}
@@ -250,8 +240,8 @@ tracing or hiding sensitive data:
 \item \textbf{E}levation of privilege: a limited user account is transformed into an account with greater privileges / power / access
 \end{itemize}
 
-\subsection*{Vulnerability}
-\label{sec:orge474cdc}
+\subsection{Vulnerability}
+\label{sec:org9594e9f}
 \textbf{Vulnerability}: weakness in an asset
 \begin{itemize}
 \item Common Vulnerabilities and Exposures (\emph{CVE})
@@ -259,8 +249,8 @@ tracing or hiding sensitive data:
 
 \textbf{Exploit}: software / sequence of commands the take advantage of a vulnerability
 
-\subsection*{Risk management}
-\label{sec:org2d15fde}
+\subsection{Risk management}
+\label{sec:orgfeb906c}
 \textbf{Risk management}:
 \begin{itemize}
 \item develop information security strategies
@@ -299,8 +289,8 @@ tracing or hiding sensitive data:
 \end{center}
 
 
-\subsubsection*{Quantitative risk analysis}
-\label{sec:orgf0e2f38}
+\subsubsection{Quantitative risk analysis}
+\label{sec:org911585e}
 \begin{enumerate}
 \item \textbf{Exposure factor (EF)}: percentage of the overall asset value loss
 
@@ -339,8 +329,8 @@ tracing or hiding sensitive data:
 \includegraphics[width=.9\linewidth]{img/quantitative_risk_analysis.png}
 \end{center}
 
-\subsubsection*{risk treatments methods}
-\label{sec:org1a25ae6}
+\subsubsection{risk treatments methods}
+\label{sec:orgdda8653}
 \textbf{Risk Mitigation}: implement safeguards to eliminate vulnerabilities or block threats
 
 \textbf{Risk Assignment}: placement of the cost of loss onto another entity / organization (e.g. outsourcing)
@@ -355,8 +345,8 @@ tracing or hiding sensitive data:
 
 \textbf{Residual risk}: the risk witch is left after implementing the countermeasures
 
-\subsection*{Privacy}
-\label{sec:org0f1f630}
+\subsection{Privacy}
+\label{sec:org0c12114}
 \textbf{Privacy}: the right of the individual to control their personal data
 
 \textbf{pseudonymization}: replacing data elements with pseudonyms
@@ -371,10 +361,10 @@ tracing or hiding sensitive data:
 \item EU GDPR
 \end{itemize}
 
-\section*{Week 02 - Identity and Access Management (IAM)}
-\label{sec:org6534fd0}
-\subsection*{Controlling access to assets}
-\label{sec:org72d5a8e}
+\section{Week 02 - Identity and Access Management (IAM)}
+\label{sec:orgc12a3de}
+\subsection{Controlling access to assets}
+\label{sec:org05b6cc2}
 \begin{itemize}
 \item \textbf{access control}
 \begin{itemize}
@@ -477,20 +467,20 @@ tracing or hiding sensitive data:
 \end{itemize}
 \end{itemize}
 
-\subsection*{The steps of access control}
-\label{sec:org7d78081}
+\subsection{The steps of access control}
+\label{sec:org7aeb3c6}
 \begin{center}
 \includegraphics[width=.9\linewidth]{img/steps_of_access_control.png}
 \end{center}
 
-\subsubsection*{Identification}
-\label{sec:orgd1c3d6e}
+\subsubsection{Identification}
+\label{sec:org93f4d48}
 \begin{itemize}
 \item process of subject claiming an identity (e.g. username)
 \end{itemize}
 
-\subsubsection*{Authentication}
-\label{sec:org39b8fef}
+\subsubsection{Authentication}
+\label{sec:org87fbe5b}
 \begin{itemize}
 \item process of verifying that the claimed indent is valid (e.g. with password)
 
@@ -529,8 +519,8 @@ tracing or hiding sensitive data:
 \end{itemize}
 \end{itemize}
 
-\subsubsection*{Authorization}
-\label{sec:orgec83387}
+\subsubsection{Authorization}
+\label{sec:org5b0a9ff}
 \begin{itemize}
 \item process ensures that the access to an object is possible with the rights and privileges
 
@@ -626,20 +616,20 @@ tracing or hiding sensitive data:
 \end{itemize}
 \end{itemize}
 
-\subsubsection*{Auditing}
-\label{sec:org098f2b7}
+\subsubsection{Auditing}
+\label{sec:org53a0255}
 \begin{itemize}
 \item recording activities of a subject and its objects
 \end{itemize}
 
-\subsubsection*{Accounting}
-\label{sec:org42b4ed8}
+\subsubsection{Accounting}
+\label{sec:orgf7e76a6}
 \begin{itemize}
 \item linking a human to the activities of an online identity through auditing, authorization, authentication and identification
 \end{itemize}
 
-\subsection*{The common access control attacks}
-\label{sec:org0903a45}
+\subsection{The common access control attacks}
+\label{sec:org8dab76b}
 \begin{itemize}
 \item \textbf{Access Aggregation Attack (passive attack)}
 \begin{itemize}
@@ -707,8 +697,8 @@ tracing or hiding sensitive data:
 \end{itemize}
 \end{itemize}
 
-\subsection*{Protection mechanisms}
-\label{sec:orge5d0ae4}
+\subsection{Protection mechanisms}
+\label{sec:org6e27add}
 \begin{itemize}
 \item Data hiding
 \begin{itemize}
@@ -727,12 +717,12 @@ tracing or hiding sensitive data:
 \end{itemize}
 \end{itemize}
 
-\section*{{\bfseries\sffamily TODO} Week 03 - Linux}
-\label{sec:org56daba4}
-\section*{Week 04 - Symmetric and key exchange}
-\label{sec:org3d02f08}
-\subsection*{Cryptography concepts}
-\label{sec:org655f05a}
+\section{{\bfseries\sffamily TODO} Week 03 - Linux}
+\label{sec:org9ea21c0}
+\section{Week 04 - Symmetric and key exchange}
+\label{sec:orgbb19e28}
+\subsection{Cryptography concepts}
+\label{sec:orgf1d1651}
 \begin{itemize}
 \item \textbf{plaintext message}: message before coded into a form
 
@@ -783,8 +773,8 @@ tracing or hiding sensitive data:
 \end{itemize}
 \end{itemize}
 
-\subsection*{Symmetric cryptography}
-\label{sec:orgc80998d}
+\subsection{Symmetric cryptography}
+\label{sec:org3ca9281}
 \begin{itemize}
 \item symmetric key algorithms 
 \begin{itemize}
@@ -831,8 +821,8 @@ tracing or hiding sensitive data:
 \end{itemize}
 \end{itemize}
 
-\subsubsection*{AES}
-\label{sec:org3cdd16e}
+\subsubsection{AES}
+\label{sec:org04faf55}
 \begin{itemize}
 \item \textbf{AES}: standard built arround the \textbf{Rijndael algorithm}
 \begin{itemize}
@@ -850,8 +840,8 @@ tracing or hiding sensitive data:
 \includegraphics[width=.9\linewidth]{img/aes_network.png}
 \end{center}
 
-\subsubsection*{Mode of operations of block ciphers}
-\label{sec:orgab3ee19}
+\subsubsection{Mode of operations of block ciphers}
+\label{sec:org7fc7edd}
 \begin{itemize}
 \item \textbf{Electronic Code Block (ECB)}
 \begin{itemize}
@@ -882,10 +872,10 @@ tracing or hiding sensitive data:
 \end{itemize}
 \end{itemize}
 
-\subsection*{Diffie-Hellman Key exchange}
-\label{sec:org9639829}
-\subsubsection*{discrete logarithms problem}
-\label{sec:orga2a6436}
+\subsection{Diffie-Hellman Key exchange}
+\label{sec:orgc1c475b}
+\subsubsection{discrete logarithms problem}
+\label{sec:org2f2d02c}
 \begin{align*}
   a^b &= c (\text{mod} n) \\
   b &= dlog_{a,n}(c) \\
@@ -897,8 +887,8 @@ tracing or hiding sensitive data:
 \item to calculate the log is very difficult => brute force
 \end{itemize}
 
-\subsubsection*{Diffie-Hellman}
-\label{sec:org6060f37}
+\subsubsection{Diffie-Hellman}
+\label{sec:org33e4cd9}
 \begin{enumerate}
 \item both sites agree on parameter p (prime) and generator g (prime)
 \item Alice and Bob select randomly their private values \textbf{a} and \textbf{b}
@@ -932,8 +922,8 @@ tracing or hiding sensitive data:
 \end{itemize}
 \end{itemize}
 
-\subsubsection*{Elliptic Curve Cryptography (ECDHE)}
-\label{sec:org98cda90}
+\subsubsection{Elliptic Curve Cryptography (ECDHE)}
+\label{sec:orgb74fcba}
 \begin{itemize}
 \item \textbf{ECDHE}
 \begin{itemize}
@@ -945,10 +935,10 @@ tracing or hiding sensitive data:
 \item elliptic curve needs a lot less bits for same security
 \end{itemize}
 
-\section*{Week 05 - Assymetric and hash functions}
-\label{sec:org30b2720}
-\subsection*{RSA}
-\label{sec:org3f8cff7}
+\section{Week 05 - Assymetric and hash functions}
+\label{sec:org8bf2df9}
+\subsection{RSA}
+\label{sec:org24e7d42}
 \begin{itemize}
 \item two use cases
 \begin{enumerate}
@@ -996,8 +986,8 @@ tracing or hiding sensitive data:
 \end{itemize}
 
 
-\subsubsection*{Build parameters}
-\label{sec:org5a57787}
+\subsubsection{Build parameters}
+\label{sec:org43c68a3}
 \begin{enumerate}
 \item Choose p\textsubscript{1} and p\textsubscript{2}
 \begin{enumerate}
@@ -1016,8 +1006,8 @@ tracing or hiding sensitive data:
 \end{enumerate}
 \end{enumerate}
 
-\subsection*{Encrypting using RSA}
-\label{sec:orgd1e3037}
+\subsection{Encrypting using RSA}
+\label{sec:org4392d56}
 \begin{itemize}
 \item is very weak for short messages
 \begin{itemize}
@@ -1028,8 +1018,8 @@ tracing or hiding sensitive data:
 \item Encryption using RSA is not very common (slow)
 \end{itemize}
 
-\subsection*{Signing using RSA}
-\label{sec:org24f6006}
+\subsection{Signing using RSA}
+\label{sec:org8be468a}
 \begin{itemize}
 \item Same process as normal encryption. Just encrypt message with own private key
 
@@ -1058,8 +1048,8 @@ tracing or hiding sensitive data:
 \end{itemize}
 \end{itemize}
 
-\subsection*{The hash function}
-\label{sec:org0b86a97}
+\subsection{The hash function}
+\label{sec:orgb9498ca}
 \begin{itemize}
 \item takes message of any length, returns hash of fixed length
 \item hash functions iterative jumble blocks of messages after another
@@ -1130,10 +1120,10 @@ tracing or hiding sensitive data:
 \includegraphics[width=.9\linewidth]{img/hmac.png}
 \end{center}
 
-\section*{Week 06 - Complete cryptography systems}
-\label{sec:orgc374b9e}
-\subsection*{Public cryptography}
-\label{sec:orgfe64fef}
+\section{Week 06 - Complete cryptography systems}
+\label{sec:org95891ef}
+\subsection{Public cryptography}
+\label{sec:org9e6694c}
 \begin{itemize}
 \item \textbf{Digital certificates}
 \begin{itemize}
@@ -1170,8 +1160,8 @@ tracing or hiding sensitive data:
 \end{itemize}
 \end{itemize}
 
-\subsection*{Complete cryptographic systems}
-\label{sec:orgab1a167}
+\subsection{Complete cryptographic systems}
+\label{sec:org983d789}
 \begin{itemize}
 \item \textbf{Authenticated Encryption with associated data (AEAD)}
 \begin{itemize}
@@ -1218,10 +1208,10 @@ tracing or hiding sensitive data:
 \end{itemize}
 \end{itemize}
 
-\section*{Week 07 - TLS}
-\label{sec:org2d2ba57}
-\subsection*{Introduction to TLS}
-\label{sec:orgc3b442e}
+\section{Week 07 - TLS}
+\label{sec:org3d36abc}
+\subsection{Introduction to TLS}
+\label{sec:org987b0aa}
 \begin{itemize}
 \item OSI Layer 4+
 \item based on TCP
@@ -1236,8 +1226,8 @@ tracing or hiding sensitive data:
 \end{itemize}
 
 
-\subsubsection*{TLS Architecture}
-\label{sec:org20c06d9}
+\subsubsection{TLS Architecture}
+\label{sec:orga962bb8}
 \begin{itemize}
 \item \textbf{TLS connection}
 \begin{itemize}
@@ -1273,8 +1263,8 @@ tracing or hiding sensitive data:
 \end{itemize}
 \end{itemize}
 
-\subsubsection*{History}
-\label{sec:orgba69bd6}
+\subsubsection{History}
+\label{sec:orgf5fc5f7}
 \begin{itemize}
 \item SSL 1 - TLS 1.0 shouldn't used (broken)
 \item TLS 1.1 - TLS 1.3 are OK
@@ -1289,8 +1279,8 @@ tracing or hiding sensitive data:
 \end{itemize}
 
 
-\subsection*{TLS Protocol}
-\label{sec:orga61d544}
+\subsection{TLS Protocol}
+\label{sec:org3e53c1e}
 \begin{itemize}
 \item Record header
 \begin{itemize}
@@ -1314,8 +1304,8 @@ tracing or hiding sensitive data:
 \end{itemize}
 \end{itemize}
 
-\subsubsection*{TLS Handshake}
-\label{sec:org55d2100}
+\subsubsection{TLS Handshake}
+\label{sec:orgd89c42a}
 \begin{itemize}
 \item allows authentication
 \item negotiate encryption / MAC algorithms
@@ -1372,8 +1362,8 @@ tracing or hiding sensitive data:
 \end{itemize}
 
 
-\subsubsection*{TLS Alert protocol}
-\label{sec:org13e0b37}
+\subsubsection{TLS Alert protocol}
+\label{sec:org5534599}
 \begin{itemize}
 \item 2 bytes length
 \item first byte: level - warning or fatal (fatal immediately termination)
@@ -1381,8 +1371,8 @@ tracing or hiding sensitive data:
 \end{itemize}
 
 
-\subsubsection*{TLS Session Resumption}
-\label{sec:org14d59c6}
+\subsubsection{TLS Session Resumption}
+\label{sec:org2c85e9e}
 \begin{itemize}
 \item instead of of negotiating new security parameter the previous session can be used
 \begin{enumerate}
@@ -1394,8 +1384,8 @@ tracing or hiding sensitive data:
 \end{itemize}
 
 
-\subsubsection*{Heartbeat Protocol}
-\label{sec:org30443e2}
+\subsubsection{Heartbeat Protocol}
+\label{sec:org04b7808}
 \begin{itemize}
 \item runs on top of TLS Record protocol
 \item assures the sender is still alive
@@ -1403,15 +1393,15 @@ tracing or hiding sensitive data:
 \end{itemize}
 
 
-\subsubsection*{SSL / TLS Attacks}
-\label{sec:org26d05eb}
+\subsubsection{SSL / TLS Attacks}
+\label{sec:orgd617f0a}
 \begin{center}
 \includegraphics[width=.9\linewidth]{img/ssl_tls_attacks.png}
 \end{center}
 
 
-\subsection*{TLS 1.3}
-\label{sec:org3668410}
+\subsection{TLS 1.3}
+\label{sec:orgff1aad7}
 \begin{itemize}
 \item 1-RTT
 \begin{itemize}
@@ -1435,10 +1425,10 @@ tracing or hiding sensitive data:
 \end{itemize}
 \end{itemize}
 
-\section*{Week 08 - Advanced TLS}
-\label{sec:org2df5391}
-\subsection*{Public Key Infrastructure (PKI)}
-\label{sec:org8c0701b}
+\section{Week 08 - Advanced TLS}
+\label{sec:orgabc88fa}
+\subsection{Public Key Infrastructure (PKI)}
+\label{sec:org8da5054}
 \begin{itemize}
 \item \textbf{Public Key Infrastructure (PKI)}
 \begin{itemize}
@@ -1454,8 +1444,8 @@ tracing or hiding sensitive data:
 \begin{center}
 \includegraphics[width=.9\linewidth]{img/pki.png}
 \end{center}
-\subsection*{X.509 Certificates}
-\label{sec:org575f383}
+\subsection{X.509 Certificates}
+\label{sec:orgef198fc}
 \begin{itemize}
 \item standard for the format of public key certificates
 
@@ -1495,8 +1485,8 @@ tracing or hiding sensitive data:
 \end{itemize}
 
 
-\subsection*{Trust Service Providers - Certificate Authorities}
-\label{sec:org28f2c67}
+\subsection{Trust Service Providers - Certificate Authorities}
+\label{sec:orgdfe1e67}
 \begin{itemize}
 \item \textbf{Trust Service Provider (TSP)}
 \begin{itemize}
@@ -1555,10 +1545,10 @@ tracing or hiding sensitive data:
 \end{itemize}
 \end{itemize}
 
-\section*{Week 09 - Authentication Protocols}
-\label{sec:org9c7dc6b}
-\subsection*{Authentication Schemes}
-\label{sec:org48bfd81}
+\section{Week 09 - Authentication Protocols}
+\label{sec:orgd3aec20}
+\subsection{Authentication Schemes}
+\label{sec:org3ebd30f}
 \begin{itemize}
 \item Authentication Schemes Classification
 \begin{enumerate}
@@ -1607,8 +1597,8 @@ tracing or hiding sensitive data:
 \end{itemize}
 
 
-\subsubsection*{A3. Challenge / Response}
-\label{sec:org72b1ed7}
+\subsubsection{A3. Challenge / Response}
+\label{sec:org4869e7c}
 \begin{itemize}
 \item the proper way of authenticating over an insecure channel
 
@@ -1626,9 +1616,9 @@ tracing or hiding sensitive data:
 \end{itemize}
 
 
-\begin{itemize}
+\begin{enumerate}
 \item Kerberos
-\label{sec:orga21556e}
+\label{sec:orgbe8d77a}
 \begin{itemize}
 \item \textbf{Key Distribution Center (KDC)}
 \begin{itemize}
@@ -1681,10 +1671,10 @@ tracing or hiding sensitive data:
 \includegraphics[width=.9\linewidth]{img/inter_realm_authentication.png}
 \end{center}
 \end{itemize}
-\end{itemize}
+\end{enumerate}
 
-\subsubsection*{A5. Zero-Knowledge Password Proofs}
-\label{sec:orgc4df617}
+\subsubsection{A5. Zero-Knowledge Password Proofs}
+\label{sec:org2f7a93b}
 \begin{itemize}
 \item DH parameters are encrypted with the user password and then transmitted
 \begin{itemize}
@@ -1697,8 +1687,8 @@ tracing or hiding sensitive data:
 \end{center}
 \end{itemize}
 
-\subsubsection*{Summary}
-\label{sec:org71e4271}
+\subsubsection{Summary}
+\label{sec:orgcc07870}
 \begin{center}
 \includegraphics[width=.9\linewidth]{img/vulnerability_matrix.png}
 \end{center}
@@ -1707,10 +1697,10 @@ tracing or hiding sensitive data:
 \item Challenge / Response based authentication schemes are the standard
 \end{itemize}
 
-\section*{Week 10 - Introduction to Ethical Hacking and Penetration Testing}
-\label{sec:org6f375cc}
-\subsection*{Introduction to Ethical Hacking}
-\label{sec:org462718b}
+\section{Week 10 - Introduction to Ethical Hacking and Penetration Testing}
+\label{sec:org8839189}
+\subsection{Introduction to Ethical Hacking}
+\label{sec:org1936f2a}
 \begin{itemize}
 \item Attack concepts
 \begin{itemize}
@@ -1759,8 +1749,8 @@ tracing or hiding sensitive data:
 \end{center}
 \end{itemize}
 
-\subsection*{Malicious code}
-\label{sec:orgfbeb19f}
+\subsection{Malicious code}
+\label{sec:org6b4d1e4}
 \begin{itemize}
 \item \textbf{Zero-Day Attack}
 \item source of malicious code
@@ -1778,8 +1768,8 @@ tracing or hiding sensitive data:
 \end{itemize}
 \end{itemize}
 
-\subsection*{Virus propagation techniques}
-\label{sec:org68195cc}
+\subsection{Virus propagation techniques}
+\label{sec:org4e27912}
 \begin{itemize}
 \item \textbf{master boot record infection}
 \begin{itemize}
@@ -1802,8 +1792,8 @@ tracing or hiding sensitive data:
 \end{itemize}
 \end{itemize}
 
-\subsection*{Malware Technologies}
-\label{sec:org4ab9db8}
+\subsection{Malware Technologies}
+\label{sec:orgcbca215}
 \begin{itemize}
 \item \textbf{Multipartite Viruses}
 \begin{itemize}
@@ -1863,8 +1853,8 @@ tracing or hiding sensitive data:
 \end{itemize}
 \end{itemize}
 
-\subsection*{Antivirus}
-\label{sec:org305fb1b}
+\subsection{Antivirus}
+\label{sec:org867ee3b}
 \begin{itemize}
 \item software to prevent, detect and remove malware
 \item not only from viruses
@@ -1876,8 +1866,8 @@ tracing or hiding sensitive data:
 \end{itemize}
 \end{itemize}
 
-\subsection*{Applications Attack}
-\label{sec:org94f73e3}
+\subsection{Applications Attack}
+\label{sec:orge7aa293}
 \begin{itemize}
 \item \textbf{Buffer Overflows}
 \begin{itemize}
@@ -1905,8 +1895,8 @@ tracing or hiding sensitive data:
 \end{itemize}
 \end{itemize}
 
-\subsection*{Web Application Attack}
-\label{sec:orgf521e32}
+\subsection{Web Application Attack}
+\label{sec:org9bb3695}
 \begin{itemize}
 \item \textbf{Cross-Site Scripting (XSS)}
 \begin{itemize}
@@ -1930,8 +1920,8 @@ tracing or hiding sensitive data:
 \end{itemize}
 \end{itemize}
 
-\subsection*{Network security}
-\label{sec:org4b83584}
+\subsection{Network security}
+\label{sec:org5d924e4}
 \begin{itemize}
 \item why hacking network devices
 \begin{itemize}
@@ -1993,8 +1983,8 @@ tracing or hiding sensitive data:
 \end{itemize}
 
 
-\subsubsection*{Session hijacking}
-\label{sec:org8635ec2}
+\subsubsection{Session hijacking}
+\label{sec:org637a544}
 \begin{itemize}
 \item \textbf{Session IDs}
 \begin{itemize}
@@ -2029,10 +2019,10 @@ tracing or hiding sensitive data:
 \end{itemize}
 \end{itemize}
 
-\section*{Week 11 - Federation}
-\label{sec:org5adfd38}
-\subsection*{Federations}
-\label{sec:org37f4dbf}
+\section{Week 11 - Federation}
+\label{sec:org9901cdc}
+\subsection{Federations}
+\label{sec:org7185c40}
 \begin{itemize}
 \item \textbf{Federation Identity Management}
 \begin{itemize}
@@ -2064,8 +2054,8 @@ tracing or hiding sensitive data:
 \end{itemize}
 \end{itemize}
 
-\subsection*{Shibboleth}
-\label{sec:orged1256f}
+\subsection{Shibboleth}
+\label{sec:org2570429}
 \begin{itemize}
 \item protocol to implement
 \end{itemize}
@@ -2097,8 +2087,8 @@ tracing or hiding sensitive data:
 \includegraphics[width=.9\linewidth]{img/shibboleth.png}
 \end{center}
 
-\subsection*{XML Security and SAML}
-\label{sec:org5e867cd}
+\subsection{XML Security and SAML}
+\label{sec:org809e7d9}
 \begin{itemize}
 \item \textbf{Secure Assertion Markup Lnaguage (SAM)}
 \begin{itemize}
@@ -2107,8 +2097,8 @@ tracing or hiding sensitive data:
 \end{itemize}
 \end{itemize}
 
-\subsection*{OAuth 2 Authorization Framework}
-\label{sec:org83e064f}
+\subsection{OAuth 2 Authorization Framework}
+\label{sec:org0c33e39}
 \begin{description}
 \item[{goal}] app can access you data at some service but without knowing your password
 
@@ -2140,8 +2130,8 @@ tracing or hiding sensitive data:
 \includegraphics[width=.9\linewidth]{img/oauth2_protocol_flow.png}
 \end{center}
 
-\subsection*{OpenID Connect Authentication Layer}
-\label{sec:orge256b5b}
+\subsection{OpenID Connect Authentication Layer}
+\label{sec:org92c98d6}
 \begin{itemize}
 \item solves the problem of
 \begin{itemize}
@@ -2171,10 +2161,10 @@ tracing or hiding sensitive data:
 \item RP (OAuth Client) requests a signed ID Token authenticating User (Resource Owner) from OP (Authorization/Resource Server)
 \end{itemize}
 
-\section*{Week 12 - Email Security}
-\label{sec:orga3ab13e}
-\subsection*{S/MIME}
-\label{sec:orgcad372d}
+\section{Week 12 - Email Security}
+\label{sec:org074a9b8}
+\subsection{S/MIME}
+\label{sec:orgd1a2e41}
 \textbf{Multipurpose Internet Mail Extension (MIME)}
 
 \textbf{S/MIME} type 1: multipart entity with subtype \textbf{multipart/signed}. contains two bodies:
@@ -2222,8 +2212,8 @@ Storage of keys
 \end{itemize}
 \end{itemize}
 
-\subsection*{SPAM}
-\label{sec:orgc1738ed}
+\subsection{SPAM}
+\label{sec:org920e674}
 \textbf{Sender Policy Framework (SPF)}: a SPF record indicate which servers are allowed to send e-mail on behalf of the domain
 
 \textbf{Domain Keys Identified Mail (DKIM)}: SMTP server hash content and encrypt it with private key; receiver can decrypt it with public key (queried over DNS) and compare hash (basically a signature)
@@ -2237,8 +2227,8 @@ Storage of keys
 \item envelope recipient address
 \end{itemize}
 
-\section*{Week 13 - Detect and Respond}
-\label{sec:org3888cf4}
+\section{Week 13 - Detect and Respond}
+\label{sec:orgb0211f5}
 \textbf{Technical vulnerability management} is a security practice to proactively mitigate / prevent exploitation of vulnerabilities. The process involves the:
 \begin{enumerate}
 \item identification
@@ -2296,8 +2286,8 @@ Threat and incident management best practice
 \item Security incident management: Security incident management framework, Security incident management process, Emergency fixes, forensic investigation
 \end{enumerate}
 
-\section*{Week 14 - Web Application Security}
-\label{sec:org299c320}
+\section{Week 14 - Web Application Security}
+\label{sec:orgc3844f6}
 \textbf{User Credentials}: The simplest attack to hack a system is to attack the user credentials using e.g. \textbf{Spear Phishing}, \textbf{Password breached}
 
 \begin{itemize}
@@ -2312,7 +2302,7 @@ Threat and incident management best practice
 \item \textbf{A9: Using Components with known vulnerabilities}: check regularly for known bugs in your library
 \item \textbf{A10: Insufficient Logging \& Monitoring}: allows attack to maintain persistence, tamper, extract or destroy data. Most breaches are over 200 days old until detected, typically detected by external parties rather than internal processes
 \end{itemize}
-\section*{End}
-\label{sec:org4e5d30d}
+\section{End}
+\label{sec:orgad424c1}
 \end{multicols}
 \end{document}
