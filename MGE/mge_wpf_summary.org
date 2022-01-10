@@ -1,0 +1,7 @@
+#+TITLE: MGE WPF Summary
+#+AUTHOR: Olivier Lischer
+#+SETUPFILE: ../latex_includes.conf
+
+#+LATEX: \begin{multicols}{3}
+
+#+LATEX: \end{multicols}

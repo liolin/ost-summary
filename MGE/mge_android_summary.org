@@ -1,0 +1,488 @@
+#+TITLE: MGE Android Summary
+#+AUTHOR: Olivier Lischer
+#+SETUPFILE: ../latex_includes.conf
+
+#+LATEX: \begin{multicols}{3}
+
+*Native / Web /Hybrid*
+
+[[file:img/vor-nachteile-native-web-hybrid.png]]
+
+
+*Callbacks*
+
+[[file:img/android_callbacks.png]]
+
+
+*Ressources*
+
+Every Android App has some resources. It exist different kind of resources:
+- colors which are used in the app (colors.xml)
+- strings which are used (strings.xml)
+- styles (styles.xml)
+- dimensions / sizes (dimens.xml)
+
+
+To reference a value from one of the resource file the following syntax is used:
+#+begin_quote xml
+  <Button
+      android:id="@+id/buttonNavigate" <!-- creates new ID on place -->
+      android:text="@string/open_2nd_activity" <!-- references open_2nd_activity in strings.xml --> />
+#+end_quote
+
+
+*Dimensions*
+
+In the Android SDK exist six diffrent units for dimensions:
+- dp: Density-indepentend pixels (das sollte man verwendend)
+- sp: scale-independend pixels (das verwenden, wenn man mit Schriftgrössen arbeitet)
+- px: Pixels
+- pt: Punkt
+- in: Inch
+- mm: millimeter
+
+
+You should only use =dp= and =sp= because these two units are the only one which scale with the screen resolution.
+=sp= should be used if it is used for text size because if the setting =big font size= is enabled on Android the font is scaled.
+=dp= is not affected by =big font size= option.
+
+
+*Android Manifest*
+The AndroidManifest.xml contains essential information over the app which are important for the operating system.
+The most important parts of the file are:
+- package: a unique ID for the app
+- versionName: human readable string. Mostly in the style of 1.0.0
+- versionCode: a positive Inter for internal usage. Higher number = new App. Can just be incremented
+- minSDKVersion: minimal required SDK Version the smartphone needs
+- maxSDKVersion: max required SDK (is ignored)
+- targetSDKVersion: on which SDK Version you tested your application
+
+
+*Intents*
+
+Intents are used to call other components like an other Activity or an other App.
+In the [[id:4f5b6711-708d-48c2-a05a-496eec1540bf][Android SDK]] exists two diffrent kind of intents:
+- [[id:540e5897-efb9-4881-ac7a-57ae37b6495e][Explicit intents]] (An explicit intent is mostly used to call an other component of the own app)
+- [[id:629ca2cb-d375-4b03-9ead-71cee6fbe98d][Implicit intents]] (An implicit intent is used mostly used call other apps)
+
+An App can register itself for implicit intents inside the [[id:0126a2f8-c947-46db-8abc-fe3584826cf6][AndroidManifest]].
+
+To send data to the target component the following functions are used:
+- =setData=
+- =putExtra() / putExtras()=
+
+
+*AppComat / Compatibility*
+
+AppCompat is a part of the Jetpack Library in the AndroidX namepace.
+It is used to use new Features on old devices.
+Where possible you should use the AppCompat class instead of the original [[id:4f5b6711-708d-48c2-a05a-496eec1540bf][Android SDK]] version.
+
+
+*Layouts*
+
+The Simple Layouts are used when you know at compile time how many items should be rendered on the Screen.
+In the [[id:4f5b6711-708d-48c2-a05a-496eec1540bf][Android SDK]] exits multiple simple layouts. But today only the [[id:4983ada3-1db9-406e-9ed6-06657bf9c81d][Jetpacks ConstraintLayout]] is used.
+The most important attributes:
+- =layout_width=
+  - match_parent (as big as possible)
+  - match_content (as small as possible)
+  - dp (not recommended)
+- =layout_height=
+  - match_parent (as big as possible)
+  - match_content (as small as possible)
+  - dp (not recommended)
+- =padding=
+- =layout_margin=
+
+The prefix =layout_= indicates that the argument is just a wish to the parent view element. The parent can ignore / adjust this option to optimize the screen.
+- [[id:f325292a-1f1f-468f-b1a3-7632d3eef33b][The LinearLayout in Android]]
+- [[id:2fb03c05-a60b-48b2-91d9-92dd2aec7827][The FrameLayout in Android]]
+- [[id:f9d9dd00-3927-4022-a83d-45ceea310dca][The RelativeLayout in Android]]
+- [[id:4983ada3-1db9-406e-9ed6-06657bf9c81d][Jetpacks ConstraintLayout]]
+
+[[file:img/view_recycling.png]]
+
+
+*Fragments*
+
+Sometimes you want to use the same screen in multiple activities.
+For example a list of items which is faded in.
+This list of item can not be implemented as a [[id:655e59b8-7872-4ea9-831a-e080ad3ae1a8][Android SDK Activity]].
+But with a *Fragment* it is possible.
+A fragment consists of a XML and Java file.
+
+Use only the =androidx.fragment.app*= classes.
+
+
+[[file:img/fragment_static_include.png]]
+
+
+[[file:img/fragment_dynamic_include.png]]
+
+[[file:img/fragment_parameter_method.png]]
+
+
+*How to hand over parameters to a fragment*
+
+Use always =Bundle= to set parameters for the Fragment ([[id:825afe17-8301-4ad8-9cbb-bb0438621fc0][What are Fragments in the Android SDK]])
+Otherwise, the values getting lost when the fragment is updated.
+It is recommended to create a Factory Function to create the fragment.
+#+begin_quote
+  public class OutputFragment extends Fragment {
+      private TextView textOutput;
+      public static OutputFragment create(String text) {
+	  Bundle args = new Bundle();
+	  args.putString("Key", text);
+	  OutputFragment fragment = new OutputFragment();
+	  fragment.setArguments(args);
+	  return fragment;
+      }
+  }
+#+end_quote
+
+
+*Styles in Android*
+
+[[file:img/styling_in_the_android_sdk.png]]
+
+[[file:img/theme_definition.png]]
+
+[[file:img/use_themes_in_android.png]]
+
+
+*Material Design*
+
+Material is the metaphor:
+- inspired by the pysical world
+- surface should be like paper and ink
+
+Bold, graphic, intentional:
+- based on prinicples of print medias
+- hierarchy, grid, fonts, colors
+
+Motion provides meaning:
+- motion means action
+- sestrained, subtle use
+
+
+*Permissions*
+
+In Android exists two kinds of permission:
+- normal, requested by the system
+- dangerous, requested by the user
+
+Permissions can be revoked by the user at *any* time.
+Since API 30 it is possible that the system revokes the permission automatically.
+*Important*: Check always access on proceeded APIs.
+If not a =SecurityException= could be thrown.
+
+
+*Persistence*
+
+In Android exits 5 APIs to store something on the storage:
+
+- App-sepcific files
+  + anything
+  + internal / external
+  + File API
+- Preferences
+  + Key-Value, simple value
+  + internal
+  + SharedPreferences
+- Database
+  + often domainobjects
+  + internal
+  + SQLite / Room
+- Medien
+  + Images, Videos, Music
+  + external
+  + MediaStore
+- Dokumente
+  - Documents (PDF, ZIP)
+  - external
+  - Storage Access Framework
+
+
+*Sensor Framework*
+
+For accessing the sensors in a Android based smartphone you use the Sensor Framework.
+All sensors use the same API:
+- =SensorManager=, entry point
+- =Sensor=, represent the real sensor
+- =SensorEvent=, contains the values
+- =SensorEventListener=, used for callbacks
+
+
+*Layer Architecture*
+
+[[file:img/layer_architecture.png]]
+
+
+*Obeserver Pattern*
+
+The goal of the Observer Pattern is to resolve a cyclic dependency.
+The Pattern consists of two objects:
+- *Subject*: is monitored (e.g. a model)
+- *Observer*: monitors the subject (e.g. a view)
+
+
+The observer register it self on the subject.
+The only requirement is that the subject implements a specific interface ([[id:d4e5f169-81a7-4ce9-a0ff-e85399b1294a][Java]], [[id:8fc49f58-a615-4348-ae3a-693f6b69655b][C#]]).
+Using this approach the domain does not have to need anything from the view (excepted the interface).
+
+*MVC*
+
+The MVC consist of three parts:
+- Model: contains the data
+- View: reads data from the model and render it
+- Controller: coordination between View and Model
+
+
+[[file:img/mvc.png]]
+
+
+*Application class*
+
+Every Android App has a =application= node in the [[id:0126a2f8-c947-46db-8abc-fe3584826cf6][AndroidManifest]] file.
+During the start of the app a instance of the class is created.
+It is possible to inherit from this class.
+
+#+begin_quote xml
+  <application android:name=".MyApplication">
+    <!-- Ower Components -->
+  </application>
+#+end_quote
+
+#+begin_quote java
+  public class MyApplication extends Application {
+      @Override
+      public void onCreate() {
+          super.onCreate();
+      }
+
+      // .. more callbacks
+  }
+#+end_quote
+
+Using a custom application class you can:
+- create object which should be initialized only once
+- creating Singleton objects
+- access to global objects
+- monitor life cycle of all activities
+  - implemented interface
+  - =Application.ActivityLifecycleCallbacks=
+
+*Application Lifce Cycle*
+
+[[id:795a1e8f-0b4e-46b1-bdb2-13bbfa3b18c8][The Application class in the Android SDK]] has several life cycle methods:
+
+- onCreate
+- onTerminate
+  - on real devices never called
+- onConfigurationChanged
+  - on system configuration changes
+- onLowMemory
+  - hint for a possible termination of the app
+- onTrimMemory
+  - on moments where it is possible to clean up
+  - e.g. app is in background
+
+
+*Context*
+
+With a =Context= object it is possible to get access to various services and resources of an app.
+Every =Context= object has a limited life time.
+After the life time is over all resources requested by the context are freed. 
+
+
+/Attention/: The Application context has only restricted possibilities for UI interactions 
+[[file:img/context_and_their_possibilities.png]]
+
+
+*Broadcasts*
+
+Broadcasts are normal intents ([[id:3b9f0cec-ba7b-4633-b6e8-9e1d89cbe99a][What is an Intent and for what it is used in the Android SDK?]]) and are used to exchange message between apps.
+There are two kinds of Broadcasts:
+- lokal broadcasts: exchange inside the app
+- global broadcasts: [[id:f0b10c69-d994-4ca6-822f-94246dad5cfd][Global Broadcasts in Android]]
+
+You can register your self for a broadcast ([[id:6ce0281c-798d-4cc4-af17-50e2c48b0d5a][What are Broadcasts in Android?]]) in two ways:
+- statically in the [[id:0126a2f8-c947-46db-8abc-fe3584826cf6][AndroidManifest]] (not recommended / deprecated)
+- dynamically in the code ([[id:2264402d-8a53-45d5-be97-8c16d8b63525][Dynamic registration for Broadcasts in Android]])
+
+*Global Broadcast*
+
+Global broadcasts are used to exchange messages inside the whole system.
+Android it self sends global broadcasts. For example when:
+- the system is booted
+- network connection is lost
+- a SMS is received
+
+
+*Services*
+
+In Android ([[id:054962de-0049-4182-a5be-89baf809825d][Android Open Source Project]]) Services are used to start Tasks in the background.
+For example:
+- download data from a web page
+- play music
+
+
+The Services is executed by the *Main-Thread*.
+/Important/: The lifecycle of a service is independent of the App and has no UI (some times a Notification).
+
+*Started Service*
+
+Started Services is one type of Services ([[id:9c6e6898-a529-4d57-911e-7010305d3643][For what are Services used in Android?]]) in Android ([[id:054962de-0049-4182-a5be-89baf809825d][Android Open Source Project]]).
+This kind of service is used for unique actions for example for a download of files from a webpage.
+
+/Attention/: This service runs potential for ever.
+
+To stop the service:
+- stopped by service itself: =stopSelf()=
+- stopped by application: =stopService()=
+- stopped by Android
+
+*Bound Service*
+
+Bound Services is one kind of services ([[id:9c6e6898-a529-4d57-911e-7010305d3643][For what are Services used in Android?]]) in Android ([[id:054962de-0049-4182-a5be-89baf809825d][Android Open Source Project]]).
+It is used for task which are long lasting.
+For example a music player.
+
+The communication between the app and the service is similar to a client/server communication.
+The service can have multiple clients.
+If the last client disconnects from the service it is stopped. 
+
+*APK Files*
+
+In Android ([[id:054962de-0049-4182-a5be-89baf809825d][Android Open Source Project]]) Apps are installed from a so called APK file (Android Package).
+This APK files are just a normal zip file.
+
+*APK Splitting*
+
+In the Google Play Store the size of the APK file ([[id:898e62a4-3c05-4352-9a35-54f5d2642c13][What is a APK file?]]) is limited to 100 MB.
+To overcome this limitation you can split your APK file in multiple smaller APKs
+
+*APK Expansion Files*
+
+In the Google Play Store the size of the APK file ([[id:898e62a4-3c05-4352-9a35-54f5d2642c13][What is a APK file?]]) is limited to 100 MB.
+To overcome this limitation you can move your resources (e.g. videos) in a Exapnsion File (.OBB).
+Play Store allows 2x2GB.
+
+*What is the ABB?*
+
+The Android App Bundle (AAB) is the successor of the APK ([[id:898e62a4-3c05-4352-9a35-54f5d2642c13][What is a APK file?]]).
+AAB is a container for all the content from your app. You upload the the Container and [[id:e9a51e61-12a7-41de-b767-1dd1ebd2bc24][Google]] builds the APK dynamically. 
+
+[[file:img/android_app_bundle.png]]
+
+*Android Build Process*
+
+First all files from the project must be compiled to a APK file ([[fig:createApk]]).
+The resulting APK file ([[id:898e62a4-3c05-4352-9a35-54f5d2642c13][What is a APK file?]]) is uploaded to the Google Play Store.
+The Installed App is executed.
+If the code is already translated to Machine Code it is executed straight away.
+Else you compile it to and upload the compiled part to the Play Store.
+Next time a user needs this part of code is does not need to compile it by itself ([[fig:dexToMachine]]). 
+
+#+LABEL: fig:createApk
+[[file:img/android_build_system_create_apk.png]]
+
+
+#+LABEL: fig:dexToMachine
+[[file:img/android_build_system_art_2_0.png]]
+
+*View Binding*
+
+View Binding is way to access the View Elements. It's benefit over the traditional way are:
+- type safety
+- null safety
+- no =findViewById()= calls
+
+  
+View Binding ([[id:ce645eb2-130a-4f38-a8ba-d2f5373fecac][What is View Binding in an Android Application?]]) needs to be enabled in [[id:b880d6d1-af02-4fc5-9956-120dabdbd630][Gradle]].
+The Binding class is generated during the build.
+The name of the Binding class is build from the Layout name in Camel Case with =Binding= as suffix:
+- =activity_main.xml= \rightarrow =ActivityMainBinding=
+
+*Data Binding*
+
+With Data Binding you can access data from inside the [[id:9972fc55-91ae-4c00-a7b8-6b5da2761004][XML]].
+This is achieved with the [[id:3a5552f7-02fd-4266-936e-a3a8f5300f87][Observer Pattern]].
+The Layout is the Observer of the Data.
+
+Data Binding ([[id:9366d32e-354d-4fc2-bf3f-9f55395820f6][What is Data Binding in an Android Application?]]) has to be enabled in the [[id:b880d6d1-af02-4fc5-9956-120dabdbd630][Gradle]] settings.
+If you want to observe your class see [[id:710cb3c3-51d3-471b-90ee-9f0844819153][How to make your Class observable for Data Binding?]]. 
+
+*How to make Class Observable*
+
+/Attention/: A object witch is used with Data Binding ([[id:9366d32e-354d-4fc2-bf3f-9f55395820f6][What is Data Binding in an Android Application?]]) is /not/ automatically observable.
+You have to change the data source in the following way:
+- /observable fields/:  this should be used for a few values only
+- /observable objects/: this should be used if the whole class should be observed
+  - you have to mark with the Annotation =@Bindable= the getters.
+
+
+*How to bind an Event*
+
+First you have to enable Data Binding ([[id:e696f953-a1e1-46b5-b8c2-43cc3d25f088][How to use Data Binding in your Android Application?]]).
+Then you have two options:
+- /method references/: references directly to the function with a fitting signature
+- /listener bindings/: allows the usage of expressions before making a call 
+
+
+*One-way vs. two-way*
+
+A One-Way binding is Data Binding ([[id:9366d32e-354d-4fc2-bf3f-9f55395820f6][What is Data Binding in an Android Application?]]) or View Binding ([[id:ce645eb2-130a-4f38-a8ba-d2f5373fecac][What is View Binding in an Android Application?]]) exclusive.
+You only use one of them.
+But often you want a Two-Way Binding.
+If the data changes the view changes, and if the user changes the UI the data are changed.
+
+*Risk of Data Binding*
+
+Common risks with Data Binding ([[id:9366d32e-354d-4fc2-bf3f-9f55395820f6][What is Data Binding in an Android Application?]]):
+- Pollute the the Model with [[id:4f5b6711-708d-48c2-a05a-496eec1540bf][Android SDK]] Details
+- to much logic in the layout
+- difficult to debug
+- takes longer for the compilation (I think that is not that bad)
+- possible occurrence of invisible observers ([[id:1b8e4a3e-996c-4457-8b80-53dee16220c6][What is a Invisible Observer?]])
+
+
+*MVVM*
+
+The MVVM Pattern consists of three parts:
+- /Model/: contains the Domain / business logic
+- /View/: contains the graphical UI and user input
+- /View Model/: contains the logic form the UI and ensures the communication between Model and View
+  - This is often achived over Data Binding
+  - [[id:9366d32e-354d-4fc2-bf3f-9f55395820f6][What is Data Binding in an Android Application?]]
+  - [[id:f865f34e-1d69-47eb-8019-f26353528203][Data Binding in WPF]]
+
+
+The benefits of the MVVM pattern are:
+- View Model is easy to test because it does not contain any UI classes
+- the View has only visual tasks
+- Changes in the Model do not directly affect the View
+
+[[file:img/mvvm.png]]
+
+
+*Lifecycle Aware Component*
+
+A Lifecycle Aware Component reacts on state changes of *a other component*.
+Using this approach the state logic moves from the owner to the observer.
+
+To implement a Lifecylce Aware Component you need two concepts:
+- /LifecylceOwner/: manage the state in a =Lifecylce= object
+- /LifecylceObserver/: observes the Lifecycle object (and with this the LifecylceOwner)
+
+
+*LiveData Class*
+LiveData is a lifecycle-aware observable ([[id:1887e82a-4518-4631-88c0-1402c858cc68][What is a Lifecycle Aware Component?]], [[id:3a5552f7-02fd-4266-936e-a3a8f5300f87][Observer Pattern]]) from the [[id:4f5b6711-708d-48c2-a05a-496eec1540bf][Android SDK]].
+The benefit that is also solves the Invisible Observer Problem ([[id:1b8e4a3e-996c-4457-8b80-53dee16220c6][What is a Invisible Observer?]]).
+
+It's an alternative to Observable Fields / Observable Objects ([[id:710cb3c3-51d3-471b-90ee-9f0844819153][How to make your Class observable for Data Binding?]]) and is possible to use it as a source for Data Binding ([[id:9366d32e-354d-4fc2-bf3f-9f55395820f6][What is Data Binding in an Android Application?]])
+The Observer is notified if enabled and are removed if it is stopped ([[id:1b8e4a3e-996c-4457-8b80-53dee16220c6][What is a Invisible Observer?]])
+
+* End
+#+LATEX: \end{multicols}
