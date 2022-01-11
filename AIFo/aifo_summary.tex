@@ -1,4 +1,4 @@
-% Created 2022-01-10 Mon 19:45
+% Created 2022-01-11 Tue 11:11
 % Intended LaTeX compiler: xelatex
 \documentclass[11pt,twoside,landscape]{article}
 \usepackage{graphicx}
@@ -210,6 +210,25 @@ Gradient Descent is an algorithm used for optimization problems.
 It works with an iterative approach using gradients. 
 On each iteration the error function is derived.
 
+\textbf{SGD}
+
+The Stochastic Gradient Descent (SGD) is a variant of \href{../../../roam/20211208163604-gradient_descent.org}{Gradient Descent}.
+Instead of calculating the Update Rule (\href{../../../roam/20211208163727-the_gradient_descent_update_rule.org}{The Gradient Descent Update Rule}) for all available data only one random chosen data is used.
+SGD is therefore a \href{../../../roam/20211208163604-gradient_descent.org}{Gradient Descent} with Batch Size 1 (\href{../../../roam/20211208170338-the_batch_size_in_sgd.org}{The batch-size in SGD}).
+Since you only use a subset, it is faster, but you might not find the global minimum.
+
+\textbf{Batch Size}
+
+The subset of the data which are used for Gradient Descent (\href{../../../roam/20211208163604-gradient_descent.org}{Gradient Descent}) is called \textbf{batch-size}.
+Increasing the batch-size will reduce the variance of the gradient estimation.
+There's no "best" batch-size, but often mini-batches of size \(n=32\) or \(n=64\) are used. 
+
+\begin{itemize}
+\item \emph{n = 1}: \href{../../../roam/20211208165153-the_stochastic_gradient_descent.org}{The Stochastic Gradient Descent}
+\item \emph{1 < n < N}: mini-batches (an approx. gradient is used)
+\item \emph{n = N}: the real gradient is used
+\end{itemize}
+
 \textbf{Update Rule}
 
 \begin{equation}
@@ -270,7 +289,7 @@ Regularization is used to punish single parameters of the model to prevent overf
 Normally the L1 and L2 Norms are used to measure the model complexity:
 \begin{enumerate}
 \item L1 - Norm \(\sum_i^p |\beta_i|\)
-\item L2 - Norm \(\sum_i^p |\beta_i|\)
+\item L2 - Norm \(\sum_i^p |\beta_i^2|\)
 \end{enumerate}
 
 \begin{equation}
@@ -347,11 +366,11 @@ Using classification you try to classify given data (X).
 
 You have to minimize the cost by adjusting the weights.
 This is called \textbf{Maximum Likelihood}.
-We want to minimize the equation \ref{eq:org6970314}.
+We want to minimize the equation \ref{eq:org7858a22}.
 This could be done with \href{../../../roam/20211208163604-gradient_descent.org}{Gradient Descent}.
 
 \begin{equation}
-\label{eq:org6970314}
+\label{eq:org7858a22}
   \frac{-1}{N}\sum_{i=1}^{N}(y_i \cdot \log(p_i) + (1 - y_i)\cdot \log(1-p_i))
 \end{equation}
 
@@ -361,11 +380,9 @@ The loss depends on prediction and reality:
 \item if I say it is very likely that it happens and but it does NOT happens \(\rightarrow\) big loss
 \end{itemize}
 
-\begin{figure}[htbp]
-\centering
+\begin{center}
 \includegraphics[width=.9\linewidth]{img/confusion_matrix.png}
-\caption{The Confusion Matrix}
-\end{figure}
+\end{center}
 
 
 \textbf{Mean Accuracy}:
@@ -389,7 +406,7 @@ When the prediction is 1 how often is it correct?
 Precision = \frac{t_p}{t_p + f_p}
 \end{equation}
 
-Sensitivity, Recall, True Positive Rate (TPR): How often the prediction is 1 when its actually 1
+Sensitivity, Recall, True Positive Rate (TPR): How often the prediction is 1 in comparison it should be 1.
 \begin{equation}
 Recall = \frac{t_p}{t_p + f_n}
 \end{equation}
@@ -427,16 +444,19 @@ Application 2 - classify shoplifters from a camera:
 
 \textbf{ROC}
 
+To determine an optimal threshold the ROC is a good way to find it.
+The FPR (x-axes) and TPR (y-axes) (\href{../../../roam/20211227105842-how_to_determine_the_quality_of_a_classifier.org}{How to determine the quality of a classifier?}) are used to generate a coordinate system. 
+The best classifier would be at the point (0/1).
+In general:
+
 \begin{quote}
 the greater the area under the curve (AUC), the higher the ration of true positive to false positives
 \end{quote}
 
 
-\begin{figure}[htbp]
-\centering
+\begin{center}
 \includegraphics[width=.9\linewidth]{img/roc.png}
-\caption{Receiver Operating Characteristics (ROC)}
-\end{figure}
+\end{center}
 
 
 \textbf{KNN}
@@ -552,18 +572,17 @@ If not the extremes (min / max) may dominate the algorithm.
 
 \textbf{Cluster quality}
 
-\emph{WCSS}
-For each cluster you calculate \ref{eq:orgf3f0e24} try to minimize it.
+\emph{WCSS - Within-cluster sum-of-squre}: For each cluster you calculate \ref{eq:org8bb8741} and try to minimize it.
 \begin{equation}
-\label{eq:orgf3f0e24}
+\label{eq:org8bb8741}
 \sum_{i=1}^n d(C_k, x)^2
 \end{equation}
 
 \emph{Silhouette Score}
-\begin{description}
-\item[{a}] average intra-cluster distance
-\item[{b}] average inter-cluster distance
-\end{description}
+\begin{itemize}
+\item \emph{a}: average intra-cluster distance
+\item \emph{b}: average inter-cluster distance
+\end{itemize}
 \begin{equation}
   \text{Silhouette Score of a point} = \frac{b-a}{\max(a,b)}
 \end{equation}
@@ -573,11 +592,13 @@ For a data point \(X\) the average distance to each other data point in the clus
 For a data point \(X\) the average distance to each other data point in the other cluster is \(b\).
 
 
-\begin{figure}[htbp]
-\centering
+\begin{center}
+\includegraphics[width=.9\linewidth]{img/silhouette_score_a_b.png}
+\end{center}
+
+\begin{center}
 \includegraphics[width=.9\linewidth]{img/elbow_method.png}
-\caption{Elbow at 3 or 4}
-\end{figure}
+\end{center}
 
 \textbf{Wisdom of Crowd}
 
@@ -608,11 +629,9 @@ A model can be different in the following dimensions:
 Different model predict a solution.
 And in a vote the final prediction is chosen.
 
-\begin{figure}[htbp]
-\centering
+\begin{center}
 \includegraphics[width=.9\linewidth]{img/ensemble_learning_example.png}
-\caption{Ensemble Learning Example}
-\end{figure}
+\end{center}
 
 
 \textbf{Hard / Soft Voting}

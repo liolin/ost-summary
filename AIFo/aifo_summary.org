@@ -160,6 +160,23 @@ Gradient Descent is an algorithm used for optimization problems.
 It works with an iterative approach using gradients. 
 On each iteration the error function is derived.
 
+*SGD*
+
+The Stochastic Gradient Descent (SGD) is a variant of [[id:ea2badae-65f4-4da3-b156-0f18879b1a2e][Gradient Descent]].
+Instead of calculating the Update Rule ([[id:fe8398f9-86bf-4dae-a44e-92588b078e46][The Gradient Descent Update Rule]]) for all available data only one random chosen data is used.
+SGD is therefore a [[id:ea2badae-65f4-4da3-b156-0f18879b1a2e][Gradient Descent]] with Batch Size 1 ([[id:642a8098-ab57-45dc-9ee4-cd27e996a6e8][The batch-size in SGD]]).
+Since you only use a subset, it is faster, but you might not find the global minimum.
+
+*Batch Size*
+
+The subset of the data which are used for Gradient Descent ([[id:ea2badae-65f4-4da3-b156-0f18879b1a2e][Gradient Descent]]) is called *batch-size*.
+Increasing the batch-size will reduce the variance of the gradient estimation.
+There's no "best" batch-size, but often mini-batches of size $n=32$ or $n=64$ are used. 
+
+- /n = 1/: [[id:7e543b1b-bbdf-4cfe-8f2b-9d51a53fffd1][The Stochastic Gradient Descent]]
+- /1 < n < N/: mini-batches (an approx. gradient is used)
+- /n = N/: the real gradient is used
+
 *Update Rule*
 
 \begin{equation}
@@ -219,7 +236,7 @@ Normally we want reduce the variance (no surprise with out-of-sample data)
 Regularization is used to punish single parameters of the model to prevent overfitting.
 Normally the L1 and L2 Norms are used to measure the model complexity:
 1. L1 - Norm $\sum_i^p |\beta_i|$
-2. L2 - Norm $\sum_i^p |\beta_i|$
+2. L2 - Norm $\sum_i^p |\beta_i^2|$
 
 \begin{equation}
   \sum_{i=1}^n(y_i - \sum_{j=1}^p x_{ij}\beta_j)^2 + \lambda \sum_{j=1}^p\beta_i^2
@@ -299,7 +316,6 @@ The loss depends on prediction and reality:
 - if I say it is very likely that it happens and it happens \rightarrow small loss
 - if I say it is very likely that it happens and but it does NOT happens \rightarrow big loss
 
-#+CAPTION: The Confusion Matrix
 [[file:img/confusion_matrix.png]]
 
 
@@ -324,7 +340,7 @@ When the prediction is 1 how often is it correct?
 Precision = \frac{t_p}{t_p + f_p}
 \end{equation}
 
-Sensitivity, Recall, True Positive Rate (TPR): How often the prediction is 1 when its actually 1
+Sensitivity, Recall, True Positive Rate (TPR): How often the prediction is 1 in comparison it should be 1.
 \begin{equation}
 Recall = \frac{t_p}{t_p + f_n}
 \end{equation}
@@ -358,12 +374,16 @@ Application 2 - classify shoplifters from a camera:
 
 *ROC*
 
+To determine an optimal threshold the ROC is a good way to find it.
+The FPR (x-axes) and TPR (y-axes) ([[id:99e1d38c-e407-486c-aa2f-9e389fa338f2][How to determine the quality of a classifier?]]) are used to generate a coordinate system. 
+The best classifier would be at the point (0/1).
+In general:
+
 #+begin_quote
 the greater the area under the curve (AUC), the higher the ration of true positive to false positives
 #+end_quote
 
 
-#+CAPTION: Receiver Operating Characteristics (ROC)
 [[file:img/roc.png]]
 
 
@@ -462,16 +482,15 @@ If not the extremes (min / max) may dominate the algorithm.
 
 *Cluster quality*
 
-/WCSS/
-For each cluster you calculate [[eqn:min]] try to minimize it.
+/WCSS - Within-cluster sum-of-squre/: For each cluster you calculate [[eqn:min]] and try to minimize it.
 #+LABEL: eqn:min
 \begin{equation}
 \sum_{i=1}^n d(C_k, x)^2
 \end{equation}
 
 /Silhouette Score/
-- a :: average intra-cluster distance
-- b :: average inter-cluster distance
+- /a/: average intra-cluster distance
+- /b/: average inter-cluster distance
 \begin{equation}
   \text{Silhouette Score of a point} = \frac{b-a}{\max(a,b)}
 \end{equation}
@@ -481,7 +500,8 @@ For a data point $X$ the average distance to each other data point in the cluste
 For a data point $X$ the average distance to each other data point in the other cluster is $b$.
 
 
-#+CAPTION: Elbow at 3 or 4
+[[file:img/silhouette_score_a_b.png]]
+
 [[file:img/elbow_method.png]]
 
 *Wisdom of Crowd*
@@ -511,7 +531,6 @@ A model can be different in the following dimensions:
 Different model predict a solution.
 And in a vote the final prediction is chosen.
 
-#+CAPTION: Ensemble Learning Example
 [[file:img/ensemble_learning_example.png]]
 
 
