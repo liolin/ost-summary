@@ -8,6 +8,33 @@
 
 [[file:img/vor-nachteile-native-web-hybrid.png]]
 
+*AOSP*
+
+Android is OpenSource and is called  *AOSP*.
+Google and the other developers normally use the AOSP and add their own services on top of the System.
+The problem is that if updates happen in the AOSP this often is not deployt to the end user.
+This would be to much work for the big companies to update their system.
+Often only big version changes / security patches are applied.
+This is the reason for a big version fragmentation.
+
+*Activity*
+
+Activities are the basic building blocks for creating Android Apps.
+One activity should only do one tasks.
+The MainActicity is the first Activity started when the app is opened (similar to a main function in [[id:d4e5f169-81a7-4ce9-a0ff-e85399b1294a][Java]] / [[id:c3da0875-5291-4b0e-a7fb-a6c556aae3e6][Kotlin]]).
+The MainActivity is defined in the [[id:0126a2f8-c947-46db-8abc-fe3584826cf6][AndroidManifest]].
+An Activity consists of an XML-file (Layout) and a [[id:d4e5f169-81a7-4ce9-a0ff-e85399b1294a][Java]] / [[id:c3da0875-5291-4b0e-a7fb-a6c556aae3e6][Kotlin]] file (logic). 
+
+*Manifest*
+
+The AndroidManifest.xml contains essential information over the app which are important for the operating system.
+The most important parts of the file are:
+- package: a unique ID for the app
+- versionName: human readable string. Mostly in the style of 1.0.0
+- versionCode: a positive Inter for internal usage. Higher number = new App. Can just be incremented
+- minSDKVersion: minimal required SDK Version the smartphone needs
+- maxSDKVersion: max required SDK (is ignored)
+- targetSDKVersion: on which SDK Version you tested your application
 
 *Callbacks*
 
@@ -24,12 +51,20 @@ Every Android App has some resources. It exist different kind of resources:
 
 
 To reference a value from one of the resource file the following syntax is used:
-#+begin_quote xml
-  <Button
-      android:id="@+id/buttonNavigate" <!-- creates new ID on place -->
-      android:text="@string/open_2nd_activity" <!-- references open_2nd_activity in strings.xml --> />
-#+end_quote
+!!Source 1!!
 
+
+*The R Class*
+
+The =R= class in the [[id:4f5b6711-708d-48c2-a05a-496eec1540bf][Android SDK]] is generated during the build.
+With this class all the IDs of the [[id:0170e3f1-a1a9-49ce-823b-d73c1ef87a32][Ressources in the Androids SDK]] can be access.
+The ID is often used to get the Java / Kotlin element to interact with:
+!!source 2!!
+
+*Reach on Event*
+
+To respond to a event *listeners* are used:
+!!source 3!!
 
 *Dimensions*
 
@@ -47,17 +82,6 @@ You should only use =dp= and =sp= because these two units are the only one which
 =dp= is not affected by =big font size= option.
 
 
-*Android Manifest*
-The AndroidManifest.xml contains essential information over the app which are important for the operating system.
-The most important parts of the file are:
-- package: a unique ID for the app
-- versionName: human readable string. Mostly in the style of 1.0.0
-- versionCode: a positive Inter for internal usage. Higher number = new App. Can just be incremented
-- minSDKVersion: minimal required SDK Version the smartphone needs
-- maxSDKVersion: max required SDK (is ignored)
-- targetSDKVersion: on which SDK Version you tested your application
-
-
 *Intents*
 
 Intents are used to call other components like an other Activity or an other App.
@@ -70,6 +94,28 @@ An App can register itself for implicit intents inside the [[id:0126a2f8-c947-46
 To send data to the target component the following functions are used:
 - =setData=
 - =putExtra() / putExtras()=
+
+
+*Explicit Intent*
+
+An explicit intent is mostly used to call an other component of the own app.
+As an example to switch the activity:
+
+!!source 4!!
+
+*Implicit Intent*
+
+An implicit intent is used mostly used call other apps.
+For example when my app needs to take a picture it can ask the operating system to open an other app to take this photo.
+Thanks to this concept not every app has to implement everything by itself.
+
+It is important to check if a receiver is installed which can handle the intent.
+If no receiver is installed and you send your intent, the app will crash with an exception.
+
+!!source 5!!
+
+*Gestartete Apps*
+TODO
 
 
 *AppComat / Compatibility*
@@ -95,14 +141,100 @@ The most important attributes:
 - =padding=
 - =layout_margin=
 
-The prefix =layout_= indicates that the argument is just a wish to the parent view element. The parent can ignore / adjust this option to optimize the screen.
-- [[id:f325292a-1f1f-468f-b1a3-7632d3eef33b][The LinearLayout in Android]]
-- [[id:2fb03c05-a60b-48b2-91d9-92dd2aec7827][The FrameLayout in Android]]
-- [[id:f9d9dd00-3927-4022-a83d-45ceea310dca][The RelativeLayout in Android]]
-- [[id:4983ada3-1db9-406e-9ed6-06657bf9c81d][Jetpacks ConstraintLayout]]
+The prefix =layout_= indicates that the argument is just a wish to the parent view element.
+The parent can ignore / adjust this option to optimize the screen.
+
+*Linear Layout*
+
+In the LinearLayout all children are arranged vertically or horizontally.
+
+
+- =android:orientation=vertical=
+- =andoird:orientation=horizontal=
+- =android:layout_weight=xx=
+  - the larger the number the wider the bar
+  - use it only with =wrap_content=
+
+[[file:img/linearlayout.png]]
+
+*FrameLayout*
+
+In the FrameLayout the children are stacked on each other.
+As an example a photo app, in the background the live image and on top the control widgets. 
+
+
+Adjustment in the height:
+- the later in the XML the higher the control
+- set the height manually with =android:translationZ=
+
+
+[[file:img/framelayout.png]]
+
+*RelativeLayout*
+
+In the RelativeLayout the elements are arranged relatively to each other.
+This is often used for a efficient alternative for nested Layouts ([[id:c0188a14-7bb7-4886-948c-73531501e2b4][Nested Layouts in Android]]).
+
+*Jetpacks ConstraintLayout*
+
+Today the ConstraintLayout should be used for [[id:cedf6172-ed12-414e-baa6-fa2d6f8bff8b][The Simple Layouts in Android]].
+The ConstraintLayout is similar to the RelativeLayout ([[id:f9d9dd00-3927-4022-a83d-45ceea310dca][The RelativeLayout in Android]]).
+The whole Screen is designed using constraints.
+
+Android Studio generated good code (XML) for the ConstraintLayout.
+The size =0dp= means that the size should be calculated from the constraints.
+
+The ConstraintLayout is *not* in the =android:= namespace.
+It is in the XML namespace =app:=. 
+
+
+*Adapter Layout*
+The AdapterLayout can render a potential infinite set of information.
+It is not known how many items are available during compile time.
+For this the [[id:0e5816d9-340f-4747-a0da-73ca4e3504e4][Jetpacks RecyclerView]] is used.
+
+The RecyclerView is an element from the Jetpack Library ([[id:a13146de-59b3-434a-a1c5-839dc49e7c52][Android Jetpack]]).
+As the name says it recycles views ([[id:b0b7482a-a8ad-48e4-ab40-f7c42186c318][The Adapter Layouts in Android]]).
+
+You have to implement a ViewHolder and an Adapter
+The ViewHolder inherits from =RecyclerView.ViewHolder= and stores the reference to the view elements.
+The Adapter inherits from =RecyclerView.Adapter<T>= is used to build from the data an appropriate view.
+The Adapter must override the following functions:
+- =onCreateViewHolder()=: creates a new ViewHolder with references
+- =onBindViewHolder()=: attach new content to the ViewHolder
+- =getItemCount()=: the size of the underlying collection
+
 
 [[file:img/view_recycling.png]]
 
+*Nested Layout*
+But this should be avoided if possible because this has massive negative impacts on the performance.
+/Wide and flat hierarchy/.
+
+*Widgets*
+
+All Widgets in the [[id:4f5b6711-708d-48c2-a05a-496eec1540bf][Android SDK]] are in the Namespace =android.widget= and inherit from =View=.
+
+- TextView
+- Imageview
+- Button
+- ImageButton
+- EditText
+- Checkboxes
+- Picker (for Example Date picker)
+- Floating Action Button (often place at the bottom)
+- Radio Buttons
+- Seek  Bar (slider bar)
+- Switches
+- Rating Bar
+- Spinne (Combobox / Dropdown)
+
+
+There exits also UI-Widget with out XML. These widgets are generated from the OS over an API.
+- Toasts
+- Snackbars
+- Dialoge
+- Notifications
 
 *Fragments*
 
@@ -117,7 +249,6 @@ Use only the =androidx.fragment.app*= classes.
 
 [[file:img/fragment_static_include.png]]
 
-
 [[file:img/fragment_dynamic_include.png]]
 
 [[file:img/fragment_parameter_method.png]]
@@ -128,18 +259,7 @@ Use only the =androidx.fragment.app*= classes.
 Use always =Bundle= to set parameters for the Fragment ([[id:825afe17-8301-4ad8-9cbb-bb0438621fc0][What are Fragments in the Android SDK]])
 Otherwise, the values getting lost when the fragment is updated.
 It is recommended to create a Factory Function to create the fragment.
-#+begin_quote
-  public class OutputFragment extends Fragment {
-      private TextView textOutput;
-      public static OutputFragment create(String text) {
-	  Bundle args = new Bundle();
-	  args.putString("Key", text);
-	  OutputFragment fragment = new OutputFragment();
-	  fragment.setArguments(args);
-	  return fragment;
-      }
-  }
-#+end_quote
+!!source 6!!
 
 
 *Styles in Android*
@@ -223,8 +343,9 @@ All sensors use the same API:
 
 The goal of the Observer Pattern is to resolve a cyclic dependency.
 The Pattern consists of two objects:
-- *Subject*: is monitored (e.g. a model)
-- *Observer*: monitors the subject (e.g. a view)
+
+- /Subject/: is monitored (e.g. a model)
+- /Observer/: monitors the subject (e.g. a view)
 
 
 The observer register it self on the subject.
@@ -234,9 +355,9 @@ Using this approach the domain does not have to need anything from the view (exc
 *MVC*
 
 The MVC consist of three parts:
-- Model: contains the data
-- View: reads data from the model and render it
-- Controller: coordination between View and Model
+- /Model/: contains the data
+- /View/: reads data from the model and render it
+- /Controller/: coordination between View and Model
 
 
 [[file:img/mvc.png]]
@@ -248,22 +369,7 @@ Every Android App has a =application= node in the [[id:0126a2f8-c947-46db-8abc-f
 During the start of the app a instance of the class is created.
 It is possible to inherit from this class.
 
-#+begin_quote xml
-  <application android:name=".MyApplication">
-    <!-- Ower Components -->
-  </application>
-#+end_quote
-
-#+begin_quote java
-  public class MyApplication extends Application {
-      @Override
-      public void onCreate() {
-          super.onCreate();
-      }
-
-      // .. more callbacks
-  }
-#+end_quote
+!!source 7!!
 
 Using a custom application class you can:
 - create object which should be initialized only once
@@ -271,7 +377,6 @@ Using a custom application class you can:
 - access to global objects
 - monitor life cycle of all activities
   - implemented interface
-  - =Application.ActivityLifecycleCallbacks=
 
 *Application Lifce Cycle*
 
@@ -483,6 +588,110 @@ The benefit that is also solves the Invisible Observer Problem ([[id:1b8e4a3e-99
 
 It's an alternative to Observable Fields / Observable Objects ([[id:710cb3c3-51d3-471b-90ee-9f0844819153][How to make your Class observable for Data Binding?]]) and is possible to use it as a source for Data Binding ([[id:9366d32e-354d-4fc2-bf3f-9f55395820f6][What is Data Binding in an Android Application?]])
 The Observer is notified if enabled and are removed if it is stopped ([[id:1b8e4a3e-996c-4457-8b80-53dee16220c6][What is a Invisible Observer?]])
-
-* End
 #+LATEX: \end{multicols}
+
+* Code
+*Source 1 - Access Value from Resource*
+
+#+begin_src xml
+  <Button
+      android:id="@+id/buttonNavigate" <!-- creates new ID on place -->
+      android:text="@string/open_2nd_activity" <!-- references open_2nd_activity in strings.xml --> />
+#+end_src
+
+*Source 2 - R Class example*
+
+#+begin_src java
+  var button = (Button)this.findViewById(R.id.btnLogIn);
+#+end_src
+
+*Source 3 - Reach on an Event using listeners*
+
+#+begin_src java
+  final TextView textView = this.findViewById(R.id.text_example);
+  Button button = this.findViewById(R.id.button_example);
+  
+  button.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+              textView.setText("Button pressed");
+          }
+      }
+   );
+  
+  // Java 8 (Lambda)
+  button.setOnClickListener(v -> { /**/ });
+#+end_src
+
+*Source 4 - Explicit Intent*
+
+#+begin_src kotlin
+  // SecondActivity.kt
+  class SecondActivity : AppCompatActivity() {
+      companion object {
+	  private const val MESSAGE_KEY = "MESSAGE";
+	  fun createIntent(context: Context, message: String): Intent {
+	      val intent = Intent(context, SecondActivity::class.java)
+	      intent.putExtra(MESSAGE_KEY, message)
+	      return intent
+	  }
+      }
+
+      override fun onCreate(savedInstanceState: Bundle?) {
+	  super.onCreate(savedInstanceState)
+	  setContentView(R.layout.activity_second)
+
+	  val textBox = findViewById<TextView>(R.id.textOutput)
+	  val message = intent.extras?.getString(MESSAGE_KEY)
+	  textBox.text = message
+      }
+  }
+
+  // Some other activity
+  startActivity(SecondActivity.createIntent(this, "Hallo Welt"))
+#+end_src
+
+*Source 5 - Implicit Intent*
+
+#+begin_src java
+  val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.ost.ch"))
+  val hasReceiver = intent.resolveActivity(getPackageManager()) != null;
+#+end_src
+
+#+begin_src xml
+<uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+#+end_src
+
+*Source 6 - Fragment with parameters*
+
+#+begin_src java
+  public class OutputFragment extends Fragment {
+      private TextView textOutput;
+      public static OutputFragment create(String text) {
+	  Bundle args = new Bundle();
+	  args.putString("Key", text);
+	  OutputFragment fragment = new OutputFragment();
+	  fragment.setArguments(args);
+	  return fragment;
+      }
+  }
+#+end_src
+
+*Source 7 - The application class*
+
+#+begin_src xml
+  <application android:name=".MyApplication">
+    <!-- Ower Components -->
+  </application>
+#+end_src
+
+#+begin_src java
+  public class MyApplication extends Application {
+      @Override
+      public void onCreate() {
+          super.onCreate();
+      }
+
+      // .. more callbacks
+  }
+#+end_src

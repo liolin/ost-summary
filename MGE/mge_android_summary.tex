@@ -1,4 +1,4 @@
-% Created 2022-01-10 Mon 20:06
+% Created 2022-01-22 Sat 09:27
 % Intended LaTeX compiler: xelatex
 \documentclass[11pt,twoside,landscape]{article}
 \usepackage{graphicx}
@@ -19,6 +19,10 @@
 \setlist{noitemsep}
 \setlength{\parindent}{0pt}
 \setlength{\columnseprule}{0.2pt}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\lstset{ backgroundcolor=\color{white}, basicstyle=\footnotesize, breaklines=true, captionpos=b, commentstyle=\color{mygreen}, escapeinside={\%*}{*)},keywordstyle=\color{blue}, stringstyle=\color{mymauve},}
 \author{Olivier Lischer}
 \date{\today}
 \title{MGE Android Summary}
@@ -27,7 +31,7 @@
  pdftitle={MGE Android Summary},
  pdfkeywords={},
  pdfsubject={},
- pdfcreator={Emacs 27.2 (Org mode 9.5.1)}, 
+ pdfcreator={Emacs 27.2 (Org mode 9.5.2)}, 
  pdflang={English}}
 \begin{document}
 
@@ -39,6 +43,35 @@
 \includegraphics[width=.9\linewidth]{img/vor-nachteile-native-web-hybrid.png}
 \end{center}
 
+\textbf{AOSP}
+
+Android is OpenSource and is called  \textbf{AOSP}.
+Google and the other developers normally use the AOSP and add their own services on top of the System.
+The problem is that if updates happen in the AOSP this often is not deployt to the end user.
+This would be to much work for the big companies to update their system.
+Often only big version changes / security patches are applied.
+This is the reason for a big version fragmentation.
+
+\textbf{Activity}
+
+Activities are the basic building blocks for creating Android Apps.
+One activity should only do one tasks.
+The MainActicity is the first Activity started when the app is opened (similar to a main function in \href{../../../roam/20201116150053-java.org}{Java} / \href{../../../roam/20210921143046-kotlin.org}{Kotlin}).
+The MainActivity is defined in the \href{../../../roam/20210921175054-androidmanifest.org}{AndroidManifest}.
+An Activity consists of an XML-file (Layout) and a \href{../../../roam/20201116150053-java.org}{Java} / \href{../../../roam/20210921143046-kotlin.org}{Kotlin} file (logic). 
+
+\textbf{Manifest}
+
+The AndroidManifest.xml contains essential information over the app which are important for the operating system.
+The most important parts of the file are:
+\begin{itemize}
+\item package: a unique ID for the app
+\item versionName: human readable string. Mostly in the style of 1.0.0
+\item versionCode: a positive Inter for internal usage. Higher number = new App. Can just be incremented
+\item minSDKVersion: minimal required SDK Version the smartphone needs
+\item maxSDKVersion: max required SDK (is ignored)
+\item targetSDKVersion: on which SDK Version you tested your application
+\end{itemize}
 
 \textbf{Callbacks}
 
@@ -59,12 +92,20 @@ Every Android App has some resources. It exist different kind of resources:
 
 
 To reference a value from one of the resource file the following syntax is used:
-\begin{quote}
-<Button
-    android:id="@+id/buttonNavigate" <!-- creates new ID on place -->
-    android:text="@string/open\textsubscript{2nd}\textsubscript{activity}" <!-- references open\textsubscript{2nd}\textsubscript{activity} in strings.xml --> />
-\end{quote}
+!!Source 1!!
 
+
+\textbf{The R Class}
+
+The \texttt{R} class in the \href{../../../roam/20210928175951-android_sdk.org}{Android SDK} is generated during the build.
+With this class all the IDs of the \href{../../../roam/20210928180142-ressources_in_the_androids_sdk.org}{Ressources in the Androids SDK} can be access.
+The ID is often used to get the Java / Kotlin element to interact with:
+!!source 2!!
+
+\textbf{Reach on Event}
+
+To respond to a event \textbf{listeners} are used:
+!!source 3!!
 
 \textbf{Dimensions}
 
@@ -84,19 +125,6 @@ You should only use \texttt{dp} and \texttt{sp} because these two units are the 
 \texttt{dp} is not affected by \texttt{big font size} option.
 
 
-\textbf{Android Manifest}
-The AndroidManifest.xml contains essential information over the app which are important for the operating system.
-The most important parts of the file are:
-\begin{itemize}
-\item package: a unique ID for the app
-\item versionName: human readable string. Mostly in the style of 1.0.0
-\item versionCode: a positive Inter for internal usage. Higher number = new App. Can just be incremented
-\item minSDKVersion: minimal required SDK Version the smartphone needs
-\item maxSDKVersion: max required SDK (is ignored)
-\item targetSDKVersion: on which SDK Version you tested your application
-\end{itemize}
-
-
 \textbf{Intents}
 
 Intents are used to call other components like an other Activity or an other App.
@@ -113,6 +141,28 @@ To send data to the target component the following functions are used:
 \item \texttt{setData}
 \item \texttt{putExtra() / putExtras()}
 \end{itemize}
+
+
+\textbf{Explicit Intent}
+
+An explicit intent is mostly used to call an other component of the own app.
+As an example to switch the activity:
+
+!!source 4!!
+
+\textbf{Implicit Intent}
+
+An implicit intent is used mostly used call other apps.
+For example when my app needs to take a picture it can ask the operating system to open an other app to take this photo.
+Thanks to this concept not every app has to implement everything by itself.
+
+It is important to check if a receiver is installed which can handle the intent.
+If no receiver is installed and you send your intent, the app will crash with an exception.
+
+!!source 5!!
+
+\textbf{Gestartete Apps}
+TODO
 
 
 \textbf{AppComat / Compatibility}
@@ -144,18 +194,118 @@ The most important attributes:
 \item \texttt{layout\_margin}
 \end{itemize}
 
-The prefix \texttt{layout\_} indicates that the argument is just a wish to the parent view element. The parent can ignore / adjust this option to optimize the screen.
+The prefix \texttt{layout\_} indicates that the argument is just a wish to the parent view element.
+The parent can ignore / adjust this option to optimize the screen.
+
+\textbf{Linear Layout}
+
+In the LinearLayout all children are arranged vertically or horizontally.
+
+
 \begin{itemize}
-\item \href{../../../roam/20211017134925-the_linearlayout_in_android.org}{The LinearLayout in Android}
-\item \href{../../../roam/20211017134946-the_framelayout_in_android.org}{The FrameLayout in Android}
-\item \href{../../../roam/20211017135008-the_relativelayout_in_android.org}{The RelativeLayout in Android}
-\item \href{../../../roam/20211017134616-jetpacks_constraintlayout.org}{Jetpacks ConstraintLayout}
+\item \texttt{android:orientation=vertical}
+\item \texttt{andoird:orientation=horizontal}
+\item \texttt{android:layout\_weight=xx}
+\begin{itemize}
+\item the larger the number the wider the bar
+\item use it only with \texttt{wrap\_content}
 \end{itemize}
+\end{itemize}
+
+\begin{center}
+\includegraphics[width=.9\linewidth]{img/linearlayout.png}
+\end{center}
+
+\textbf{FrameLayout}
+
+In the FrameLayout the children are stacked on each other.
+As an example a photo app, in the background the live image and on top the control widgets. 
+
+
+Adjustment in the height:
+\begin{itemize}
+\item the later in the XML the higher the control
+\item set the height manually with \texttt{android:translationZ}
+\end{itemize}
+
+
+\begin{center}
+\includegraphics[width=.9\linewidth]{img/framelayout.png}
+\end{center}
+
+\textbf{RelativeLayout}
+
+In the RelativeLayout the elements are arranged relatively to each other.
+This is often used for a efficient alternative for nested Layouts (\href{../../../roam/20211017141728-nested_layouts_in_android.org}{Nested Layouts in Android}).
+
+\textbf{Jetpacks ConstraintLayout}
+
+Today the ConstraintLayout should be used for \href{../../../roam/20211017133750-the_simple_layouts_in_android.org}{The Simple Layouts in Android}.
+The ConstraintLayout is similar to the RelativeLayout (\href{../../../roam/20211017135008-the_relativelayout_in_android.org}{The RelativeLayout in Android}).
+The whole Screen is designed using constraints.
+
+Android Studio generated good code (XML) for the ConstraintLayout.
+The size \texttt{0dp} means that the size should be calculated from the constraints.
+
+The ConstraintLayout is \textbf{not} in the \texttt{android:} namespace.
+It is in the XML namespace \texttt{app:}. 
+
+
+\textbf{Adapter Layout}
+The AdapterLayout can render a potential infinite set of information.
+It is not known how many items are available during compile time.
+For this the \href{../../../roam/20211017144845-jetpacks_recyclerview.org}{Jetpacks RecyclerView} is used.
+
+The RecyclerView is an element from the Jetpack Library (\href{../../../roam/20211112094119-android_jetpack.org}{Android Jetpack}).
+As the name says it recycles views (\href{../../../roam/20211017133835-the_adapter_layouts_in_android.org}{The Adapter Layouts in Android}).
+
+You have to implement a ViewHolder and an Adapter
+The ViewHolder inherits from \texttt{RecyclerView.ViewHolder} and stores the reference to the view elements.
+The Adapter inherits from \texttt{RecyclerView.Adapter<T>} is used to build from the data an appropriate view.
+The Adapter must override the following functions:
+\begin{itemize}
+\item \texttt{onCreateViewHolder()}: creates a new ViewHolder with references
+\item \texttt{onBindViewHolder()}: attach new content to the ViewHolder
+\item \texttt{getItemCount()}: the size of the underlying collection
+\end{itemize}
+
 
 \begin{center}
 \includegraphics[width=.9\linewidth]{img/view_recycling.png}
 \end{center}
 
+\textbf{Nested Layout}
+But this should be avoided if possible because this has massive negative impacts on the performance.
+\emph{Wide and flat hierarchy}.
+
+\textbf{Widgets}
+
+All Widgets in the \href{../../../roam/20210928175951-android_sdk.org}{Android SDK} are in the Namespace \texttt{android.widget} and inherit from \texttt{View}.
+
+\begin{itemize}
+\item TextView
+\item Imageview
+\item Button
+\item ImageButton
+\item EditText
+\item Checkboxes
+\item Picker (for Example Date picker)
+\item Floating Action Button (often place at the bottom)
+\item Radio Buttons
+\item Seek  Bar (slider bar)
+\item Switches
+\item Rating Bar
+\item Spinne (Combobox / Dropdown)
+\end{itemize}
+
+
+There exits also UI-Widget with out XML. These widgets are generated from the OS over an API.
+\begin{itemize}
+\item Toasts
+\item Snackbars
+\item Dialoge
+\item Notifications
+\end{itemize}
 
 \textbf{Fragments}
 
@@ -172,7 +322,6 @@ Use only the \texttt{androidx.fragment.app*} classes.
 \includegraphics[width=.9\linewidth]{img/fragment_static_include.png}
 \end{center}
 
-
 \begin{center}
 \includegraphics[width=.9\linewidth]{img/fragment_dynamic_include.png}
 \end{center}
@@ -187,18 +336,7 @@ Use only the \texttt{androidx.fragment.app*} classes.
 Use always \texttt{Bundle} to set parameters for the Fragment (\href{../../../roam/20211023174645-what_are_fragments_in_the_android_sdk.org}{What are Fragments in the Android SDK})
 Otherwise, the values getting lost when the fragment is updated.
 It is recommended to create a Factory Function to create the fragment.
-\begin{quote}
-public class OutputFragment extends Fragment \{
-    private TextView textOutput;
-    public static OutputFragment create(String text) \{
-	Bundle args = new Bundle();
-	args.putString("Key", text);
-	OutputFragment fragment = new OutputFragment();
-	fragment.setArguments(args);
-	return fragment;
-    \}
-\}
-\end{quote}
+!!source 6!!
 
 
 \textbf{Styles in Android}
@@ -312,9 +450,10 @@ All sensors use the same API:
 
 The goal of the Observer Pattern is to resolve a cyclic dependency.
 The Pattern consists of two objects:
+
 \begin{itemize}
-\item \textbf{Subject}: is monitored (e.g. a model)
-\item \textbf{Observer}: monitors the subject (e.g. a view)
+\item \emph{Subject}: is monitored (e.g. a model)
+\item \emph{Observer}: monitors the subject (e.g. a view)
 \end{itemize}
 
 
@@ -326,9 +465,9 @@ Using this approach the domain does not have to need anything from the view (exc
 
 The MVC consist of three parts:
 \begin{itemize}
-\item Model: contains the data
-\item View: reads data from the model and render it
-\item Controller: coordination between View and Model
+\item \emph{Model}: contains the data
+\item \emph{View}: reads data from the model and render it
+\item \emph{Controller}: coordination between View and Model
 \end{itemize}
 
 
@@ -343,22 +482,7 @@ Every Android App has a \texttt{application} node in the \href{../../../roam/202
 During the start of the app a instance of the class is created.
 It is possible to inherit from this class.
 
-\begin{quote}
-<application android:name=".MyApplication">
-  <!-- Ower Components -->
-</application>
-\end{quote}
-
-\begin{quote}
-public class MyApplication extends Application \{
-    @Override
-    public void onCreate() \{
-	super.onCreate();
-    \}
-
-    // .. more callbacks
-\}
-\end{quote}
+!!source 7!!
 
 Using a custom application class you can:
 \begin{itemize}
@@ -368,7 +492,6 @@ Using a custom application class you can:
 \item monitor life cycle of all activities
 \begin{itemize}
 \item implemented interface
-\item \texttt{Application.ActivityLifecycleCallbacks}
 \end{itemize}
 \end{itemize}
 
@@ -501,22 +624,22 @@ AAB is a container for all the content from your app. You upload the the Contain
 
 \textbf{Android Build Process}
 
-First all files from the project must be compiled to a APK file (\ref{orgb619555}).
+First all files from the project must be compiled to a APK file (\ref{orgc15e92b}).
 The resulting APK file (\href{../../../roam/20211109113541-what_is_a_apk_file.org}{What is a APK file?}) is uploaded to the Google Play Store.
 The Installed App is executed.
 If the code is already translated to Machine Code it is executed straight away.
 Else you compile it to and upload the compiled part to the Play Store.
-Next time a user needs this part of code is does not need to compile it by itself (\ref{org4486c85}). 
+Next time a user needs this part of code is does not need to compile it by itself (\ref{org3e176db}). 
 
 \begin{center}
 \includegraphics[width=.9\linewidth]{img/android_build_system_create_apk.png}
-\label{orgb619555}
+\label{orgc15e92b}
 \end{center}
 
 
 \begin{center}
 \includegraphics[width=.9\linewidth]{img/android_build_system_art_2_0.png}
-\label{org4486c85}
+\label{org3e176db}
 \end{center}
 
 \textbf{View Binding}
@@ -632,8 +755,121 @@ The benefit that is also solves the Invisible Observer Problem (\href{../../../r
 
 It's an alternative to Observable Fields / Observable Objects (\href{../../../roam/20211112103257-how_to_make_your_class_observable_for_data_binding.org}{How to make your Class observable for Data Binding?}) and is possible to use it as a source for Data Binding (\href{../../../roam/20211112100504-what_is_data_binding_in_an_android_application.org}{What is Data Binding in an Android Application?})
 The Observer is notified if enabled and are removed if it is stopped (\href{../../../roam/20211112110032-what_is_a_invisible_observer.org}{What is a Invisible Observer?})
-
-\section{End}
-\label{sec:org2a409cc}
 \end{multicols}
+
+\section{Code}
+\label{sec:org1dfbb86}
+\textbf{Source 1 - Access Value from Resource}
+
+\lstset{language=XML,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+<Button
+    android:id="@+id/buttonNavigate" <!-- creates new ID on place -->
+    android:text="@string/open_2nd_activity" <!-- references open_2nd_activity in strings.xml --> />
+\end{lstlisting}
+
+\textbf{Source 2 - R Class example}
+
+\lstset{language=java,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+var button = (Button)this.findViewById(R.id.btnLogIn);
+\end{lstlisting}
+
+\textbf{Source 3 - Reach on an Event using listeners}
+
+\lstset{language=java,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+final TextView textView = this.findViewById(R.id.text_example);
+Button button = this.findViewById(R.id.button_example);
+
+button.setOnClickListener(new View.OnClickListener() {
+	@Override
+	public void onClick(View view) {
+	    textView.setText("Button pressed");
+	}
+    }
+ );
+
+// Java 8 (Lambda)
+button.setOnClickListener(v -> { /**/ });
+\end{lstlisting}
+
+\textbf{Source 4 - Explicit Intent}
+
+\lstset{language=kotlin,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+// SecondActivity.kt
+class SecondActivity : AppCompatActivity() {
+    companion object {
+	private const val MESSAGE_KEY = "MESSAGE";
+	fun createIntent(context: Context, message: String): Intent {
+	    val intent = Intent(context, SecondActivity::class.java)
+	    intent.putExtra(MESSAGE_KEY, message)
+	    return intent
+	}
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+	super.onCreate(savedInstanceState)
+	setContentView(R.layout.activity_second)
+
+	val textBox = findViewById<TextView>(R.id.textOutput)
+	val message = intent.extras?.getString(MESSAGE_KEY)
+	textBox.text = message
+    }
+}
+
+// Some other activity
+startActivity(SecondActivity.createIntent(this, "Hallo Welt"))
+\end{lstlisting}
+
+\textbf{Source 5 - Implicit Intent}
+
+\lstset{language=java,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.ost.ch"))
+val hasReceiver = intent.resolveActivity(getPackageManager()) != null;
+\end{lstlisting}
+
+\lstset{language=XML,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+<uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+\end{lstlisting}
+
+\textbf{Source 6 - Fragment with parameters}
+
+\lstset{language=java,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+public class OutputFragment extends Fragment {
+    private TextView textOutput;
+    public static OutputFragment create(String text) {
+	Bundle args = new Bundle();
+	args.putString("Key", text);
+	OutputFragment fragment = new OutputFragment();
+	fragment.setArguments(args);
+	return fragment;
+    }
+}
+\end{lstlisting}
+
+\textbf{Source 7 - The application class}
+
+\lstset{language=XML,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+<application android:name=".MyApplication">
+  <!-- Ower Components -->
+</application>
+\end{lstlisting}
+
+\lstset{language=java,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+public class MyApplication extends Application {
+    @Override
+    public void onCreate() {
+	super.onCreate();
+    }
+
+    // .. more callbacks
+}
+\end{lstlisting}
 \end{document}

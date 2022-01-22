@@ -1,6 +1,6 @@
 % Created 2022-01-11 Tue 11:11
 % Intended LaTeX compiler: xelatex
-\documentclass[11pt,twoside,landscape]{article}
+\documentclass[11pt,landscape]{article}
 \usepackage{graphicx}
 \usepackage{longtable}
 \usepackage{wrapfig}
@@ -16,6 +16,7 @@
 \usepackage[top=2cm,bottom=2cm,right=2cm,left=2cm,landscape]{geometry}
 \usepackage{multicol}
 \usepackage{enumitem}
+\usepackage{fancyhdr}
 \setlist{noitemsep}
 \setlength{\parindent}{0pt}
 \setlength{\columnseprule}{0.2pt}
@@ -29,6 +30,15 @@
  pdfsubject={},
  pdfcreator={Emacs 27.2 (Org mode 9.5.1)}, 
  pdflang={English}}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{AIFo-HS21}
+\fancyhead[L]{Exam Summary}
+\fancyfoot[CE,CO]{\leftmark}
+\fancyfoot[R]{\thepage}
+\fancyfoot[L]{Olivier Lischer}
+
 \begin{document}
 
 \begin{multicols}{3}
