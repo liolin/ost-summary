@@ -1,4 +1,4 @@
-% Created 2022-01-22 Sat 16:35
+% Created 2022-01-22 Sat 19:58
 % Intended LaTeX compiler: xelatex
 \documentclass[10pt,twoside,landscape]{article}
 \usepackage{graphicx}
@@ -35,7 +35,7 @@
  pdflang={English}}
 \begin{document}
 
-\begin{multicols}{3}
+\begin{multicols}{4}
 
 \textbf{Code Behind}
 
@@ -62,12 +62,11 @@ In the figure only the green blocks are part of the Logical Tree.
 
 \begin{center}
 \includegraphics[width=.9\linewidth]{img/visual_logical_tree.png}
-\label{orgfde3f74}
 \end{center}
 
 \textbf{Visual Tree}
 The Visual Tree is the representation of your \href{../../../roam/20211123162058-xaml.org}{XAML} including the elements you don't specify.
-The blue elements in the figure is added to the Tree.
+The blue elements in the figure are added to the Tree.
 This Blue elements are part of the default control of a type.
 The Visual Tree in the figure is the whole tree.
 
@@ -75,9 +74,9 @@ The Visual Tree in the figure is the whole tree.
 
 In \href{../../../roam/20211123162058-xaml.org}{XAML} you can define / import namespaces using the \texttt{xmln} keyword.
 Without a colon it is the default namespace.
-With colon you have to specify the prefix to use the elements form the namespace. 
+With colon, you have to specify the prefix to use the elements form the namespace. 
 
-\textbf{Standard Namspaces - XAML}
+\textbf{Standard Namespaces - XAML}
 
 Some namespaces have some prefixes by conventions:
 \begin{itemize}
@@ -88,9 +87,7 @@ Some namespaces have some prefixes by conventions:
 \item \texttt{local} for elements from you own assembly
 \end{itemize}
 
-
 !!Source 1!!
-
 
 \textbf{Event Handler - XAML}
 
@@ -114,12 +111,12 @@ In XAML we have two different kind of syntax's:
 \textbf{Content Propery - XAML}
 
 Each \href{../../../roam/20211123162058-xaml.org}{XAML} element can specify exactly one property for its content.
-This property can be set over the \href{../../../roam/20211207160947-the_attribute_syntax_in_xaml.org}{The Attribute Syntax in XAML} or you write the value between the start and end tag.
+This property can be set over \href{../../../roam/20211207160947-the_attribute_syntax_in_xaml.org}{The Attribute Syntax in XAML} or you write the value between the start and end tag.
 
 
-\textbf{Attched Properties - XAML}
+\textbf{Attached Properties - XAML}
 
-Attached Properties are used to set the property on a element but the property belongs to an other element (The property is attached).
+Attached Properties are used to set the property on an element, but the property belongs to another element (The property is attached).
 This is mostly used in combination with Layouts.
 This is similar the Properties in Android witch are prefixed with \texttt{layout\_}.
 
@@ -187,7 +184,7 @@ It's a layout in the WPF.
 \textbf{WrapPanel}
 
 It's a layout in the WPF.
-If no space  is left, the next element is wraped on the next line.
+If no space  is left, the next element is wrapped on the next line.
 
 \begin{center}
 \includegraphics[width=.9\linewidth]{img/wrap_panel_horizontal.png}
@@ -220,7 +217,7 @@ Using \texttt{RowSpan} and \texttt{ColSpan} multiple Rows / Columns can be merge
 
 \textbf{Resources in XAML}
 
-Every object which could be describe in XAML (Brush, Color, String) could be a resource.
+Every object which could be described in XAML (Brush, Color, String) could be a resource.
 A resource is similar to a variable in \href{../../../roam/20211003114158-c.org}{C\#} code.
 Every resource has a unique ID (\texttt{x:Key}).
 
@@ -228,14 +225,10 @@ Every resource has a unique ID (\texttt{x:Key}).
 
 A Resource Dictionary is a container (key-value) to store resources.
 The attribute \texttt{x:Key} is the key.
-A local Resource Dictionary is availabel on all Elements inheriting from \texttt{FrameworkElement}.
-The \texttt{Application} class is used for global ressoures.
+A local Resource Dictionary is available on all Elements inheriting from \texttt{FrameworkElement}.
+The \texttt{Application} class is used for global resources.
 
 The Resource Dictionary is access over the Property Element Syntax.
-
-\begin{center}
-\includegraphics[width=.9\linewidth]{img/resource_dictionary.png}
-\end{center}
 
 !!Source 11!!
 
@@ -258,65 +251,65 @@ During the runtime it is not possible to change its value.
 
 !!Source 11!!
 
-\textbf{Dynamtic Resources}
+\textbf{Dynamic Resources}
 
 Dynamic Resources can be evaluated multiple times.
-The evaluation is during the runtime and can the value can be changed at runtime.
+The evaluation is during the runtime and is updated when the value is changed.
 
 !!Source 11!!
 
 \textbf{Resource Dictionary in other file}
 
-Sometimes you want to extract your Resource Dictionary \href{../../../roam/20211228120000-what_is_a_resource_dictionary_in_xaml.org}{What is a Resource Dictionary in XAML?} into an seperate \href{../../../roam/20211123162058-xaml.org}{XAML} file.
-This file contains the \texttt{<ResourceDictionary>} tag als \href{../../../roam/20211112100344-xml.org}{XML} root.
-In the other file you can include sepearte xaml file using \texttt{MergedDictionaries}:
+Sometimes you want to extract your Resource Dictionary into a separate \href{../../../roam/20211123162058-xaml.org}{XAML} file.
+This file contains the \texttt{<ResourceDictionary>} tag as \href{../../../roam/20211112100344-xml.org}{XML} root.
+In the other file you can include separate XAML file using \texttt{MergedDictionaries}:
 
 !!Source 14!!
 
 \textbf{Access static C\# from XAML}
 
 Sometimes you have to access static values in the \href{../../../roam/20211003114158-c.org}{C\#} code.
-For example constatns from \href{../../../roam/20211003114703-net.org}{.NET} or form your own code.
+For example constants from \href{../../../roam/20211003114703-net.org}{.NET} or form your own code.
 You can access the value over th markup extension \texttt{x:Static}.
 
 !!Source 15!!
 
 \textbf{Styles in WPF}
 
-Styles are a \href{../../../roam/20211123162058-xaml.org}{XAML} object which group multiple setters togheter.
+Styles are a \href{../../../roam/20211123162058-xaml.org}{XAML} object which group multiple setters together.
 The style can be used inside a Resource Dictionary.
 
-Without styles you have to set every properties, for example the background, on each element.
+Without styles, you have to set every property, for example the background, on each element.
 This leads to code duplication.
 
 !!Source 17 / 18!!
 
 \textbf{Explicit Styles}
 
-Explict Styles required the property \texttt{x:Key}.
+Explicit Styles required the property \texttt{x:Key}.
 !!Source 17!!
 
 \textbf{Implicit Styles}
 
 Implicit Styles must not have the property \texttt{x:Key} explicit set.
 But requires the property \texttt{TargetType}.
-The property \texttt{x:Key} gots automatically the value \texttt{x:Key ="\{x:Type <Type>\}}
+The property \texttt{x:Key} gets automatically the value \texttt{x:Key ="\{x:Type <Type>\}}
 !!Source 18!!
 
 \textbf{Extend your styles}
 
 You can specify a base style, for example for your buttons.
-The you have two possibilities to extend your style:
+Then you have two possibilities to extend your style:
 \begin{enumerate}
-\item assign the style to the target type and set the specific Properties manualy on the element
-\item create a new style which is based on the base style.
+\item Assign the style to the target type and set the specific Properties manually on the element
+\item Create a new style which is based on the base style.
 \end{enumerate}
 
 !!Source 19!!
 
 \textbf{Triggers in WPF}
 
-Triggers allows you to modify your styling of a element based on its state.
+Triggers allow you to modify your styling of an element based on its state.
 
 !!Source 20!!
 
@@ -326,15 +319,11 @@ Triggers allows you to modify your styling of a element based on its state.
 But using Resource Dictionaries this concept could be created.
 The desired theme / resource dictionary is loaded at runtime using \texttt{DynamicResource}.
 
-\begin{center}
-\includegraphics[width=.9\linewidth]{img/themes_in_wpf.png}
-\end{center}
-
 
 \textbf{Control Templates}
 
 Control Templates are used to describe how a control should be display \(\rightarrow\) which element should be inserted in the \href{../../../roam/20211123163209-what_is_the_visual_tree_in_wpf.org}{What is the Visual Tree in WPF?}.
-You can access the curren template using the attribute \texttt{Control.Template}.
+You can access the current template using the attribute \texttt{Control.Template}.
 
 \textbf{Define Custom Control Template}
 
@@ -346,13 +335,13 @@ You can define the custom Control Template:
 
 
 The attribute \texttt{ContentPrester} is used to define which attribute is used for the content.
-The markup extension \texttt{TemplateBinding} is used to bind bind attributes.
+The markup extension \texttt{TemplateBinding} is used to bind attributes.
 This markup extension can only be used inside the Control Template.
 
 \textbf{GUI Guidelines}
 
-\href{../../../roam/20211123162923-wpf.org}{WPF} does not have any guidles like Android.
-However you could / should use the same guidlines / libraries which are used in other places.
+\href{../../../roam/20211123162923-wpf.org}{WPF} does not have any guidelines like Android.
+However, you could / should use the same guidelines / libraries which are used in other places.
 \begin{itemize}
 \item \href{https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit}{Material Design in XAML}
 \item \href{https://mahapps.com/docs/guides/quick-start}{MahApps.Metro}
@@ -362,7 +351,7 @@ However you could / should use the same guidlines / libraries which are used in 
 
 Data Binding in \href{../../../roam/20211123162923-wpf.org}{WPF} works similar to the Data Binding in Android.
 In WPF you use the markup extension \texttt{Binding} to bind property from the code behind.
-To make the data from the code behind availabel for the \href{../../../roam/20211123162058-xaml.org}{XAML} you have to set the \texttt{this.DataContext}.
+To make the data from the code behind available for the \href{../../../roam/20211123162058-xaml.org}{XAML} you have to set the \texttt{this.DataContext}.
 
 \textbf{Binding Types}
 
@@ -380,7 +369,7 @@ A Binding object in WPF has the following properties:
 \begin{itemize}
 \item \texttt{Path}: Name of the source property
 \item \texttt{Mode}: Direction of the data flow
-\item \texttt{Converter}: Convertion between source and destination.
+\item \texttt{Converter}: Conversion between source and destination.
 Is only used in Binding.
 It is not the same as type converters.
 \end{itemize}
@@ -401,7 +390,7 @@ It is not the same as type converters.
 
 The Value Converter is a support object used in data binding in WPF.
 The Value Converter converts the between source and destination so that it can be displayed on a from.
-It also converts the value from a input field back to the class representation.
+It also converts the value from an input field back to the class representation.
 
 \textbf{Value Converter Implementation}
 
@@ -409,13 +398,11 @@ To implement a Value Converter you must implement the \texttt{IValueConverter} i
 The \texttt{IValueConveter} interface provides the following methods:
 \begin{itemize}
 \item \texttt{Convert()}: Convert from source to destination
-\item \texttt{ConvertBack()}: Convert from destinationto sorce
+\item \texttt{ConvertBack()}: Convert from destination into source
 \end{itemize}
 
 
 For a multi binding converter you must implement the \texttt{IMultiValueConverter} interface.
-
-
 The Value Converter can be created:
 \begin{itemize}
 \item as a resource
@@ -427,14 +414,14 @@ The Value Converter can be created:
 
 \textbf{Multi Binding}
 
-Multi Binding is a special case of the Data Binding).
+Multi Binding is a special case of the Data Binding.
 In contrast to normal Data Binding multi binding can bind multiple source properties.
 
 !!Source 24!!
 
 \textbf{DataContext}
 
-The \texttt{DataContext} is used to define the default source for data binding).
+The \texttt{DataContext} is used to define the default source for data binding.
 If the \texttt{DataContext} is not set the logical tree is traversed to the top.
 
 Even it is possible to set the \texttt{DataContext} for single elements this is not very common.
@@ -452,7 +439,7 @@ The markup extension \texttt{ElementName} can be used to refer to elements by th
 \textbf{Notify UI about data changes}
 
 For Data Binding in WPF you can use any object as model.
-However the UI will not react on model changes.
+However, the UI will not react on model changes.
 To notify the UI you have to implement the \texttt{INotifyPropertyChanged} interface.
 During the creation of the binding the destination register itself on the Event \texttt{PropertyChanged}
 If the property is changed the Event is fired and the UI can be updated.
@@ -462,7 +449,7 @@ If the property is changed the Event is fired and the UI can be updated.
 \textbf{IL Weaving}
 
 Using IL Weaving you modify the IL Code (\href{../../../roam/20211003114528-microsoft_intermediate_language.org}{MSIL}) at compile time.
-This should only be used in exceptional cases because debuging is damn hard.
+This should only be used in exceptional cases because debugging is damn hard.
 
 \textbf{Data binding using collections}
 
@@ -472,19 +459,19 @@ This collection must be filled and then as the DataContext set.
 The \texttt{ObservableCollection<T>} implements the \texttt{INotifyCollectionChanged} interface.
 This notifies the UI only if the collection is changed (add / remove).
 The model itself should implement the \texttt{INotifyPropertyChanged} interface.
-Otherwise the changes on the model are not reflected on the UI.
+Otherwise, the changes on the model are not reflected on the UI.
 
 The model does not have to implement the \texttt{INotifyPropertyChanged} interface.
 But normally it should.
 
-To display the data inside the collection the ItemTemplate must be overwritten (see example).
+To display the data inside the collection the \texttt{ItemTemplate} and \texttt{DataTemplate} must be overwritten (see example).
 
 \textbf{Selectors for Collection in Data binding}
 \begin{itemize}
 \item \texttt{SelectedIndex}: Index in Collection
 \item \texttt{SelectedItem}: Element as Object
 \item \texttt{SelectedValue}: Selected Value
-\item \texttt{SelectedValuePath}: Objectpath to the value which is returned in \texttt{SelectedValue}
+\item \texttt{SelectedValuePath}: Object path to the value which is returned in \texttt{SelectedValue}
 \end{itemize}
 
 !!Source 27!!
@@ -497,7 +484,7 @@ The MVVM Pattern consists of three parts:
 \item \emph{View}: contains the graphical UI and user input
 \item \emph{View Model}: contains the logic form the UI and ensures the communication between Model and View
 \begin{itemize}
-\item This is often achived over Data Binding
+\item This is often achieved over Data Binding
 \end{itemize}
 \end{itemize}
 
@@ -525,7 +512,7 @@ For this the \texttt{ICommand} interface is used.
 
 \textbf{RelayCommand}
 
-The \texttt{RelayCommand} implementeds the \texttt{ICommand} interface and can be used to implement the actions directly on the ViewModel (\href{../../../roam/20211103140901-mvvm.org}{MVVM}).
+The \texttt{RelayCommand} implements the \texttt{ICommand} interface and can be used to implement the actions directly on the ViewModel.
 It is an alternative to the normal \texttt{ICommand} usage.
 !!Source 30!!
 
@@ -535,7 +522,7 @@ It is an alternative to the normal \texttt{ICommand} usage.
 \includegraphics[width=.9\linewidth]{img/rule_of_thumb_logic_in_mvvm_.png}
 \end{center}
 
-\textbf{Seperation in Software Engeneering}
+\textbf{Separation in Software Engineering}
 
 The Horizontal approach is the traditional one.
 Changing the technology is easier.
@@ -570,7 +557,7 @@ You want to implement against
 
 You would never solder a lamp directly to the electrical wiring.
 
-\textbf{Localitzation in WPF}
+\textbf{Localization in WPF}
 
 In \href{../../../roam/20211123162923-wpf.org}{WPF} you can create localization using
 \begin{itemize}
@@ -588,7 +575,7 @@ With this approach the translation is technology independent.
 
 \textbf{Routed Events}
 
-An UI Event in \href{../../../roam/20211123162923-wpf.org}{WPF} moves in two phases through the Visual Tree:
+A UI Event in \href{../../../roam/20211123162923-wpf.org}{WPF} moves in two phases through the Visual Tree:
 \begin{itemize}
 \item \emph{Tunneling}: Top to bottom to focused element
 \item \emph{Bubbeling}: Bottom to top from focused element
@@ -604,7 +591,7 @@ You only have to set \texttt{RoutedEventArgs.Handled} to \texttt{false}.
 \end{center}
 
 
-\textbf{Custom Controls / User COntrols}
+\textbf{Custom Controls / User Controls}
 
 A Custom Control extends an already existing control.
 The User Control is a composition from two existing controls.
@@ -623,11 +610,11 @@ You only have to overwrite the Control Template.
 Every \href{../../../roam/20211123162923-wpf.org}{WPF} application has minimal two threads:
 \begin{itemize}
 \item UI Thread: Manages UI, receives events, execute actions
-\item Renderint Thread: runs in background, draws controls
+\item Rendering Thread: runs in background, draws controls
 \end{itemize}
 
 
-Thanks to this controls are draw event when the UI Thread is blocked.
+Thanks to this mechanism, controls are draw event when the UI Thread is blocked.
 Only the UI Thread is allowed to change the UI.
 
 !!Source 31!!
@@ -673,7 +660,7 @@ So the runtime runs a runtime which runts the app.
 \textbf{Xamarin Structure}
 
 You have \emph{Shared Code} and \emph{Platform Code}.
-The Shared Code should be as big as possible while the platform code should be smal as possible.
+The Shared Code should be as big as possible while the platform code should be as small as possible.
 
 
 \begin{center}
@@ -694,17 +681,17 @@ It is one interface for all platform.
 
 \textbf{Xamarin Traditional}
 
-In Xamarin Traditional you write the defition for the UI for each target platform using the native concepts.
-The benefits are that it is faster and you have total access to the underlying SDK.
+In Xamarin Traditional you write the definition for the UI for each target platform using the native concepts.
+The benefits are that it is faster, and you have total access to the underlying SDK.
 The drawback is you have to write the same UI for each platform.
 
 \textbf{Xamarin.Forms}
 
 In Xamarin.Forms you write the UI as a part of the shared code using \href{../../../roam/20211123162058-xaml.org}{XAML}.
 The benefit is you write the UI only once.
-The drawback is have some limitations in the design of the UI and slighly slower performance then Native.
+The drawback is you have some limitations in the design of the UI and slightly slower performance then Native.
 
-However, in general you should use Xamarin.Forms instead of Xarmin Traditional.
+However, in general you should use Xamarin.Forms instead of Xamarin Traditional.
 
 \textbf{Xamarin Renderer}
 
@@ -718,12 +705,10 @@ You can also write custom renderers for existing controls and for custom \href{.
 \includegraphics[width=.9\linewidth]{img/xamarin_renderer.png}
 \end{center}
 
-\section{End}
-\label{sec:orgf5b1246}
 \end{multicols}
 \begin{multicols}{2}
 \section{Code}
-\label{sec:org00e072c}
+\label{sec:org566124e}
 \textbf{Source 1 - Default Namespaces}
 \lstset{language=XML,label= ,caption= ,captionpos=b,numbers=none}
 \begin{lstlisting}
@@ -765,7 +750,7 @@ void MyButton_OnClick(object sender, RoutedEventArgs evtArgs) {}
 \end{lstlisting}
 
 
-\textbf{Source 4 - Attached Properies}
+\textbf{Source 4 - Attached Properties}
 \lstset{language=XML,label= ,caption= ,captionpos=b,numbers=none}
 \begin{lstlisting}
   <Grid>
@@ -801,7 +786,6 @@ public class LocationExtension : MarkupExtension
 }
 \end{lstlisting}
 
-
 \textbf{Source 7 - StackPanel}
 \lstset{language=XML,label= ,caption= ,captionpos=b,numbers=none}
 \begin{lstlisting}
@@ -836,14 +820,10 @@ public class LocationExtension : MarkupExtension
     <RowDefinition Height="1*" />
     <RowDefinition Height="2*" />
   </Grid.RowDefinitions>
-
   <Grid.ColumnDefinitions>
-    <ColumnDefinition Width="1*" />
-    <ColumnDefinition Width="2*" />
+    <ColumnDefinition />
   </Grid.ColumnDefinitions>
-
   <TextBlock Grid.Row="0" Grid.Column="0" />
-  <TextBlock Grid.Row="1" Grid.Column="1" />
 </Grid>
 \end{lstlisting}
 
@@ -854,22 +834,20 @@ public class LocationExtension : MarkupExtension
   <Window.Resources>
     <SolidColorBrush x:Key="OSTBrush" Color="#6E1C50" />
   </Window.Resources>
-  <StackPanel>
-    <Label Content="Variante 1" Foreground="White">
-      <Label.Background>
-	<StaticResource ResourceKey="OSTBrush" />
-      </Label.Background>
-    </Label>
-    <Label Content="Variante 2"
-	   Foreground="White"
-	   Background="{StaticResource ResourceKey=OSTBrush}" />
-    <Label Content="Variante 3"
-	   Foreground="White"
-	   Background="{StaticResource OSTBrush}" />
-    <Label Content="Variant 4"
-	   Foreground="White"
-	   Background="{StaticResource OSTBrush}" />
-  </StackPanel>
+  <Label Content="Variante 1" Foreground="White">
+    <Label.Background>
+      <StaticResource ResourceKey="OSTBrush" />
+    </Label.Background>
+  </Label>
+  <Label Content="Variante 2"
+	 Foreground="White"
+	 Background="{StaticResource ResourceKey=OSTBrush}" />
+  <Label Content="Variante 3"
+	 Foreground="White"
+	 Background="{StaticResource OSTBrush}" />
+  <Label Content="Variant 4"
+	 Foreground="White"
+	 Background="{StaticResource OSTBrush}" />
 </Window>
 \end{lstlisting}
 

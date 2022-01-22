@@ -3,7 +3,7 @@
 #+SETUPFILE: ../latex_includes.conf
 
 #+LATEX_CLASS_OPTIONS: [10pt,twoside,landscape]
-#+LATEX: \begin{multicols}{3}
+#+LATEX: \begin{multicols}{4}
 
 *Code Behind*
 
@@ -26,12 +26,11 @@ The Logical Tree is the representation of your [[id:6f6b66c5-a04c-40ce-b617-ec0c
 Only the controls *you* define are shown in the Logical Tree.
 In the figure only the green blocks are part of the Logical Tree.
 
-#+LABEL: fig:LogicalTree
 [[file:img/visual_logical_tree.png]]
 
 *Visual Tree*
 The Visual Tree is the representation of your [[id:6f6b66c5-a04c-40ce-b617-ec0c42531054][XAML]] including the elements you don't specify.
-The blue elements in the figure is added to the Tree.
+The blue elements in the figure are added to the Tree.
 This Blue elements are part of the default control of a type.
 The Visual Tree in the figure is the whole tree.
 
@@ -39,9 +38,9 @@ The Visual Tree in the figure is the whole tree.
 
 In [[id:6f6b66c5-a04c-40ce-b617-ec0c42531054][XAML]] you can define / import namespaces using the =xmln= keyword.
 Without a colon it is the default namespace.
-With colon you have to specify the prefix to use the elements form the namespace. 
+With colon, you have to specify the prefix to use the elements form the namespace. 
 
-*Standard Namspaces - XAML*
+*Standard Namespaces - XAML*
 
 Some namespaces have some prefixes by conventions:
 - default namespace points to the WPF Control Library
@@ -50,9 +49,7 @@ Some namespaces have some prefixes by conventions:
 - =mc= for elements of /Markup Compatibility/
 - =local= for elements from you own assembly
 
-
 !!Source 1!!
-
 
 *Event Handler - XAML*
 
@@ -74,12 +71,12 @@ In XAML we have two different kind of syntax's:
 *Content Propery - XAML*
 
 Each [[id:6f6b66c5-a04c-40ce-b617-ec0c42531054][XAML]] element can specify exactly one property for its content.
-This property can be set over the [[id:007089d1-4c1d-481c-8978-31f197268c6a][The Attribute Syntax in XAML]] or you write the value between the start and end tag.
+This property can be set over [[id:007089d1-4c1d-481c-8978-31f197268c6a][The Attribute Syntax in XAML]] or you write the value between the start and end tag.
 
 
-*Attched Properties - XAML*
+*Attached Properties - XAML*
 
-Attached Properties are used to set the property on a element but the property belongs to an other element (The property is attached).
+Attached Properties are used to set the property on an element, but the property belongs to another element (The property is attached).
 This is mostly used in combination with Layouts.
 This is similar the Properties in Android witch are prefixed with =layout_=.
 
@@ -139,7 +136,7 @@ It's a layout in the WPF.
 *WrapPanel*
 
 It's a layout in the WPF.
-If no space  is left, the next element is wraped on the next line.
+If no space  is left, the next element is wrapped on the next line.
 
 [[file:img/wrap_panel_horizontal.png]]
 
@@ -166,7 +163,7 @@ Using =RowSpan= and =ColSpan= multiple Rows / Columns can be merged into one.
 
 *Resources in XAML*
 
-Every object which could be describe in XAML (Brush, Color, String) could be a resource.
+Every object which could be described in XAML (Brush, Color, String) could be a resource.
 A resource is similar to a variable in [[id:8fc49f58-a615-4348-ae3a-693f6b69655b][C#]] code.
 Every resource has a unique ID (=x:Key=).
 
@@ -174,12 +171,10 @@ Every resource has a unique ID (=x:Key=).
 
 A Resource Dictionary is a container (key-value) to store resources.
 The attribute =x:Key= is the key.
-A local Resource Dictionary is availabel on all Elements inheriting from =FrameworkElement=.
-The =Application= class is used for global ressoures.
+A local Resource Dictionary is available on all Elements inheriting from =FrameworkElement=.
+The =Application= class is used for global resources.
 
 The Resource Dictionary is access over the Property Element Syntax.
-
-[[file:img/resource_dictionary.png]]
 
 !!Source 11!!
 
@@ -200,63 +195,63 @@ During the runtime it is not possible to change its value.
 
 !!Source 11!!
 
-*Dynamtic Resources*
+*Dynamic Resources*
 
 Dynamic Resources can be evaluated multiple times.
-The evaluation is during the runtime and can the value can be changed at runtime.
+The evaluation is during the runtime and is updated when the value is changed.
 
 !!Source 11!!
 
 *Resource Dictionary in other file*
 
-Sometimes you want to extract your Resource Dictionary [[id:5a0a2069-a9c3-4c74-ad32-30c9368fbd62][What is a Resource Dictionary in XAML?]] into an seperate [[id:6f6b66c5-a04c-40ce-b617-ec0c42531054][XAML]] file.
-This file contains the =<ResourceDictionary>= tag als [[id:9972fc55-91ae-4c00-a7b8-6b5da2761004][XML]] root.
-In the other file you can include sepearte xaml file using =MergedDictionaries=:
+Sometimes you want to extract your Resource Dictionary into a separate [[id:6f6b66c5-a04c-40ce-b617-ec0c42531054][XAML]] file.
+This file contains the =<ResourceDictionary>= tag as [[id:9972fc55-91ae-4c00-a7b8-6b5da2761004][XML]] root.
+In the other file you can include separate XAML file using =MergedDictionaries=:
 
 !!Source 14!!
 
 *Access static C# from XAML*
 
 Sometimes you have to access static values in the [[id:8fc49f58-a615-4348-ae3a-693f6b69655b][C#]] code.
-For example constatns from [[id:95b391d4-12b4-4143-89c8-6bdde15489f1][.NET]] or form your own code.
+For example constants from [[id:95b391d4-12b4-4143-89c8-6bdde15489f1][.NET]] or form your own code.
 You can access the value over th markup extension =x:Static=.
 
 !!Source 15!!
 
 *Styles in WPF*
 
-Styles are a [[id:6f6b66c5-a04c-40ce-b617-ec0c42531054][XAML]] object which group multiple setters togheter.
+Styles are a [[id:6f6b66c5-a04c-40ce-b617-ec0c42531054][XAML]] object which group multiple setters together.
 The style can be used inside a Resource Dictionary.
 
-Without styles you have to set every properties, for example the background, on each element.
+Without styles, you have to set every property, for example the background, on each element.
 This leads to code duplication.
 
 !!Source 17 / 18!!
 
 *Explicit Styles*
 
-Explict Styles required the property =x:Key=.
+Explicit Styles required the property =x:Key=.
 !!Source 17!!
 
 *Implicit Styles*
 
 Implicit Styles must not have the property =x:Key= explicit set.
 But requires the property =TargetType=.
-The property =x:Key= gots automatically the value =x:Key ="{x:Type <Type>}=
+The property =x:Key= gets automatically the value =x:Key ="{x:Type <Type>}=
 !!Source 18!!
 
 *Extend your styles*
 
 You can specify a base style, for example for your buttons.
-The you have two possibilities to extend your style:
-1. assign the style to the target type and set the specific Properties manualy on the element
-2. create a new style which is based on the base style.
+Then you have two possibilities to extend your style:
+1. Assign the style to the target type and set the specific Properties manually on the element
+2. Create a new style which is based on the base style.
    
 !!Source 19!!
 
 *Triggers in WPF*
 
-Triggers allows you to modify your styling of a element based on its state.
+Triggers allow you to modify your styling of an element based on its state.
 
 !!Source 20!!
 
@@ -266,13 +261,11 @@ Triggers allows you to modify your styling of a element based on its state.
 But using Resource Dictionaries this concept could be created.
 The desired theme / resource dictionary is loaded at runtime using =DynamicResource=.
 
-[[file:img/themes_in_wpf.png]]
-
 
 *Control Templates*
 
 Control Templates are used to describe how a control should be display \rightarrow which element should be inserted in the [[id:c05b5376-e1cd-4234-9a58-c3f1883a0564][What is the Visual Tree in WPF?]].
-You can access the curren template using the attribute =Control.Template=.
+You can access the current template using the attribute =Control.Template=.
 
 *Define Custom Control Template*
 
@@ -282,13 +275,13 @@ You can define the custom Control Template:
 
 
 The attribute =ContentPrester= is used to define which attribute is used for the content.
-The markup extension =TemplateBinding= is used to bind bind attributes.
+The markup extension =TemplateBinding= is used to bind attributes.
 This markup extension can only be used inside the Control Template.
 
 *GUI Guidelines*
 
-[[id:4155cb18-18b1-40c3-9b4e-c0471e52bcd2][WPF]] does not have any guidles like Android.
-However you could / should use the same guidlines / libraries which are used in other places.
+[[id:4155cb18-18b1-40c3-9b4e-c0471e52bcd2][WPF]] does not have any guidelines like Android.
+However, you could / should use the same guidelines / libraries which are used in other places.
 - [[https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit][Material Design in XAML]]
 - [[https://mahapps.com/docs/guides/quick-start][MahApps.Metro]]
   
@@ -296,7 +289,7 @@ However you could / should use the same guidlines / libraries which are used in 
 
 Data Binding in [[id:4155cb18-18b1-40c3-9b4e-c0471e52bcd2][WPF]] works similar to the Data Binding in Android.
 In WPF you use the markup extension =Binding= to bind property from the code behind.
-To make the data from the code behind availabel for the [[id:6f6b66c5-a04c-40ce-b617-ec0c42531054][XAML]] you have to set the =this.DataContext=.
+To make the data from the code behind available for the [[id:6f6b66c5-a04c-40ce-b617-ec0c42531054][XAML]] you have to set the =this.DataContext=.
 
 *Binding Types*
 
@@ -311,7 +304,7 @@ In [[id:4155cb18-18b1-40c3-9b4e-c0471e52bcd2][WPF]] exist three different biding
 A Binding object in WPF has the following properties:
 - =Path=: Name of the source property
 - =Mode=: Direction of the data flow
-- =Converter=: Convertion between source and destination.
+- =Converter=: Conversion between source and destination.
   Is only used in Binding.
   It is not the same as type converters.
   
@@ -329,19 +322,17 @@ A Binding object in WPF has the following properties:
 
 The Value Converter is a support object used in data binding in WPF.
 The Value Converter converts the between source and destination so that it can be displayed on a from.
-It also converts the value from a input field back to the class representation.
+It also converts the value from an input field back to the class representation.
 
 *Value Converter Implementation*
 
 To implement a Value Converter you must implement the =IValueConverter= interface.
 The =IValueConveter= interface provides the following methods:
 - =Convert()=: Convert from source to destination
-- =ConvertBack()=: Convert from destinationto sorce
+- =ConvertBack()=: Convert from destination into source
 
 
 For a multi binding converter you must implement the =IMultiValueConverter= interface.
-
-
 The Value Converter can be created:
 - as a resource
 - in code
@@ -351,14 +342,14 @@ The Value Converter can be created:
 
 *Multi Binding*
 
-Multi Binding is a special case of the Data Binding).
+Multi Binding is a special case of the Data Binding.
 In contrast to normal Data Binding multi binding can bind multiple source properties.
 
 !!Source 24!!
 
 *DataContext*
 
-The =DataContext= is used to define the default source for data binding).
+The =DataContext= is used to define the default source for data binding.
 If the =DataContext= is not set the logical tree is traversed to the top.
 
 Even it is possible to set the =DataContext= for single elements this is not very common.
@@ -376,7 +367,7 @@ The markup extension =ElementName= can be used to refer to elements by their nam
 *Notify UI about data changes*
 
 For Data Binding in WPF you can use any object as model.
-However the UI will not react on model changes.
+However, the UI will not react on model changes.
 To notify the UI you have to implement the =INotifyPropertyChanged= interface.
 During the creation of the binding the destination register itself on the Event =PropertyChanged=
 If the property is changed the Event is fired and the UI can be updated.
@@ -386,7 +377,7 @@ If the property is changed the Event is fired and the UI can be updated.
 *IL Weaving*
 
 Using IL Weaving you modify the IL Code ([[id:cb5b4be3-2205-4050-8445-41e0f52eea4c][MSIL]]) at compile time.
-This should only be used in exceptional cases because debuging is damn hard.
+This should only be used in exceptional cases because debugging is damn hard.
 
 *Data binding using collections*
 
@@ -396,18 +387,18 @@ This collection must be filled and then as the DataContext set.
 The =ObservableCollection<T>= implements the =INotifyCollectionChanged= interface.
 This notifies the UI only if the collection is changed (add / remove).
 The model itself should implement the =INotifyPropertyChanged= interface.
-Otherwise the changes on the model are not reflected on the UI.
+Otherwise, the changes on the model are not reflected on the UI.
 
 The model does not have to implement the =INotifyPropertyChanged= interface.
 But normally it should.
 
-To display the data inside the collection the ItemTemplate must be overwritten (see example).
+To display the data inside the collection the =ItemTemplate= and =DataTemplate= must be overwritten (see example).
 
 *Selectors for Collection in Data binding*
 - =SelectedIndex=: Index in Collection
 - =SelectedItem=: Element as Object
 - =SelectedValue=: Selected Value
-- =SelectedValuePath=: Objectpath to the value which is returned in =SelectedValue=
+- =SelectedValuePath=: Object path to the value which is returned in =SelectedValue=
 
 !!Source 27!!
 
@@ -417,7 +408,7 @@ The MVVM Pattern consists of three parts:
 - /Model/: contains the Domain / business logic
 - /View/: contains the graphical UI and user input
 - /View Model/: contains the logic form the UI and ensures the communication between Model and View
-  - This is often achived over Data Binding
+  - This is often achieved over Data Binding
 
 
 The benefits of the MVVM pattern are:
@@ -439,7 +430,7 @@ For this the =ICommand= interface is used.
 
 *RelayCommand*
 
-The =RelayCommand= implementeds the =ICommand= interface and can be used to implement the actions directly on the ViewModel ([[id:192363b7-e21d-4b0a-ba0f-d6af0595ee30][MVVM]]).
+The =RelayCommand= implements the =ICommand= interface and can be used to implement the actions directly on the ViewModel.
 It is an alternative to the normal =ICommand= usage.
 !!Source 30!!
 
@@ -447,7 +438,7 @@ It is an alternative to the normal =ICommand= usage.
 
 [[file:img/rule_of_thumb_logic_in_mvvm_.png]]
 
-*Seperation in Software Engeneering*
+*Separation in Software Engineering*
 
 The Horizontal approach is the traditional one.
 Changing the technology is easier.
@@ -478,7 +469,7 @@ You want to implement against
 
 You would never solder a lamp directly to the electrical wiring.
 
-*Localitzation in WPF*
+*Localization in WPF*
 
 In [[id:4155cb18-18b1-40c3-9b4e-c0471e52bcd2][WPF]] you can create localization using
 - Resources
@@ -492,7 +483,7 @@ With this approach the translation is technology independent.
 
 *Routed Events*
 
-An UI Event in [[id:4155cb18-18b1-40c3-9b4e-c0471e52bcd2][WPF]] moves in two phases through the Visual Tree:
+A UI Event in [[id:4155cb18-18b1-40c3-9b4e-c0471e52bcd2][WPF]] moves in two phases through the Visual Tree:
 - /Tunneling/: Top to bottom to focused element
 - /Bubbeling/: Bottom to top from focused element
 
@@ -504,7 +495,7 @@ You only have to set =RoutedEventArgs.Handled= to =false=.
 [[file:img/routed_events.png]]
 
 
-*Custom Controls / User COntrols*
+*Custom Controls / User Controls*
 
 A Custom Control extends an already existing control.
 The User Control is a composition from two existing controls.
@@ -520,10 +511,10 @@ You only have to overwrite the Control Template.
 
 Every [[id:4155cb18-18b1-40c3-9b4e-c0471e52bcd2][WPF]] application has minimal two threads:
 - UI Thread: Manages UI, receives events, execute actions
-- Renderint Thread: runs in background, draws controls
+- Rendering Thread: runs in background, draws controls
 
 
-Thanks to this controls are draw event when the UI Thread is blocked.
+Thanks to this mechanism, controls are draw event when the UI Thread is blocked.
 Only the UI Thread is allowed to change the UI.
 
 !!Source 31!!
@@ -563,7 +554,7 @@ So the runtime runs a runtime which runts the app.
 *Xamarin Structure*
 
 You have /Shared Code/ and /Platform Code/.
-The Shared Code should be as big as possible while the platform code should be smal as possible.
+The Shared Code should be as big as possible while the platform code should be as small as possible.
 
 
 [[file:img/shared_platform_code.png]]
@@ -580,17 +571,17 @@ It is one interface for all platform.
 
 *Xamarin Traditional*
 
-In Xamarin Traditional you write the defition for the UI for each target platform using the native concepts.
-The benefits are that it is faster and you have total access to the underlying SDK.
+In Xamarin Traditional you write the definition for the UI for each target platform using the native concepts.
+The benefits are that it is faster, and you have total access to the underlying SDK.
 The drawback is you have to write the same UI for each platform.
 
 *Xamarin.Forms*
 
 In Xamarin.Forms you write the UI as a part of the shared code using [[id:6f6b66c5-a04c-40ce-b617-ec0c42531054][XAML]].
 The benefit is you write the UI only once.
-The drawback is have some limitations in the design of the UI and slighly slower performance then Native.
+The drawback is you have some limitations in the design of the UI and slightly slower performance then Native.
 
-However, in general you should use Xamarin.Forms instead of Xarmin Traditional.
+However, in general you should use Xamarin.Forms instead of Xamarin Traditional.
 
 *Xamarin Renderer*
 
@@ -602,7 +593,6 @@ You can also write custom renderers for existing controls and for custom [[id:6f
 
 [[file:img/xamarin_renderer.png]]
 
-* End
 #+LATEX: \end{multicols}
 #+LATEX: \begin{multicols}{2}
 * Code
@@ -643,7 +633,7 @@ You can also write custom renderers for existing controls and for custom [[id:6f
 #+end_src
 
 
-*Source 4 - Attached Properies*
+*Source 4 - Attached Properties*
 #+begin_src xml
   <Grid>
     <Grid.RowDefinitions>
@@ -675,7 +665,6 @@ You can also write custom renderers for existing controls and for custom [[id:6f
   }
 #+end_src
 
-
 *Source 7 - StackPanel*
 #+begin_src xml
   <!-- Orientation could be Vertical or Horiztonal -->
@@ -706,14 +695,10 @@ You can also write custom renderers for existing controls and for custom [[id:6f
       <RowDefinition Height="1*" />
       <RowDefinition Height="2*" />
     </Grid.RowDefinitions>
-
     <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="1*" />
-      <ColumnDefinition Width="2*" />
+      <ColumnDefinition />
     </Grid.ColumnDefinitions>
-
     <TextBlock Grid.Row="0" Grid.Column="0" />
-    <TextBlock Grid.Row="1" Grid.Column="1" />
   </Grid>
 #+end_src
 
@@ -723,22 +708,20 @@ You can also write custom renderers for existing controls and for custom [[id:6f
     <Window.Resources>
       <SolidColorBrush x:Key="OSTBrush" Color="#6E1C50" />
     </Window.Resources>
-    <StackPanel>
-      <Label Content="Variante 1" Foreground="White">
-	<Label.Background>
-	  <StaticResource ResourceKey="OSTBrush" />
-	</Label.Background>
-      </Label>
-      <Label Content="Variante 2"
-	     Foreground="White"
-	     Background="{StaticResource ResourceKey=OSTBrush}" />
-      <Label Content="Variante 3"
-	     Foreground="White"
-	     Background="{StaticResource OSTBrush}" />
-      <Label Content="Variant 4"
-	     Foreground="White"
-	     Background="{StaticResource OSTBrush}" />
-    </StackPanel>
+    <Label Content="Variante 1" Foreground="White">
+      <Label.Background>
+	<StaticResource ResourceKey="OSTBrush" />
+      </Label.Background>
+    </Label>
+    <Label Content="Variante 2"
+	   Foreground="White"
+	   Background="{StaticResource ResourceKey=OSTBrush}" />
+    <Label Content="Variante 3"
+	   Foreground="White"
+	   Background="{StaticResource OSTBrush}" />
+    <Label Content="Variant 4"
+	   Foreground="White"
+	   Background="{StaticResource OSTBrush}" />
   </Window>
 #+end_src
 
