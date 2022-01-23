@@ -1,4 +1,4 @@
-% Created 2022-01-23 Sun 17:20
+% Created 2022-01-23 Sun 17:33
 % Intended LaTeX compiler: xelatex
 \documentclass[11pt,twoside,twocolumn,landscape]{article}
 \usepackage{graphicx}
@@ -60,7 +60,7 @@ Als Kanalkodierung bezeichnet man das Verfahren, digitale Daten bei der Übertra
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/modell_der_informationsverarbeitung.png}
-\caption{\label{fig:org4009098}Model of information processing}
+\caption{\label{fig:orgd673fa2}Model of information processing}
 \end{figure}
 
 \textbf{Probability}
@@ -86,7 +86,7 @@ Dafür müssen die Zeichenvorräte der Quelle und Senke übereinstimmen.
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/informations_uebertragung_information.png}
-\caption{\label{fig:orgfcbde7a}Information, Nachricht}
+\caption{\label{fig:orgda8480d}Information, Nachricht}
 \end{figure}
 
 \textbf{Entscheidungsgehalt}
@@ -102,12 +102,12 @@ H_0 = \log_2(N)[bit]
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/entscheidungsgehalt_tree.png}
-\caption{\label{fig:org9422f21}Entscheidungsgehalt}
+\caption{\label{fig:org9928e34}Entscheidungsgehalt}
 \end{figure}
 
 Zeichenvorrat: X = \{a, b, c, d\}, N = 4 verschieden Zeichen.
 Daher ist der Informationsgehalt \(H_0 = \log_2(4) = 2\).
-Das sieht man auch ihm Baum \ref{fig:org9422f21}.
+Das sieht man auch ihm Baum \ref{fig:org9928e34}.
 Es müssen zwei Entscheidungen getroffen werden, um zu einem Zeichen zu gelangen.
 
 \textbf{Entscheidungsfluss}
@@ -165,14 +165,14 @@ R_Q &= H_0 - H(X)
 \textbf{Kleinste Redundanz}
 
 \emph{Annahme}: alle Zeichen sind gleich wahrscheinlich (a,b,c,d).
-Dann würde sich ein Baum wie in \ref{fig:orgadf88c8} in aufspannen.
+Dann würde sich ein Baum wie in \ref{fig:org1b58f62} in aufspannen.
 Dieser ist der selbe wie im \href{../../../roam/20211001174136-was_ist_der_entscheidungsgehalt.org}{Entscheidungsgehalt}.
 Folglich wird \(R_Q = x - x = 0\) gerechnet.
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/entropie_alle_gleich.png}
-\caption{\label{fig:orgadf88c8}Tree mit gleichmässiger Auftrittswahrscheinlichkeit}
+\caption{\label{fig:org1b58f62}Tree mit gleichmässiger Auftrittswahrscheinlichkeit}
 \end{figure}
 
 \textbf{Codewortlänge}
@@ -326,7 +326,7 @@ Procedure:
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/hufman.png}
-\caption{\label{fig:orge4ac67a}Hufman Example}
+\caption{\label{fig:orgd05cb1f}Hufman Example}
 \end{figure}
 
 \textbf{Lauflängenkodierung}
@@ -374,7 +374,7 @@ The algorithms needs:
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/lempel_ziv_example.png}
-\caption{\label{fig:org221e5f0}Lempel-Ziv Example}
+\caption{\label{fig:org088ee84}Lempel-Ziv Example}
 \end{figure}
 
 \textbf{Transposition Cipher}
@@ -476,7 +476,7 @@ Do decrypt \(c\) to \(m\): \(m = c^d \mod n\).
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/rsa_nach_rinkel.png}
-\caption{\label{fig:orgee96b15}RSA nach Rinkel}
+\caption{\label{fig:orge6532a2}RSA nach Rinkel}
 \end{figure}
 
 \textbf{Channel Matrix}
@@ -518,7 +518,7 @@ Die Kanalmatrix beschreibt wie Wahrscheinlich es ist, dass man \(y\) erhält, we
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/kanalmatrix_modell.png}
-\caption{\label{fig:orgc777491}Channel Matrix Model}
+\caption{\label{fig:org19bf965}Channel Matrix Model}
 \end{figure}
 
 \textbf{Maximum Likelihood}
@@ -527,7 +527,7 @@ How high is the possibility that I receive \(y_1\) when \(x_1\) is sent.
 The cell with the highest value in a column (y-value) is maximum likelihood the x-value which was sent.
 
 \begin{equation}
-\label{eq:org5ea20cc}
+\label{eq:org7c09bd8}
   p(Y|X) =
   \begin{bmatrix}
     0.6 & 0.2 & 0.2 \\
@@ -536,7 +536,7 @@ The cell with the highest value in a column (y-value) is maximum likelihood the 
   \end{bmatrix}
 \end{equation}
 
-When I got a \(y_1\) (first column in \ref{eq:org5ea20cc}) then it probably \(x_1\) was sent.
+When I got a \(y_1\) (first column in \ref{eq:org7c09bd8}) then it probably \(x_1\) was sent.
 When I got a \(y_3\) then probably a \(x_2\) was sent.
 And to cover all possible \(x\) values the \(y_2\) is mapped to \(x_2\).
 
@@ -551,7 +551,7 @@ Transiformation (T) ist der Informationsfluss, den ich fehlerfrei über einen ge
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/transinformation.png}
-\caption{\label{fig:org3f1cbd2}Transinformation / Mutual Information}
+\caption{\label{fig:orgd539b98}Transinformation / Mutual Information}
 \end{figure}
 
 
@@ -599,7 +599,7 @@ If you receive a invalid code word and this code word is inside of the sphere th
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/hamming_korrigierkugel.drawio.png}
-\caption{\label{fig:org928e912}Korrigierkugel / Correction Sphere}
+\caption{\label{fig:org7c2f260}Korrigierkugel / Correction Sphere}
 \end{figure}
 
 \textbf{Perfecter Code / Dichtgepackter Code}
@@ -693,7 +693,7 @@ If the code word polynom (\ref{eqn:codeWordPolynom}) can be divided by the gener
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/polynom_generator.png}
-\caption{\label{fig:org5b8d617}Generator Polynom Hamming Code}
+\caption{\label{fig:org789a62f}Generator Polynom Hamming Code}
 \end{figure}
 
 To verify if received message is correct divide the message through the generator polynom. If this is not 0 then an error is occurred.
@@ -723,7 +723,7 @@ A Convolutional codes has storage cells for the previous send bits.
 The highets bits in the generator polynom tells you how many Storage Cells you have.
 The bit from the past is \emph{xor-ed} with the current one.
 
-In the figure \ref{fig:org95e6043}  the upper way is the \(g_1\) and the lower \(g_2\).
+In the figure \ref{fig:org6ef7a2e}  the upper way is the \(g_1\) and the lower \(g_2\).
 If a bit was used it shift one further to the storage cell.
 
 \href{../../../roam/20211105145648-the_generator_polynom_for_hamming_codes.org}{The Generator Polynom} can be read from the diagram:
@@ -734,12 +734,12 @@ If a bit was used it shift one further to the storage cell.
 
 
 The number of tails bits are the same as the number of storage cells.
-The encoder in figure \ref{fig:org95e6043} has two storage cells.
+The encoder in figure \ref{fig:org6ef7a2e} has two storage cells.
 Therefore two tailbits are needed.
 
 
 \begin{table}[htbp]
-\caption{\label{tab:org3a6b091}Output for input 100}
+\caption{\label{tab:org3a3fb35}Output for input 100}
 \centering
 \begin{tabular}{rrrr}
 \(x_i\) & \(g_1(x_i)\) & \(g_2(x_i)\) & output\\
@@ -755,14 +755,14 @@ Therefore two tailbits are needed.
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/encoders_faltungscodes.png}
-\caption{\label{fig:org95e6043}Faltungscode Encoder}
+\caption{\label{fig:org6ef7a2e}Faltungscode Encoder}
 \end{figure}
 
 
 \textbf{State Machine for Convolutional Codes}
 
 A Convolutional Code can also be represented as a \href{../../../roam/20211108155646-state_machine_diagram.org}{State Machine Diagram}.
-For an example see figure \ref{fig:orgc7a7dfd}.
+For an example see figure \ref{fig:orge88d6bc}.
 \href{../../../roam/20211105145648-the_generator_polynom_for_hamming_codes.org}{The Generator Polynom} \(g_1(x)\) and \(g_2(x)\) are as follows:
 
 \begin{itemize}
@@ -774,13 +774,13 @@ For an example see figure \ref{fig:orgc7a7dfd}.
 \begin{enumerate}
 \item Find the numbers of Storage cells \(n\)
 \item Calculate the number of state \(m = 2^n\)
-\item Build the table (\ref{tab:org96b2831})
+\item Build the table (\ref{tab:orgd262bfd})
 \item Build from table the \href{../../../roam/20211108155646-state_machine_diagram.org}{State Machine Diagram} / \href{../../../roam/20211109182310-deterministic_finite_automaton.org}{DFA}
 \end{enumerate}
 
 
 \begin{table}[htbp]
-\caption{\label{tab:org96b2831}Table of States for Code}
+\caption{\label{tab:orgd262bfd}Table of States for Code}
 \centering
 \begin{tabular}{lrlll}
 State & Input & Cells & Output & Next State\\
@@ -799,7 +799,7 @@ State & Input & Cells & Output & Next State\\
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/faltungscodes_state_machine_diagram.png}
-\caption{\label{fig:orgc7a7dfd}Convolutional Code as State Machine Diagram}
+\caption{\label{fig:orge88d6bc}Convolutional Code as State Machine Diagram}
 \end{figure}
 
 \textbf{Trellis Diagram}
@@ -812,7 +812,7 @@ And the transition goes to the next state in the next CPU clock.
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/trellisdiagramm.png}
-\caption{\label{fig:orgc11adcb}Trellis diagram}
+\caption{\label{fig:org2d9c18a}Trellis diagram}
 \end{figure}
 
 \textbf{Decode Convolutional Codes}
@@ -826,7 +826,7 @@ The transition which needs the fewest changes is used.
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/decode_convoluitonal_code.png}
-\caption{\label{fig:org20ec6c7}Decoding a Convolutional Code}
+\caption{\label{fig:org4d32692}Decoding a Convolutional Code}
 \end{figure}
 
 \textbf{Block Code Rate}
@@ -891,7 +891,7 @@ Line codes can be classified using two properties:
 
 \textbf{Manchester Code}
 
-The Manchester Code (see figure \ref{fig:org63033db}) has no direct current (Gleichstrom) but requireds the double amount of bandwith.
+The Manchester Code (see figure \ref{fig:orgcb7f751}) has no direct current (Gleichstrom) but requireds the double amount of bandwith.
 The Manchester Code by IEEE has the following convention:
 \begin{itemize}
 \item the 0 is represented as a high-low signal sequence
@@ -902,7 +902,7 @@ The Manchester Code by IEEE has the following convention:
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/manchester_code.png}
-\caption{\label{fig:org63033db}Machester Code}
+\caption{\label{fig:orgcb7f751}Machester Code}
 \end{figure}
 
 \textbf{AMI Code}
