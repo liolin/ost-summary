@@ -3,6 +3,15 @@
 #+SETUPFILE: ../latex_includes.conf
 #+LATEX_CLASS_OPTIONS: [11pt,twoside,twocolumn,landscape]
 
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{ICTh-HS21}
+\fancyhead[L]{Exam Summary}
+\fancyfoot[CE,CO]{\leftmark}
+\fancyfoot[R]{\thepage}
+\fancyfoot[L]{Olivier Lischer}
+
 *Model of information processing*
 
 - /Source/ (Quelle): creates bit patter with 0 and 1
@@ -801,3 +810,13 @@ Harmonic Oscillations are oscillations which does not have any sudden changes.
 For example sine / cosine are harmonic.
 
 In our world, all things consist of sine and cosine waves.
+
+*Week 09 / 10 Signal Abtasten*
+
+Je öfter abgetaste, desto genauer ist das Signal:
+- um es fehlerfrei zu erhalte, muss man mit min. der doppelten Frequezn als das signal abgetastet werden
+- Mensch hört ca. 20 - 22kHz
+
+Wie viele bits verwenden wir für die quantisierung des signals?
+Je mehr bits desto genauer. Aber das signal wird *nie* rund.
+Es ist immer kantig
