@@ -1,0 +1,803 @@
+#+TITLE: ICTh Summary
+#+AUTHOR: Olivier Lischer
+#+SETUPFILE: ../latex_includes.conf
+#+LATEX_CLASS_OPTIONS: [11pt,twoside,twocolumn,landscape]
+
+*Model of information processing*
+
+- /Source/ (Quelle): creates bit patter with 0 and 1
+- /Source encoder/ (Quellencodierer): e.g. can be a compressor or an encryptor (source content is encoded)
+- /Channel encoder/ (Kanalcodierer): 
+  Als Kanalkodierung bezeichnet man das Verfahren, digitale Daten bei der Übertragung über gestörte Kanäle durch Hinzufügen von Redundanz gegen Übertragungsfehler zu schützen.
+- /Modulator / Line encoder/ (Line encoder): Modulater work on the physical layer and are responsible for adjustment so the signal can be transmitted over a specific medium. Line encoders the transmitted digital signals are in suitable channel code encoded
+- /Sender/: e.g. Torax
+- /Channel/ (Kanal): e.g. MS Teams, Air
+- /Receiver/: (Empfänger): e.g. the ears
+
+#+CAPTION: Model of information processing
+#+NAME: fig:model-information-procesing
+[[file:img/modell_der_informationsverarbeitung.png]]
+
+*Probability*
+TODO!
+
+*Source and Sink*
+
+Jeden Quelle hat ein Zeichenvorrat.
+Nachricht wird kodiert und wird über Kanal übertragen.
+Senke hat auch ein Zeichenvorrat und muss das übertragene Wort entscheiden und interpretieren.
+Dafür müssen die Zeichenvorräte der Quelle und Senke übereinstimmen.
+
+- Wenn Zeichenvorrat ungleich: information irrelevant
+- Wenn Zeichenvorrat:
+  - wort redundant: vorhersagbar
+  - wort nicht redundant: /Information/
+
+
+#+CAPTION: Information, Nachricht
+#+NAME: fig:information
+[[file:img/informations_uebertragung_information.png]]
+
+*Entscheidungsgehalt*
+
+Mass für die minimale Anzahl Entscheidungen die getroffen werden müssen, um ein Zeichen zu erkennen.
+Dies geschieht unter der Annahme dass alle Zeichen gleich Wahrscheinlich sind.
+Dies kann in einem [[id:40069be1-38b2-4f4e-bba9-294937a53d0f][Binary Tree]] abgebildet werden und entspricht der Höhe bzw. dem $\log_2$ der Anzahl Blätter.
+
+\begin{equation}
+H_0 = \log_2(N)[bit]
+\end{equation}
+
+#+CAPTION: Entscheidungsgehalt
+#+NAME: fig:enscheidungsgehalt-tree
+[[file:img/entscheidungsgehalt_tree.png]]
+
+Zeichenvorrat: X = {a, b, c, d}, N = 4 verschieden Zeichen.
+Daher ist der Informationsgehalt $H_0 = \log_2(4) = 2$.
+Das sieht man auch ihm Baum [[fig:enscheidungsgehalt-tree]].
+Es müssen zwei Entscheidungen getroffen werden, um zu einem Zeichen zu gelangen.
+
+*Entscheidungsfluss*
+
+Der Entscheidungsfluss ist der [[id:b4036415-160a-4db5-8804-31104ec8fe93][Entscheidungsgehalt]] im Verhältnis zu der Übertragungszeit eines Quellenzeichens.
+
+\begin{equation}
+H_0^* = \frac{\log_2(N)}{\tau}[\frac{\text{bit}}{s}]
+\end{equation}
+
+*Informationsgehalt eines Zeichens*
+
+Der Informationsgehalt eines Zeichens sagt aus, wie viele Entscheidungen zu treffen sind, um das zu Zeichen zu bestimmen.
+Mit anderen Worten, wie viele mal muss ich zwischen Rechts / Links im Baum entscheiden, bis ich das Zeichen erreicht habe.
+
+- $p(x_k)$ entspricht der Auftrittswahrscheinlichkeit des Zeichen $x_k$
+
+\begin{align}
+I(x_k) &= \log_2(\frac{1}{p(x_k)}) [bit] \\
+&= -\log_2(p(x_k)) [bit]
+\end{align}
+
+*Entropie*
+
+Als Entropie bezeichnet man den mittleren [[id:3489ddbc-498a-4412-af3e-11ba7caaae4d][Informationsgehalt]] einer Quelle.
+Entropie beschreibt wie viele Entscheidungen die Qulle / Senke im Mittel pro Zeichen treffen muss.
+Ist also nichts anderes als der Mittelwert über den [[id:3489ddbc-498a-4412-af3e-11ba7caaae4d][Informationsgehalt]].
+
+- $p(x_k)$: Die Wahrscheinlichkeit des Zeichen $x_k$
+- $I(x_k)$: Der Informationsgehalt des Zeichen $x_k$ 
+
+\begin{align}
+H(X) &= \sum_{k=1}^N p(x_k) \cdot I(x_k) \\
+&= \sum_{k=1}^N p(x_k) \cdot (-1)\log_2(p(x_k))
+\end{align}
+
+*Redundanz der Quelle*
+
+Wenn die Auftrittswahrscheinlichkeit aller Zeichen gleich ist, ist der Informationsgehalt am grössten, bzw. die Redundanz am kleinsten.
+Die Redundanz der Quelle ist die Differenz ziwchen [[id:b4036415-160a-4db5-8804-31104ec8fe93][Entscheidungsgehalt]] und der [[id:ad87e948-7fbb-4193-8d2c-313bd7f11329][Entropie]]. 
+- $H_0$ ist der [[id:b4036415-160a-4db5-8804-31104ec8fe93][Entscheidungsgehalt]]
+- $H(X)$ ist die [[id:ad87e948-7fbb-4193-8d2c-313bd7f11329][Entropie]]
+
+
+\begin{equation}
+R_Q &= H_0 - H(X)
+\end{equation}
+
+*Kleinste Redundanz*
+
+/Annahme/: alle Zeichen sind gleich wahrscheinlich (a,b,c,d).
+Dann würde sich ein Baum wie in [[fig:entropie-all-equal-tree]] in aufspannen.
+Dieser ist der selbe wie im [[id:b4036415-160a-4db5-8804-31104ec8fe93][Entscheidungsgehalt]].
+Folglich wird $R_Q = x - x = 0$ gerechnet.
+
+#+CAPTION: Tree mit gleichmässiger Auftrittswahrscheinlichkeit
+#+NAME: fig:entropie-all-equal-tree
+[[file:img/entropie_alle_gleich.png]]
+
+*Codewortlänge*
+
+Die tatsächlie Codewortlänge muss eine Ganzzahl sein, weil man keine Halbenbits übertragen kann.
+Die Codewortänge für ein Zeichen lässt sich wie folgt berechnen:
+- $I(x_k)$ entspricht dem [[id:3489ddbc-498a-4412-af3e-11ba7caaae4d][Informationsgehalt]].
+
+\begin{align}
+L(x_k) &= \lceil I(x_k) \rceil \\
+&= \lceil \log_2(\frac{1}{p(x_k)}) \rceil \\
+&= \lceil -\log_2(p(x_k)) \rceil
+\end{align}
+
+*Entropie eines Codes*
+
+Die Entropie des Codes entspricht dem Mittelwert der [[id:dd0eabc7-9414-4e47-b172-0829b0cf091b][Codewortlänge]]:
+- $L(x_k)$ enspricht der [[id:dd0eabc7-9414-4e47-b172-0829b0cf091b][Codewortlänge]]
+
+\begin{align}
+H_C(X) &= \sum_{k=1}^N p(x_k) \cdot L(x_k) [\frac{\text{bit}}{\text{Zeichen}}]
+\end{align}
+
+*Shannonsches Codierungstheorem*
+
+Für jede beliebige Binärcodierung mit Präfixeigenschaft ist die [[id:40dd6461-7593-42fe-9da3-a8151ab9d34e][mittlere Codewortlänge]] nicht kleiner als die [[id:ad87e948-7fbb-4193-8d2c-313bd7f11329][Entropie]]:
+
+\begin{equation}
+H(X) \leq L(X)
+\end{equation}
+
+Für jede beliebige Quelle kann eine Binärcodierung gefunden werden, so dass die folgende Ungleichung gilt:
+\begin{equation}
+H(X) \leq L(X) \leq H(X) + 1
+\end{equation}
+
+*Redundanz des Codes*
+
+Redunanz des Codes:
+- $L(x_k)$ entspricht der Codewortlänge
+- $H(X)$ entspricht der Entropie
+
+  
+\begin{equation}
+R_C &= L - H(X)
+\end{equation}
+
+*Quelle ohne Gedächnis*
+
+Bei einer Quelle ohne Gedächnis ist die Auftritswahrscheinlichkeit eines Zeichen unabhängig davon, welche Zeichen zuvor generiert wurde.
+Die mittlere Entropie einer Quelle ohne Gedächtnis ist stets grösser oder gleich der Entropie einer Quelle mit Gedächtnis.
+
+Die [[id:188def0a-dcc5-4057-994f-b2c15ae12563][Verbundswahrscheinlichkeit]] ist für zwei Zeichen $x_i$ und $y_k$:
+\begin{equation}
+p(x_i, y_k) = p(x_i) \cdot p(y_k)
+\end{equation}
+
+*Gedächnisbehaftete Quelle*
+
+Eine Quelle mit Gedächnis merkt sich, welches Zeichen bereits generiert wurde.
+Dadurch ist dich [[id:188def0a-dcc5-4057-994f-b2c15ae12563][Verbundswahrscheinlichkeit]] wie folgt definiert:
+
+
+\begin{equation}
+p(x_i, y_k) = p(x_i) \cdot p(y_k)
+\end{equation}
+
+Die Verbundsentropie ist wie folgt:
+\begin{equation}
+H(X, Y) = H(X) + H(X|Y)
+\end{equation}
+
+Die mittlere Entropie einer Quelle ohne Gedächtnis ist stets grösser oder gleich der Entropie einer Quelle mit Gedächtnis.
+
+*Verbundsentropie*
+
+\begin{align}
+H(X,Y) &= \sum_{i=1}^N \sum_{k=1}^N p(x_i, y_k) \cdot -\log_2(p(x_i,y_k))
+\end{align}
+
+\begin{equation}
+H(X,Y) = H(X) - H(Y|X)
+\end{equation}
+
+*Präfixfreier Code*
+
+#+begin_quote
+Kein Codewort des Codes ist Präfix eines anderen Codewortes.
+Anders ausgedrückt darf kein Codewort den Beginn eines anderen Codewortes darstellen.
+Ein Code zum Beispiel mit den Codewörtern {0, 10, 11} erfüllt die Präfix-Eigenschaft, während hingegen der Code mit den Codewörtern {0, 01, 10} sie nicht erfüllt, da „0“ Präfix von „01“ ist.
+
+-- Wikipedia, 2022
+#+end_quote
+
+
+*Typen Source Encoder*
+
+In the [[id:7bda9f67-3629-41f5-980b-d5860aa89ada][information theory]] exists two types
+- data compressor
+  - lossless (verlustfrei)
+  - lossy (verlustbehaftet)
+- encryption
+  - symmetric
+  - asymmetric
+
+*Verlustfreie Kompression*
+
+The goal of a compression is make the data transfer and storing as efficient as possible. This is achieved with reducing the redundancy and remove not used elements.
+
+A good compression algorithm has a:
+- high encode / decode speed
+- low requirements for hardware
+
+
+There exists two kind of lossless compression:
+- static procedure (adaptive): character of the data used
+- dynamic procedure: character of the data is *not* used. In a worst case scenario the data are bigger with compression
+
+
+*Huffman Code*
+
+Procedure:
+1. sort the symbols after possibility of occurrence
+2. repeat
+   1. sum up the possibilities of the two least possible symbols
+   2. the less possible symbol got the 1 the other the 0
+   3. this two counts now as one symbol
+   4. repeat this until only every symbols is processed
+
+
+#+CAPTION: Hufman Example
+#+NAME: fig:hufman-example
+[[file:img/hufman.png]]
+
+*Lauflängenkodierung*
+
+The Run Length Encoding RLE (de. Lauflängenkodierung) is a [[id:67aec127-0456-4ac8-9be3-9c8628693406][Lossless compression]].
+If a symbol occurs more than one in a row then the number of repetition is prefix with the character appended. 
+
+#+begin_example
+Quelltext w: Agggbbehfffgggg => |w| = 15
+Codiert w_c: A3g2beh4f5g => |w_c| = 11
+#+end_example
+
+This compression is very interesting for binary because the transmission is always just a repetition of 0 and 1.
+First both parts has to agree with witch number the transfer starts.
+After that only the number of 0 or 1 is transmitted
+
+#+begin_example
+0000 0111 => 5 3
+#+end_example
+
+*Lempel-Ziv Algorithmus*
+
+During the encoding (runtime) a code book is created on the fly.
+If a pattern is already transmitted only the reference to this pattern is transmitted.
+
+
+Der zu komprimierende Code hat wiederkehrende Mustr oder PHrasen, nur die codierten Phrasen müssen übertragen werden.
+Währende des Durchlaufens der Daten wird ein ständig wachsender Baum erzeugt.
+Baum dient als Wörterbuch.
+Knoten dienen als Referenz.
+
+
+The algorithms needs:
+- a search buffer (the already encoded symbols)
+- a look-ahead buffer (shows the next symbols to encode)
+- if a sequence of symbols in the look-ahead buffer and the search buffer are equal
+  - then a code consisting of position and length and stored
+  - else the code is stored as in the look-ahead buffer.
+
+
+#+CAPTION: Lempel-Ziv Example
+#+NAME: fig:lempel-ziv-example
+[[file:img/lempel_ziv_example.png]]
+
+*Transposition Cipher*
+
+In a transposition cipher every symbol stays the same (no substitution used).
+Only the order of the symbols is changed.
+A simple example is shown below:
+
+The clear text "Hello my World" is inserted in a table by row:
+
+| H | E | L | L |
+| O | M | Y | W |
+| O | R | L | D |
+
+and now read the text by column: HOOEMRLYLLWD
+
+*DES*
+
+DES is a symmetric key algorithm and was long the standard for data encryption.
+Today it is not safe anymore because of its short key length (max. 56 bits) and therefore should not be used anymore.
+
+*Inverse einer Zahl*
+
+In math a number $x$ is called the inverse of $y$ when $x \cdot y = 1$.
+In general this is the case when $y = x^{-1}$.
+Interesting is when modulo is used.
+Because now you can multiple $a$ with $b \ne a^{-1}$ to get -1
+
+\begin{equation}
+a \cdot b \mod c \equiv 1
+\end{equation}
+
+*Euler Function*
+
+The Euler function returns for a given $n$ the amount of part-unrelated (de: teilerfremd) numbers $n$.
+The symbol for the Euler function is $\Phi$
+
+The Euler function is difficult to calculate except for prime numbers:
+Be $n$ a prime number
+\begin{align}
+\Phi(n) = n - 1
+\Phi(5) = 5 - 1 = 4
+\end{align}
+
+The result of $\phi(p \cdot q)$ where $p$ and $q$ are prime is:
+\begin{align}
+\Phi(p \cdot q) &= \Phi(p) \cdot \Phi(q) \\
+&= (p - 1) \cdot (q - 1)
+\end{align}
+
+*Euler Theorem*
+
+For two part-unrelated numbers $a < b$ applies the following:
+\begin{equation}
+a^{\Phi(b)} \mod b \equiv 1
+\end{equation}
+
+
+$\Phi(b)$ is called Eulers funciton.
+
+*Euler Function & Theorem*
+
+If you combine Euler's Function with his theorem you can say something like this:
+If $b = p \cdot q$ where p and q are prime then:
+\begin{align}
+a^{\Phi(b)} \mod b \equiv & \\
+a^{\Phi(p \cdot q} \mod (p \cdot q) \equiv & \\
+a^{(p - 1) \cdot (q-1)} \mod (p \cdot q) \equiv & 1
+\end{align}
+
+*RSA Parameters*
+
+1. Choose $p$ and $q$
+   1. $n = p_1 \cdot p_2$
+   2. $n$ is public, $p$, $q$ private
+2. Calculate $\Phi(n)$
+3. Choose $e$
+   - $e$ has to be part-unrelated to $\Phi(n)$ and $1 < e < \Phi(n)$
+   - in reality often 3 or 65537
+4. Calculate the inverse from $e$ resulting in $d$
+   - For Example with the [[id:8ef3c61a-d8b7-48d1-b879-3277de65ad7a][Extended Euclidean algorithm]]
+
+
+Be $m$ the message. Then to encrypt: $c = m^e \mod n$.
+Do decrypt $c$ to $m$: $m = c^d \mod n$.
+
+#+CAPTION: RSA nach Rinkel
+#+NAME: fig:rsa-by-rinkel
+[[file:img/rsa_nach_rinkel.png]]
+
+*Channel Matrix*
+
+Die Kanalmatrix beschreibt wie Wahrscheinlich es ist, dass man $y$ erhält, wenn $x$ gesendet wurde.
+$p$ und $q$ geben an, wie wahrscheinlich es ist, dass ein Fehler auftritt.
+
+\begin{align}
+  p(Y|X) =
+  \begin{bmatrix}
+    \sum = 1 \\
+    \sum = 1
+  \end{bmatrix}
+=
+  \begin{bmatrix}
+    p & 1 - p \\
+    1 - q & q \\
+  \end{bmatrix}
+=
+  \begin{bmatrix}
+    p(y_1|x_1) & \cdots & p(y_n|x_1) \\
+    \vdots & \ddots & \vdots \\
+    p(y_1|x_m) & \cdots & p(y_n|x_m) \\
+  \end{bmatrix}
+\end{align}
+
+\begin{align}
+  \begin{bmatrix}
+    p(y_1) \\
+    p(y_2)
+  \end{bmatrix}
+  = 
+  \begin{bmatrix}
+    p(x_1) \cdot p(y_1 | x_1) + p(x_2) \cdot p(y_1|x_2) \\
+    p(x_1) \cdot p(y_2 | x_1) + p(x_2) \cdot p(y_2|x_2)
+  \end{bmatrix}
+\end{align}
+
+#+CAPTION: Channel Matrix Model
+#+NAME: fig:channel-matrix-model
+[[file:img/kanalmatrix_modell.png]]
+
+*Maximum Likelihood*
+
+How high is the possibility that I receive $y_1$ when $x_1$ is sent.
+The cell with the highest value in a column (y-value) is maximum likelihood the x-value which was sent.
+
+#+NAME: eqn:max-likelihood
+\begin{equation}
+  p(Y|X) =
+  \begin{bmatrix}
+    0.6 & 0.2 & 0.2 \\
+    0.2 & 0.2 & 0.6 \\
+    0.3 & 0.2 & 0.5 \\
+  \end{bmatrix}
+\end{equation}
+
+When I got a $y_1$ (first column in [[eqn:max-likelihood]]) then it probably $x_1$ was sent.
+When I got a $y_3$ then probably a $x_2$ was sent.
+And to cover all possible $x$ values the $y_2$ is mapped to $x_2$.
+
+*Mutual Information / Transinformation*
+
+Mutual information describes how much two random variables correlate.
+The higher the more they correlate (1 total correlation, 0 no correlation).
+
+In the context of information transfer over a channel the mutual information describes also how big the flow is which I can transfer without errors.
+Transiformation (T) ist der Informationsfluss, den ich fehlerfrei über einen gestörten Kanal übertragen kann.
+
+#+CAPTION: Transinformation / Mutual Information
+#+NAME: fig:mutual-information
+[[file:img/transinformation.png]]
+
+
+\begin{align}
+  H(Y|X) &= -\sum_i^n\sum_j^n p(x_i)\cdot p(y_j|x_i) \cdot \log_2(p(y_j|x_i)) \\
+  T &= H(Y) - H(Y|X) = H(X) - H(X|Y)
+\end{align}
+
+*Wie ändert die Kanalmatrix die Transinformation*
+
+Ein nicht gestörter Kanal (Einheitsmatrix) überträgt den mittleren Informationsgehalt.
+Transinformation wird nur durch die Quelle bestimmt.
+Verändert sich die Entropie der Quelle, ändert sich die Transinformation.
+Nimmt die Fehlerwahrscheinlichkeit zu, nimmt die Transinformation ab.
+Sind in der Kanalmatrix alle Positionen gleich besetzt, wird die Transinformation $T = 0$.
+
+*Coderaum*
+
+The Code space is a set of code words / code points.
+
+*Hamming Distance*
+
+When one code word is given the Hamming Distance ($h$) describes how many positions have to change until a new valid code word is reached.
+
+- Number of reliable detectable errors (\ref{eqn:detectableErrors})
+- Number of reliable correctable errors (\ref{eqn:correctableErrors})
+
+\begin{align} 
+  e^* &= h - 1 \label{eqn:detectableErrors} \\
+  e &= 
+  \begin{cases}
+    \frac{h-2}{2} & \mbox {if h is even} \\
+    \frac{h-1}{2} & \mbox {if h is odd}
+  \end{cases} \label{eqn:correctableErrors}
+\end{align}
+
+*Korrigierkugel*
+
+The correction sphere has a radius of $e$: the number of reliable correctable errors.
+The center of a correction sphere is always a /valid/ code word.
+If you receive a invalid code word and this code word is inside of the sphere then it will be changed to the center / valid code word.
+
+#+CAPTION: Korrigierkugel / Correction Sphere
+#+NAME: fig:correction-sphere
+[[file:img/hamming_korrigierkugel.drawio.png]]
+
+*Perfecter Code / Dichtgepackter Code*
+
+A code space is called a perfect code when every code word (valid or invalid) is in a correction circle.
+
+- /n/: The dimension of the code (number of all code words (CW) = $2^n$)
+- /m/: The dimension of message (number of all valid CW = $2^m$)
+- /k/: The dimension of check positions ($n=m+k$)
+
+Then applies:
+\begin{equation}
+  2^m \cdot \sum_{w=0}^e \begin{pmatrix} n \\ w \end{pmatrix} \leq 2^n
+\end{equation}
+
+- /2^m/: Number of valid CW (or number correction circles)
+- /\sum/: Number of CW per correction circle
+- /2^n/: Number of all CW
+
+In the following case we call the code perfect:
+\begin{equation}
+  2^m \cdot \sum_{w=0}^e \begin{pmatrix} n \\ w \end{pmatrix} = 2^n
+\end{equation}
+
+*Haming Codes*
+
+Hamming Code is a family of error correcting codes.
+Every Hamming Codes has a Haming Distance of 3.
+
+
+Hamming Codes can be built with either a generator matrix or with a Generator Polynom.
+
+*Generator Matrix Hamming Code*
+
+The generator matrix consists of two parts.
+The first indicates witch you need to pick for you calculation (this with 1).
+And the second part is the unit matrix which marks the control positions.
+
+A generator matrix has two conditions:
+1. every vector of the message part has to be different than the others
+2. the equation \ref{eqn:matrixCondition} has to be fullfield
+
+\begin{equation}\label{eqn:matrixCondition}
+  \sum_i x_i \cdot \vec{P_i} \equiv \vec{0} \mod 2
+\end{equation}
+
+
+An example of valid generator matrix is shown in \ref{eqn:matrixExample}
+\begin{equation}\label{eqn:matrixExample}
+  \left[
+    \begin{array}{cccc|ccc}
+      1 & 1 & 1 & 0 & 1 & 0 & 0 \\
+      0 & 1 & 1 & 0 & 0 & 1 & 0 \\
+      1 & 1 & 0 & 1 & 0 & 0 & 1 \\
+    \end{array}
+    \right]
+\end{equation}
+
+If only one bit is changed during transmission then the calculation of \ref{eqn:matrixCondition} is wrong.
+The result is the vector which has changed.
+
+*Generator Polynom Hamming Code*
+
+The generator matrix can be replaced with a polynom.
+This has the benefits that it is easier to calculate the control positions.
+
+- /k/: Number of control positions
+- /n/: Dimension of the code
+
+Where $g_i={0,1}$
+\begin{align}
+  G(u) = \sum_{i=0}^k g_i\cdot u^i \label{eqn:generatorPolynom} \\
+  X(u) = \sum_{i=0}^n g_i\cdot u^i \label{eqn:codeWordPolynom}
+\end{align}
+
+If the code word polynom (\ref{eqn:codeWordPolynom}) can be divided by the generator polynom (\ref{eqn:generatorPolynom}) mod 2 it is a valid code:
+
+\begin{align}
+  Q(u) &= X(u) / G(u) \\
+  X(u) / G(u) &\equiv Q(u) \mod 2 \equiv 0
+\end{align}
+
+#+CAPTION: Generator Polynom Hamming Code
+#+NAME: fig:generator-polynom-hamming-code
+[[file:img/polynom_generator.png]]
+
+To verify if received message is correct divide the message through the generator polynom. If this is not 0 then an error is occurred.
+\begin{equation}
+  \begin{cases}
+    \mbox{No errors} & \mbox{if Message} / G(u) = 0 \\
+    \mbox{Errors(s) occurred} & \mbox{if Message} / G(u) \ne 0
+  \end{cases}
+\end{equation}
+
+*Was ist ein Blockcode*
+
+Your data is grouped in blocks and then each block is encoded seperately.
+Block codes are easy to implement and have a hight error detection.
+But you have to build blocks.
+Therefore, streams are not possible to encode.
+
+*Faltungscodes / Convolutional Codes*
+
+With Convolutional codes streaming data (code block length not known) can be encoded.
+This kind of code is often used in the mobile network.
+Convolutional codes do not need any block synchronization.
+
+*How does Convolutional Codes work*
+
+A Convolutional codes has storage cells for the previous send bits.
+The highets bits in the generator polynom tells you how many Storage Cells you have.
+The bit from the past is /xor-ed/ with the current one.
+
+In the figure [[fig:convolutional-encoder]]  the upper way is the $g_1$ and the lower $g_2$.
+If a bit was used it shift one further to the storage cell.
+
+[[id:c48f2620-c394-4aec-baf4-1973162a367b][The Generator Polynom]] can be read from the diagram:
+- $g_1(x) = 1 + x^2$: The upper way
+- $g_2(x) = 1 + x + x^2$: The bottom way
+
+
+The number of tails bits are the same as the number of storage cells.
+The encoder in figure [[fig:convolutional-encoder]] has two storage cells.
+Therefore two tailbits are needed.
+
+
+#+CAPTION: Output for input 100
+#+NAME: tab:ExampleOutput
+| $x_i$ | $g_1(x_i)$ | $g_2(x_i)$ | output |
+|-------+------------+------------+--------|
+|     1 |          1 |          1 |     11 |
+|     0 |          0 |          1 |     01 |
+|     0 |          1 |          1 |     11 |
+|     0 |          0 |          0 |     00 |
+|     0 |          0 |          0 |     00 |
+
+#+CAPTION: Faltungscode Encoder
+#+NAME: fig:convolutional-encoder
+[[file:img/encoders_faltungscodes.png]]
+
+
+*State Machine for Convolutional Codes*
+
+A Convolutional Code can also be represented as a [[id:c45d119c-3c77-4def-bb12-d1f3267caaea][State Machine Diagram]].
+For an example see figure [[fig:CCAsStateMachineDiagram]].
+[[id:c48f2620-c394-4aec-baf4-1973162a367b][The Generator Polynom]] $g_1(x)$ and $g_2(x)$ are as follows:
+
+- $g_1(x) = 1 + x^2$
+- $g_2(x) = 1 + x + x^2$
+
+
+1. Find the numbers of Storage cells $n$
+2. Calculate the number of state $m = 2^n$
+3. Build the table ([[tab:statesCode]])
+4. Build from table the [[id:c45d119c-3c77-4def-bb12-d1f3267caaea][State Machine Diagram]] / [[id:60b0e92e-4c0c-469d-a899-ec8a4c7a3527][DFA]] 
+
+
+#+CAPTION: Table of States for Code
+#+NAME: tab:statesCode
+| State | Input | Cells | Output | Next State |
+| $S_0$ | 0     | 0 0   | 0 0    | $S_0$      |
+| $S_0$ | 1     | 0 0   | 1 1    | $S_2$      |
+| $S_1$ | 0     | 0 1   | 1 1    | $S_0$      |
+| $S_1$ | 1     | 0 1   | 0 0    | $S_2$      |
+| $S_2$ | 0     | 1 0   | 0 1    | $S_1$      |
+| $S_2$ | 1     | 1 0   | 1 0    | $S_3$      |
+| $S_3$ | 0     | 1 1   | 1 0    | $S_1$      |
+| $S_3$ | 1     | 1 1   | 0 1    | $S_3$      |
+
+
+#+CAPTION: Convolutional Code as State Machine Diagram
+#+NAME: fig:CCAsStateMachineDiagram
+[[file:img/faltungscodes_state_machine_diagram.png]]
+
+*Trellis Diagram*
+
+To visualize how the convolutional code is encoded over time the trellis diagram is suitable.
+Each state of the state machine is only used once per CPU clock.
+And the transition goes to the next state in the next CPU clock.
+ 
+
+#+CAPTION: Trellis diagram 
+#+NAME: fig:trellis
+[[file:img/trellisdiagramm.png]]
+
+*Decode Convolutional Codes*
+
+To decode a Convolutional Code you try to find the cheapest way throug the trellis diagram.
+You start at the Starting State ($S_0$).
+You compare each code word part with the possible transitions.
+The transition which needs the fewest changes is used.
+
+
+#+CAPTION: Decoding a Convolutional Code
+#+NAME: fig:decoding
+[[file:img/decode_convoluitonal_code.png]]
+
+*Block Code Rate*
+
+- /m/: Encoding Storage
+- /R/: Block code rate
+- /x/: Encoded Bits
+
+\begin{align}
+  R &= \frac{encodeded bits}{sent bits} \\
+  &= \frac{x}{2 \cdot (x + m)} \label{eqn:Block Code Rate}
+\end{align}
+
+In \ref{eqn:Block Code Rate} the 2 is needed because for each input bit two output bits are generated.
+The $m$ is required because you need to send $m$ tail bits to clear the storage. 
+
+*Impulse Response*
+
+The Impulse Response is the output of a system (for example an encoder) with a brief input signal.
+In numbers this would be 1000...
+
+*Detect Number of Storage Cells*
+
+Using a Impulse Response you can detect how many storage cells are used in the convolutional code.
+The 1 which is send must be cleared from all storage cells.
+Therefore, the same number of 0 are sent as storage cells.
+
+*Was ist das Basisband*
+
+Baseband is the range of frequencies occupied by a signal that has not been modulated to other frequencies.
+The frequency is unchanged.
+
+*Line Coding*
+TODO!!
+
+*Requirements Line Coding*
+
+- Synchronisation of the clock / phase at the receiver
+  After a long period of 1 you have to known how many 1 are sent
+- Avoiding direct current components (Gleichstromkomponenten)
+- Resistance to interference
+
+
+*Classification Line Coding*
+
+Line codes can be classified using two properties:
+1. polarity (0 to u / -u to u)
+2. impuls form (Return to Zero / No Return to Zero)
+
+
+#+CAPTION: Line Code Classification
+[[file:img/line_code_classification.png]]
+
+*Manchester Code*
+
+The Manchester Code (see figure [[fig:manchesterCode]]) has no direct current (Gleichstrom) but requireds the double amount of bandwith.
+The Manchester Code by IEEE has the following convention:
+- the 0 is represented as a high-low signal sequence
+- the 1 is represented as a low-high signal sequence
+
+
+#+CAPTION: Machester Code
+#+NAME: fig:manchesterCode
+[[file:img/manchester_code.png]]
+
+*AMI Code*
+
+The AMI Code uses the following convention:
+- the 0 is represented as a 0 level
+- the 1 is represented as an alternating level change of pos. and neg.
+
+
+After a long sequence of 0 it is difficult for the receiver to know how many zeros actually were send.
+
+*Parameter of a signal*
+
+A signal consists of two parameters:
+1. amplitude
+2. period length / frequency ([[id:366cf280-abdd-4d2a-b470-c237f183e385][Period Length vs. Frequency]])
+
+
+#+CAPTION: A Signal
+[[file:img/parameters_of_a_signal.png]]
+
+
+*What are dB?*
+
+Bel describes the ratio between two values.
+For example the strength of an output and input signal.
+
+\begin{equation}
+S_{Bel} = \log_{10}(\frac{S_{out}}{S_{in}})
+\end{equation}
+
+The dezibel is more common than bel.
+
+\begin{equation}
+S_{dezibel} = 10 \cdot \log_{10}(\frac{S_{out}}{S_{in}})
+\end{equation}
+
+/Example/
+\begin{equation}
+s_2 = 20,\, s_1 = 10
+\end{equation}
+
+\begin{align}
+&  \log_{10}(\frac{s_2}{s_1}) \\
+&= \log_{10}(\frac{20}{10}) \\
+&= 0.301Bel \approx 3 dB
+\end{align}
+
+*Harmonische Schwingungen / Harmonic Oscillations*
+
+Harmonic Oscillations are oscillations which does not have any sudden changes.
+For example sine / cosine are harmonic.
+
+In our world, all things consist of sine and cosine waves.
