@@ -28,7 +28,48 @@
 [[file:img/modell_der_informationsverarbeitung.png]]
 
 *Probability*
-TODO!
+\begin{equation}
+P(A \cup B) = P(A) + P(B) - P(A \cap B)
+\end{equation}
+\begin{equation}
+P(A \cap B) = P(A) \cdot P(B)
+\end{equation}
+\begin{align}
+P(A \cap B) &= P(B \cap A) \\
+P(A) \cdot P(B|A) &= P(B) \cdot P(A|B)
+\end{align}
+
+\begin{equation}
+P(A|B) = \frac{P(A \cap B)}{P(B)}
+\end{equation}
+
+/Gedächnislose Quelle/
+\begin{equation}
+P(x_i, y_k) = P(x_i) \cdot P(y_k)
+\end{equation}
+
+/Gedächnisbehaftete Quelle/
+\begin{equation}
+P(x_i, y_k) = P(x_i) \cdot P(y_k | x_i)
+\end{equation}
+
+/Baysschen Regel/
+\begin{equation}
+P(A) \cdot P(B|A) = P(B) \cdot P(A|B)
+\end{equation}
+
+/Laplace-Experiment/
+\begin{equation}
+P(A) = \frac{|A|}{|\Omega|}
+\end{equation}
+
+/Vollständige Wahrscheinlichkeit/:
+\begin{align}
+\bigcup_{i}^{n} B_i &= \Omega \text{ und } P(B_i) > 0 \forall i \\
+P(A) &= \sum_{i}^{n} P(A|B_i) \cdot P(B_i) \\
+&= \sum_{i}^{n} \frac{P(A \cap B) \cdot P(B)}{P(B)} \\
+&= \sum_{i}^{n} P(A \cap B)
+\end{align}
 
 *Source and Sink*
 
@@ -141,7 +182,7 @@ Die Entropie des Codes entspricht dem Mittelwert der [[id:dd0eabc7-9414-4e47-b17
 - $L(x_k)$ enspricht der [[id:dd0eabc7-9414-4e47-b172-0829b0cf091b][Codewortlänge]]
 
 \begin{align}
-H_C(X) &= \sum_{k=1}^N p(x_k) \cdot L(x_k) [\frac{\text{bit}}{\text{Zeichen}}]
+L = H_C(X) &= \sum_{k=1}^N p(x_k) \cdot L(x_k) [\frac{\text{bit}}{\text{Zeichen}}]
 \end{align}
 
 *Shannonsches Codierungstheorem*
@@ -202,7 +243,7 @@ H(X,Y) &= \sum_{i=1}^N \sum_{k=1}^N p(x_i, y_k) \cdot -\log_2(p(x_i,y_k))
 \end{align}
 
 \begin{equation}
-H(X,Y) = H(X) - H(Y|X)
+H(X,Y) = H(X) + H(Y|X)
 \end{equation}
 
 *Präfixfreier Code*
@@ -504,11 +545,11 @@ If you receive a invalid code word and this code word is inside of the sphere th
 
 A code space is called a perfect code when every code word (valid or invalid) is in a correction circle.
 
-- /n/: The dimension of the code (number of all code words (CW) = $2^n$)
-- /m/: The dimension of message (number of all valid CW = $2^m$)
-- /k/: The dimension of check positions ($n=m+k$)
+- /n/: The dimension of the code (number of all code words (CW) = $2^n$, $n=2^k-1$)
+- /m/: the dimension of message (number of all valid cw = $2^m$)
+- /k/: the dimension of check positions ($n=m+k$)
 
-Then applies:
+then applies:
 \begin{equation}
   2^m \cdot \sum_{w=0}^e \begin{pmatrix} n \\ w \end{pmatrix} \leq 2^n
 \end{equation}
@@ -590,6 +631,35 @@ To verify if received message is correct divide the message through the generato
     \mbox{No errors} & \mbox{if Message} / G(u) = 0 \\
     \mbox{Errors(s) occurred} & \mbox{if Message} / G(u) \ne 0
   \end{cases}
+\end{equation}
+
+*Build all valid codes*
+1. Get the Generator Polynom and $k$ ($k$ is grade of polynom)
+2. calculate $m$
+3. for all possible messages (every possible combination with $m$ bits)
+4. bring the message bits to $0$ using the polynom (addition, see [[fig:generator-polynom-hamming-code]])
+
+
+*Zyklische Hamming Codes*
+
+Hammingdistanz $h = 3$.
+Generator polynom ist ein primitives polynom.
+
+*CRC / Abramson Code*
+
+Hammingdistanz $h = 4$.
+Werden durch die Multiplikation eines primitven Polynoms mit dem Term $(1 + x)$ gebildete.
+
+\begin{align}
+g(x) &= p(x)(1+x) \mod 2\\
+g(x) &= (1+x+x^3)(1+x) \mod 2 \\
+g(x) &= (1+x+x^3 + x + x^2 + x^4) \mod 2\\
+g(x) &= (1+2x+x^2+x^3+x^4) \mod 2 \\
+g(x) &= 1 + x^2 + x^3 + x^4
+\end{align}
+
+\begin{equation}
+n = 2^{k-1} - 1
 \end{equation}
 
 *Was ist ein Blockcode*
@@ -746,12 +816,21 @@ Line codes can be classified using two properties:
 #+CAPTION: Line Code Classification
 [[file:img/line_code_classification.png]]
 
+*NRZ*
+
+- NRZ: 1 Hight, 0 Low
+- NRZ-M: 1 change polarity (mark)
+- NRZ-S: 0 change polarity (space)
+
 *Manchester Code*
 
 The Manchester Code (see figure [[fig:manchesterCode]]) has no direct current (Gleichstrom) but requireds the double amount of bandwith.
 The Manchester Code by IEEE has the following convention:
 - the 0 is represented as a high-low signal sequence
 - the 1 is represented as a low-high signal sequence
+
+
+IEEE is used by Rinkel.
 
 
 #+CAPTION: Machester Code
