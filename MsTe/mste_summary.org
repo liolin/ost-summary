@@ -1,0 +1,976 @@
+#+TITLE: MsTe Summary
+#+AUTHOR: Olivier Lischer
+#+SETUPFILE: ../latex_includes.conf
+#+LATEX_CLASS_OPTIONS: [11pt,twoside,landscape]
+
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{MsTe-HS21}
+\fancyhead[L]{Exam Summary}
+\fancyfoot[CE,CO]{\leftmark}
+\fancyfoot[R]{\thepage}
+\fancyfoot[L]{Olivier Lischer}
+\begin{multicols}{3}
+
+* .NET
+*.NET*
+
+- .NET Framework: only for Windows, no new Updates (except security patches)
+- .NET Core: new runtime, crossplatform
+- .NET: successor of .NET Core. This should be used today
+
+#+CAPTION: .NET arcitecutre
+#+NAME: fig:net-architecture
+[[file:static/img/mste/dot_net_architektur.png]]
+
+*.NET Standard*
+
+The .NET Stadard is used to establish a compatibility between different implementation.
+The standard defines which functions, classes, etc. a implementation has to provided to be conform. 
+
+*Common Language Runtime (CLR)*
+
+The Common Language Runtime (CLR) has:
+- a JIT Compiler which compiles the [[id:cb5b4be3-2205-4050-8445-41e0f52eea4c][Microsoft Intermediate Language]] to native code
+- Garbage Collection
+- inter language debugging
+- thread management
+
+
+#+CAPTION: CLR Architecut
+#+NAME: fig:clr-architecture
+[[file:static/img/mste/clr_architektur.png]]
+
+*Common Type System*
+
+Common Type System (CTS) is the standard in [[id:95b391d4-12b4-4143-89c8-6bdde15489f1][.NET]] how a type definitions and specific values are stored in memory.
+All types in .NET inherit from =System.Object=. Also types like int, long and float inherit from =System.Object=. In CTS exists two different kind of types: Reference types (=class= keyword) and Value types (=struct= keyword). Value types are stored on the stack and are automatically boxed if it is used with something like a list, which stores its  element on the heap. 
+
+#+NAME: Reference- & Value Types
+|                     | Reference (Class) | Value (Struct) |
+|---------------------+-------------------+----------------|
+| Memory Location     | heap              | stack          |
+| Variable contains   | reference         | value          |
+| Null value          | possible          | never          |
+| Default value       | null              | 0, false, '\0' |
+| Assignment / Call   | copy reference    | copy value     |
+| derivation possible | yes               | no (sealed)    |
+
+Each type has always a reference to the type description 
+
+#+CAPTION: Example Memory Layout Reference
+#+NAME: fig:ex-mem-layout-ref
+[[file:static/img/mste/ref_type_stack_heap.png]]
+
+*.NET Assembly*
+
+After the compilation you receive an Assembly.
+This could be an *.exe or *.dll in Windows.
+This Assembly is dynamically loadable and contains meta data.
+It something like the JAR file in [[id:d4e5f169-81a7-4ce9-a0ff-e85399b1294a][Java]].
+
+*What contains a .NET Assembly?*
+
+The Assembly contains:
+- Manifest (references to other assemblies, metadata, version, author, ...)
+- Module (types)
+- Resources  (images, translations files, ...)
+
+
+Module metadata:
+- public, private, ...
+- describes all aspect of the code except programming logic
+- used to guarantee type safety
+- is normally used in IDEs to provide auto complition
+
+
+*Microsoft Intermediate Language (MSIL)*
+
+MSIL is similar to assembler but is platform independent.
+The MSIL is the same for all [[id:95b391d4-12b4-4143-89c8-6bdde15489f1][.NET]] languages.
+The benefits of the MSIL are:
+- portability
+- typesafety
+
+The drawback is that the normal compiled project is not as efficient as native code.
+But you can compile a [[id:95b391d4-12b4-4143-89c8-6bdde15489f1][.NET]] project direct in native code.
+
+*MSIL in Action*
+
+- Design Time (platform independent, development, MSIL)
+- Run Time (platform dependent, JIT)
+
+JIT Compilation:
+compiled method calls an IL function.
+The runtime detects that this function is not compiled yet and calls the JIT compiler.
+The JIT compiler translate the IL code in native code and replace the IL code with native code in the memory.
+
+*.NET reference types*
+
+In [[id:95b391d4-12b4-4143-89c8-6bdde15489f1][.NET]] exists 4 different kinds of references:
+- precompiled assemblies (not possible to debug), =<Reference>..</Reference>=
+- [[id:08263a93-cdbe-4caf-a11c-db4bd81959e3][NuGet Package]] (external dependency, not possible to debug), =<PackageReference>...</PackageReference>=
+- Visual Studio Project (in same solution), =<ProjectReference>...</ProjectReference>=
+- SDK (required, default classes)
+
+
+*C# Project Files*
+
+The [[id:95b391d4-12b4-4143-89c8-6bdde15489f1][.NET]] project are store in a XML file.
+In a [[id:8fc49f58-a615-4348-ae3a-693f6b69655b][C#]] project the file is called *.csproj.
+The most important part in the file are:
+- PropertyGroup: Settings
+- ItemGroup: item which should be compiled
+- TargetGroup: a sequence of step to execute
+
+
+* C#
+
+#+CAPTION: Naming Guidelines
+#+NAME: fig:naming-guidelines
+[[file:static/img/mste/naming_guidelines.png]]
+
+#+CAPTION: Visibility
+#+NAME: fig:visibility
+[[file:static/img/mste/sichtbarkeitsattribute.png]]
+
+
+*Namespaces in C#*
+
+Namespaces are similar to the packages in [[id:d4e5f169-81a7-4ce9-a0ff-e85399b1294a][Java]].
+But in [[id:8fc49f58-a615-4348-ae3a-693f6b69655b][C#]] the file systems does not have correspond the the namespace.
+But it is best practice to have the same hierarchy.
+A namespace can be renamed during the import: =using F = System.Windows.Forms=
+
+*Main Method in C#*
+
+The main method in [[id:8fc49f58-a615-4348-ae3a-693f6b69655b][C#]] can exits mulitple times.
+If this is the case the corret starting method has to written in the *.csproj file:
+
+#+begin_src xml
+<StartupObject>CSharpGrundlagen_Main01.Program1</StartupObject>
+#+end_src
+
+#+CAPTION: Main Method Examples
+#+NAME: fig:main-method-examples
+[[file:static/img/mste/main_methods_example.png]]
+
+Arguments can be access with:
+#+begin_src csharp
+  string[] args;
+  System.Environment.GetCommandLineArgs();
+  System.CommandLine; /*NuGet*/
+#+end_src
+
+
+The main method is not required.
+If you leave out the main method (only allowed once) the following schema is required:
+- usings
+- the code which is normaly in main
+- functions / enums / classes / structs ...
+
+
+The argument array is then always called args.
+
+#+begin_src csharp
+  using System;
+  
+  Volume vLow = Volume.Low;
+  PrintVolume(vLow);
+
+  static void PrintVolume(Volume volume) { /* */ }
+  public enum Volume { /* */ }
+#+end_src
+
+*Enums in C#*
+
+Enums in [[id:8fc49f58-a615-4348-ae3a-693f6b69655b][C#]] are only a list with predefined constants (default Int32).
+Normally the first value is a 0 and the incremented.
+It is possible to define the int value explicitly (=enum Days {Sunday = 10, ... }=.
+After that the value is incremented again.
+It is possible that the enum has for different options the same int value.
+This could happens when you set one option explicit higher and one option explicit lower.
+In this case it is not recommended to convert the int in an enum (it will always take only the first option).
+
+To save memory you can adjust the used type =enum Days : byte { Sunday, Monday ... };=.
+This is /not in inheritance/. Just a hint for the compiler.
+
+*String to Enum*
+
+Often you want to convert a String into an Enum ([[id:e648e77d-4ad1-4ba5-aa4c-4490351ec13b][Enums in C#]]).
+For this operation you have to options:
+- The Option 1 should not be used anymore, because it can throw exceptions
+- Option 2 and 3 are identical except that Option 3 has same syntactical sugar.
+
+#+begin_src csharp
+  // Option 1
+  Days day1 = (Days)Enum.Parse(typeof(Days), "Monday");
+  
+  // Option 2
+  Days day2;
+  bool success2 = Enum.TryParse("Monday", out day2);
+  
+  // Option 3
+  bool success3 = Enum.TryParse("Monday", out Days day3); // C# 7.0
+#+end_src
+
+*Print all Options of an Enum*
+
+Sometimes you want to iterate over all Values of a enum ([[id:e648e77d-4ad1-4ba5-aa4c-4490351ec13b][Enums in C#]]).
+
+#+begin_src csharp
+  foreach (string day in Enum.GetNames(typeof(Days)))
+  {
+      Console.WriteLine(day);
+  }
+#+end_src
+
+*String in C#*
+
+The type string is a reference type (class) but behaves like a Value type and are reused internally.
+Only =string.Copy()= creates a real new copy.
+Strings are immutable and value comparison with === / =!== and =Equals= are possible (not like in [[id:d4e5f169-81a7-4ce9-a0ff-e85399b1294a][Java]]).
+For escaping two methods exist:
+- escaping with a backslash (\): ="C:\\"=
+- or with a at @: =@"C:\"=
+
+
+Strings should not be created with =string.Format()= or with the =+= operator.
+The better way is string interpolation: =string s3 = $"{DateTime.Now}: {"Hello"}";=
+
+*Arrays in C#*
+
+In [[id:8fc49f58-a615-4348-ae3a-693f6b69655b][C#]] the array is a reference type is therefore stored on the heap.
+It exists three different kind of arrays:
+- [[id:89eeb623-674f-45f7-b0b2-172fd2222a4f][Single Dimensional Arrays in C#]] 
+- [[id:dfe0a7f4-129e-4481-9b86-5f802e264e1c][Multidimension Array in C#]]
+- [[id:f52ea7e9-2248-4610-a3a7-07aa754ee562][Jagged Arrays in C#]] 
+
+
+If the array stores reference types then only the reference is stored in the array. If the array should store value types then these elements are automatically boxed (moved to the heap) and stored as a whole in the array.
+
+#+CAPTION: Array Memory Layout
+#+NAME: fig:array-memory-layout
+[[file:static/img/mste/array_memory_layout.png]]
+
+*Single Dimensional Array*
+
+An plan old array. Nothing special.
+#+begin_src csharp
+  int[] array1 = new int[5];
+  int[] array2 = new int[] { 1, 4, 6};
+  int[] array3 = int[] {1,5,7};
+  int[] array4 = {1,3,5,5};
+  object[] array5 = new object[5];
+#+end_src
+
+*Multidimensional Array*
+
+Multidimensional Arrays are also called Block Matrices because they look like a rectangle.
+
+#+begin_src csharp
+  int[,] multiDim1 = new int[2,3];
+  int[,] multiDim2 = new { {1,2,3}, {4,5,6}};
+
+  int[,] array = new int[3,2];
+  int length = array.Length; // 6
+  int length0 = array.GetLength(0); // 3
+  int length1 = array.GetLength(1); // 2
+#+end_src
+
+
+The benefits over [[id:f52ea7e9-2248-4610-a3a7-07aa754ee562][Jagged Arrays in C#]] they are:
+- more memory efficient
+- faster allocation
+- faster [[id:c79b363f-ff8a-458a-9f8e-3b18dfd72a57][Garbage Collection]]
+
+
+But the access to the elements are slower than in a [[id:f52ea7e9-2248-4610-a3a7-07aa754ee562][Jagged Arrays in C#]].
+This is because the Boundary Check is in a [[id:89eeb623-674f-45f7-b0b2-172fd2222a4f][One Dimensional Array]] is optimized.
+This does not apply for Block Matrices. 
+
+*Jagged Arrays*
+
+Jagged Arrays are Arrays of Arrays.
+From the first array, each index points to an indepentend Array.
+They are called jagged (de: zerklüftet) because each array from the second array can have diffrent sizes.
+
+#+begin_src csharp
+  int[][] jaggedArray = new int[6][];
+  jaggedArray[0] = new int[] {1,2,3,4};
+
+  int[][] array1 new int[2][];
+  array1[0] = new int[3];
+  array1[1] = new int[1];
+  int length = array1.Length; // 2
+  int length0 = array1[0].Length; // 3
+  int length1 = array1[1].Length // 1
+#+end_src
+
+The access to the elements is in Jagged Arrays faster than in [[id:dfe0a7f4-129e-4481-9b86-5f802e264e1c][Block Matrices]] because the Boundary Check is for [[id:89eeb623-674f-45f7-b0b2-172fd2222a4f][One Dimensional Array]] optimized.
+
+*Structs in C#*
+
+In [[id:8fc49f58-a615-4348-ae3a-693f6b69655b][C#]] =struct= are value types and therefore live on the stack.
+Derivation of a struct is not possible but a struct can implement interfaces.
+Different as by classes you can not initialize the values directly:
+#+begin_src csharp
+  struct Point {
+      int x = 0; // Compilerrror
+      int y;
+  
+      Point(int x, int y) {
+          this.x = x;
+          this.y = y;
+      }
+  }
+  
+#+end_src
+
+
+Structs should only used in the following cases:
+- to group primitives as one data type (like a Point)
+- the new type should be immutable
+- is not often boxed
+- short life span
+- or is embedded in other objects
+
+
+*readonly fields*
+
+In [[id:8fc49f58-a615-4348-ae3a-693f6b69655b][C#]] besides =const= there is also a =readonly=.
+The value for a =readonly= fields does not have to be known at compile time.
+The value can be calculated during deklaration or inside the constructor.
+
+*nested types in*
+
+The outer class has access to the public functions / fields / properties of the class.
+But the inner class has access to everything of the outer class.
+Foreign classes can access only on public functions / fields / properties and only if the class itself is public.
+
+*Static Usings*
+
+In [[id:8fc49f58-a615-4348-ae3a-693f6b69655b][C#]] you can import static classes / enums with static usings:
+#+begin_src csharp
+  using static System.Console;
+  
+  WriteLine("Hello World");
+#+end_src
+
+If a naming clash occurs the normal overloading rules apply.
+With the class name you can ensure the correct function call.
+
+*Params*
+
+In [[id:8fc49f58-a615-4348-ae3a-693f6b69655b][C#]] exists two kind of functions calls:
+- call by value
+- call by reference
+
+
+For call by reference exists two keywords with different purpose:
+- =ref= (normal call be reference)
+- =out=
+
+
+For overloading =ref= / =out= are distinguished feature.
+
+*out Parameters*
+
+A function which takes =out= parameters initialized this arguments during the function call.
+This technique is used by the =TryParse= methods.
+If you are not interested in one of the parameters then use the =_= to discard the "return value".
+
+#+begin_src csharp
+  void Init(out int a, out int b) { a = 1; b = 2; }
+  void TestInit() { Init(out int a1, out _); }
+#+end_src
+
+*params array*
+
+The params array allows the caller to add any number of arguments at the end:
+#+begin_src csharp
+  void DoSomething(string str, params string[] list) { /**/ }
+  DoSomething("{0} some string {1}", 2, 3); 
+#+end_src
+
+It has to be the last parameter in the function. During compilation time the parameters are transformed in an normal array. It is not possible to use the parms array with the =out= / =ref= keyword.
+
+*Imporent*: the following two functions are the same for the compiler (no valid overloading):
+#+begin_src csharp
+  void DoSomething(string str, params string[] list) { /**/ }
+  void DoSomething(string str, string[] list) { /**/ }
+#+end_src
+
+*Optional Parameters*
+
+In [[id:8fc49f58-a615-4348-ae3a-693f6b69655b][C#]] exist optional parameters.
+This is realized that some parameters have a default value:
+#+begin_src csharp
+void optionalParameters(int i, bool flag = true) { /**/ }
+#+end_src
+
+The default value has be calculated during compile time.
+Leaving out an optional parameter is only possible at the end.
+If you want to specify the last option then you have set all previous flags too.
+
+*Important*: Default parameters are no distinguished feature for overloading.
+The following are the same function for the compiler (compiler error):
+#+begin_src csharp
+void optionalParameters(int i, bool flag = true) { /**/ }
+void optionalParameters(int i, bool flag) { /**/ }
+#+end_src
+
+*Named Parameters*
+
+The problem with [[id:21b9ae04-68ec-416a-ae1c-4996e6640bf9][Optional Parameters in C#]] is that you have sometimes to specify every option even if you want only to change the default value of the last argument.
+With named parameters this problem does not occur:
+#+begin_src csharp
+  void PrintOrderDetails(string productName, string sellerName, int orderNum) { /**/ }
+  PrintOrderDetails(orderNum: 31, productName: "Red Mug", sellerName: "Gift Shop");
+#+end_src
+
+*Properties*
+
+Properties are compiler feature which implements the Getter and Setter methods.
+In the Set part you can access the assigned value using the =value= keyword.
+
+#+begin_src csharp
+public int LengthAuto { get; set; }
+#+end_src
+
+Auto implemented properties use compiler also a compiler feature.
+To avoid naming conflicts the compiler creates a "unspeakable variable name".
+This is a variable name which the compiler not accepted from the user.
+
+You can even initialized auto implemented properties.
+The set part does not even to be there.
+#+begin_src csharp
+public string FirstName { get; set; } = "Jane"; 
+#+end_src
+
+
+Another compiler feature is that you can set the values over the Setters right after the creation using the default compiler:
+#+begin_src csharp
+  MyClass mc = new MyClass()
+  {
+      Length = 1,
+      Width = 2
+  };
+  
+  // compiles to this
+  MyClass mc = new MyClass();
+  mc.Length = 1;
+  mc.Width = 2;
+#+end_src
+
+*Indexers*
+
+Indexer are just a special case of [[id:18e3ca99-2910-455a-aaad-c5a5a2f5d6ba][Properties in C#]].
+It is basically an overloading of the index operator (=[]=):
+#+begin_src csharp
+  MyClass mc = new MyClass();
+  mc[0] = "Hello";
+  string value1 = mc[0];
+  
+  class MyClass
+  {
+      private string[] arr = new string[10];
+      // this zeigt an dass es ein indexer ist
+      public string this[int index]
+      {
+          get { return arr[index]; }
+          set { arr[index] = value; // value ist ein string in diesem fall }
+      }
+  
+  }
+#+end_src
+
+*Switch Expressions*
+
+The switch expression in [[id:8fc49f58-a615-4348-ae3a-693f6b69655b][C#]] works like the switch expression in [[id:578e2997-4791-4315-b980-33ad95df881c][Rust]].
+
+#+begin_src csharp
+  public static Orientation ToOrientation(Direction direction) => direction switch
+  {
+      Direction.Up    => Orientation.North,
+      Direction.Right => Orientation.East,
+      Direction.Down  => Orientation.South,
+      Direction.Left  => Orientation.West,
+      _ => throw new ArgumentOutOfRangeException(nameof(direction), $"Not expected direction value: {direction}"),
+  };
+#+end_src
+
+*Default in C#*
+
+In [[id:8fc49f58-a615-4348-ae3a-693f6b69655b][C#]] for a [[id:42389aa1-f932-4188-a2b8-4dd013150053][Struct in C#]] the default constructor is always available.
+For a class when no constructor is implemented by the user or explicitly implemented.
+In a [[id:42389aa1-f932-4188-a2b8-4dd013150053][Struct in C#]] always all fields have to be initialized.
+
+Using =default(T)= or =default= the memory location is filled with 0.
+So the get the default value back.
+
+*Static Constructors*
+
+A static constructor is for structs and classes identically and has never parameters and no visibility.
+The static constrocutr is used for initial work and is executed exactly once for the whole application during the first creation of an object of the class / struct.
+
+*Operator Overloading*
+
+The function has to be a =static= and needs the keyword =operator= with the operator afterwards:
+#+begin_src csharp
+  public static Point operator+(Point lhs, Point rhs) {
+      return new Point(rhs.X + lhs.X, rhs.Y + lhs.Y);
+  }
+#+end_src
+
+The return type freely selectable.
+But min. one parameter has to be from the same type of the class.
+
+*Partial Class*
+
+A class can be spitted in multiple files.
+This requires the keyword =partial=.
+This works with classes, structs and interfaces.
+#+begin_src csharp
+  // File1.cs
+  partial class MyClass
+  {
+      public void Test1() {}
+  }
+
+  // File2.cs
+  partial class MyClass
+  {
+      public void Test2() {}
+  }
+#+end_src
+
+Usage:
+- Mostly used with generators:
+  - File 1: created by the generator
+  - File 2: created by the developer
+- Split up a big file (bad code)
+  - good starting point for refactoring
+
+
+If I define in one place partially this is valid for all other files too.
+
+*Partial Method*
+
+It is also possible to implement partial methods.
+This is often used for user defined hooks in generated code.
+For this the class / struct needs to be also partial and the function has to be private and has to return void.
+
+#+begin_src csharp
+// Definition in file1.cs, e.g generated by an generator
+partial void OnNameChanged();
+
+// Implementation in file2.cs, implemented by an developer
+partial void OnNameChanged() { /**/ }
+#+end_src
+
+
+#+CAPTION: Initialisierungsreihenfolge
+#+NAME: fig:initialization-sequence
+[[file:static/img/mste/initialisierungsreihenfolge.png]]
+
+*Type Casting*
+
+=null= could be also casted.
+Except you want to cast it in a Value Type ([[id:42389aa1-f932-4188-a2b8-4dd013150053][Struct in C#]]).
+This would throw an =InvalidCastException=.
+#+begin_src csharp
+  SubSub a = new SubSub();
+  if (a is SubSub) {}
+#+end_src
+
+=obj as T= short for =obj is T ? (T)obj : (T)null=
+#+begin_src csharp
+  Base a = new Sub();
+  Sub b = a as Sub;
+  
+  /* Same as following*/
+  Sub b = a is Sub ? (Sub)a : (Sub)null;
+#+end_src
+
+#+CAPTION: type check with implicit type cast
+#+begin_src csharp
+   Base a = new SubSub();
+   if (a is SubSub casted) {
+       Console.WriteLine(casted);
+   }
+  
+   /* same as following*/ 
+   SubSub casted = default;
+   if (a is SubSub) {
+       casted = (SubSub) a;
+   }
+#+end_src
+
+*Override Functions*
+
+So that you can override a function it has to be marked as =virtual= in the base class.
+In the child class you can override it with the keyword =override=.
+The keyword =virtual= is not possible when:
+- function is static
+- function is =abstract= (implied virtual)
+- private (not even possible to override)
+- override (implied virtual from base class)
+
+
+*Dynamic Binding in C#*
+
+Rule Set in pseudo code:
+#+begin_src csharp
+  var st = static type of obj;
+  var dt = dynamic type of obj;
+  var m = Method "M" of st; // Standard-Methode, existiert zwingend (evtl. vererbt)!
+  var typelist = all types between st (exclusive) and dt (inclusive);
+  
+  foreach (var t in typelist)
+  {
+      // Schlüsselwort "override"
+      if (t has an override method "M")
+          m = Method "M" of t;
+      // Schlüsselwort "new"
+      // Oder ohne Angabe
+      else if (t has a non-override method "M")
+          break;
+  }
+  call m;
+#+end_src
+
+*Interrupt dynamic binding*
+
+If the keyword =override= is missing the original functions are hidden therefore the dynamic binding is interrupted.
+If you want this you should add the =new= keyword: =public new void I() {}=.
+This tells the compiler that you really want this and it is not a mistake.
+
+*seald keyword*
+
+With the keyword =sealed= you prevent that something inherits from this.
+=sealed= can be used with classes, properties, indexers and events.
+
+=sealed= can improve the performance because the dynamic binding algorithm is not executed.
+
+sealed members are not very common and are only possible with the keyword =override=:
+- =public override sealed void Add()=
+
+
+But you can hide the sealed function and create a new hierarchy with the =new= keyword:
+- =public new virtual void Add()=
+
+
+*Interfaces in C#*
+
+Because [[id:8fc49f58-a615-4348-ae3a-693f6b69655b][C#]] does not allow multiple inheritance the Interfaces are created.
+A class can implemented multiple interfaces at the same time.
+All function defined in the interface must be implemented by the class or by a base class.
+Implementation of Interface members must be =public= and must not be =static=.
+Interfaces can inherit from other Interfaces
+
+*Naming Clashes using Interfaces*
+
+If your class implements two interfaces with the same name and same signature you have 3 possible solutions:
+1. implement the method regularly.
+   The implementation counts for both interfaces
+   - do this if the logic for both interfaces are the same
+2. implement the methods explicit
+   - do this if the logic for both interfaces are different
+   - =void ISequence.Add(object x) { /* do something */ }=
+   - =void IShoppingCart.Add(object x) { /* do something */ }=
+3. implement one regularly and one explicit
+   - this is useful if the regularly one should be the default
+
+#+CAPTION: Prevent naming clash with option 2
+#+begin_src csharp
+  class ShoppingCart : ISequence, IShoppingCart {
+      void ISequence.Add(object x) {}
+      void IShoppingCart.Add(object x) {}
+  }
+  
+  ISequence sc1 = new ShoppingCart();
+  sc1.Add("Hello");
+  
+  IShoppingCart sc2 = new ShoppingCart();
+  sc2.Add("Hello");
+#+end_src
+
+#+CAPTION: Prevent naming clash with option 3
+#+begin_src csharp
+  class ShoppingCart : ISequence, IShoppingCart {
+      void Add(object x) {} // will be the default
+      void IShoppingCart.Add(object x) {}
+  }
+#+end_src
+
+*Delegates*
+
+Delegates are type safe function pointers as a object (reference type).
+Internally it holds references to 0 to n methods.
+
+#+begin_src csharp
+  public delegate void Notifier(string sender);
+  public static void SayHi(string sender);
+  
+
+  Notifier greetings;
+  greetings = new Notifier(SayHi);
+  // kurzform
+  greetings = SayHi;
+  greetings("John");
+#+end_src
+
+/Attention/: Delegates must not be =null= if you want to invoke it.
+#+begin_src csharp
+  if (delegateVar != null) {
+      delegateVar(params);
+  }
+  
+  // neu ab C# 6.0
+  delegateVar?.Invoke(params);
+#+end_src
+
+#+begin_src csharp
+  // Anonymous delegate
+  delegate bool Predicate(string s);
+  private static void DoSomething(Predicate pred) { /**/ }
+
+  DoSomething(delegate(string s){
+	  return s.StartsWith('S');
+      });
+#+end_src
+
+
+*Multicast Delegates*
+
+Technical all delegates ([[id:b9d960a9-ace5-4dd8-a1bf-c339bb7f51e3][Delegates in C#]]) are multicast delegates. Normal delegates are just a special case where the delegates hold only one reference to a function.
+
+Delegates are taken by the compiler and generates from it a new class which inherits from the class =MulticastDelegate=. Only the compiler can use the =MulticastDelegate= class.
+
+The compiler also generates from this =greetings("John");= the following snippet:
+#+begin_src csharp
+  foreach(Delegate dele in greetings.GetInvocationList()) {
+      ((Notifier)dele).Invoke("John")
+  }
+#+end_src
+
+/Attention/: Do not use return values, out or ref parameters in Multicast Delegates.
+Only the values form the last function call are returned. 
+
+
+*Manipularting Multicast Delegates*
+
+To manipulate the delegate three operations exits:
+- === assigns a function to the delegate
+- =+== adds a function to the delegate
+- =-== removes a function from the delegate
+
+
+Functions are executed in the same order as you added (=+==) it to the Multicast Delegate.
+The newest function witch matches is removed when using =-==.
+
+*Implementation Multicast Delegate*
+
+A delegate is implemented as a [[id:6400f4d1-6397-4916-a3fd-4626c3e0b29d][LinkedList]] and stores three things:
+- target: reference to the target object
+  - the instance of the class, if static =null=
+- method: the method reference
+- perv: the reference to the previous delegate
+
+
+#+CAPTION: Implementation Schema Multicast Delegate
+#+NAME: fig:implementation-schema-multicast-delegate
+[[file:static/img/mste/multicast_delegate_implementation.png]]
+
+
+*Predefined Generic Delegates*
+/Action/:
+- =Action()=
+- =Action<in T>(T obj);=
+- =Action<in T1, ..., in T16>(T obj, ..., T16 arg);=
+  
+/Func/:
+- =TResult Func<out TResult>()=
+- =TResult Func<in T, out TResult>(T arg)=
+- =TResult Func<in T, ..., in T16, out TResult>(T arg, ..., T16 arg16)=
+- The last type parameter is the result type
+  
+/Predicate/:
+=delegate bool Predicate<in T>(T obj);=
+
+/EventHandler/:
+- =EventHandler<TEventArgs>(object sender, TEventArgs e);=
+- =EventHandler(object sender, EventArgs e);=
+
+
+*Events*
+
+Events are just syntactical sugar.
+The compiler takes the event and generates a private delegate and adds (un)subscribe logic as public (=+== and =-==).
+#+begin_src csharp
+  public delegate void TickEventHandler(int ticks, int interval);
+  
+  public class Clock {
+      public event TickEventHandler OnTickEvent;
+  
+      /* event is transformed to */
+      private TickEventHandler OnTickEvent;
+      public void add_OnTickEvent(TickEventHandler h) { OnTickEvent += h; }
+      public void remove_OnTickEvent(TickEventHandler h) { OnTickEvent -= h; }
+  }
+#+end_src
+
+
+The default syntax of the events is the following:
+#+begin_src csharp
+public delegate void AnyHandler(object sender, AnyEventArgs e);
+#+end_src
+
+- =object sender=: the sender of the event, the sender hands =this= over at the call of the delegate / event
+- =AnyEventArgs e=: an arbitrary sub class ob =EventArgs=. It contains information to the event.
+
+
+*Anonymous Methods*
+
+In [[id:8fc49f58-a615-4348-ae3a-693f6b69655b][C#]] you can create anonymous methods with delegates or with lambdas.
+Anonymous methods can not use =params[]=, =ref= and not =out= parameters.
+
+/Delegates/:
+#+begin_src csharp
+  list.ForEach(delegate(int i) { Console.WriteLine(i); });
+  
+  int sum = 0;
+  list.ForEach(delegate(int i) { sum += i; });
+  list.ForEach(delegate(int i) { sum += 1; });
+#+end_src
+
+/Lambda/:
+#+begin_src csharp
+  List<int> list = new List<int>();
+  int sum = 0;
+  list.ForEach(element => sum += element);
+#+end_src
+
+#+CAPTION: Example of an Compiled Closoure
+#+NAME: fig:ex-of-compiled-closoure
+[[file:static/img/mste/closures_how_does_it_work.png]]
+
+* Generic
+
+*Benefits*
+When you use generics in a .NET project you got the following benefits:
+- reusability
+- type safety
+- performance improvements
+
+
+The performance improvements is only available for value types.
+The improvement is obtained by the fact that this types does not need to be boxed / unboxed.
+With =object= you would always have to do a boxing / unboxing.
+
+*Types of Constraints*
+
+For the generic type T you have 6 possible constraints:
+- struct - T must be a struct
+- class - T must be a class
+- new() - T must have a default constructor
+- ClassName - T must inherit from ClassName
+- InterfaceName - T must implement InterfaceName
+- TBase - T must be equal to TBase or T has to inherit from TBase
+
+
+#+begin_src csharp
+  class Something<T, K>
+      where T : struct, class, new()
+      where K : ISequence
+  {
+      /* fields, methods, properties, ...*/
+  }
+#+end_src
+
+*Generic Type Inference*
+
+If the type parameters is redundant it can be omitted.
+This is the case if =T= is formal parameter.
+If =T= is only the return value or not in the signature the type has to be written.
+#+begin_src csharp
+  public void Print<T>(T t) { /**/ }
+  public T Get<T>() { /**/ }
+  
+  Print<int>(12);
+  Print(12);
+  
+  int i1 = Get<int>();
+  int i2 = Get(); // Compiler error
+#+end_src
+
+*How do Generics Work*
+
+The value types are treated different than the reference types.
+When the runtime sees the first occurrence of a struct as a generic it generates a new concrete class where =T= is replaced with the struct.
+By value types during the runtime the =T=is replaced with =object= (same as in [[id:d4e5f169-81a7-4ce9-a0ff-e85399b1294a][Java]]).
+
+
+*Whate are Nullable Values*
+
+Nullable value type is a normal struct which is implemented as following:
+#+begin_src csharp
+  public struct Nullable<T>
+      where T : struct {
+          public Nullable(T value);
+          public bool HasValue { get; }
+          public T Value { get; }
+      }
+#+end_src
+
+The compiler adds some syntactical sugar for easier usage:
+#+begin_src csharp
+  int? x = 123;
+  Nullable<int> x = 123;
+  int? x = null;
+#+end_src
+
+For secure reading the following methods should be used:
+- =GetValueOrDefault()=
+- =GetValueOrDefault(<default>)=
+
+
+*Nullable Type Operators*
+#+CAPTION: The ?? operator
+#+begin_src csharp
+  int i = GetNullableInt() ?? -1;
+  
+  /* same as */
+  int? iTemp = GetNullableInt();
+  int i;
+  if (!iTemp.HasValue) { i = -1; }
+  else { i = iTemp.GetValueOrDefault(); }
+#+end_src
+
+#+CAPTION: The ??= operator
+#+begin_src csharp
+  int? i = null;
+  i ??= 1234;
+  
+  /* same as*/
+  int? i = null;
+  i = i ?? 1234;
+  
+  int? i = null;
+  int iTemp = i.GetValueOrDefault();
+  if (!i.HasValue) { iTemp = 1234; }
+  i = iTemp;
+  
+#+end_src
+
+
+The =?.= (Null-conditional operator) is used for secure method chaining:
+#+begin_src csharp
+string s = GetNullableInt()?.ToString();
+#+end_src
+Often also used with delegates [[id:b9d960a9-ace5-4dd8-a1bf-c339bb7f51e3][Delegates in C#]]: =a?.Invoke()=
+
+* End
+\end{multicols}
