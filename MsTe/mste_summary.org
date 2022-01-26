@@ -20,9 +20,8 @@
 - .NET Core: new runtime, crossplatform
 - .NET: successor of .NET Core. This should be used today
 
-#+CAPTION: .NET arcitecutre
 #+NAME: fig:net-architecture
-[[file:static/img/mste/dot_net_architektur.png]]
+[[file:img/dot_net_architektur.png]]
 
 *.NET Standard*
 
@@ -38,9 +37,8 @@ The Common Language Runtime (CLR) has:
 - thread management
 
 
-#+CAPTION: CLR Architecut
 #+NAME: fig:clr-architecture
-[[file:static/img/mste/clr_architektur.png]]
+[[file:img/clr_architektur.png]]
 
 *Common Type System*
 
@@ -59,9 +57,8 @@ All types in .NET inherit from =System.Object=. Also types like int, long and fl
 
 Each type has always a reference to the type description 
 
-#+CAPTION: Example Memory Layout Reference
 #+NAME: fig:ex-mem-layout-ref
-[[file:static/img/mste/ref_type_stack_heap.png]]
+[[file:img/ref_type_stack_heap.png]]
 
 *.NET Assembly*
 
@@ -109,9 +106,9 @@ The JIT compiler translate the IL code in native code and replace the IL code wi
 *.NET reference types*
 
 In [[id:95b391d4-12b4-4143-89c8-6bdde15489f1][.NET]] exists 4 different kinds of references:
-- precompiled assemblies (not possible to debug), =<Reference>..</Reference>=
-- [[id:08263a93-cdbe-4caf-a11c-db4bd81959e3][NuGet Package]] (external dependency, not possible to debug), =<PackageReference>...</PackageReference>=
-- Visual Studio Project (in same solution), =<ProjectReference>...</ProjectReference>=
+- precompiled assemblies (not possible to debug), =<Reference> ... </Reference>=
+- [[id:08263a93-cdbe-4caf-a11c-db4bd81959e3][NuGet Package]] (external dependency, not possible to debug), =<PackageReference> ... </PackageReference>=
+- Visual Studio Project (in same solution), =<ProjectReference> ... </ProjectReference>=
 - SDK (required, default classes)
 
 
@@ -124,16 +121,13 @@ The most important part in the file are:
 - ItemGroup: item which should be compiled
 - TargetGroup: a sequence of step to execute
 
-
 * C#
 
-#+CAPTION: Naming Guidelines
 #+NAME: fig:naming-guidelines
-[[file:static/img/mste/naming_guidelines.png]]
+[[file:img/naming_guidelines.png]]
 
-#+CAPTION: Visibility
 #+NAME: fig:visibility
-[[file:static/img/mste/sichtbarkeitsattribute.png]]
+[[file:img/sichtbarkeitsattribute.png]]
 
 
 *Namespaces in C#*
@@ -152,9 +146,8 @@ If this is the case the corret starting method has to written in the *.csproj fi
 <StartupObject>CSharpGrundlagen_Main01.Program1</StartupObject>
 #+end_src
 
-#+CAPTION: Main Method Examples
 #+NAME: fig:main-method-examples
-[[file:static/img/mste/main_methods_example.png]]
+[[file:img/main_methods_example.png]]
 
 Arguments can be access with:
 #+begin_src csharp
@@ -250,9 +243,8 @@ It exists three different kind of arrays:
 
 If the array stores reference types then only the reference is stored in the array. If the array should store value types then these elements are automatically boxed (moved to the heap) and stored as a whole in the array.
 
-#+CAPTION: Array Memory Layout
 #+NAME: fig:array-memory-layout
-[[file:static/img/mste/array_memory_layout.png]]
+[[file:img/array_memory_layout.png]]
 
 *Single Dimensional Array*
 
@@ -571,9 +563,8 @@ partial void OnNameChanged() { /**/ }
 #+end_src
 
 
-#+CAPTION: Initialisierungsreihenfolge
 #+NAME: fig:initialization-sequence
-[[file:static/img/mste/initialisierungsreihenfolge.png]]
+[[file:img/initialisierungsreihenfolge.png]]
 
 *Type Casting*
 
@@ -594,7 +585,6 @@ This would throw an =InvalidCastException=.
   Sub b = a is Sub ? (Sub)a : (Sub)null;
 #+end_src
 
-#+CAPTION: type check with implicit type cast
 #+begin_src csharp
    Base a = new SubSub();
    if (a is SubSub casted) {
@@ -683,7 +673,6 @@ If your class implements two interfaces with the same name and same signature yo
 3. implement one regularly and one explicit
    - this is useful if the regularly one should be the default
 
-#+CAPTION: Prevent naming clash with option 2
 #+begin_src csharp
   class ShoppingCart : ISequence, IShoppingCart {
       void ISequence.Add(object x) {}
@@ -697,7 +686,6 @@ If your class implements two interfaces with the same name and same signature yo
   sc2.Add("Hello");
 #+end_src
 
-#+CAPTION: Prevent naming clash with option 3
 #+begin_src csharp
   class ShoppingCart : ISequence, IShoppingCart {
       void Add(object x) {} // will be the default
@@ -745,7 +733,7 @@ Internally it holds references to 0 to n methods.
 
 *Multicast Delegates*
 
-Technical all delegates ([[id:b9d960a9-ace5-4dd8-a1bf-c339bb7f51e3][Delegates in C#]]) are multicast delegates. Normal delegates are just a special case where the delegates hold only one reference to a function.
+Technical all delegates are multicast delegates. Normal delegates are just a special case where the delegates hold only one reference to a function.
 
 Delegates are taken by the compiler and generates from it a new class which inherits from the class =MulticastDelegate=. Only the compiler can use the =MulticastDelegate= class.
 
@@ -780,9 +768,8 @@ A delegate is implemented as a [[id:6400f4d1-6397-4916-a3fd-4626c3e0b29d][Linked
 - perv: the reference to the previous delegate
 
 
-#+CAPTION: Implementation Schema Multicast Delegate
 #+NAME: fig:implementation-schema-multicast-delegate
-[[file:static/img/mste/multicast_delegate_implementation.png]]
+[[file:img/multicast_delegate_implementation.png]]
 
 
 *Predefined Generic Delegates*
@@ -853,9 +840,8 @@ Anonymous methods can not use =params[]=, =ref= and not =out= parameters.
   list.ForEach(element => sum += element);
 #+end_src
 
-#+CAPTION: Example of an Compiled Closoure
 #+NAME: fig:ex-of-compiled-closoure
-[[file:static/img/mste/closures_how_does_it_work.png]]
+[[file:img/closures_how_does_it_work.png]]
 
 * Generic / Nullable
 
@@ -938,7 +924,6 @@ For secure reading the following methods should be used:
 
 
 *Nullable Type Operators*
-#+CAPTION: The ?? operator
 #+begin_src csharp
   int i = GetNullableInt() ?? -1;
   
@@ -949,7 +934,6 @@ For secure reading the following methods should be used:
   else { i = iTemp.GetValueOrDefault(); }
 #+end_src
 
-#+CAPTION: The ??= operator
 #+begin_src csharp
   int? i = null;
   i ??= 1234;
@@ -1014,9 +998,8 @@ Continue the Stack Trace (also called /rethrowing/).
 If in a function inside of a Multicast Delegate an exception occurs, the following functions (F2 in [[fig:exception-multicast]]) are not executed.
 Even if in the caller method a try-catch block exists.
 
-#+CAPTION: Call example with Delegates
 #+NAME: fig:exception-multicast
-[[file:static/img/mste/exception_with_multicast.png]]
+[[file:img/exception_with_multicast.png]]
 
 *Exception Filters*
 
@@ -1502,9 +1485,8 @@ But with a Thread you have more control over the details.
 
 /Attention:/ Asynchron (Concurrent) ist not the same as parallel (see [[fig:async-vs-parallel]]).
 
-#+CAPTION: Async vs Parallel
 #+NAME: fig:async-vs-parallel
-[[file:static/img/mste/async_vs_concurrent.png]]
+[[file:img/async_vs_concurrent.png]]
 
 *Async / Await operations*
 
@@ -1555,6 +1537,364 @@ An alternative for await are continuations and basically the same.
   });
 #+end_src
 
+* Reflection
+*Usage of reflection*
 
-* End
+The most prominent application for reflection is /Intelli Sense/ or the /Object Browser/ in Visual Studio.
+Using reflection you can do the following:
+- Type Discovery
+- Late Binding (Method / Properties)
+- Reflection Emit / Code-Emittierung
+
+
+*System.Type*
+
+All types in the [[id:e2426813-87a6-4079-95f4-9d4a2d487846][CLR]] are self defined using =System.Type=.
+The =System.Type= is the entry point for all reflection operations.
+The =System.Type= class describes itself with an =System.Type= instance.
+The base class for =System.Type= is the =System.RuntimeType=.
+
+*Runtime Prefix*
+
+The prefix /Runtime/ in .NET means that this class is only instanced only once.
+For example the =System.RuntimeType=.
+
+*Get a System.Type*
+
+For every type a =System.Type= can be obtained with =typeof= or =GetType()=.
+
+#+begin_src csharp
+  int someInt = 2;
+  var type = someInt.GetType();
+  var type2 = typeof(int);
+#+end_src
+
+
+#+NAME: fig:type-hierarchy-in-reflection
+[[file:img/type_hierarchy_reflection.png]]
+
+*Type discovery*
+
+#+begin_src csharp
+  Assembly a01 = Assembly.Load("mscorlib");
+  Type[] t01 = a01.GetTypes();
+  foreach (Type type in t01)
+  {
+      Console.WriteLine(type);
+      MemberInfo[] mInfos = type.GetMembers();
+      foreach (var mi in mInfos)
+      {
+	  Console.WriteLine(
+	      "\t{0}\t{1}",
+	      mi.MemberType,
+	      mi);
+      }
+  }
+#+end_src
+
+#+begin_example
+  System.Int32
+    Method Int32 CompareTo(System.Object)
+    Method Int32 CompareTo(Int32)
+    Method Boolean Equals(System.Object)
+    Method Boolean Equals(Int32)
+    Method Int32 GetHashCode()
+    Method System.String ToString()
+#+end_example
+
+*Read members*
+
+/All members/
+#+begin_src csharp
+  Type type = typeof(Counter);
+  MemberInfo[] miAll = type.GetMembers();
+  foreach (MemberInfo mi in miAll)
+  {
+      Console.WriteLine("{0} is a {1}",
+			mi, mi.MemberType);
+  }
+  Console.WriteLine("----------");
+  PropertyInfo[] piAll = type.GetProperties();
+  foreach (PropertyInfo pi in piAll)
+  {
+      Console.WriteLine("{0} is a {1}",
+			pi, pi.PropertyType);
+  }
+#+end_src
+
+#+begin_example
+Int32 get_CountValue() is a Method
+Void set_CountValue(Int32) is a Method
+Void Increment() is a Method
+Void Decrement() is a Method
+String ToString() is a Method
+Boolean Equals(Object) is a Method
+Int32 GetHashCode() is a Method
+Type GetType() is a Method
+Void .ctor(Int32) is a Constructor
+Int32 CountValue is a Property
+PropertyChangedEventHandler PropertyChanged
+  is a Event
+----------
+Int32 CountValue is a Property
+#+end_example
+
+/Dynamically/
+#+begin_src csharp
+  Type type = typeof(Assembly);
+  BindingFlags bf =
+      BindingFlags.Public |
+      BindingFlags.Static |
+      BindingFlags.NonPublic |
+      BindingFlags.Instance |
+      BindingFlags.DeclaredOnly;
+
+  MemberInfo[] miFound =
+      type.FindMembers(
+	  MemberTypes.Method,
+	  bf,
+	  Type.FilterName,
+	  "Get*"
+      );
+#+end_src
+
+*Field info*
+
+The field info class describes a single field of a class.
+This includes:
+- Name
+- Type
+- Visibility
+- and more
+
+
+It allows you to read and write regardless the visibility of the field:
+- =object GetValue(object obj);=
+- =void SetValue(object obj, object value)=
+
+
+But try to prevent to set values over this way.
+Especially if the field is private / protected.
+
+
+#+begin_src csharp
+  Type type = typeof (Counter);
+  Counter c = new Counter(1);
+  // All Fields
+  FieldInfo[] fiAll = type.GetFields(
+      BindingFlags.Instance |
+      BindingFlags.NonPublic);
+  // Specific Field
+  FieldInfo fi = type.GetField(
+      "countValue",
+      BindingFlags.Instance |
+      BindingFlags.NonPublic);
+  int val01 = (int) fi.GetValue(c);
+  c.Increment();
+  int val02 = (int) fi.GetValue(c);
+  fi.SetValue(c, -999);
+#+end_src
+
+*Property Info*
+
+The property info describes a property of a class.
+This includes the:
+- name
+- type
+- visibility
+- informations to get / set
+
+
+The property info allows you to read / write the property regardless of the visibility:
+- =object GetValue(object obj);=
+- =void SetValue(object obj, object value);=
+
+
+But try to prevent to set values over this way when the property is private / protected.
+
+
+#+begin_src csharp
+  Type type = typeof(Counter);
+  Counter c = new Counter(1);
+  // All Properties
+  PropertyInfo[] piAll = type.GetProperties();
+  // Specific Property
+  PropertyInfo pi =
+      type.GetProperty("CountValue");
+  int val01 = (int)pi.GetValue(c);
+  c.Increment();
+  int val02 = (int)pi.GetValue(c);
+  if (pi.CanWrite)
+  {
+      pi.SetValue(c, -999);
+  }
+#+end_src
+
+
+*Method Info*
+
+The method info inherits from =MethodBase= and describes a method of a class.
+This includes the:
+- name
+- parameters / return value
+- visibility
+- and more
+
+
+Using the method =Invoke()= you can call the method.
+
+#+begin_src csharp
+  /* Without parameters */
+  Type type = typeof(Counter);
+  Counter c = new Counter(1);
+  // All Methods
+  MethodInfo[] miAll = type.GetMethods();
+  // Specific Method
+  MethodInfo mi = type.GetMethod("Increment");
+  mi.Invoke(c, null);
+
+  /* With parameters */
+  Type type = typeof(System.Math);
+  Type[] paramTypes = { typeof(int) };
+  // Get method info for Cos( )
+  MethodInfo miAbs = type
+      .GetMethod("Abs", paramTypes);
+  // Fill an array with the actual parameters
+  object[] @params = { -1 };
+  object returnVal = miAbs.Invoke(type,
+				  @params);
+#+end_src
+
+*Constructor Info*
+
+The constructor info inherits from =MethodBase= and describes a constructor of a class.
+This includes:
+- name
+- parameters
+- visibility
+
+
+The constructor can be called using the =Invoke()= method.
+
+#+begin_src csharp
+  Type type = typeof(Counter);
+  // All Constructors
+  ConstructorInfo[] ciAll = type.GetConstructors();
+  // Specific Constructor Overload 01
+  ConstructorInfo ci01 = type.GetConstructor(
+      new[] { typeof(int) });
+  Counter c01 = (Counter)ci01.Invoke(
+      new object[] { 12 });
+  // Specific Constructor Overload 02
+  ConstructorInfo ci02 = type.GetConstructor(
+      BindingFlags.Instance|BindingFlags.NonPublic,
+      null, new Type[0], null);
+  Counter c02 = (Counter)ci02.Invoke(null);
+
+  /* alternative using activator */
+  Counter c03 = (Counter)Activator
+      .CreateInstance(
+	  typeof(Counter),
+	  12 // , "further params", "", ...
+      );
+  // Alternative
+  // -> when Public Default Constructor exists
+  Counter c04 = Activator
+      .CreateInstance<Counter>();
+#+end_src
+
+*Attributes in .NET*
+
+Attributes are the same thing like annotations in [[id:d4e5f169-81a7-4ce9-a0ff-e85399b1294a][Java]].
+They extend the already existing attributes like public, static, abstract or sealed.
+All attributes inherit from =System.Attribute=.
+
+#+begin_src csharp
+  [DataContract, Serializable]
+  [Obsolete]
+  // Etc.
+      public class Auto
+      {
+	  [DataMember]
+	  public string Marke { get; set; }
+	  [DataMember]
+	  public string Typ { get; set; }
+      }
+#+end_src
+
+
+in [[id:95b391d4-12b4-4143-89c8-6bdde15489f1][.NET]] exists two kind of attributes:
+- /intrinsic/: in the [[id:e2426813-87a6-4079-95f4-9d4a2d487846][CLR]] defined and integrated
+- /custom/: self defined attributes
+
+
+*Syntax Attribute Usage*
+
+Some attributes can be used multiple times on the same target.
+
+#+begin_src csharp
+  // without parameters
+  [DataContract]
+  class a{};
+
+  // Named parameters
+  [DataContract(Name = "AutoClass")]
+  class b{};
+
+  // Positional Paramaters
+  [Obsolete("Alt!", true)]
+  class c{};
+
+  // mixed
+  [Obsolete("Alt!", IsError = true)]
+  class d{};
+#+end_src
+
+*Create your own attribute*
+
+Your attribute must inherit from =System.Attribute= and must have the suffix =Attribute=.
+Additionaly it must use the attribute =AttributeUsage=.
+The =AllowMultiple= is per default set to =false=.
+
+#+begin_src csharp
+    [AttributeUsage(
+    AttributeTargets.Class |
+    AttributeTargets.Constructor |
+    AttributeTargets.Field |
+    AttributeTargets.Method |
+    AttributeTargets.Property,
+    AllowMultiple = true)]
+	public class BugfixAttribute : Attribute
+    {
+	public BugfixAttribute(int bugId,
+			       string programmer, string date)
+	{ /* ... */ }
+	public int BugId { get; }
+	public string Date { get; }
+	public string Programmer { get; }
+	public string Comment { get; set; }
+    }
+
+  [Bugfix(121, "Manuel Bauer", "01/03/2015")]
+  [Bugfix(
+  107, "Manuel Bauer", "01/04/2015",
+  Comment = "Some major changes! ;-)")]
+      public class MyMath{};
+#+end_src
+
+*Query an attribute*
+
+#+begin_src csharp
+  Type type = typeof(MyMath);
+  // All Class Attributes
+  object[] aiAll =
+      type.GetCustomAttributes(true); // true = use also inherited attributes
+  IEnumerable<Attribute> aiAllTyped =
+      type.GetCustomAttributes(
+	  typeof(BugfixAttribute) /* , true */
+      );
+  // Check Definition
+  bool aiDef =
+      type.IsDefined(typeof(BugfixAttribute));
+#+end_src
 \end{multicols}

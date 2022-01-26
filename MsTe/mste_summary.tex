@@ -1,4 +1,4 @@
-% Created 2022-01-26 Wed 16:38
+% Created 2022-01-26 Wed 22:01
 % Intended LaTeX compiler: xelatex
 \documentclass[11pt,twoside,landscape]{article}
 \usepackage{graphicx}
@@ -46,7 +46,7 @@
 \begin{multicols}{3}
 
 \section{.NET}
-\label{sec:orgba682fe}
+\label{sec:orgf8f6835}
 \textbf{.NET}
 
 \begin{itemize}
@@ -55,11 +55,10 @@
 \item .NET: successor of .NET Core. This should be used today
 \end{itemize}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\linewidth]{static/img/mste/dot_net_architektur.png}
-\caption{\label{fig:org7820452}.NET arcitecutre}
-\end{figure}
+\begin{center}
+\includegraphics[width=.9\linewidth]{img/dot_net_architektur.png}
+\label{org3754dcb}
+\end{center}
 
 \textbf{.NET Standard}
 
@@ -77,11 +76,10 @@ The Common Language Runtime (CLR) has:
 \end{itemize}
 
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\linewidth]{static/img/mste/clr_architektur.png}
-\caption{\label{fig:org1ef2918}CLR Architecut}
-\end{figure}
+\begin{center}
+\includegraphics[width=.9\linewidth]{img/clr_architektur.png}
+\label{org97ec0a6}
+\end{center}
 
 \textbf{Common Type System}
 
@@ -89,7 +87,7 @@ Common Type System (CTS) is the standard in \href{../../../roam/20211003114703-n
 All types in .NET inherit from \texttt{System.Object}. Also types like int, long and float inherit from \texttt{System.Object}. In CTS exists two different kind of types: Reference types (\texttt{class} keyword) and Value types (\texttt{struct} keyword). Value types are stored on the stack and are automatically boxed if it is used with something like a list, which stores its  element on the heap. 
 
 \begin{table}[htbp]
-\label{tab:org7cf7613}
+\label{tab:org2a2b91b}
 \centering
 \begin{tabular}{lll}
  & Reference (Class) & Value (Struct)\\
@@ -105,11 +103,10 @@ derivation possible & yes & no (sealed)\\
 
 Each type has always a reference to the type description 
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\linewidth]{static/img/mste/ref_type_stack_heap.png}
-\caption{\label{fig:orgfddb8f3}Example Memory Layout Reference}
-\end{figure}
+\begin{center}
+\includegraphics[width=.9\linewidth]{img/ref_type_stack_heap.png}
+\label{org6141b25}
+\end{center}
 
 \textbf{.NET Assembly}
 
@@ -166,9 +163,9 @@ The JIT compiler translate the IL code in native code and replace the IL code wi
 
 In \href{../../../roam/20211003114703-net.org}{.NET} exists 4 different kinds of references:
 \begin{itemize}
-\item precompiled assemblies (not possible to debug), \texttt{<Reference>..</Reference>}
-\item \href{../../../roam/20211003140935-nuget_package.org}{NuGet Package} (external dependency, not possible to debug), \texttt{<PackageReference>...</PackageReference>}
-\item Visual Studio Project (in same solution), \texttt{<ProjectReference>...</ProjectReference>}
+\item precompiled assemblies (not possible to debug), \texttt{<Reference> ... </Reference>}
+\item \href{../../../roam/20211003140935-nuget_package.org}{NuGet Package} (external dependency, not possible to debug), \texttt{<PackageReference> ... </PackageReference>}
+\item Visual Studio Project (in same solution), \texttt{<ProjectReference> ... </ProjectReference>}
 \item SDK (required, default classes)
 \end{itemize}
 
@@ -184,21 +181,18 @@ The most important part in the file are:
 \item TargetGroup: a sequence of step to execute
 \end{itemize}
 
-
 \section{C\#}
-\label{sec:org30188c9}
+\label{sec:org7d2d6e0}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\linewidth]{static/img/mste/naming_guidelines.png}
-\caption{\label{fig:org448645c}Naming Guidelines}
-\end{figure}
+\begin{center}
+\includegraphics[width=.9\linewidth]{img/naming_guidelines.png}
+\label{org69da6ad}
+\end{center}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\linewidth]{static/img/mste/sichtbarkeitsattribute.png}
-\caption{\label{fig:orgab88709}Visibility}
-\end{figure}
+\begin{center}
+\includegraphics[width=.9\linewidth]{img/sichtbarkeitsattribute.png}
+\label{org9f4e36c}
+\end{center}
 
 
 \textbf{Namespaces in C\#}
@@ -218,11 +212,10 @@ If this is the case the corret starting method has to written in the *.csproj fi
 <StartupObject>CSharpGrundlagen_Main01.Program1</StartupObject>
 \end{lstlisting}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\linewidth]{static/img/mste/main_methods_example.png}
-\caption{\label{fig:orgfb28141}Main Method Examples}
-\end{figure}
+\begin{center}
+\includegraphics[width=.9\linewidth]{img/main_methods_example.png}
+\label{orgb9b1b9f}
+\end{center}
 
 Arguments can be access with:
 \lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
@@ -330,11 +323,10 @@ It exists three different kind of arrays:
 
 If the array stores reference types then only the reference is stored in the array. If the array should store value types then these elements are automatically boxed (moved to the heap) and stored as a whole in the array.
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\linewidth]{static/img/mste/array_memory_layout.png}
-\caption{\label{fig:orgeaa71c0}Array Memory Layout}
-\end{figure}
+\begin{center}
+\includegraphics[width=.9\linewidth]{img/array_memory_layout.png}
+\label{org0bfe442}
+\end{center}
 
 \textbf{Single Dimensional Array}
 
@@ -686,11 +678,10 @@ partial void OnNameChanged() { /**/ }
 \end{lstlisting}
 
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\linewidth]{static/img/mste/initialisierungsreihenfolge.png}
-\caption{\label{fig:org73dfc7f}Initialisierungsreihenfolge}
-\end{figure}
+\begin{center}
+\includegraphics[width=.9\linewidth]{img/initialisierungsreihenfolge.png}
+\label{orgc1b0492}
+\end{center}
 
 \textbf{Type Casting}
 
@@ -713,7 +704,7 @@ Sub b = a as Sub;
 Sub b = a is Sub ? (Sub)a : (Sub)null;
 \end{lstlisting}
 
-\lstset{language=csharp,label= ,caption={type check with implicit type cast},captionpos=b,numbers=none}
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
 \begin{lstlisting}
 Base a = new SubSub();
 if (a is SubSub casted) {
@@ -817,7 +808,7 @@ The implementation counts for both interfaces
 \end{itemize}
 \end{enumerate}
 
-\lstset{language=csharp,label= ,caption={Prevent naming clash with option 2},captionpos=b,numbers=none}
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
 \begin{lstlisting}
 class ShoppingCart : ISequence, IShoppingCart {
     void ISequence.Add(object x) {}
@@ -831,7 +822,7 @@ IShoppingCart sc2 = new ShoppingCart();
 sc2.Add("Hello");
 \end{lstlisting}
 
-\lstset{language=csharp,label= ,caption={Prevent naming clash with option 3},captionpos=b,numbers=none}
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
 \begin{lstlisting}
 class ShoppingCart : ISequence, IShoppingCart {
     void Add(object x) {} // will be the default
@@ -882,7 +873,7 @@ DoSomething(delegate(string s){
 
 \textbf{Multicast Delegates}
 
-Technical all delegates (\href{../../../roam/20211029145415-delegates_in_c.org}{Delegates in C\#}) are multicast delegates. Normal delegates are just a special case where the delegates hold only one reference to a function.
+Technical all delegates are multicast delegates. Normal delegates are just a special case where the delegates hold only one reference to a function.
 
 Delegates are taken by the compiler and generates from it a new class which inherits from the class \texttt{MulticastDelegate}. Only the compiler can use the \texttt{MulticastDelegate} class.
 
@@ -924,11 +915,10 @@ A delegate is implemented as a \href{../../../roam/20210806213600-linkedlist.org
 \end{itemize}
 
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\linewidth]{static/img/mste/multicast_delegate_implementation.png}
-\caption{\label{fig:org141c5a8}Implementation Schema Multicast Delegate}
-\end{figure}
+\begin{center}
+\includegraphics[width=.9\linewidth]{img/multicast_delegate_implementation.png}
+\label{org4a38fbb}
+\end{center}
 
 
 \textbf{Predefined Generic Delegates}
@@ -1011,14 +1001,13 @@ int sum = 0;
 list.ForEach(element => sum += element);
 \end{lstlisting}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\linewidth]{static/img/mste/closures_how_does_it_work.png}
-\caption{\label{fig:org32b98f1}Example of an Compiled Closoure}
-\end{figure}
+\begin{center}
+\includegraphics[width=.9\linewidth]{img/closures_how_does_it_work.png}
+\label{orgb86455a}
+\end{center}
 
 \section{Generic / Nullable}
-\label{sec:org655c15b}
+\label{sec:orge116722}
 
 \textbf{Benefits}
 When you use generics in a .NET project you got the following benefits:
@@ -1109,7 +1098,7 @@ For secure reading the following methods should be used:
 
 
 \textbf{Nullable Type Operators}
-\lstset{language=csharp,label= ,caption={The ?? operator},captionpos=b,numbers=none}
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
 \begin{lstlisting}
 int i = GetNullableInt() ?? -1;
 
@@ -1120,7 +1109,7 @@ if (!iTemp.HasValue) { i = -1; }
 else { i = iTemp.GetValueOrDefault(); }
 \end{lstlisting}
 
-\lstset{language=csharp,label= ,caption={The ??= operator},captionpos=b,numbers=none}
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
 \begin{lstlisting}
 int? i = null;
 i ??= 1234;
@@ -1145,7 +1134,7 @@ string s = GetNullableInt()?.ToString();
 Often also used with delegates \href{../../../roam/20211029145415-delegates_in_c.org}{Delegates in C\#}: \texttt{a?.Invoke()}
 
 \section{Exception}
-\label{sec:org1b5a6ea}
+\label{sec:orgf467813}
 
 \textbf{Exceptions}
 
@@ -1189,14 +1178,13 @@ catch (Exception e) {
 
 \textbf{Exception Handling with Multicast Delegates}
 
-If in a function inside of a Multicast Delegate an exception occurs, the following functions (F2 in \ref{fig:org92edd4d}) are not executed.
+If in a function inside of a Multicast Delegate an exception occurs, the following functions (F2 in \ref{org21d3e8e}) are not executed.
 Even if in the caller method a try-catch block exists.
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\linewidth]{static/img/mste/exception_with_multicast.png}
-\caption{\label{fig:org92edd4d}Call example with Delegates}
-\end{figure}
+\begin{center}
+\includegraphics[width=.9\linewidth]{img/exception_with_multicast.png}
+\label{org21d3e8e}
+\end{center}
 
 \textbf{Exception Filters}
 
@@ -1250,7 +1238,7 @@ string Replicate(string s, int nTimes)
 \end{lstlisting}
 
 \section{Foreach / Iterator / Extension Methods}
-\label{sec:orgf3eac76}
+\label{sec:orgf2ab320}
 
 \textbf{foreach}
 
@@ -1390,7 +1378,7 @@ public static class ExtensionMethods
 \end{lstlisting}
 
 \section{Lambda / Query Expression}
-\label{sec:org0aebf42}
+\label{sec:org01d4ba5}
 
 \textbf{Lambda Expression}
 
@@ -1475,7 +1463,7 @@ var q = studentList
 The compiler detects that \texttt{a} and \texttt{b} are from the same type. 
 
 \section{LINQ}
-\label{sec:orgfd1a39e}
+\label{sec:org86b237a}
 \textbf{What is LINQ}
 
 \emph{LINQ} is short for \emph{Language Integrated Query} and is a compiler feature which uses Extensions Methods extensively.
@@ -1704,7 +1692,7 @@ a.b.c.1.2.3.ö.ä.ü
 \end{verbatim}
 
 \section{Async}
-\label{sec:orgff9e1a3}
+\label{sec:orgdaf7922}
 \textbf{Task in .NET}
 
 Task are a lightweight variant of a Thread and are normally used in \texttt{async} / \texttt{await} cases.
@@ -1718,13 +1706,12 @@ But with a Thread you have more control over the details.
 
 \textbf{async vs. parallel}
 
-\emph{Attention:} Asynchron (Concurrent) ist not the same as parallel (see \ref{fig:orgf15659f}).
+\emph{Attention:} Asynchron (Concurrent) ist not the same as parallel (see \ref{org8e38660}).
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\linewidth]{static/img/mste/async_vs_concurrent.png}
-\caption{\label{fig:orgf15659f}Async vs Parallel}
-\end{figure}
+\begin{center}
+\includegraphics[width=.9\linewidth]{img/async_vs_concurrent.png}
+\label{org8e38660}
+\end{center}
 
 \textbf{Async / Await operations}
 
@@ -1780,8 +1767,396 @@ t1.ContinueWith(id =>
 });
 \end{lstlisting}
 
+\section{Reflection}
+\label{sec:org85482dd}
+\textbf{Usage of reflection}
 
-\section{End}
-\label{sec:org3f54530}
+The most prominent application for reflection is \emph{Intelli Sense} or the \emph{Object Browser} in Visual Studio.
+Using reflection you can do the following:
+\begin{itemize}
+\item Type Discovery
+\item Late Binding (Method / Properties)
+\item Reflection Emit / Code-Emittierung
+\end{itemize}
+
+
+\textbf{System.Type}
+
+All types in the \href{../../../roam/20211003114644-common_language_runtime.org}{CLR} are self defined using \texttt{System.Type}.
+The \texttt{System.Type} is the entry point for all reflection operations.
+The \texttt{System.Type} class describes itself with an \texttt{System.Type} instance.
+The base class for \texttt{System.Type} is the \texttt{System.RuntimeType}.
+
+\textbf{Runtime Prefix}
+
+The prefix \emph{Runtime} in .NET means that this class is only instanced only once.
+For example the \texttt{System.RuntimeType}.
+
+\textbf{Get a System.Type}
+
+For every type a \texttt{System.Type} can be obtained with \texttt{typeof} or \texttt{GetType()}.
+
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+int someInt = 2;
+var type = someInt.GetType();
+var type2 = typeof(int);
+\end{lstlisting}
+
+
+\begin{center}
+\includegraphics[width=.9\linewidth]{img/type_hierarchy_reflection.png}
+\label{org2b5d679}
+\end{center}
+
+\textbf{Type discovery}
+
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+Assembly a01 = Assembly.Load("mscorlib");
+Type[] t01 = a01.GetTypes();
+foreach (Type type in t01)
+{
+    Console.WriteLine(type);
+    MemberInfo[] mInfos = type.GetMembers();
+    foreach (var mi in mInfos)
+    {
+	Console.WriteLine(
+	    "\t{0}\t{1}",
+	    mi.MemberType,
+	    mi);
+    }
+}
+\end{lstlisting}
+
+\begin{verbatim}
+System.Int32
+  Method Int32 CompareTo(System.Object)
+  Method Int32 CompareTo(Int32)
+  Method Boolean Equals(System.Object)
+  Method Boolean Equals(Int32)
+  Method Int32 GetHashCode()
+  Method System.String ToString()
+\end{verbatim}
+
+\textbf{Read members}
+
+\emph{All members}
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+Type type = typeof(Counter);
+MemberInfo[] miAll = type.GetMembers();
+foreach (MemberInfo mi in miAll)
+{
+    Console.WriteLine("{0} is a {1}",
+		      mi, mi.MemberType);
+}
+Console.WriteLine("----------");
+PropertyInfo[] piAll = type.GetProperties();
+foreach (PropertyInfo pi in piAll)
+{
+    Console.WriteLine("{0} is a {1}",
+		      pi, pi.PropertyType);
+}
+\end{lstlisting}
+
+\begin{verbatim}
+Int32 get_CountValue() is a Method
+Void set_CountValue(Int32) is a Method
+Void Increment() is a Method
+Void Decrement() is a Method
+String ToString() is a Method
+Boolean Equals(Object) is a Method
+Int32 GetHashCode() is a Method
+Type GetType() is a Method
+Void .ctor(Int32) is a Constructor
+Int32 CountValue is a Property
+PropertyChangedEventHandler PropertyChanged
+  is a Event
+----------
+Int32 CountValue is a Property
+\end{verbatim}
+
+\emph{Dynamically}
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+Type type = typeof(Assembly);
+BindingFlags bf =
+    BindingFlags.Public |
+    BindingFlags.Static |
+    BindingFlags.NonPublic |
+    BindingFlags.Instance |
+    BindingFlags.DeclaredOnly;
+
+MemberInfo[] miFound =
+    type.FindMembers(
+	MemberTypes.Method,
+	bf,
+	Type.FilterName,
+	"Get*"
+    );
+\end{lstlisting}
+
+\textbf{Field info}
+
+The field info class describes a single field of a class.
+This includes:
+\begin{itemize}
+\item Name
+\item Type
+\item Visibility
+\item and more
+\end{itemize}
+
+
+It allows you to read and write regardless the visibility of the field:
+\begin{itemize}
+\item \texttt{object GetValue(object obj);}
+\item \texttt{void SetValue(object obj, object value)}
+\end{itemize}
+
+
+But try to prevent to set values over this way.
+Especially if the field is private / protected.
+
+
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+Type type = typeof (Counter);
+Counter c = new Counter(1);
+// All Fields
+FieldInfo[] fiAll = type.GetFields(
+    BindingFlags.Instance |
+    BindingFlags.NonPublic);
+// Specific Field
+FieldInfo fi = type.GetField(
+    "countValue",
+    BindingFlags.Instance |
+    BindingFlags.NonPublic);
+int val01 = (int) fi.GetValue(c);
+c.Increment();
+int val02 = (int) fi.GetValue(c);
+fi.SetValue(c, -999);
+\end{lstlisting}
+
+\textbf{Property Info}
+
+The property info describes a property of a class.
+This includes the:
+\begin{itemize}
+\item name
+\item type
+\item visibility
+\item informations to get / set
+\end{itemize}
+
+
+The property info allows you to read / write the property regardless of the visibility:
+\begin{itemize}
+\item \texttt{object GetValue(object obj);}
+\item \texttt{void SetValue(object obj, object value);}
+\end{itemize}
+
+
+But try to prevent to set values over this way when the property is private / protected.
+
+
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+Type type = typeof(Counter);
+Counter c = new Counter(1);
+// All Properties
+PropertyInfo[] piAll = type.GetProperties();
+// Specific Property
+PropertyInfo pi =
+    type.GetProperty("CountValue");
+int val01 = (int)pi.GetValue(c);
+c.Increment();
+int val02 = (int)pi.GetValue(c);
+if (pi.CanWrite)
+{
+    pi.SetValue(c, -999);
+}
+\end{lstlisting}
+
+
+\textbf{Method Info}
+
+The method info inherits from \texttt{MethodBase} and describes a method of a class.
+This includes the:
+\begin{itemize}
+\item name
+\item parameters / return value
+\item visibility
+\item and more
+\end{itemize}
+
+
+Using the method \texttt{Invoke()} you can call the method.
+
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+/* Without parameters */
+Type type = typeof(Counter);
+Counter c = new Counter(1);
+// All Methods
+MethodInfo[] miAll = type.GetMethods();
+// Specific Method
+MethodInfo mi = type.GetMethod("Increment");
+mi.Invoke(c, null);
+
+/* With parameters */
+Type type = typeof(System.Math);
+Type[] paramTypes = { typeof(int) };
+// Get method info for Cos( )
+MethodInfo miAbs = type
+    .GetMethod("Abs", paramTypes);
+// Fill an array with the actual parameters
+object[] @params = { -1 };
+object returnVal = miAbs.Invoke(type,
+				@params);
+\end{lstlisting}
+
+\textbf{Constructor Info}
+
+The constructor info inherits from \texttt{MethodBase} and describes a constructor of a class.
+This includes:
+\begin{itemize}
+\item name
+\item parameters
+\item visibility
+\end{itemize}
+
+
+The constructor can be called using the \texttt{Invoke()} method.
+
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+Type type = typeof(Counter);
+// All Constructors
+ConstructorInfo[] ciAll = type.GetConstructors();
+// Specific Constructor Overload 01
+ConstructorInfo ci01 = type.GetConstructor(
+    new[] { typeof(int) });
+Counter c01 = (Counter)ci01.Invoke(
+    new object[] { 12 });
+// Specific Constructor Overload 02
+ConstructorInfo ci02 = type.GetConstructor(
+    BindingFlags.Instance|BindingFlags.NonPublic,
+    null, new Type[0], null);
+Counter c02 = (Counter)ci02.Invoke(null);
+
+/* alternative using activator */
+Counter c03 = (Counter)Activator
+    .CreateInstance(
+	typeof(Counter),
+	12 // , "further params", "", ...
+    );
+// Alternative
+// -> when Public Default Constructor exists
+Counter c04 = Activator
+    .CreateInstance<Counter>();
+\end{lstlisting}
+
+\textbf{Attributes in .NET}
+
+Attributes are the same thing like annotations in \href{../../../roam/20201116150053-java.org}{Java}.
+They extend the already existing attributes like public, static, abstract or sealed.
+All attributes inherit from \texttt{System.Attribute}.
+
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+[DataContract, Serializable]
+[Obsolete]
+// Etc.
+    public class Auto
+    {
+	[DataMember]
+	public string Marke { get; set; }
+	[DataMember]
+	public string Typ { get; set; }
+    }
+\end{lstlisting}
+
+
+in \href{../../../roam/20211003114703-net.org}{.NET} exists two kind of attributes:
+\begin{itemize}
+\item \emph{intrinsic}: in the \href{../../../roam/20211003114644-common_language_runtime.org}{CLR} defined and integrated
+\item \emph{custom}: self defined attributes
+\end{itemize}
+
+
+\textbf{Syntax Attribute Usage}
+
+Some attributes can be used multiple times on the same target.
+
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+// without parameters
+[DataContract]
+class a{};
+
+// Named parameters
+[DataContract(Name = "AutoClass")]
+class b{};
+
+// Positional Paramaters
+[Obsolete("Alt!", true)]
+class c{};
+
+// mixed
+[Obsolete("Alt!", IsError = true)]
+class d{};
+\end{lstlisting}
+
+\textbf{Create your own attribute}
+
+Your attribute must inherit from \texttt{System.Attribute} and must have the suffix \texttt{Attribute}.
+Additionaly it must use the attribute \texttt{AttributeUsage}.
+The \texttt{AllowMultiple} is per default set to \texttt{false}.
+
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+  [AttributeUsage(
+  AttributeTargets.Class |
+  AttributeTargets.Constructor |
+  AttributeTargets.Field |
+  AttributeTargets.Method |
+  AttributeTargets.Property,
+  AllowMultiple = true)]
+      public class BugfixAttribute : Attribute
+  {
+      public BugfixAttribute(int bugId,
+			     string programmer, string date)
+      { /* ... */ }
+      public int BugId { get; }
+      public string Date { get; }
+      public string Programmer { get; }
+      public string Comment { get; set; }
+  }
+
+[Bugfix(121, "Manuel Bauer", "01/03/2015")]
+[Bugfix(
+107, "Manuel Bauer", "01/04/2015",
+Comment = "Some major changes! ;-)")]
+    public class MyMath{};
+\end{lstlisting}
+
+\textbf{Query an attribute}
+
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+Type type = typeof(MyMath);
+// All Class Attributes
+object[] aiAll =
+    type.GetCustomAttributes(true); // true = use also inherited attributes
+IEnumerable<Attribute> aiAllTyped =
+    type.GetCustomAttributes(
+	typeof(BugfixAttribute) /* , true */
+    );
+// Check Definition
+bool aiDef =
+    type.IsDefined(typeof(BugfixAttribute));
+\end{lstlisting}
 \end{multicols}
 \end{document}
