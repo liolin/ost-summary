@@ -1,4 +1,4 @@
-% Created 2022-01-26 Wed 15:35
+% Created 2022-01-26 Wed 16:38
 % Intended LaTeX compiler: xelatex
 \documentclass[11pt,twoside,landscape]{article}
 \usepackage{graphicx}
@@ -46,7 +46,7 @@
 \begin{multicols}{3}
 
 \section{.NET}
-\label{sec:org8e646cc}
+\label{sec:orgba682fe}
 \textbf{.NET}
 
 \begin{itemize}
@@ -58,7 +58,7 @@
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{static/img/mste/dot_net_architektur.png}
-\caption{\label{fig:orge2950db}.NET arcitecutre}
+\caption{\label{fig:org7820452}.NET arcitecutre}
 \end{figure}
 
 \textbf{.NET Standard}
@@ -80,7 +80,7 @@ The Common Language Runtime (CLR) has:
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{static/img/mste/clr_architektur.png}
-\caption{\label{fig:org7cc7e5c}CLR Architecut}
+\caption{\label{fig:org1ef2918}CLR Architecut}
 \end{figure}
 
 \textbf{Common Type System}
@@ -89,7 +89,7 @@ Common Type System (CTS) is the standard in \href{../../../roam/20211003114703-n
 All types in .NET inherit from \texttt{System.Object}. Also types like int, long and float inherit from \texttt{System.Object}. In CTS exists two different kind of types: Reference types (\texttt{class} keyword) and Value types (\texttt{struct} keyword). Value types are stored on the stack and are automatically boxed if it is used with something like a list, which stores its  element on the heap. 
 
 \begin{table}[htbp]
-\label{tab:orge6765b4}
+\label{tab:org7cf7613}
 \centering
 \begin{tabular}{lll}
  & Reference (Class) & Value (Struct)\\
@@ -108,7 +108,7 @@ Each type has always a reference to the type description
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{static/img/mste/ref_type_stack_heap.png}
-\caption{\label{fig:org0fb3e9f}Example Memory Layout Reference}
+\caption{\label{fig:orgfddb8f3}Example Memory Layout Reference}
 \end{figure}
 
 \textbf{.NET Assembly}
@@ -186,18 +186,18 @@ The most important part in the file are:
 
 
 \section{C\#}
-\label{sec:org1753f05}
+\label{sec:org30188c9}
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{static/img/mste/naming_guidelines.png}
-\caption{\label{fig:org497525f}Naming Guidelines}
+\caption{\label{fig:org448645c}Naming Guidelines}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{static/img/mste/sichtbarkeitsattribute.png}
-\caption{\label{fig:org691e7d8}Visibility}
+\caption{\label{fig:orgab88709}Visibility}
 \end{figure}
 
 
@@ -221,7 +221,7 @@ If this is the case the corret starting method has to written in the *.csproj fi
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{static/img/mste/main_methods_example.png}
-\caption{\label{fig:orgb09b27a}Main Method Examples}
+\caption{\label{fig:orgfb28141}Main Method Examples}
 \end{figure}
 
 Arguments can be access with:
@@ -333,7 +333,7 @@ If the array stores reference types then only the reference is stored in the arr
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{static/img/mste/array_memory_layout.png}
-\caption{\label{fig:org4248a2f}Array Memory Layout}
+\caption{\label{fig:orgeaa71c0}Array Memory Layout}
 \end{figure}
 
 \textbf{Single Dimensional Array}
@@ -689,7 +689,7 @@ partial void OnNameChanged() { /**/ }
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{static/img/mste/initialisierungsreihenfolge.png}
-\caption{\label{fig:org51b4c57}Initialisierungsreihenfolge}
+\caption{\label{fig:org73dfc7f}Initialisierungsreihenfolge}
 \end{figure}
 
 \textbf{Type Casting}
@@ -839,8 +839,949 @@ class ShoppingCart : ISequence, IShoppingCart {
 }
 \end{lstlisting}
 
+\textbf{Delegates}
+
+Delegates are type safe function pointers as a object (reference type).
+Internally it holds references to 0 to n methods.
+
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+public delegate void Notifier(string sender);
+public static void SayHi(string sender);
+
+
+Notifier greetings;
+greetings = new Notifier(SayHi);
+// kurzform
+greetings = SayHi;
+greetings("John");
+\end{lstlisting}
+
+\emph{Attention}: Delegates must not be \texttt{null} if you want to invoke it.
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+if (delegateVar != null) {
+    delegateVar(params);
+}
+
+// neu ab C# 6.0
+delegateVar?.Invoke(params);
+\end{lstlisting}
+
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+// Anonymous delegate
+delegate bool Predicate(string s);
+private static void DoSomething(Predicate pred) { /**/ }
+
+DoSomething(delegate(string s){
+	return s.StartsWith('S');
+    });
+\end{lstlisting}
+
+
+\textbf{Multicast Delegates}
+
+Technical all delegates (\href{../../../roam/20211029145415-delegates_in_c.org}{Delegates in C\#}) are multicast delegates. Normal delegates are just a special case where the delegates hold only one reference to a function.
+
+Delegates are taken by the compiler and generates from it a new class which inherits from the class \texttt{MulticastDelegate}. Only the compiler can use the \texttt{MulticastDelegate} class.
+
+The compiler also generates from this \texttt{greetings("John");} the following snippet:
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+foreach(Delegate dele in greetings.GetInvocationList()) {
+    ((Notifier)dele).Invoke("John")
+}
+\end{lstlisting}
+
+\emph{Attention}: Do not use return values, out or ref parameters in Multicast Delegates.
+Only the values form the last function call are returned. 
+
+
+\textbf{Manipularting Multicast Delegates}
+
+To manipulate the delegate three operations exits:
+\begin{itemize}
+\item \texttt{=} assigns a function to the delegate
+\item \texttt{+=} adds a function to the delegate
+\item \texttt{-=} removes a function from the delegate
+\end{itemize}
+
+
+Functions are executed in the same order as you added (\texttt{+=}) it to the Multicast Delegate.
+The newest function witch matches is removed when using \texttt{-=}.
+
+\textbf{Implementation Multicast Delegate}
+
+A delegate is implemented as a \href{../../../roam/20210806213600-linkedlist.org}{LinkedList} and stores three things:
+\begin{itemize}
+\item target: reference to the target object
+\begin{itemize}
+\item the instance of the class, if static \texttt{null}
+\end{itemize}
+\item method: the method reference
+\item perv: the reference to the previous delegate
+\end{itemize}
+
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.9\linewidth]{static/img/mste/multicast_delegate_implementation.png}
+\caption{\label{fig:org141c5a8}Implementation Schema Multicast Delegate}
+\end{figure}
+
+
+\textbf{Predefined Generic Delegates}
+\emph{Action}:
+\begin{itemize}
+\item \texttt{Action()}
+\item \texttt{Action<in T>(T obj);}
+\item \texttt{Action<in T1, ..., in T16>(T obj, ..., T16 arg);}
+\end{itemize}
+
+\emph{Func}:
+\begin{itemize}
+\item \texttt{TResult Func<out TResult>()}
+\item \texttt{TResult Func<in T, out TResult>(T arg)}
+\item \texttt{TResult Func<in T, ..., in T16, out TResult>(T arg, ..., T16 arg16)}
+\item The last type parameter is the result type
+\end{itemize}
+
+\emph{Predicate}:
+\texttt{delegate bool Predicate<in T>(T obj);}
+
+\emph{EventHandler}:
+\begin{itemize}
+\item \texttt{EventHandler<TEventArgs>(object sender, TEventArgs e);}
+\item \texttt{EventHandler(object sender, EventArgs e);}
+\end{itemize}
+
+
+\textbf{Events}
+
+Events are just syntactical sugar.
+The compiler takes the event and generates a private delegate and adds (un)subscribe logic as public (\texttt{+=} and \texttt{-=}).
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+public delegate void TickEventHandler(int ticks, int interval);
+
+public class Clock {
+    public event TickEventHandler OnTickEvent;
+
+    /* event is transformed to */
+    private TickEventHandler OnTickEvent;
+    public void add_OnTickEvent(TickEventHandler h) { OnTickEvent += h; }
+    public void remove_OnTickEvent(TickEventHandler h) { OnTickEvent -= h; }
+}
+\end{lstlisting}
+
+
+The default syntax of the events is the following:
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+public delegate void AnyHandler(object sender, AnyEventArgs e);
+\end{lstlisting}
+
+\begin{itemize}
+\item \texttt{object sender}: the sender of the event, the sender hands \texttt{this} over at the call of the delegate / event
+\item \texttt{AnyEventArgs e}: an arbitrary sub class ob \texttt{EventArgs}. It contains information to the event.
+\end{itemize}
+
+
+\textbf{Anonymous Methods}
+
+In \href{../../../roam/20211003114158-c.org}{C\#} you can create anonymous methods with delegates or with lambdas.
+Anonymous methods can not use \texttt{params[]}, \texttt{ref} and not \texttt{out} parameters.
+
+\emph{Delegates}:
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+list.ForEach(delegate(int i) { Console.WriteLine(i); });
+
+int sum = 0;
+list.ForEach(delegate(int i) { sum += i; });
+list.ForEach(delegate(int i) { sum += 1; });
+\end{lstlisting}
+
+\emph{Lambda}:
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+List<int> list = new List<int>();
+int sum = 0;
+list.ForEach(element => sum += element);
+\end{lstlisting}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.9\linewidth]{static/img/mste/closures_how_does_it_work.png}
+\caption{\label{fig:org32b98f1}Example of an Compiled Closoure}
+\end{figure}
+
+\section{Generic / Nullable}
+\label{sec:org655c15b}
+
+\textbf{Benefits}
+When you use generics in a .NET project you got the following benefits:
+\begin{itemize}
+\item reusability
+\item type safety
+\item performance improvements
+\end{itemize}
+
+
+The performance improvements is only available for value types.
+The improvement is obtained by the fact that this types does not need to be boxed / unboxed.
+With \texttt{object} you would always have to do a boxing / unboxing.
+
+\textbf{Types of Constraints}
+
+For the generic type T you have 6 possible constraints:
+\begin{itemize}
+\item struct - T must be a struct
+\item class - T must be a class
+\item new() - T must have a default constructor
+\item ClassName - T must inherit from ClassName
+\item InterfaceName - T must implement InterfaceName
+\item TBase - T must be equal to TBase or T has to inherit from TBase
+\end{itemize}
+
+
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+class Something<T, K>
+    where T : struct, class, new()
+    where K : ISequence
+{
+    /* fields, methods, properties, ...*/
+}
+\end{lstlisting}
+
+\textbf{Generic Type Inference}
+
+If the type parameters is redundant it can be omitted.
+This is the case if \texttt{T} is formal parameter.
+If \texttt{T} is only the return value or not in the signature the type has to be written.
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+public void Print<T>(T t) { /**/ }
+public T Get<T>() { /**/ }
+
+Print<int>(12);
+Print(12);
+
+int i1 = Get<int>();
+int i2 = Get(); // Compiler error
+\end{lstlisting}
+
+\textbf{How do Generics Work}
+
+The value types are treated different than the reference types.
+When the runtime sees the first occurrence of a struct as a generic it generates a new concrete class where \texttt{T} is replaced with the struct.
+By value types during the runtime the \texttt{T=is replaced with =object} (same as in \href{../../../roam/20201116150053-java.org}{Java}).
+
+
+\textbf{Whate are Nullable Values}
+
+Nullable value type is a normal struct which is implemented as following:
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+public struct Nullable<T>
+    where T : struct {
+	public Nullable(T value);
+	public bool HasValue { get; }
+	public T Value { get; }
+    }
+\end{lstlisting}
+
+The compiler adds some syntactical sugar for easier usage:
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+int? x = 123;
+Nullable<int> x = 123;
+int? x = null;
+\end{lstlisting}
+
+For secure reading the following methods should be used:
+\begin{itemize}
+\item \texttt{GetValueOrDefault()}
+\item \texttt{GetValueOrDefault(<default>)}
+\end{itemize}
+
+
+\textbf{Nullable Type Operators}
+\lstset{language=csharp,label= ,caption={The ?? operator},captionpos=b,numbers=none}
+\begin{lstlisting}
+int i = GetNullableInt() ?? -1;
+
+/* same as */
+int? iTemp = GetNullableInt();
+int i;
+if (!iTemp.HasValue) { i = -1; }
+else { i = iTemp.GetValueOrDefault(); }
+\end{lstlisting}
+
+\lstset{language=csharp,label= ,caption={The ??= operator},captionpos=b,numbers=none}
+\begin{lstlisting}
+int? i = null;
+i ??= 1234;
+
+/* same as*/
+int? i = null;
+i = i ?? 1234;
+
+int? i = null;
+int iTemp = i.GetValueOrDefault();
+if (!i.HasValue) { iTemp = 1234; }
+i = iTemp;
+
+\end{lstlisting}
+
+
+The \texttt{?.} (Null-conditional operator) is used for secure method chaining:
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+string s = GetNullableInt()?.ToString();
+\end{lstlisting}
+Often also used with delegates \href{../../../roam/20211029145415-delegates_in_c.org}{Delegates in C\#}: \texttt{a?.Invoke()}
+
+\section{Exception}
+\label{sec:org1b5a6ea}
+
+\textbf{Exceptions}
+
+All Exceptions in \href{../../../roam/20211003114158-c.org}{C\#} inhert from \texttt{System.Exception} and are unchecked exceptions (diffrent in \href{../../../roam/20201116150053-java.org}{Java}).
+
+In \href{../../../roam/20211003114158-c.org}{C\#} you throw an exception with the \texttt{throw} keyword.
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+throw new Exception("Failure");
+\end{lstlisting}
+
+\textbf{Rethrow Exception}
+
+In \href{../../../roam/20211003114158-c.org}{C\#} you can throw an exception in two ways:
+\begin{enumerate}
+\item Cut the Stack Trace
+\item Continue the Stack Trace
+\end{enumerate}
+
+Cut the Stack Trace:
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+try {
+    throw new Exception("Failure");
+}
+catch (Exception e) {
+    throw e;
+}
+\end{lstlisting}
+
+Continue the Stack Trace (also called \emph{rethrowing}).
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+try{
+    throw new Exception("Failure");
+}
+catch (Exception e) {
+    throw;
+}
+\end{lstlisting}
+
+\textbf{Exception Handling with Multicast Delegates}
+
+If in a function inside of a Multicast Delegate an exception occurs, the following functions (F2 in \ref{fig:org92edd4d}) are not executed.
+Even if in the caller method a try-catch block exists.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.9\linewidth]{static/img/mste/exception_with_multicast.png}
+\caption{\label{fig:org92edd4d}Call example with Delegates}
+\end{figure}
+
+\textbf{Exception Filters}
+
+In some cases you want that an exception is only catch if a specific condition is fulfilled.
+This can be achieved with Exception Filters.
+
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+try
+{
+    /* ... */
+}
+catch (Exception e) when (DateTime.Now.Hour < 18)
+{
+    /* ... */
+}
+catch (Exception e) when (DateTime.Now.Hour >= 18)
+{
+    /* ... */
+}
+\end{lstlisting}
+
+\textbf{Check Arguments}
+
+For checking the arguments in \href{../../../roam/20211003114158-c.org}{C\#} you have the \texttt{ArgumentNullException} and the \texttt{ArgumentOutOfRangeExceptioArgumentOutOfRangeException}.
+Use always the \texttt{nameof} operator in this case because it is refactoring stable (Not just a hard coded string you give as a parameter to the constructor).
+
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+string Replicate(string s, int nTimes)
+{
+    if (s == null)
+    {
+	throw new ArgumentNullException(
+	    nameof(s));
+    }
+    if (s.Length == 0)
+    {
+	throw new ArgumentOutOfRangeException(
+	    nameof(s));
+    }
+    if (nTimes <= 1)
+    {
+	throw new ArgumentOutOfRangeException(
+	    nameof(nTimes));
+    }
+    return new StringBuilder()
+	.Insert(0, s, nTimes)
+	.ToString();
+}
+\end{lstlisting}
+
+\section{Foreach / Iterator / Extension Methods}
+\label{sec:orgf3eac76}
+
+\textbf{foreach}
+
+While an iterator is active on a collection, it is \textbf{not} possible to modify this collection.
+
+\textbf{foreach compiled output}
+
+The compiler converts the following foreach loop in a while loop.
+
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+foreach (int i in list)
+{
+    if (i == 3) continue;
+    if (i == 5) break;
+    Console.WriteLine(i);
+}
+\end{lstlisting}
+
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+// Compiler Output
+IEnumerator enumerator = list.GetEnumerator();
+try
+{
+    while (enumerator.MoveNext())
+    {
+	int i = (int)enumerator.Current;
+	if (i == 3) continue;
+	if (i == 5) break;
+	Console.WriteLine(i);
+    }
+}
+finally
+{
+    IDisposable disposable
+	= enumerator as IDisposable;
+    if (disposable != null)
+	disposable.Dispose();
+}
+\end{lstlisting}
+
+\textbf{Make Collection foreach-able}
+
+If you want to use your collection in a foreach loop your collection must implemented the \texttt{IEnumerable} / \texttt{IEnumerable<T>} interface or functions with the same signature and name. 
+
+\textbf{yield keyword}
+
+The \texttt{yield} keyword is used to create deferred evaluated functions.
+It exits two versions of \texttt{yield}:
+\begin{itemize}
+\item \texttt{yield return}: returns the next value
+\item \texttt{yield break}: terminated the iteration
+\end{itemize}
+
+
+The \texttt{yield} keyword tells the compiler that it should generate a state machine.
+After each call of the method a other (the next) element is returned until know elements are remaining in the colleciton.
+
+\textbf{Iterator Methods}
+
+Iterator methods have always the same signature and min. one \texttt{yield} keyword:
+\begin{itemize}
+\item \texttt{public IEnumerator <Name>()}
+\item \texttt{public IEnumerator<T> <Name>()}
+\end{itemize}
+
+
+A iterator method returns always an \href{../../../roam/20211118154822-iterator.org}{Iterator}.
+The call of \texttt{GetEnumerator} does not execute the function.
+Only the call of \texttt{MoveNext()} on the iterator.
+This is called Deffered Evaluation.
+
+The default iterator method is \texttt{GetEnumertor} but you can create custom functions or properties:
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+public IEnumerator<int> GetEnumerator() {
+    for (int i = 0; i < data.Length; i++)
+	yield return data[i];
+}
+// Spezifische Iterator-Methode
+public IEnumerable<int> Range(int from, int to) {
+    for (int i = from; i < to; i++)
+	yield return data[i];
+}
+// Spezifisches Iterator-Property
+public IEnumerable<int> Reverse {
+    get {
+	for (int i = data.Length - 1; i >= 0; i--)
+	    yield return data[i];
+    }
+}
+\end{lstlisting}
+
+
+This methods can be used inside a foreach loop.
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+foreach (int elem in list.Range(2, 7)) { /**/ }
+\end{lstlisting}
+
+\textbf{Extension Method}
+
+Extension Methods are a compiler feature of \href{../../../roam/20211003114158-c.org}{C\#} which allows you to extend a class from the user view.
+In reality the class is not extend.
+It is \emph{not} possible to access private members of the extended class.
+If a conflict occurrs always the method from the class itself is used.
+
+\textbf{How to create extension Methods}
+
+Extension Methods have the following requirements:
+\begin{itemize}
+\item must be inside a static class
+\item the function itself must be static
+\item the first parameter must be \texttt{this}
+\begin{itemize}
+\item this describes on which classes the function can be executed on
+\end{itemize}
+\end{itemize}
+
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+public static class ExtensionMethods
+{
+    static string ToStringSafe(this object obj)
+    {
+	return obj == null ? string.Empty : obj.ToString();
+    }
+
+    public static void Test()
+    {
+	1.ToStringSafe();
+	/* turns into */
+	ExtensionMethods.ToStringSafe(1);
+    }
+}
+\end{lstlisting}
+
+\section{Lambda / Query Expression}
+\label{sec:org0aebf42}
+
+\textbf{Lambda Expression}
+
+In \href{../../../roam/20211003114158-c.org}{C\#} exits two kind of Lambdas:
+\begin{itemize}
+\item \emph{Expression Lambdas}:  \texttt{(<parameters>) => expression}
+\item \emph{Statement Lambdas}: \texttt{(<parameters>) => \{ staments; \}}
+\end{itemize}
+
+
+Lambdas should not be longer than 2 - 3 statements.
+If you need more statements is worthy to think about to write a complete function.
+
+\textbf{Expression-Bodied Members}
+
+Expression-Bodied Members are a special kind of Lambdas.
+This lambdas contain only one statement can be used instead of the \texttt{\{\}} block.
+
+\textbf{Object / Collection Initializers}
+
+Sometimes you have to create a object hierarchy.
+Normally you have to create each object first and then set the properties.
+Using the Object / Collection Initializers it is possible to write this in one step.
+Then the compiler generate from your code what you normally have to do by your self.
+
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+Student s1 = new Student();
+s1.Name = "Hans Muster";
+s1.Id = 1;
+
+Student s2 = new Student();
+s2.Name = "Joe Doe";
+s2.Id = 2;
+
+Course c = new Course();
+c.Name = "MsTe";
+c.Students = new List();
+c.Students.Add(s1);
+c.Students.Add(s2);
+\end{lstlisting}
+
+\emph{Object / Collection Initializers}
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+Course c = new Course {
+    Name = "MsTe",
+    Students = new List {
+	new Student {
+	    Name = "Hans Muster",
+	    Id = 1
+	},
+	new Student {
+	    Name = "Joe Doe",
+	    Id = 2
+	},
+    }
+};
+\end{lstlisting}
+
+\textbf{Anonymous Types}
+
+Anonymous Types are used to store an intermediate result.
+This is often used in LINQ queries.
+To use anonymous types you must use the \texttt{var} keyword.
+All properties are \texttt{readonly}.
+The functions \texttt{Equals()}, \texttt{GetHashCode()} and \texttt{ToString()} are overwritten.
+
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+var a = new { Id = 1, Name = "John" };
+var b = new { a.Id, a.Name };
+var studentList = new List<Student>();
+var q = studentList
+    .GroupBy(s => s.Subject)
+    .Select(
+	grp => new {
+	    Subject = grp.Key,
+	    Count = grp.Count() });
+\end{lstlisting}
+
+The compiler detects that \texttt{a} and \texttt{b} are from the same type. 
+
+\section{LINQ}
+\label{sec:orgfd1a39e}
+\textbf{What is LINQ}
+
+\emph{LINQ} is short for \emph{Language Integrated Query} and is a compiler feature which uses Extensions Methods extensively.
+Most Query Operators are implemented als deffered functions.
+A few are implemented as immediate.
+This are normally function which do not return an \texttt{IEnumerable} like \texttt{ToList} or \texttt{Count}.
+
+
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+string[] cities = { "Bern", "Basel" };
+
+var q1 = from c in cities select c;
+/* is turn into */
+var l1 = cities.Select(c => c);
+
+var q2 = from c in cities where c.StartsWith("B") orderby c select c;
+/* is turn into */
+var l2 = cities.Where(c => c.StartsWith("B")).OrderBy(c => c);
+\end{lstlisting}
+
+\textbf{LINQ Query Syntax}
+
+The Syntax components from LINQ.
+
+
+\begin{center}
+\begin{tabular}{ll}
+keyword & description\\
+\hline
+from & defines range variable and data source\\
+where & filter\\
+orderby & sort\\
+select & projection on a element type\\
+group & group into a sequence of group elements\\
+join & link two data sources\\
+let & define a support variable\\
+\end{tabular}
+\end{center}
+
+
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+var q1 = from s in Students
+    where s.Subject == "Computing"
+    orderby s.Name
+    select new {s.Id, s.Name };
+\end{lstlisting}
+
+\textbf{Group with LINQ}
+
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+var q = from s in Students
+    group s.name by s.Subject;
+
+foreach (var group in q)
+{
+    Console.WriteLine(group.Key);
+    foreach (var name in group)
+    {
+	Console.WriteLine(" " + name);
+    }
+}
+\end{lstlisting}
+
+\begin{verbatim}
+Computing
+  John
+  Sue
+Mathematics
+  Ann
+  Bob
+\end{verbatim}
+
+\textbf{Group Into with LINQ}
+
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+var q = from s in Students
+    group s.name by s.Subject into g
+    select new
+    {
+	Field = g.Key(),
+	N = g.Count()
+    };
+
+foreach (var x in q)
+{
+    Console.WriteLine(x.Field + ":" + x.N);
+}
+\end{lstlisting}
+\begin{verbatim}
+Computing: 2
+Mathematics: 2
+\end{verbatim}
+
+\textbf{Inner Join with LINQ}
+
+\emph{Explizit}:
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+var q = from s in Students
+    join m in Markings
+    on s.Id equals m.StudentId
+    select s.Name + ", " + m.Course + ", " + m.Mark;
+\end{lstlisting}
+
+\emph{Implizit}: (builds Cross product and filter it with \texttt{where}) - do not use it when possible (slow)
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+var q =
+    from s in Students
+    from m in Markings
+    where s.Id == m.StudentId
+    select s.Name + ", " + m.Course + ", " + m.Mark;
+\end{lstlisting}
+\begin{verbatim}
+John Doe, Programming, 3
+John Doe, Database, 2
+Linda Miller: Organic Chemistry, 1
+\end{verbatim}
+
+\textbf{Group Joins with LINQ}
+
+LINQ groups by the part in the \texttt{from} part (\texttt{s} in the example).
+Therefore, everything which belongs \texttt{s} is put in a list (\texttt{into list}).
+
+In this example for each student a list is created with all markings belonging to it.
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+var q =
+    from s in Students
+    join m in Markings
+    on s.Id equals m.StudentId
+    into list
+    select new
+    {
+	Name = s.Name,
+	Marks = list
+    };
+
+foreach (var group in q)
+{
+    Console.WriteLine(group.Name);
+    foreach(var m in group.Marks)
+    {
+	Console.WriteLine(m.Course);
+    }
+}
+\end{lstlisting}
+
+\textbf{Left Outer Joins with LINQ}
+
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+var q = from s in Students
+    join m in Markings
+    on s.Id equals m.StudentId
+    into list
+    from sm in list.DefaultIfEmpty()
+    select s.Name + ", " + (sm == null ? "?" : sm.Course + ", " + sm.Mark);
+
+foreach (var x in q)
+{
+    Console.WriteLine(x);
+}
+\end{lstlisting}
+\begin{verbatim}
+John Doe, Programming, 3
+John Doe, Database, 2
+Linda Miller, Organic Chemistry, 1
+Ann Forster, ?
+\end{verbatim}
+
+\textbf{Let with LINQ}
+
+\texttt{let} allows to create support variables.
+
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+var result =
+    from s in Students
+    let year = s.Id / 1000
+    where year == 2009
+    select s.Name + " " + year.ToString();
+
+foreach (string s in result)
+{
+    Console.WriteLine(s);
+}
+\end{lstlisting}
+
+\begin{verbatim}
+John Doe 2009
+Linda Miller 2009
+\end{verbatim}
+
+\textbf{SelectMany with LINQ}
+
+Allows you zu summarize a nested list into one list.
+
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+var list = new List<List<string>>
+{
+    new List<string> { "a", "b", "c" },
+    new List<string> { "1", "2", "3" },
+    new List<string> { "ö", "ä", "ü" },
+};
+
+var q1 = list.SelectMany(s => s);
+// q2 same as q1
+var q2 = from segment in list
+    from token in segment
+    select token;
+
+
+foreach (string lie in q1)
+{
+    Console.WriteLine("{0}.", line);
+}
+\end{lstlisting}
+\begin{verbatim}
+a.b.c.1.2.3.ö.ä.ü
+\end{verbatim}
+
+\section{Async}
+\label{sec:orgff9e1a3}
+\textbf{Task in .NET}
+
+Task are a lightweight variant of a Thread and are normally used in \texttt{async} / \texttt{await} cases.
+
+\textbf{Task vs. Thread}
+
+A Task has a return value and can run multiple operations in parallel.
+A Thread has no return value and has only one operation.
+In general a Task is a more \emph{high level} construct and easier to use.
+But with a Thread you have more control over the details.
+
+\textbf{async vs. parallel}
+
+\emph{Attention:} Asynchron (Concurrent) ist not the same as parallel (see \ref{fig:orgf15659f}).
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.9\linewidth]{static/img/mste/async_vs_concurrent.png}
+\caption{\label{fig:orgf15659f}Async vs Parallel}
+\end{figure}
+
+\textbf{Async / Await operations}
+
+To avoid the problems of a blocking task you can wait on the task asynchronously.
+This can be achieved over callbacks or the functions returns a task object.
+Normally you can / should implement IO operations as async.
+
+\textbf{Blocking Task}
+
+\emph{Attention:} synchronous waits on a task are most of the time not desired because they block the current Thread.
+If it's the UI Thread then the UI is not responding and it looks like the application is not working anymore.
+
+
+Blocking API:
+\begin{itemize}
+\item \texttt{Task.Result}
+\item \texttt{Task.Wait()}
+\item \texttt{Task.WaitAll()}
+\end{itemize}
+
+
+\textbf{async in .NET}
+
+A async function in \href{../../../roam/20211003114703-net.org}{.NET} can only have the following return types:
+\begin{itemize}
+\item \texttt{Task}
+\item \texttt{Task<T>}
+\item \texttt{void} (fire and forget, should only be used in exceptional cases)
+\end{itemize}
+
+
+\textbf{await in .NET}
+
+The \texttt{await} keyword waits on the Task to fulfill.
+If the task is fulfilled then the execution is continued.
+An alternative for await are continuations and basically the same.
+
+\lstset{language=csharp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+// await syntax
+int id = await GetSomeCustomerId();
+string t2 = await GetOrders(id);
+Console.WriteLine(t2);
+
+// continuations
+Task<int> t1 = GetSomeCustomerId();
+t1.ContinueWith(id =>
+{
+    Task<string> t2 = GetOrders(id.Result);
+    t2.ConinueWith(order =>
+		   Console.WriteLine(order.Result)
+    );
+});
+\end{lstlisting}
+
 
 \section{End}
-\label{sec:org5d2da38}
+\label{sec:org3f54530}
 \end{multicols}
 \end{document}

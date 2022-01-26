@@ -857,7 +857,7 @@ Anonymous methods can not use =params[]=, =ref= and not =out= parameters.
 #+NAME: fig:ex-of-compiled-closoure
 [[file:static/img/mste/closures_how_does_it_work.png]]
 
-* Generic
+* Generic / Nullable
 
 *Benefits*
 When you use generics in a .NET project you got the following benefits:
@@ -971,6 +971,590 @@ The =?.= (Null-conditional operator) is used for secure method chaining:
 string s = GetNullableInt()?.ToString();
 #+end_src
 Often also used with delegates [[id:b9d960a9-ace5-4dd8-a1bf-c339bb7f51e3][Delegates in C#]]: =a?.Invoke()=
+
+* Exception
+
+*Exceptions*
+
+All Exceptions in [[id:8fc49f58-a615-4348-ae3a-693f6b69655b][C#]] inhert from =System.Exception= and are unchecked exceptions (diffrent in [[id:d4e5f169-81a7-4ce9-a0ff-e85399b1294a][Java]]).
+
+In [[id:8fc49f58-a615-4348-ae3a-693f6b69655b][C#]] you throw an exception with the =throw= keyword.
+#+begin_src csharp
+  throw new Exception("Failure");
+#+end_src
+
+*Rethrow Exception*
+
+In [[id:8fc49f58-a615-4348-ae3a-693f6b69655b][C#]] you can throw an exception in two ways:
+1. Cut the Stack Trace
+2. Continue the Stack Trace
+
+Cut the Stack Trace:
+#+begin_src csharp
+  try {
+      throw new Exception("Failure");
+  }
+  catch (Exception e) {
+      throw e;
+  }
+#+end_src
+
+Continue the Stack Trace (also called /rethrowing/).
+#+begin_src csharp
+  try{
+      throw new Exception("Failure");
+  }
+  catch (Exception e) {
+      throw;
+  }
+#+end_src
+
+*Exception Handling with Multicast Delegates*
+
+If in a function inside of a Multicast Delegate an exception occurs, the following functions (F2 in [[fig:exception-multicast]]) are not executed.
+Even if in the caller method a try-catch block exists.
+
+#+CAPTION: Call example with Delegates
+#+NAME: fig:exception-multicast
+[[file:static/img/mste/exception_with_multicast.png]]
+
+*Exception Filters*
+
+In some cases you want that an exception is only catch if a specific condition is fulfilled.
+This can be achieved with Exception Filters.
+
+#+begin_src csharp
+  try
+  {
+      /* ... */
+  }
+  catch (Exception e) when (DateTime.Now.Hour < 18)
+  {
+      /* ... */
+  }
+  catch (Exception e) when (DateTime.Now.Hour >= 18)
+  {
+      /* ... */
+  }
+#+end_src
+
+*Check Arguments*
+
+For checking the arguments in [[id:8fc49f58-a615-4348-ae3a-693f6b69655b][C#]] you have the =ArgumentNullException= and the =ArgumentOutOfRangeExceptioArgumentOutOfRangeException=.
+Use always the =nameof= operator in this case because it is refactoring stable (Not just a hard coded string you give as a parameter to the constructor).
+
+#+begin_src csharp
+  string Replicate(string s, int nTimes)
+  {
+      if (s == null)
+      {
+          throw new ArgumentNullException(
+              nameof(s));
+      }
+      if (s.Length == 0)
+      {
+          throw new ArgumentOutOfRangeException(
+              nameof(s));
+      }
+      if (nTimes <= 1)
+      {
+          throw new ArgumentOutOfRangeException(
+              nameof(nTimes));
+      }
+      return new StringBuilder()
+          .Insert(0, s, nTimes)
+          .ToString();
+  }
+#+end_src
+
+* Foreach / Iterator / Extension Methods
+
+*foreach*
+
+While an iterator is active on a collection, it is *not* possible to modify this collection.
+
+*foreach compiled output*
+
+The compiler converts the following foreach loop in a while loop.
+
+#+begin_src csharp
+  foreach (int i in list)
+  {
+      if (i == 3) continue;
+      if (i == 5) break;
+      Console.WriteLine(i);
+  }
+#+end_src
+
+#+begin_src csharp
+  // Compiler Output
+  IEnumerator enumerator = list.GetEnumerator();
+  try
+  {
+      while (enumerator.MoveNext())
+      {
+          int i = (int)enumerator.Current;
+          if (i == 3) continue;
+          if (i == 5) break;
+          Console.WriteLine(i);
+      }
+  }
+  finally
+  {
+      IDisposable disposable
+          = enumerator as IDisposable;
+      if (disposable != null)
+          disposable.Dispose();
+  }
+#+end_src
+
+*Make Collection foreach-able*
+
+If you want to use your collection in a foreach loop your collection must implemented the =IEnumerable= / =IEnumerable<T>= interface or functions with the same signature and name. 
+
+*yield keyword*
+
+The =yield= keyword is used to create deferred evaluated functions.
+It exits two versions of =yield=:
+- =yield return=: returns the next value
+- =yield break=: terminated the iteration
+
+
+The =yield= keyword tells the compiler that it should generate a state machine.
+After each call of the method a other (the next) element is returned until know elements are remaining in the colleciton.
+
+*Iterator Methods*
+
+Iterator methods have always the same signature and min. one =yield= keyword:
+- =public IEnumerator <Name>()=
+- =public IEnumerator<T> <Name>()=
+
+
+A iterator method returns always an [[id:0fba4b7a-e222-404c-8d8b-b11b16b84d9d][Iterator]].
+The call of =GetEnumerator= does not execute the function.
+Only the call of =MoveNext()= on the iterator.
+This is called Deffered Evaluation.
+
+The default iterator method is =GetEnumertor= but you can create custom functions or properties:
+#+begin_src csharp
+  public IEnumerator<int> GetEnumerator() {
+      for (int i = 0; i < data.Length; i++)
+          yield return data[i];
+  }
+  // Spezifische Iterator-Methode
+  public IEnumerable<int> Range(int from, int to) {
+      for (int i = from; i < to; i++)
+          yield return data[i];
+  }
+  // Spezifisches Iterator-Property
+  public IEnumerable<int> Reverse {
+      get {
+          for (int i = data.Length - 1; i >= 0; i--)
+              yield return data[i];
+      }
+  }
+#+end_src
+
+
+This methods can be used inside a foreach loop.
+#+begin_src csharp
+  foreach (int elem in list.Range(2, 7)) { /**/ }
+#+end_src
+
+*Extension Method*
+
+Extension Methods are a compiler feature of [[id:8fc49f58-a615-4348-ae3a-693f6b69655b][C#]] which allows you to extend a class from the user view.
+In reality the class is not extend.
+It is /not/ possible to access private members of the extended class.
+If a conflict occurrs always the method from the class itself is used.
+
+*How to create extension Methods*
+
+Extension Methods have the following requirements:
+- must be inside a static class
+- the function itself must be static
+- the first parameter must be =this=
+  - this describes on which classes the function can be executed on
+
+#+begin_src csharp
+  public static class ExtensionMethods
+  {
+      static string ToStringSafe(this object obj)
+      {
+          return obj == null ? string.Empty : obj.ToString();
+      }
+
+      public static void Test()
+      {
+          1.ToStringSafe();
+          /* turns into */
+          ExtensionMethods.ToStringSafe(1);
+      }
+  }
+#+end_src
+
+* Lambda / Query Expression
+
+*Lambda Expression*
+
+In [[id:8fc49f58-a615-4348-ae3a-693f6b69655b][C#]] exits two kind of Lambdas:
+- /Expression Lambdas/:  =(<parameters>) => expression=
+- /Statement Lambdas/: =(<parameters>) => { staments; }= 
+
+
+Lambdas should not be longer than 2 - 3 statements.
+If you need more statements is worthy to think about to write a complete function.
+
+*Expression-Bodied Members*
+
+Expression-Bodied Members are a special kind of Lambdas.
+This lambdas contain only one statement can be used instead of the ={}= block.
+
+*Object / Collection Initializers*
+
+Sometimes you have to create a object hierarchy.
+Normally you have to create each object first and then set the properties.
+Using the Object / Collection Initializers it is possible to write this in one step.
+Then the compiler generate from your code what you normally have to do by your self.
+
+#+begin_src csharp
+  Student s1 = new Student();
+  s1.Name = "Hans Muster";
+  s1.Id = 1;
+
+  Student s2 = new Student();
+  s2.Name = "Joe Doe";
+  s2.Id = 2;
+
+  Course c = new Course();
+  c.Name = "MsTe";
+  c.Students = new List();
+  c.Students.Add(s1);
+  c.Students.Add(s2);
+#+end_src
+
+/Object / Collection Initializers/
+#+begin_src csharp
+  Course c = new Course {
+      Name = "MsTe",
+      Students = new List {
+          new Student {
+              Name = "Hans Muster",
+              Id = 1
+          },
+          new Student {
+              Name = "Joe Doe",
+              Id = 2
+          },
+      }
+  };
+#+end_src
+
+*Anonymous Types*
+
+Anonymous Types are used to store an intermediate result.
+This is often used in LINQ queries.
+To use anonymous types you must use the =var= keyword.
+All properties are =readonly=.
+The functions =Equals()=, =GetHashCode()= and =ToString()= are overwritten.
+
+#+begin_src csharp
+  var a = new { Id = 1, Name = "John" };
+  var b = new { a.Id, a.Name };
+  var studentList = new List<Student>();
+  var q = studentList
+      .GroupBy(s => s.Subject)
+      .Select(
+          grp => new {
+              Subject = grp.Key,
+              Count = grp.Count() });
+#+end_src
+
+The compiler detects that =a= and =b= are from the same type. 
+
+* LINQ
+*What is LINQ*
+
+/LINQ/ is short for /Language Integrated Query/ and is a compiler feature which uses Extensions Methods extensively.
+Most Query Operators are implemented als deffered functions.
+A few are implemented as immediate.
+This are normally function which do not return an =IEnumerable= like =ToList= or =Count=.
+
+
+#+begin_src csharp
+  string[] cities = { "Bern", "Basel" };
+
+  var q1 = from c in cities select c;
+  /* is turn into */
+  var l1 = cities.Select(c => c);
+
+  var q2 = from c in cities where c.StartsWith("B") orderby c select c;
+  /* is turn into */
+  var l2 = cities.Where(c => c.StartsWith("B")).OrderBy(c => c);
+#+end_src
+
+*LINQ Query Syntax*
+
+The Syntax components from LINQ.
+
+
+| keyword | description                             |
+|---------+-----------------------------------------|
+| from    | defines range variable and data source  |
+| where   | filter                                  |
+| orderby | sort                                    |
+| select  | projection on a element type            |
+| group   | group into a sequence of group elements |
+| join    | link two data sources                   |
+| let     | define a support variable               |
+
+
+#+begin_src csharp
+  var q1 = from s in Students
+      where s.Subject == "Computing"
+      orderby s.Name
+      select new {s.Id, s.Name };
+#+end_src
+
+*Group with LINQ*
+
+#+begin_src csharp
+  var q = from s in Students
+      group s.name by s.Subject;
+
+  foreach (var group in q)
+  {
+      Console.WriteLine(group.Key);
+      foreach (var name in group)
+      {
+          Console.WriteLine(" " + name);
+      }
+  }
+#+end_src
+
+#+begin_example
+Computing
+  John
+  Sue
+Mathematics
+  Ann
+  Bob
+#+end_example
+
+*Group Into with LINQ*
+
+#+begin_src csharp
+  var q = from s in Students
+      group s.name by s.Subject into g
+      select new
+      {
+          Field = g.Key(),
+          N = g.Count()
+      };
+
+  foreach (var x in q)
+  {
+      Console.WriteLine(x.Field + ":" + x.N);
+  }
+#+end_src
+#+begin_example
+Computing: 2
+Mathematics: 2
+#+end_example
+
+*Inner Join with LINQ*
+
+/Explizit/:
+#+begin_src csharp
+  var q = from s in Students
+      join m in Markings
+      on s.Id equals m.StudentId
+      select s.Name + ", " + m.Course + ", " + m.Mark;
+#+end_src
+
+/Implizit/: (builds Cross product and filter it with =where=) - do not use it when possible (slow)
+#+begin_src csharp
+  var q =
+      from s in Students
+      from m in Markings
+      where s.Id == m.StudentId
+      select s.Name + ", " + m.Course + ", " + m.Mark;
+#+end_src
+#+begin_example
+John Doe, Programming, 3
+John Doe, Database, 2
+Linda Miller: Organic Chemistry, 1
+#+end_example
+
+*Group Joins with LINQ*
+
+LINQ groups by the part in the =from= part (=s= in the example).
+Therefore, everything which belongs =s= is put in a list (=into list=).
+
+In this example for each student a list is created with all markings belonging to it.
+#+begin_src csharp
+  var q =
+      from s in Students
+      join m in Markings
+      on s.Id equals m.StudentId
+      into list
+      select new
+      {
+          Name = s.Name,
+          Marks = list
+      };
+
+  foreach (var group in q)
+  {
+      Console.WriteLine(group.Name);
+      foreach(var m in group.Marks)
+      {
+          Console.WriteLine(m.Course);
+      }
+  }
+#+end_src
+
+*Left Outer Joins with LINQ*
+
+#+begin_src csharp
+  var q = from s in Students
+      join m in Markings
+      on s.Id equals m.StudentId
+      into list
+      from sm in list.DefaultIfEmpty()
+      select s.Name + ", " + (sm == null ? "?" : sm.Course + ", " + sm.Mark);
+
+  foreach (var x in q)
+  {
+      Console.WriteLine(x);
+  }
+#+end_src
+#+begin_example
+John Doe, Programming, 3
+John Doe, Database, 2
+Linda Miller, Organic Chemistry, 1
+Ann Forster, ?
+#+end_example
+
+*Let with LINQ*
+
+=let= allows to create support variables.
+
+#+begin_src csharp
+  var result =
+      from s in Students
+      let year = s.Id / 1000
+      where year == 2009
+      select s.Name + " " + year.ToString();
+
+  foreach (string s in result)
+  {
+      Console.WriteLine(s);
+  }
+#+end_src
+
+#+begin_example
+John Doe 2009
+Linda Miller 2009
+#+end_example
+
+*SelectMany with LINQ*
+
+Allows you zu summarize a nested list into one list.
+
+#+begin_src csharp
+  var list = new List<List<string>>
+  {
+      new List<string> { "a", "b", "c" },
+      new List<string> { "1", "2", "3" },
+      new List<string> { "ö", "ä", "ü" },
+  };
+
+  var q1 = list.SelectMany(s => s);
+  // q2 same as q1
+  var q2 = from segment in list
+      from token in segment
+      select token;
+
+
+  foreach (string lie in q1)
+  {
+      Console.WriteLine("{0}.", line);
+  }
+#+end_src
+#+begin_example
+a.b.c.1.2.3.ö.ä.ü
+#+end_example
+
+* Async
+*Task in .NET*
+
+Task are a lightweight variant of a Thread and are normally used in =async= / =await= cases.
+
+*Task vs. Thread*
+
+A Task has a return value and can run multiple operations in parallel.
+A Thread has no return value and has only one operation.
+In general a Task is a more /high level/ construct and easier to use.
+But with a Thread you have more control over the details.
+
+*async vs. parallel*
+
+/Attention:/ Asynchron (Concurrent) ist not the same as parallel (see [[fig:async-vs-parallel]]).
+
+#+CAPTION: Async vs Parallel
+#+NAME: fig:async-vs-parallel
+[[file:static/img/mste/async_vs_concurrent.png]]
+
+*Async / Await operations*
+
+To avoid the problems of a blocking task you can wait on the task asynchronously.
+This can be achieved over callbacks or the functions returns a task object.
+Normally you can / should implement IO operations as async.
+
+*Blocking Task*
+
+/Attention:/ synchronous waits on a task are most of the time not desired because they block the current Thread.
+If it's the UI Thread then the UI is not responding and it looks like the application is not working anymore.
+
+
+Blocking API:
+- =Task.Result=
+- =Task.Wait()=
+- =Task.WaitAll()=
+
+
+*async in .NET*
+
+A async function in [[id:95b391d4-12b4-4143-89c8-6bdde15489f1][.NET]] can only have the following return types:
+- =Task=
+- =Task<T>=
+- =void= (fire and forget, should only be used in exceptional cases)
+
+
+*await in .NET*
+
+The =await= keyword waits on the Task to fulfill.
+If the task is fulfilled then the execution is continued.
+An alternative for await are continuations and basically the same.
+
+#+begin_src csharp
+  // await syntax
+  int id = await GetSomeCustomerId();
+  string t2 = await GetOrders(id);
+  Console.WriteLine(t2);
+
+  // continuations
+  Task<int> t1 = GetSomeCustomerId();
+  t1.ContinueWith(id =>
+  {
+      Task<string> t2 = GetOrders(id.Result);
+      t2.ConinueWith(order =>
+                     Console.WriteLine(order.Result)
+      );
+  });
+#+end_src
+
 
 * End
 \end{multicols}
