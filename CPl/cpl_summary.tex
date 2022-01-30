@@ -1,4 +1,4 @@
-% Created 2022-01-30 Sun 09:40
+% Created 2022-01-30 Sun 09:50
 % Intended LaTeX compiler: xelatex
 \documentclass[11pt,twoside,landscape]{article}
 \usepackage{graphicx}
@@ -44,10 +44,13 @@
 \fancyfoot[CE,CO]{\leftmark}
 \fancyfoot[R]{\thepage}
 \fancyfoot[L]{Olivier Lischer}
+
+\tableofcontents
+\newpage
 \begin{multicols}{3}
 
 \section{General}
-\label{sec:org8c91c78}
+\label{sec:orgffac35d}
 \textbf{Compilation Process}
 
 The C++ Compilation process consits of 3 steps:
@@ -427,9 +430,9 @@ sayGreeting(std::cout,
 \end{lstlisting}
 
 \section{STL Containers}
-\label{sec:org5656386}
+\label{sec:orgee2d17c}
 \subsection{Sequence Containers}
-\label{sec:org52e6471}
+\label{sec:org12d03b5}
 \textbf{Sequence Containers}
 
 All elements are accessible in the same order as they were inserted.
@@ -513,7 +516,7 @@ FIFO Adapter:
 The \texttt{std::priority\_queue} is also just an adapter.
 
 \subsection{Associative Containers}
-\label{sec:org6a701e3}
+\label{sec:org159ef95}
 \textbf{Associative Containers}
 
 The elements in an Associative Container are \textbf{always} stored in sorted order.
@@ -577,7 +580,7 @@ The multimap has three special member functions:
 \end{itemize}
 
 \subsection{Hashed Containers}
-\label{sec:org6c0f9c3}
+\label{sec:org9687063}
 
 The elements in a Hashed Container are stored in an unspecified order.
 The \texttt{.find()} member function runs in constant time (\$O(1)).
@@ -594,7 +597,7 @@ Implementing your own Hash Function is hard and prone to failures.
 Stick to standard types like \texttt{std::string} for the keys.
 
 \subsection{Iterators}
-\label{sec:org1c97630}
+\label{sec:org1157f0e}
 \textbf{Iterator Kinds}
 In CPP exits two kinds of iterators:
 \begin{itemize}
@@ -712,7 +715,7 @@ For this you could use the following functions to create an iterator:
 \end{itemize}
 
 \section{Algorithms}
-\label{sec:orgdaff2f8}
+\label{sec:orgd3231c3}
 \textbf{Why should you use STL algorithm}
 
 Writing your own algorithms, especial loops, is error-prone. 
@@ -843,7 +846,7 @@ Normally the return type does not have to be specified because the compiler can 
 Lambdas are internally implemented as functors.
 
 \section{Class}
-\label{sec:org2b51343}
+\label{sec:org57de168}
 \textbf{A good class}
 
 A good class has:
@@ -1267,7 +1270,7 @@ Date make_date(std::istream & in) {
 \end{lstlisting}
 
 \section{Namespaces}
-\label{sec:org9fd8250}
+\label{sec:org80fa847}
 \textbf{Namespaces}
 
 Namespaces are used to group classes, functions and other elements and to prevent name clashes.
@@ -1341,7 +1344,7 @@ void markHolidays(Dates const & dates) {
 \end{lstlisting}
 
 \section{Enums}
-\label{sec:org00ea1e5}
+\label{sec:orgeb75766}
 \textbf{Enums}
 
 In \href{../../../roam/20210920103243-c.org}{CPP} there exits two kinds of enums:
@@ -1406,9 +1409,9 @@ enum class LaunchPolicy : unsinged char { /**/ };
 \end{lstlisting}
 
 \section{Templates}
-\label{sec:orgc270955}
+\label{sec:org7890c3c}
 \subsection{Function Templates}
-\label{sec:org4bc4063}
+\label{sec:org1fd4d06}
 \textbf{inline keyword}
 \begin{quote}
 Because the meaning of the keyword inline
@@ -1551,7 +1554,7 @@ char const * min(char const * left,
 \end{lstlisting}
 
 \subsubsection{Variadic Templates}
-\label{sec:org1dbb2ae}
+\label{sec:orge99275a}
 \textbf{Variadic Templates}
 
 In some cases the number of template parameters might not be fixed / known before.
@@ -1594,7 +1597,7 @@ Otherwise an compilation error is thrown.
 }
 
 \subsection{Class Templates}
-\label{sec:orgf9ab5c0}
+\label{sec:org2d9e1a4}
 \textbf{Class Template}
 
 Class Templates are very similar to function templates.
@@ -1817,7 +1820,7 @@ auto average(std::array<T, n> const & values) {
 \end{lstlisting}
 
 \section{Heap Memory Management}
-\label{sec:org96047c0}
+\label{sec:orgf7c6916}
 
 \textbf{RAII - Resource Acquisition Is Initialization}
 
@@ -1953,7 +1956,7 @@ This could be done by inheriting from \texttt{std::enable\_shared\_from\_this<T>
 }
 
 \section{Dynamic Polymorphism}
-\label{sec:orgdc6fcd8}
+\label{sec:org271b08f}
 \textbf{mix-in}
 
 Mix-in is something like a class which provide additional functionality without adding more data.
@@ -2113,7 +2116,7 @@ readPage(some.currentPage());
 \end{itemize}
 
 \section{Initialization and Aggregates}
-\label{sec:org02b500d}
+\label{sec:org1ca3f05}
 \textbf{Kinds of initialization}
 
 \href{../../../roam/20210920103243-c.org}{CPP} has many of initialization.
@@ -2262,7 +2265,7 @@ struct person {
     return age < other.age;
   }
   void write(std::ostream & out) const {
-    out << name << ": " << age << '\n’;
+    out << name << ": " << age << '\n';
   }
 };
 
@@ -2293,7 +2296,7 @@ struct person {
     return age < other.age;
   }
   void write(std::ostream & out) const {
-    out << name << ": " << age << '\n’;
+    out << name << ": " << age << '\n';
   }
 };
 int main() {
@@ -2308,7 +2311,7 @@ DTO is short for Data Transfer Object.
 That is a class which is only used to group information to transfer it from one point to another.
 Therefore, they normally don't have any invariant.
 \section{CUTE}
-\label{sec:org168c04d}
+\label{sec:org7d96e27}
 \textbf{CUTE}
 
 CUTE (C++ Unit Testing Easier) is a \href{../../../roam/20210920103754-unit_testing.org}{Unit Testing} Framework for \href{../../../roam/20210920103243-c.org}{C++}. 

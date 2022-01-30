@@ -12,6 +12,9 @@
 \fancyfoot[CE,CO]{\leftmark}
 \fancyfoot[R]{\thepage}
 \fancyfoot[L]{Olivier Lischer}
+
+\tableofcontents
+\newpage
 \begin{multicols}{3}
 
 * General
@@ -1996,7 +1999,7 @@ If you provide fewer initializers than there are bases and members the /uninitia
       return age < other.age;
     }
     void write(std::ostream & out) const {
-      out << name << ": " << age << '\n’;
+      out << name << ": " << age << '\n';
     }
   };
 
@@ -2026,7 +2029,7 @@ They also don't have any protected or private direct fields.
       return age < other.age;
     }
     void write(std::ostream & out) const {
-      out << name << ": " << age << '\n’;
+      out << name << ": " << age << '\n';
     }
   };
   int main() {
