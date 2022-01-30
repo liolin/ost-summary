@@ -2,6 +2,8 @@
 #+AUTHOR: Olivier Lischer
 #+SETUPFILE: ../latex_includes.conf
 
+#+LATEX_HEADER: \usepackage{caption}
+
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -11,9 +13,6 @@
 \fancyfoot[R]{\thepage}
 \fancyfoot[L]{Olivier Lischer}
 \begin{multicols}{3}
-
-* ToDo
-** TODO Add some Manipulators
 
 * General
 *Compilation Process*
@@ -161,8 +160,11 @@ For modifying the behavior of the output stream so called [[id:9ae38c99-a493-432
 *Output Manipulators*
 
 The manipulators for output stream are defined in =<ios>= and =<iomanip>=
-#+CAPTION: Manipulators
+
+#+LATEX: {
 [[file:img/manipulator.png]]
+#+LATEX: \captionof{figure}{Manipulators}
+#+LATEX: }
 
 *IO in CPP*
 
@@ -253,8 +255,11 @@ A function parameter declared like =double f(double)= does not accept a lambda w
 Instead you should use =std::function<double(double)> f= this could be used for lambdas with captures.
 This is also the recommended way.
 
-#+CAPTION: std::function example
+#+LATEX: {
 [[file:img/std_function.png]]
+#+LATEX: \captionof{figure}{std::function example}
+#+LATEX: }
+
 
 *Lambdas with capture*
 
@@ -499,8 +504,10 @@ In CPP exits two kinds of iterators:
 - output iterator
 
 
-#+CAPTION: STL Iterator Categories
+#+LATEX: {
 [[file:img/stl_iterator_categories.png]]
+#+LATEX: \captionof{figure}{STL Iterator Categories}
+#+LATEX: }
 
 *Input Iterator*
 
@@ -640,8 +647,10 @@ Instead, it moves the "not-removed" elements to the front and returns an iterato
 Go get rid of the "removed" elements usually the =.erase()= member function must be called.
 
 
-#+CAPTION: The Erase-Remove Idiom
+#+LATEX: {
 [[file:img/erase_remove_idiom.png]]
+#+LATEX: \captionof{figure}{The Erase-Remove Idiom}
+#+LATEX: }
 
 
 *Erase-Remove Idiom*
@@ -666,9 +675,11 @@ In [[id:1c55f087-be39-4107-b72a-ff7afa4d9ce7][CPP]] exists three types of for lo
 - range base loops
 - iterator based loops
 
-#+CAPTION: Ranged-Based for loop
-#+NAME: fig:ranged-based-for-loop
+
+#+LATEX: {
 [[file:img/ranged_based_for_loop.png]]
+#+LATEX: \captionof{figure}{Ranged-Based for loop}
+#+LATEX: }
 
 
 This code is legacy and should not be used anymore.
@@ -1255,8 +1266,10 @@ The compiler...:
 4. checks the types for correct usage
 
 
+#+LATEX: {
 #+CAPTION: Example instantiation with the min function
 [[file:img/template_instantiation.png]]
+#+LATEX: }
 
 *Type Checking in Templates*
 
@@ -1301,19 +1314,22 @@ The [[id:1c55f087-be39-4107-b72a-ff7afa4d9ce7][CPP]] compiler performs a pattern
 If ambiguities during the deduction occurs then a compiler error is throws.
 
 
+#+LATEX: {
 #+CAPTION: Example of Template Argument Deduction
 [[file:img/template_argument_deduction.png]]
+#+LATEX: }
 
 *Function Template Overloading*
 
 Using string literals in a normal template could be lead to wrong behavior.
-The =min= template below ([[fig:missingTemplate]]) is implemented correctly.
+The =min= template below (\ref{fig:missingTemplate}) is implemented correctly.
 But if you use it with string literals a comparison of the address is made.
 This is normally not what you want.
 
-#+LABEL: fig:missingTemplate
-#+CAPTION: Missing Template Overloading
+#+LATEX: {
 [[file:img/missing_template_overloadin.png]]
+#+LATEX: \captionof{figure}{Missing Template Overloading}\label{fig:missingTemplate}
+#+LATEX: }
 
 
 To prevent this behavior you could overwrite a template.
@@ -1372,8 +1388,10 @@ Otherwise an compilation error is thrown.
 
 
 
-#+CAPTION: Compiler output from pack expansion
+#+LATEX: {
 [[file:img/variadic_template_pack_expansion.png]]
+#+LATEX: \captionof{figure}{Compiler output from pack expansion}
+#+LATEX: }
 
 ** Class Templates
 *Class Template*
@@ -1435,8 +1453,10 @@ In the example below the =size_type= of Sack and the =size_type= of =SackType= /
 #+end_src
 
 
-#+CAPTION: Accessing a member of a template parameter
+#+LATEX: {
 [[file:img/accessing_member_of_template_parameter.png]]
+#+LATEX: \captionof{figure}{Accessing a member of a template parameter}
+#+LATEX: }
 
 *static member variables in class templates*
 
@@ -1458,8 +1478,10 @@ However, this requires the =inline= keyword.
 When a class template inherits from another class template the name-lookup can be surprising!
 To prevent this behavior always use =this->= or =name::= to refer to an inherited member.
 
-#+CAPTION: Class Template Gotchas Example
+#+LATEX: {
 [[file:img/class_template_gotchas.png]]
+#+LATEX: \captionof{figure}{Class Template Gotchas Example}
+#+LATEX: }
 
 *Class Template Specialization*
 
@@ -1467,8 +1489,10 @@ Similar to the overloads in a function template you could specialize a class tem
 Thus, we provide different implementations based on the template parameter.
 It is possible to provide a partial specialization or an explicit specialization (a specialization for a concrete type).
 
-#+CAPTION: Partial and Explicit Specialization
+#+LATEX: {
 [[file:img/partial_explicit_specialization.png]]
+#+LATEX: \captionof{figure}{Partial and Explicit Specialization}
+#+LATEX: }
 
 *How to prevent the compiler from creating specialiced class template*
 
@@ -1696,8 +1720,10 @@ It would be nice if parents could spawn their own children.
 Therefore, we need a =std::weak_ptr= to the =this= object which is assigned to =child.parent=.
 This could be done by inheriting from =std::enable_shared_from_this<T>=.
 
-#+CAPTION: Create weak_ptr from this
+#+LATEX: {
 [[file:img/enable_shared_from_this.png]]
+#+LATEX: \captionof{figure}{Create weak_ptr from this}
+#+LATEX: }
 
 * Dynamic Polymorphism
 *mix-in*
@@ -1718,19 +1744,21 @@ Even if the signature does not match (constness is part of the signature).
 However, if access through a declared base object, the shadowing is ignored and only the base class members are availabel (static dispatch).
 The static dispatch is the default in CPP.
 
-If you want in your subclass both members (from sub and base class) you need to /import/ using the keyword =using= (see figure [[fig:resolutionShadowing]]).
+If you want in your subclass both members (from sub and base class) you need to /import/ using the keyword =using= (see figure \ref{fig:resoulutionShadowing}).
 
-The output of in figure [[fig:shadowing]]  below is /Hi, I'm Base/.
+The output of in figure \ref{fig:shadowing} below is /Hi, I'm Base/.
 
 
-#+LABEL: fig:shadowing
-#+CAPTION: Shadowed Member Function
+#+LATEX: {
 [[file:img/shadowing_member_functions.png]]
+#+LATEX: \captionof{figure}{Shadowed Member Function}\label{fig:shadowing}
+#+LATEX: }
 
 
-#+LABEL: fig:resolutionShadowing
-#+CAPTION: Resolution for Hidden Member
+#+LATEX: {
 [[file:img/shadowing_member_functions_using.png]]
+#+LATEX: \captionof{figure}{Resolution for Hidden Member}\label{fig:resolutionShadowing}
+#+LATEX: }
 
 *virtual member functions*
 
@@ -1740,8 +1768,10 @@ Similar to [[id:d4e5f169-81a7-4ce9-a0ff-e85399b1294a][Java]]s annotation =@Overr
 
 For a successful override the function signature must be the same (also the constness).
 
-#+CAPTION: Virtual Member Function
+#+LATEX: {
 [[file:img/virtual_member_function.png]]
+#+LATEX: \captionof{figure}{Virtual Member Function}
+#+LATEX: }
 
 *Call Virtual Member Functions*
 
@@ -1749,10 +1779,15 @@ In [[id:1c55f087-be39-4107-b72a-ff7afa4d9ce7][CPP]] if you want dynamic polymorp
 If you only have a value object of the base class also the base function is called.
 
 
-#+CAPTION: Example how to call virtual member functions
+#+LATEX {
 [[file:img/calling_virtual_member_functions.png]]
+#+LATEX: \captionof{figure}{Example how to call virtual member functions}
+#+LATEX }
 
+#+LATEX {
 [[file:img/virtual_member_function2.png]]
+#+LATEX: \captionof{figure}{Example 2 how to call virtual member functions}
+#+LATEX }
 
 *Pure Virtual Function*
 
@@ -1779,11 +1814,11 @@ Thus, the destructor is not required to be virtual.
 
 When in [[id:1c55f087-be39-4107-b72a-ff7afa4d9ce7][CPP]] a function takes a base class as value parameter, but you provide a subclass then /object slicing/ occurs.
 That means, that the base is extracted / sliced from the subclass and passed to the function.
-Therefore, functions which were overwritten are not available (see figure [[fig:slicing]]).
+Therefore, functions which were overwritten are not available (see figure \ref{fig:slicing}).
 
 Somthing similar happens if you assign a subclass to a base class reference.
 The creation of the reference is OK.
-But the second assignment copies only the base class part into the base reference (see figure [[fig:refslicing]]).
+But the second assignment copies only the base class part into the base reference (see figure \ref{fig:refsclicing}).
 To prevent this, you can declare the copy-operations as deleted
 
 #+begin_src c++
@@ -1802,14 +1837,17 @@ To prevent this, you can declare the copy-operations as deleted
   readPage(some.currentPage());
 #+end_src
 
-#+NAME: fig:refslicing
-#+CAPTION: Slicing in references
+
+#+LATEX: {
 [[file:img/object_slicing_in_references.png]]
+#+LATEX: \captionof{figure}{Slicing in references}\label{fig:refslicing}
+#+LATEX: }
 
 
-#+NAME: fig:slicing
-#+CAPTION: Example of object slicing
+#+LATEX: {
 [[file:img/object_slicing.png]]
+#+LATEX: \captionof{figure}{Example of object slicing}\label{fig:slicing}
+#+LATEX: }
 
 
 *Guidelines*

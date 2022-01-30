@@ -1,4 +1,4 @@
-% Created 2022-01-30 Sun 09:04
+% Created 2022-01-30 Sun 09:40
 % Intended LaTeX compiler: xelatex
 \documentclass[11pt,twoside,landscape]{article}
 \usepackage{graphicx}
@@ -24,6 +24,7 @@
 \definecolor{mygray}{rgb}{0.5,0.5,0.5}
 \definecolor{mymauve}{rgb}{0.58,0,0.82}
 \lstset{ backgroundcolor=\color{white}, basicstyle=\footnotesize, breaklines=true, captionpos=b, commentstyle=\color{mygreen}, escapeinside={\%*}{*)},keywordstyle=\color{blue}, stringstyle=\color{mymauve},}
+\usepackage{caption}
 \author{Olivier Lischer}
 \date{\today}
 \title{CPl Summary}
@@ -45,13 +46,8 @@
 \fancyfoot[L]{Olivier Lischer}
 \begin{multicols}{3}
 
-\section{ToDo}
-\label{sec:org2beb7c2}
-\subsection{{\bfseries\sffamily TODO} Add some Manipulators}
-\label{sec:org389a6ba}
-
 \section{General}
-\label{sec:org2788196}
+\label{sec:org8c91c78}
 \textbf{Compilation Process}
 
 The C++ Compilation process consits of 3 steps:
@@ -212,11 +208,13 @@ For modifying the behavior of the output stream so called \href{../../../roam/20
 \textbf{Output Manipulators}
 
 The manipulators for output stream are defined in \texttt{<ios>} and \texttt{<iomanip>}
-\begin{figure}[htbp]
-\centering
+
+{
+\begin{center}
 \includegraphics[width=.9\linewidth]{img/manipulator.png}
-\caption{Manipulators}
-\end{figure}
+\end{center}
+\captionof{figure}{Manipulators}
+}
 
 \textbf{IO in CPP}
 
@@ -321,11 +319,13 @@ A function parameter declared like \texttt{double f(double)} does not accept a l
 Instead you should use \texttt{std::function<double(double)> f} this could be used for lambdas with captures.
 This is also the recommended way.
 
-\begin{figure}[htbp]
-\centering
+{
+\begin{center}
 \includegraphics[width=.9\linewidth]{img/std_function.png}
-\caption{std::function example}
-\end{figure}
+\end{center}
+\captionof{figure}{std::function example}
+}
+
 
 \textbf{Lambdas with capture}
 
@@ -427,9 +427,9 @@ sayGreeting(std::cout,
 \end{lstlisting}
 
 \section{STL Containers}
-\label{sec:org94aeab2}
+\label{sec:org5656386}
 \subsection{Sequence Containers}
-\label{sec:org7203b3f}
+\label{sec:org52e6471}
 \textbf{Sequence Containers}
 
 All elements are accessible in the same order as they were inserted.
@@ -513,7 +513,7 @@ FIFO Adapter:
 The \texttt{std::priority\_queue} is also just an adapter.
 
 \subsection{Associative Containers}
-\label{sec:org7bfdeba}
+\label{sec:org6a701e3}
 \textbf{Associative Containers}
 
 The elements in an Associative Container are \textbf{always} stored in sorted order.
@@ -577,7 +577,7 @@ The multimap has three special member functions:
 \end{itemize}
 
 \subsection{Hashed Containers}
-\label{sec:org1c9f0a1}
+\label{sec:org6c0f9c3}
 
 The elements in a Hashed Container are stored in an unspecified order.
 The \texttt{.find()} member function runs in constant time (\$O(1)).
@@ -594,7 +594,7 @@ Implementing your own Hash Function is hard and prone to failures.
 Stick to standard types like \texttt{std::string} for the keys.
 
 \subsection{Iterators}
-\label{sec:orgb1cf7a3}
+\label{sec:org1c97630}
 \textbf{Iterator Kinds}
 In CPP exits two kinds of iterators:
 \begin{itemize}
@@ -606,11 +606,12 @@ In CPP exits two kinds of iterators:
 \end{itemize}
 
 
-\begin{figure}[htbp]
-\centering
+{
+\begin{center}
 \includegraphics[width=.9\linewidth]{img/stl_iterator_categories.png}
-\caption{STL Iterator Categories}
-\end{figure}
+\end{center}
+\captionof{figure}{STL Iterator Categories}
+}
 
 \textbf{Input Iterator}
 
@@ -711,7 +712,7 @@ For this you could use the following functions to create an iterator:
 \end{itemize}
 
 \section{Algorithms}
-\label{sec:orgfd13714}
+\label{sec:orgdaff2f8}
 \textbf{Why should you use STL algorithm}
 
 Writing your own algorithms, especial loops, is error-prone. 
@@ -766,11 +767,12 @@ Instead, it moves the "not-removed" elements to the front and returns an iterato
 Go get rid of the "removed" elements usually the \texttt{.erase()} member function must be called.
 
 
-\begin{figure}[htbp]
-\centering
+{
+\begin{center}
 \includegraphics[width=.9\linewidth]{img/erase_remove_idiom.png}
-\caption{The Erase-Remove Idiom}
-\end{figure}
+\end{center}
+\captionof{figure}{The Erase-Remove Idiom}
+}
 
 
 \textbf{Erase-Remove Idiom}
@@ -799,11 +801,13 @@ In \href{../../../roam/20210920103243-c.org}{CPP} exists three types of for loop
 \item iterator based loops
 \end{itemize}
 
-\begin{figure}[htbp]
-\centering
+
+{
+\begin{center}
 \includegraphics[width=.9\linewidth]{img/ranged_based_for_loop.png}
-\caption{\label{fig:org0e32882}Ranged-Based for loop}
-\end{figure}
+\end{center}
+\captionof{figure}{Ranged-Based for loop}
+}
 
 
 This code is legacy and should not be used anymore.
@@ -839,7 +843,7 @@ Normally the return type does not have to be specified because the compiler can 
 Lambdas are internally implemented as functors.
 
 \section{Class}
-\label{sec:org87f33ec}
+\label{sec:org2b51343}
 \textbf{A good class}
 
 A good class has:
@@ -1263,7 +1267,7 @@ Date make_date(std::istream & in) {
 \end{lstlisting}
 
 \section{Namespaces}
-\label{sec:org7963e41}
+\label{sec:org9fd8250}
 \textbf{Namespaces}
 
 Namespaces are used to group classes, functions and other elements and to prevent name clashes.
@@ -1337,7 +1341,7 @@ void markHolidays(Dates const & dates) {
 \end{lstlisting}
 
 \section{Enums}
-\label{sec:org500de2c}
+\label{sec:org00ea1e5}
 \textbf{Enums}
 
 In \href{../../../roam/20210920103243-c.org}{CPP} there exits two kinds of enums:
@@ -1402,9 +1406,9 @@ enum class LaunchPolicy : unsinged char { /**/ };
 \end{lstlisting}
 
 \section{Templates}
-\label{sec:org23eb746}
+\label{sec:orgc270955}
 \subsection{Function Templates}
-\label{sec:orgd69917d}
+\label{sec:org4bc4063}
 \textbf{inline keyword}
 \begin{quote}
 Because the meaning of the keyword inline
@@ -1444,11 +1448,13 @@ The compiler\ldots{}:
 \end{enumerate}
 
 
+{
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/template_instantiation.png}
 \caption{Example instantiation with the min function}
 \end{figure}
+}
 
 \textbf{Type Checking in Templates}
 
@@ -1498,24 +1504,27 @@ The \href{../../../roam/20210920103243-c.org}{CPP} compiler performs a pattern m
 If ambiguities during the deduction occurs then a compiler error is throws.
 
 
+{
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/template_argument_deduction.png}
 \caption{Example of Template Argument Deduction}
 \end{figure}
+}
 
 \textbf{Function Template Overloading}
 
 Using string literals in a normal template could be lead to wrong behavior.
-The \texttt{min} template below (\ref{fig:orgf079809}) is implemented correctly.
+The \texttt{min} template below (\ref{fig:missingTemplate}) is implemented correctly.
 But if you use it with string literals a comparison of the address is made.
 This is normally not what you want.
 
-\begin{figure}[htbp]
-\centering
+{
+\begin{center}
 \includegraphics[width=.9\linewidth]{img/missing_template_overloadin.png}
-\caption{\label{fig:orgf079809}Missing Template Overloading}
-\end{figure}
+\end{center}
+\captionof{figure}{Missing Template Overloading}\label{fig:missingTemplate}
+}
 
 
 To prevent this behavior you could overwrite a template.
@@ -1542,7 +1551,7 @@ char const * min(char const * left,
 \end{lstlisting}
 
 \subsubsection{Variadic Templates}
-\label{sec:orga344627}
+\label{sec:org1dbb2ae}
 \textbf{Variadic Templates}
 
 In some cases the number of template parameters might not be fixed / known before.
@@ -1577,14 +1586,15 @@ Otherwise an compilation error is thrown.
 
 
 
-\begin{figure}[htbp]
-\centering
+{
+\begin{center}
 \includegraphics[width=.9\linewidth]{img/variadic_template_pack_expansion.png}
-\caption{Compiler output from pack expansion}
-\end{figure}
+\end{center}
+\captionof{figure}{Compiler output from pack expansion}
+}
 
 \subsection{Class Templates}
-\label{sec:org881013a}
+\label{sec:orgf9ab5c0}
 \textbf{Class Template}
 
 Class Templates are very similar to function templates.
@@ -1646,11 +1656,12 @@ class Sack {
 \end{lstlisting}
 
 
-\begin{figure}[htbp]
-\centering
+{
+\begin{center}
 \includegraphics[width=.9\linewidth]{img/accessing_member_of_template_parameter.png}
-\caption{Accessing a member of a template parameter}
-\end{figure}
+\end{center}
+\captionof{figure}{Accessing a member of a template parameter}
+}
 
 \textbf{static member variables in class templates}
 
@@ -1673,11 +1684,12 @@ struct staticmember {
 When a class template inherits from another class template the name-lookup can be surprising!
 To prevent this behavior always use \texttt{this->} or \texttt{name::} to refer to an inherited member.
 
-\begin{figure}[htbp]
-\centering
+{
+\begin{center}
 \includegraphics[width=.9\linewidth]{img/class_template_gotchas.png}
-\caption{Class Template Gotchas Example}
-\end{figure}
+\end{center}
+\captionof{figure}{Class Template Gotchas Example}
+}
 
 \textbf{Class Template Specialization}
 
@@ -1685,11 +1697,12 @@ Similar to the overloads in a function template you could specialize a class tem
 Thus, we provide different implementations based on the template parameter.
 It is possible to provide a partial specialization or an explicit specialization (a specialization for a concrete type).
 
-\begin{figure}[htbp]
-\centering
+{
+\begin{center}
 \includegraphics[width=.9\linewidth]{img/partial_explicit_specialization.png}
-\caption{Partial and Explicit Specialization}
-\end{figure}
+\end{center}
+\captionof{figure}{Partial and Explicit Specialization}
+}
 
 \textbf{How to prevent the compiler from creating specialiced class template}
 
@@ -1804,7 +1817,7 @@ auto average(std::array<T, n> const & values) {
 \end{lstlisting}
 
 \section{Heap Memory Management}
-\label{sec:org8b9b717}
+\label{sec:org96047c0}
 
 \textbf{RAII - Resource Acquisition Is Initialization}
 
@@ -1932,14 +1945,15 @@ It would be nice if parents could spawn their own children.
 Therefore, we need a \texttt{std::weak\_ptr} to the \texttt{this} object which is assigned to \texttt{child.parent}.
 This could be done by inheriting from \texttt{std::enable\_shared\_from\_this<T>}.
 
-\begin{figure}[htbp]
-\centering
+{
+\begin{center}
 \includegraphics[width=.9\linewidth]{img/enable_shared_from_this.png}
-\caption{Create weak\textsubscript{ptr} from this}
-\end{figure}
+\end{center}
+\captionof{figure}{Create weak_ptr from this}
+}
 
 \section{Dynamic Polymorphism}
-\label{sec:org106ff97}
+\label{sec:orgdc6fcd8}
 \textbf{mix-in}
 
 Mix-in is something like a class which provide additional functionality without adding more data.
@@ -1959,23 +1973,25 @@ Even if the signature does not match (constness is part of the signature).
 However, if access through a declared base object, the shadowing is ignored and only the base class members are availabel (static dispatch).
 The static dispatch is the default in CPP.
 
-If you want in your subclass both members (from sub and base class) you need to \emph{import} using the keyword \texttt{using} (see figure \ref{fig:orgf1e865e}).
+If you want in your subclass both members (from sub and base class) you need to \emph{import} using the keyword \texttt{using} (see figure \ref{fig:resoulutionShadowing}).
 
-The output of in figure \ref{fig:org501f6f4}  below is \emph{Hi, I'm Base}.
+The output of in figure \ref{fig:shadowing} below is \emph{Hi, I'm Base}.
 
 
-\begin{figure}[htbp]
-\centering
+{
+\begin{center}
 \includegraphics[width=.9\linewidth]{img/shadowing_member_functions.png}
-\caption{\label{fig:org501f6f4}Shadowed Member Function}
-\end{figure}
+\end{center}
+\captionof{figure}{Shadowed Member Function}\label{fig:shadowing}
+}
 
 
-\begin{figure}[htbp]
-\centering
+{
+\begin{center}
 \includegraphics[width=.9\linewidth]{img/shadowing_member_functions_using.png}
-\caption{\label{fig:orgf1e865e}Resolution for Hidden Member}
-\end{figure}
+\end{center}
+\captionof{figure}{Resolution for Hidden Member}\label{fig:resolutionShadowing}
+}
 
 \textbf{virtual member functions}
 
@@ -1985,11 +2001,12 @@ Similar to \href{../../../roam/20201116150053-java.org}{Java}s annotation \textt
 
 For a successful override the function signature must be the same (also the constness).
 
-\begin{figure}[htbp]
-\centering
+{
+\begin{center}
 \includegraphics[width=.9\linewidth]{img/virtual_member_function.png}
-\caption{Virtual Member Function}
-\end{figure}
+\end{center}
+\captionof{figure}{Virtual Member Function}
+}
 
 \textbf{Call Virtual Member Functions}
 
@@ -1997,15 +2014,19 @@ In \href{../../../roam/20210920103243-c.org}{CPP} if you want dynamic polymorphi
 If you only have a value object of the base class also the base function is called.
 
 
-\begin{figure}[htbp]
-\centering
+\#+LATEX \{
+\begin{center}
 \includegraphics[width=.9\linewidth]{img/calling_virtual_member_functions.png}
-\caption{Example how to call virtual member functions}
-\end{figure}
+\end{center}
+\captionof{figure}{Example how to call virtual member functions}
+\#+LATEX \}
 
+\#+LATEX \{
 \begin{center}
 \includegraphics[width=.9\linewidth]{img/virtual_member_function2.png}
 \end{center}
+\captionof{figure}{Example 2 how to call virtual member functions}
+\#+LATEX \}
 
 \textbf{Pure Virtual Function}
 
@@ -2033,11 +2054,11 @@ Thus, the destructor is not required to be virtual.
 
 When in \href{../../../roam/20210920103243-c.org}{CPP} a function takes a base class as value parameter, but you provide a subclass then \emph{object slicing} occurs.
 That means, that the base is extracted / sliced from the subclass and passed to the function.
-Therefore, functions which were overwritten are not available (see figure \ref{fig:orgbe22345}).
+Therefore, functions which were overwritten are not available (see figure \ref{fig:slicing}).
 
 Somthing similar happens if you assign a subclass to a base class reference.
 The creation of the reference is OK.
-But the second assignment copies only the base class part into the base reference (see figure \ref{fig:org1e3f986}).
+But the second assignment copies only the base class part into the base reference (see figure \ref{fig:refsclicing}).
 To prevent this, you can declare the copy-operations as deleted
 
 \lstset{language=c++,label= ,caption= ,captionpos=b,numbers=none}
@@ -2057,18 +2078,21 @@ some = designPatterns;
 readPage(some.currentPage());
 \end{lstlisting}
 
-\begin{figure}[htbp]
-\centering
+
+{
+\begin{center}
 \includegraphics[width=.9\linewidth]{img/object_slicing_in_references.png}
-\caption{\label{fig:org1e3f986}Slicing in references}
-\end{figure}
+\end{center}
+\captionof{figure}{Slicing in references}\label{fig:refslicing}
+}
 
 
-\begin{figure}[htbp]
-\centering
+{
+\begin{center}
 \includegraphics[width=.9\linewidth]{img/object_slicing.png}
-\caption{\label{fig:orgbe22345}Example of object slicing}
-\end{figure}
+\end{center}
+\captionof{figure}{Example of object slicing}\label{fig:slicing}
+}
 
 
 \textbf{Guidelines}
@@ -2089,7 +2113,7 @@ readPage(some.currentPage());
 \end{itemize}
 
 \section{Initialization and Aggregates}
-\label{sec:orga99287c}
+\label{sec:org02b500d}
 \textbf{Kinds of initialization}
 
 \href{../../../roam/20210920103243-c.org}{CPP} has many of initialization.
@@ -2284,7 +2308,7 @@ DTO is short for Data Transfer Object.
 That is a class which is only used to group information to transfer it from one point to another.
 Therefore, they normally don't have any invariant.
 \section{CUTE}
-\label{sec:org4d275b1}
+\label{sec:org168c04d}
 \textbf{CUTE}
 
 CUTE (C++ Unit Testing Easier) is a \href{../../../roam/20210920103754-unit_testing.org}{Unit Testing} Framework for \href{../../../roam/20210920103243-c.org}{C++}. 
