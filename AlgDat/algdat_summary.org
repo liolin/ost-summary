@@ -23,6 +23,7 @@ that when you travel in-order all keys are sorted ascending.
 #+end_quote
 
 ** AVLTree
+
 An AVLTree is a special kind of [[id:c400a6a9-aad8-43aa-a6b7-b22196bac945][Binary Search Tree]].
 The AVLTree is self balancing and has therefore better running time guaranties than the normal [[id:c400a6a9-aad8-43aa-a6b7-b22196bac945][Binary Search Tree]].
 The tree rebalance itself when the $abs(balance factor) > 1$.

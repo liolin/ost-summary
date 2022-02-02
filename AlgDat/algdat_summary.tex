@@ -1,4 +1,4 @@
-% Created 2022-02-02 Wed 14:55
+% Created 2022-02-02 Wed 15:18
 % Intended LaTeX compiler: xelatex
 \documentclass[11pt,twoside,twocolumn,landscape]{article}
 \usepackage{graphicx}
@@ -52,16 +52,17 @@
 
 
 \section{Data Structures}
-\label{sec:orgca462ea}
+\label{sec:orgb3b98bf}
 \subparagraph{Binary Search Tree} \
-\label{sec:orgbdbbcd1}
+\label{sec:org94e1f97}
 \begin{quote}
 A Binary Search Tree is \href{../../../roam/20210806225200-binary_tree.org}{Binary Tree} which stores keys or key-value pairs so
 that when you travel in-order all keys are sorted ascending.
 \end{quote}
 
 \subparagraph{AVLTree} \
-\label{sec:orge9f4417}
+\label{sec:org9056e00}
+
 An AVLTree is a special kind of \href{../../../roam/20211008140953-binary_search_tree.org}{Binary Search Tree}.
 The AVLTree is self balancing and has therefore better running time guaranties than the normal \href{../../../roam/20211008140953-binary_search_tree.org}{Binary Search Tree}.
 The tree rebalance itself when the \(abs(balance factor) > 1\).
@@ -88,7 +89,7 @@ For rebalancing exists two methods:
 \end{itemize}
 
 \subparagraph{Cut/Link Algorithm} \
-\label{sec:org000babb}
+\label{sec:org62588fb}
 This algorithm is used by some \href{../../../roam/20211008140953-binary_search_tree.org}{Binary Search Tree} for rebalancing. 
 
 \begin{description}
@@ -112,11 +113,11 @@ This algorithm is used by some \href{../../../roam/20211008140953-binary_search_
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/cut_link.drawio.png}
-\caption{\label{fig:org8042c1d}Cut/Link Example}
+\caption{\label{fig:org672ed35}Cut/Link Example}
 \end{figure}
 
 \subparagraph{Rotation Balancing} \
-\label{sec:org85a8a5c}
+\label{sec:orgf20f31c}
 
 This algorithm is used by some \href{../../../roam/20211008140953-binary_search_tree.org}{Binary Search Tree}s to restructure itself.
 The problem with this technique is that you have to check what is required, a left rotation or a right rotation.
@@ -157,7 +158,7 @@ BinaryNode rotateWithRightChild( BinaryNode k1 ) {
 
 
 \subparagraph{Splay Tree} \
-\label{sec:org04358b4}
+\label{sec:org86231c2}
 
 A Splay Tree is a \href{../../../roam/20211008140953-binary_search_tree.org}{Binary Search Tree} which moves the accessed note after the operation to the root.
 Even after update or search.
@@ -168,11 +169,11 @@ Splay Trees are usefull when you search often for the same thing.
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/splaying.png}
-\caption{\label{fig:orgf3295e2}Splaying Algorithm}
+\caption{\label{fig:org873f917}Splaying Algorithm}
 \end{figure}
 
 \subparagraph{Graph} \
-\label{sec:orgf5931d5}
+\label{sec:orge43ed9e}
 
 A graph consist of \textbf{Vertices} and \textbf{Edges}.
 It exists directed and undirected edges / graphs.
@@ -185,7 +186,7 @@ In an undirected graph all edges are undirected.
 A Graph is called connected when between every pair of vertices a path exists.
 
 \subparagraph{Graph Terminology} \
-\label{sec:org0269bc4}
+\label{sec:org39eabb9}
 
 The Terminology used when working with graphs (\href{../../../roam/20220201163000-graph.org}{Graph}).
 
@@ -242,11 +243,11 @@ The Terminology used when working with graphs (\href{../../../roam/2022020116300
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/graph_example.png}
-\caption{\label{fig:orga771366}Graph Example}
+\caption{\label{fig:org96f9a85}Graph Example}
 \end{figure}
 
 \subparagraph{How to Store a graph} \
-\label{sec:org4c4fd20}
+\label{sec:org39d8b57}
 
 To store a graph you have a few possibilities.
 \begin{itemize}
@@ -259,11 +260,11 @@ To store a graph you have a few possibilities.
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/graph_data_structure_summary_running_time.png}
-\caption{\label{fig:org8ab9949}Performance Summary for Graph Data Structures}
+\caption{\label{fig:org3c93c2f}Performance Summary for Graph Data Structures}
 \end{figure}
 
 \subparagraph{Edge List Structure} \
-\label{sec:org4e20781}
+\label{sec:orgd684a89}
 
 To represent a \href{../../../roam/20220201163000-graph.org}{Graph} you could use the Edge list Structure.
 
@@ -280,7 +281,7 @@ Each edge object holds a reference to the start vertex and to the end reference.
 
 
 \subparagraph{Adjacent list Structure} \
-\label{sec:org6b2a59e}
+\label{sec:org9cb8ca5}
 
 To represent a \href{../../../roam/20220201163000-graph.org}{Graph} you could use the Adjacent list Structure.
 
@@ -295,7 +296,7 @@ The Vertex object holds a list with references to the edge objects.
 \end{center}
 
 \subparagraph{Adjacent Matrix Structure} \
-\label{sec:org00d0e65}
+\label{sec:org1588f4d}
 
 To represent a \href{../../../roam/20220201163000-graph.org}{Graph} you could use the Adjacent Matrix Structure.
 
@@ -314,20 +315,20 @@ If no connection exists the null value is there.
 \end{center}
 
 \subparagraph{Subgraph} \
-\label{sec:org94c047c}
+\label{sec:orgf1b28d9}
 
 A \textbf{Subgraph} \(S\) of \(G\) is \href{../../../roam/20220201163000-graph.org}{Graph} which contains a set subset of vertices and edges of the Graph \(G\).
 A \textbf{Spanning Subtree} \(S\) of \(G\) is a graph which contains all vertices of the graph \(G\)
 
 \subparagraph{Special Kind of Graph / Trees} \
-\label{sec:org023ff15}
+\label{sec:org8f0e60f}
 
 A free tree \(T\) is a undirected graph (\href{../../../roam/20220201163000-graph.org}{Graph}) so that T is conected an has no cycles.
 A forest is a graph without cycles
 A Spanning Tree of a connected graph is a \href{../../../roam/20220201181419-subgraph.org}{Subgraph} which is also tree
 
 \subparagraph{Transitory Clousre} \
-\label{sec:org3720884}
+\label{sec:org488636d}
 
 The Transitory closure of a Digraph (\href{../../../roam/20220201163000-graph.org}{Graph}) \(G\) is another Digraph \(G*\) which:
 \begin{itemize}
@@ -341,11 +342,11 @@ To calculate the Transitory Closure the \href{../../../roam/20220202113404-the_f
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/transitiver_abschluss.png}
-\caption{\label{fig:orge58c570}Transitory Clousre}
+\caption{\label{fig:orgdcb8f99}Transitory Clousre}
 \end{figure}
 
 \subparagraph{DAG} \
-\label{sec:org09da1c6}
+\label{sec:orgb4697d4}
 
 A DAG is directed acyclic graph.
 A \href{../../../roam/20220201163000-graph.org}{Graph} without directed cycles.
@@ -354,13 +355,13 @@ A \href{../../../roam/20220201163000-graph.org}{Graph} without directed cycles.
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/dag.png}
-\caption{\label{fig:org45ff59c}DAG Example}
+\caption{\label{fig:org609ead8}DAG Example}
 \end{figure}
 
 \section{Algorithms}
-\label{sec:org41f9e46}
+\label{sec:orgd3788c3}
 \subparagraph{Merge Sort} \
-\label{sec:orgbbe3c14}
+\label{sec:org1923d2e}
 
 \begin{description}
 \item[{Running time}] \(O(n \log(n))\)
@@ -410,11 +411,11 @@ static <T extends Comparable<? super T>> T[] merge(T[] a, T[] b) {
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/sort_algorithm_summary_runtime.png}
-\caption{\label{fig:org4250f3e}Runtime Summary}
+\caption{\label{fig:orgb11d950}Runtime Summary}
 \end{figure}
 
 \subparagraph{Quick Sort} \
-\label{sec:org76821a9}
+\label{sec:orgfa3af0b}
 
 \begin{description}
 \item[{running time}] \(O(n \log(n))\) expected
@@ -437,7 +438,7 @@ Quick Sort uses the Divide-and-Conquer principle.
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/quick_sort_tree.png}
-\caption{\label{fig:org6dea0f5}Quick Sort Tree}
+\caption{\label{fig:org9d09601}Quick Sort Tree}
 \end{figure}
 
 \lstset{language=java,label= ,caption= ,captionpos=b,numbers=none}
@@ -489,7 +490,7 @@ public <T> void inPlaceQuickSort(T[] sequence, Comparator<T> comp, int a, int b)
 \end{lstlisting}
 
 \subparagraph{Lower Bound Search Algorithm} \
-\label{sec:orge02673d}
+\label{sec:orga370fa3}
 
 Every sorting algorithm which uses comparing has a minimal running time of \(\log(n!)\).
 In O notation this is \(O(n \log(n))\).
@@ -500,7 +501,7 @@ n! &\geq \sqrt{2\pi \cdot n}(\frac{n}{2})^2 \rightarrow O(n \log n)
 \end{align}
 
 \subparagraph{Bucket Sort} \
-\label{sec:org1b5c314}
+\label{sec:org1dd8cc5}
 
 \begin{description}
 \item[{running time}] \(O(n + N)\)
@@ -538,14 +539,14 @@ public List<T> bucketSort(List<T> S, int N) {
 \end{lstlisting}
 
 \subparagraph{Radix Sort} \
-\label{sec:org2b2f972}
+\label{sec:org331bb35}
 
 Radix Sort is a sorting algorithm for lexicographical sorting based on \href{../../../roam/20211215102604-bucket_sort.org}{Bucket Sort}.
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/radix_sort.png}
-\caption{\label{fig:org9e75117}Radix Sort of a 4-Bit Integer}
+\caption{\label{fig:org7ab3efe}Radix Sort of a 4-Bit Integer}
 \end{figure}
 
 \lstset{language=java,label= ,caption= ,captionpos=b,numbers=none}
@@ -584,7 +585,7 @@ protected void bucketSort(String[] data, int index) {
 \end{lstlisting}
 
 \subparagraph{Boyere-Moore} \
-\label{sec:org25d64b0}
+\label{sec:orgaa1016a}
 
 \begin{description}
 \item[{running time}] \(O(n\cdot m + s)\)
@@ -605,12 +606,12 @@ Instead to compare the pattern from the beginning it starts at the end.
 \end{enumerate}
 
 
-The last occurence funciton returns the index of the where the charachter \(x\) occurs last in the pattern (\ref{fig:orgca53813}).
+The last occurence funciton returns the index of the where the charachter \(x\) occurs last in the pattern (\ref{fig:org6255113}).
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/lastOccurrence.png}
-\caption{\label{fig:orgca53813}Last Occurrence Function}
+\caption{\label{fig:org6255113}Last Occurrence Function}
 \end{figure}
 
 \begin{figure}[htbp]
@@ -647,7 +648,7 @@ The last occurence funciton returns the index of the where the charachter \(x\) 
 \end{algorithm}
 
 \subparagraph{KMP} \
-\label{sec:org57d450e}
+\label{sec:orgcca4f24}
 
 \begin{description}
 \item[{running time}] O(m + n)
@@ -684,7 +685,7 @@ The Algorithm has two phases:
 
 \textbf{Example:}
 
-KMP according to figure \ref{fig:org00980dd}:
+KMP according to figure \ref{fig:org755637f}:
 \begin{enumerate}
 \item the first 5 comparisons are matching
 \item 6 does not match
@@ -703,7 +704,7 @@ KMP according to figure \ref{fig:org00980dd}:
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/kmp_example.png}
-\caption{\label{fig:org00980dd}KMP Example}
+\caption{\label{fig:org755637f}KMP Example}
 \end{figure}
 
 
@@ -736,7 +737,7 @@ KMP according to figure \ref{fig:org00980dd}:
 \end{algorithm}
 
 \subparagraph{Failure Function KMP} \
-\label{sec:org3c98e56}
+\label{sec:orge03d626}
 
 \begin{description}
 \item[{running time}] O(m)
@@ -748,7 +749,7 @@ The Failure Function for KMP (\href{../../../roam/20211215172001-kmp_algorithm.o
 \(F(j)\) is defined as the longest prefix from P[0..j] so that this also is the suffix from P[1..j].
 \end{quote}
 
-Example according to figure \ref{fig:org0edff7b}:
+Example according to figure \ref{fig:orgd957d8b}:
 \begin{description}
 \item[{j = 0}] a is only prefix, but not suffix
 \item[{j = 1}] b is only a suffix
@@ -760,7 +761,7 @@ Example according to figure \ref{fig:org0edff7b}:
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/kmp_failure_function.png}
-\caption{\label{fig:org0edff7b}Failure Function for KMP}
+\caption{\label{fig:orgd957d8b}Failure Function for KMP}
 \end{figure}
 
 
@@ -789,7 +790,7 @@ Example according to figure \ref{fig:org0edff7b}:
 \end{algorithm}
 
 \subparagraph{Tries} \
-\label{sec:orgeab324a}
+\label{sec:orgdfbc178}
 
 A \textbf{Trie} is a data structure (a tree \href{../../../roam/20210806224741-tree.org}{Tree}) to represent a set of strings.
 Tries are used to perform fast pattern matching.
@@ -810,7 +811,7 @@ This symbol and the next node can be merged together in one node.
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/tries.png}
-\caption{\label{fig:org7fcdff5}Example of Tries}
+\caption{\label{fig:org774941e}Example of Tries}
 \end{figure}
 
 
@@ -819,20 +820,20 @@ The Suffix-Trie for a string is a compress trie (\href{../../../roam/20220201152
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/suffix_trie.png}
-\caption{\label{fig:org3de1e5f}Suffix Trie}
+\caption{\label{fig:org966085a}Suffix Trie}
 \end{figure}
 
 \subparagraph{DFS} \
-\label{sec:org3f0cf13}
+\label{sec:org3bba586}
 
 Depth-First search is a technique to traverse a \href{../../../roam/20220201163000-graph.org}{Graph}.
-As the name says you go deep and then wide (see \ref{fig:org57a9bb3}).
+As the name says you go deep and then wide (see \ref{fig:orgc4ef129}).
 
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/dfs.png}
-\caption{\label{fig:org57a9bb3}DFS Example}
+\caption{\label{fig:orgc4ef129}DFS Example}
 \end{figure}
 
 
@@ -875,7 +876,7 @@ As the name says you go deep and then wide (see \ref{fig:org57a9bb3}).
 \end{algorithm}
 
 \subparagraph{DFS for finding path} \
-\label{sec:org7f2a2aa}
+\label{sec:orga1d3165}
 
 \href{../../../roam/20220202095038-dfs.org}{DFS} can be used to find a path between two vertices in a \href{../../../roam/20220201163000-graph.org}{Graph}.
 Every time you discovered a new edge, the edge is added to a stack.
@@ -913,7 +914,7 @@ If you finally found the searched vertex the path to this is stored in the stack
 \end{algorithm}
 
 \subparagraph{DFS For finding cycleso} \
-\label{sec:org6da6181}
+\label{sec:orgcf6b4f3}
 
 \href{../../../roam/20220202095038-dfs.org}{DFS} can be used to find cycles in a \href{../../../roam/20220201163000-graph.org}{Graph}.
 Using a stack you store the path from the start to the end vertex.
@@ -950,7 +951,7 @@ DFS has found a cycle as soon as you would mark a edge with \textbf{BACK}.
 \end{algorithm}
 
 \subparagraph{BFS} \
-\label{sec:orgdbdc341}
+\label{sec:org8f8be1e}
 
 Breath-First Search is a technique to traverse a graph.
 BFS visits one level after another.
@@ -962,7 +963,7 @@ BFS uses a \href{../../../roam/20210806221243-queue.org}{Queue} to store which v
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/bfs_example.png}
-\caption{\label{fig:orgb54a45b}BFS Example}
+\caption{\label{fig:org8f38d2d}BFS Example}
 \end{figure}
 
 
@@ -1014,7 +1015,7 @@ BFS uses a \href{../../../roam/20210806221243-queue.org}{Queue} to store which v
 \end{algorithm}
 
 \subparagraph{DFS vs. BFS} \
-\label{sec:org43cc70b}
+\label{sec:org0e61ea9}
 
 A comparision of \href{../../../roam/20220202095038-dfs.org}{DFS} and \href{../../../roam/20220202102510-bfs.org}{BFS}.
 
@@ -1022,11 +1023,11 @@ A comparision of \href{../../../roam/20220202095038-dfs.org}{DFS} and \href{../.
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/dfs_vs_bfs.png}
-\caption{\label{fig:org649a30d}DFS vs. BFS}
+\caption{\label{fig:orgfb49a20}DFS vs. BFS}
 \end{figure}
 
 \subparagraph{Floyd-Warshall} \
-\label{sec:org2365c76}
+\label{sec:org93c1174}
 
 The Floyd-Warshall algorithm is used to calculate the Transitory closure of a \href{../../../roam/20220201163000-graph.org}{Graph} \(G\).
 
@@ -1067,11 +1068,11 @@ There for are \(j = 4, i = 5, k = 1\).
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/floyd_warshall.png}
-\caption{\label{fig:org45157a4}Floyd-Warshall Example}
+\caption{\label{fig:org3e08aa3}Floyd-Warshall Example}
 \end{figure}
 
 \subparagraph{Topological Sorto} \
-\label{sec:orgfc97db0}
+\label{sec:org1a36908}
 
 Topological Sort is used to sort / enumerate vertices so that for an edge (\(u\), \(v\)) \(u < v\) true is.
 
@@ -1079,7 +1080,7 @@ Topological Sort is used to sort / enumerate vertices so that for an edge (\(u\)
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/topological_sort_example.png}
-\caption{\label{fig:orgb15c077}Topological Sort Example}
+\caption{\label{fig:orgfaf1269}Topological Sort Example}
 \end{figure}
 
 
@@ -1125,7 +1126,7 @@ Topological Sort is just a \href{../../../roam/20220202095038-dfs.org}{DFS} wher
 \end{algorithm}
 
 \subparagraph{Dijkstra} \
-\label{sec:orgb493fbf}
+\label{sec:org1790411}
 
 The Dijkstra Algorithm is used to calculate the distance to all vertices from a start vertex \(s\) in a \href{../../../roam/20220201163000-graph.org}{Graph}.
 Dijkstra has a few requirements:
@@ -1145,7 +1146,7 @@ After each iteration we add the vertex with the lowest distance and update the d
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/dijkstra_algorithm_example.png}
-\caption{\label{fig:orgb13d651}Dijkstra Algorithm Example}
+\caption{\label{fig:org6d44b1e}Dijkstra Algorithm Example}
 \end{figure}
 
 
@@ -1180,7 +1181,7 @@ After each iteration we add the vertex with the lowest distance and update the d
 \end{algorithm}
 
 \subparagraph{Bellman-Ford} \
-\label{sec:orgab7b547}
+\label{sec:orga1b41f4}
 
 The Bellman-Ford algorithm is use to caculate the distance from a vertex to every other vertex in a \href{../../../roam/20220201163000-graph.org}{Graph}.
 But other then the \href{../../../roam/20220202132913-dijkstra_algorithm.org}{Dijkstra Algorithm} the Bellman-Ford algorithm can also work with negative edge weights.
@@ -1223,6 +1224,6 @@ Requirements:
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{img/bellman_ford_example.png}
-\caption{\label{fig:orgc468214}Bellman-Ford Example}
+\caption{\label{fig:org5694cc0}Bellman-Ford Example}
 \end{figure}
 \end{document}
