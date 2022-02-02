@@ -1782,15 +1782,15 @@ In [[id:1c55f087-be39-4107-b72a-ff7afa4d9ce7][CPP]] if you want dynamic polymorp
 If you only have a value object of the base class also the base function is called.
 
 
-#+LATEX {
+#+LATEX: {
 [[file:img/calling_virtual_member_functions.png]]
 #+LATEX: \captionof{figure}{Example how to call virtual member functions}
-#+LATEX }
+#+LATEX: }
 
-#+LATEX {
+#+LATEX: {
 [[file:img/virtual_member_function2.png]]
 #+LATEX: \captionof{figure}{Example 2 how to call virtual member functions}
-#+LATEX }
+#+LATEX: }
 
 *Pure Virtual Function*
 
