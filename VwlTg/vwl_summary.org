@@ -1,0 +1,58 @@
+#+TITLE: MsTe Summary
+#+AUTHOR: Olivier Lischer
+#+SETUPFILE: ../latex_includes.conf
+#+LATEX_CLASS_OPTIONS: [11pt,twoside,landscape]
+#+LATEX_HEADER: \usepackage{caption}
+
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{MsTe-HS21}
+\fancyhead[L]{Exam Summary}
+\fancyfoot[CE,CO]{\leftmark}
+\fancyfoot[R]{\thepage}
+\fancyfoot[L]{Olivier Lischer}
+\begin{multicols}{3}
+
+* Wohlstand
+** Der einfache Wirtschafskreislauf
+
+#+LATEX: {
+[[file:img/wirtschaftskreislauf.png]]
+#+LATEX: \captionof{figure}{Der einfache Wirtschaftskreislauf}\label{fig:einfache-wirtschaftskreislauf}
+#+LATEX: }
+
+** Der erweiterte Wirschaftskreislauf
+#+LATEX: {
+[[file:img/wirtschaftskreislauf_erweitert.png]]
+#+LATEX: \captionof{figure}{Der erweiterte Wirschaftskreislauf}\label{fig:erweiterte-wirschaftskreislauf}
+#+LATEX: }
+
+** Was ist Wohlstand
+Wohlstand ist dasselbe wie das BIP (Bruttoinlandprodukt, [[id:31291a9b-f0a0-4d3e-919c-8b1230559092][Was ist das BIP?]]).
+
+** Was ist das BIP?
+BIP ist nicht anders als Wohlstand ([[id:cad939e6-f15d-4df6-9e9b-3cddd920a29a][Was ist Wohlstand?]]).
+Interessant: Beamtenlöhne entsprechen dem Produktionswert des Staats und fliesen daher ins BIP ein.
+
+
+Das BIP gibt es als:
+- Nominales BIP (Standard BIP = Produktionswert - Vorleistung)
+- Reales BIP (Referenzjahr)
+- BIP pro Kopf
+- Kaufkraftbereinigtes BIP (BIP auf einen internationalen Standard beglichen)
+
+#+LATEX: {
+[[file:img/bip_blickwinkel.png]]
+#+LATEX: \captionof{figure}{Die drei Blickwinkel des BIPs}\label{fig:drei-blickwinkel-bips}
+#+LATEX: }
+
+
+** Die volkswirtschaftlichen Produktionsfaktoren
+- Arbeit - Menschen
+- Kapital - Maschine, Gebäuden, Infrastruktur
+- Technologien
+- Boden / natürliche Ressourcen
+
+* End
+\end{multicols}
