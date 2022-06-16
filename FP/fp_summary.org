@@ -1,0 +1,861 @@
+#+TITLE: FP Summary
+#+AUTHOR: Olivier Lischer
+#+SETUPFILE: ../latex_includes.conf
+#+LATEX_CLASS_OPTIONS: [11pt,twoside,landscape]
+#+LATEX_HEADER: \usepackage{caption}
+
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{FP-FS22}
+\fancyhead[L]{Exam Summary}
+\fancyfoot[CE,CO]{\leftmark}
+\fancyfoot[R]{\thepage}
+\fancyfoot[L]{Olivier Lischer}
+\begin{multicols}{3}
+
+
+* Chapter 1 - Introduction
+#+begin_quote
+[...] functional programming can be viewed as a style of programming
+in which the basic method of computation is the application
+of functions to arguments.
+  -- Graham Hutton in Programming in Haskell
+#+end_quote
+
+* Chapter 2 - First Steps
+** Lazy Evaluation
+Lazy Evaluation is an evaluation strategy which delays the execution of an expression until its value is needed.
+The programming language [[id:c9a2a575-2295-45af-981c-4ea1c0d27363][Haskell]] is one language which use this strategy.
+
+** Haskell Standard Prelude
+The standard prelude is the standard module in [[id:c9a2a575-2295-45af-981c-4ea1c0d27363][Haskell]] which is always included unless you have the extension =NoImplicitPrelude= enabled.
+In this module are the most common functions, types and monads.
+This module is required to be able to implement any Haskell application.
+
+** Haskell Naming Requirements
+Every [[id:c9a2a575-2295-45af-981c-4ea1c0d27363][Haskell]] function has to start with a lower case.
+After that zero or more letters (upper and lowercase), digits, underscore and forward single quotes.
+Additionally, the keywords ([[id:aa4a60fb-27d2-4f64-bdd5-16713c78d334][Haskell Keywords]]) can not be used for function names or their arguments.
+
+** Haskell Naming Convetions
+List arguments have in [[id:c9a2a575-2295-45af-981c-4ea1c0d27363][Haskell]] normally the suffix =s=.
+Therefor, a list of numbers might be names =ns=.
+A list of arbitrary elements =xs= and a list of chars =css=.
+
+* Chapter 3 - Types and classes
+** Currying
+Currying is the process of turning a multidimensional function into a function which takes one argument and returns a function which takes again one argument.
+In [[id:c9a2a575-2295-45af-981c-4ea1c0d27363][Haskell]] and many other Functional Programming languages ([[id:e8b02d4a-bed3-4ec3-9938-b3d66c4e5dcb][What is functional programming?]]) this is a common practice.
+
+#+begin_src haskell
+  add :: Int -> Int -> Int
+  add x y = x + y
+
+
+  a = add 3 -- type Int -> Int
+  b = a 4   -- type Int (7)
+#+end_src
+
+** Type Variables
+Type Variables are something like a placeholder for a real type.
+See the type of the =length= function:
+
+#+begin_src haskell
+  length :: [a] -> Int
+  --         ^
+  --         |
+  -- type variable
+#+end_src
+
+The function =length= can be applied to any list of any type.
+This is indicated with the type variable =a=.
+A type variable must start with a lower-case letter.
+Typically names are =a=, =b= and so on.
+** Polymorphic types
+In [[id:c9a2a575-2295-45af-981c-4ea1c0d27363][Haskell]] a type (functions are also types) is called polymorphic when it contains one or more type variables ([[id:7a94db47-052d-4233-8e8a-5a9f822bdc67][What are type variables in Haskell?]]).
+** Classes
+Classes in Haskell are not quite the same as in OO languages.
+A class is a collection of types that support a certain overloaded operation called /method/.
+Therefore, classes are more similar to Interfaces ([[id:cfdc4bb6-b46a-44e7-a721-c92e24f2be7e][Interfaces in C#]]).
+
+** Class Constraints
+Using type variables ([[id:7a94db47-052d-4233-8e8a-5a9f822bdc67][What are type variables in Haskell?]]) you can create polymorphic types ([[id:2eebdf66-7238-41e5-a319-3182050a1b4d][Polymorphic types in Haskell]]).
+These type can than applied to any other types.
+However, sometimes you want some restriction for example the =+= operation should only take numbers.
+This can be achieved using class constraints.
+
+#+begin_src haskell
+  (+) :: Num a => a -> a -> a
+  --        ^
+  --        |
+  -- class constraint
+#+end_src
+
+Now the type variable =a= must be an instance of the class ([[id:c1c0e325-f5f8-44d2-877e-296ccbca43c9][Classes in Haskell]]) =Num=.
+
+
+
+** Type Overloads
+A type is called overloaded when it constrains one or more class constraints ([[id:ffd3101c-0cfb-4975-acf1-22815fe45dff][What are class constraints in Haskell?]]).
+
+* Chapter 4 - Defining Functions
+** Guarded Equations
+In [[id:c9a2a575-2295-45af-981c-4ea1c0d27363][Haskell]] you have multiple ways to choose between a number of possible results.
+The function =abs= returns the absolute value of a number =n=.
+You could write the =abs= function with guarded equations.
+
+#+begin_src haskell
+  abs n | n >= 0 = n
+	| otherwise = -n
+
+  -- in std prelude
+  -- otherwise = True
+#+end_src
+
+Haskell reads from top to bottom.
+The first equation which evaluates to true is taken.
+=otherwise= is nothing else as =True=.
+The =|= symbol is read as /such as/.
+
+
+** Pattern Matching
+Pattern Matching is very useful tool in [[id:c9a2a575-2295-45af-981c-4ea1c0d27363][Haskell]].
+It can also be used to define functions.
+
+#+begin_src haskell
+  fst :: (a,b) -> a
+  fst (x, _) = x
+
+  snd :: (a,b) -> b
+  snd (_, y) = y
+#+end_src
+
+The =_= symbol matches everything.
+
+** List and Cons
+Lists are no primitives as =Int= for example.
+They are constructed from the empty list =[]= using the =:= cons operator.
+
+The following resulting always in the same list:
+
+
+#+begin_src haskell
+  [1,2,3]
+  1 : [2,3]
+  1 : 2 : [3]
+  1 : 2 : 3 : []
+#+end_src
+
+This can be really useful to define functions:
+
+#+begin_src haskell
+  head :: [a] -> a
+  head (x:_) = x
+
+  tail :: [a] -> [a]
+  tail (_:xs) = xs
+#+end_src
+
+In the function definition the =()= are required.
+Otherwise, it would cause syntax error (it would try to call tail / head with an argument).
+
+** Lambdas
+In [[id:c9a2a575-2295-45af-981c-4ea1c0d27363][Haskell]] lambdas are defined using the =\= symbol (should represent the \lambda symbol).
+
+#+begin_src haskell
+  \x -> x + x
+  (\x -> x + x) 2
+
+
+  add :: Int -> Int -> Int
+  add = \x -> \y -> x + y
+
+  odds :: Int -> [Int]
+  odds n = map (\x -> x*2 + 1) [0..n-1]
+#+end_src
+
+** Operators
+A function which takes two arguments are called /operators/ in [[id:c9a2a575-2295-45af-981c-4ea1c0d27363][Haskell]].
+Mathematical functions are often written like the following:
+
+#+begin_src haskell
+  8 `div` 2
+#+end_src
+
+But the typical way is also possible:
+
+#+begin_src haskell
+  (+) 8 2 -- the parenthese are required
+  -- >>> :t (+)
+  -- (+) :: Num a => a -> a -> a
+
+  (1+) 2 -- valid
+  (+2) 1 -- valid
+#+end_src
+
+** Operator Sections
+Operator Sections are the partial evaluated parts of an operator ([[id:dabba7f6-3c96-4bc4-b5db-2b3de4a6ec19][What are operators in Haskell?]]).
+The following are examples are operator sections:
+
+#+begin_src haskell
+  (+)
+  (1+)
+  (+2)
+
+  (op) = \x -> (\y -> x op y)
+  (x op) = \y -> x op y
+  (op y) = \x -> x op y
+#+end_src
+
+Operator Sections are required because an operator alone is not a valid expression in [[id:c9a2a575-2295-45af-981c-4ea1c0d27363][Haskell]].
+Therefore, for functions like =foldl= operation sections are required:
+
+#+begin_src haskell
+  sum :: [Int] -> Int
+  sum xs = foldl (+) 0 xs
+#+end_src
+
+* Chapter 5 - List comprehensions
+** List comprehension
+In [[id:797e56f5-504a-47c2-9817-a7368c910f48][Math]] you can create from one set of numbers a new set of numbers:
+\begin{equation}
+\{ x^2 | x \in \{1 \ldots 5 \} \}
+\end{equation}
+
+In Haskell you can do the same:
+
+#+begin_src haskell
+  [x^2 | x <- [1..5]]
+  --   ^    ^     ^ 
+  --   |    |---  |-------- Generator
+  -- "such as" |
+  --          "is drawn from"
+#+end_src
+
+The list comprehension requireds at least one generator but multiple generators are allowed.
+
+#+begin_src haskell
+  [(x, y) | x <- [1,2,3], y <- [4,5]]
+  [(x, y) | x <- [1..3], y <- [x..3]]
+#+end_src
+
+** Usage of list comprehensions
+When you are creating new lists using list comprehension ([[id:d74c91ca-a1ea-4e98-80fe-279fa1683ced][What is list comprehension in Haskell?]]) you dont always want to take all values.
+When creating a list using list comprehension ([[id:d74c91ca-a1ea-4e98-80fe-279fa1683ced][What is list comprehension in Haskell?]]) you have sometimes certain criterias which must be true.
+For example you want a list with only even numbers.
+This can be achived using a /guard/.
+Evaluates the guard to =True= the value is taken.
+Otherwise, the value is discareded.
+
+#+begin_src haskell
+  [x | x <- [1..10], even x] -- generates a list of even numbers
+  --                   ^
+  --                   |
+  --                 Guard
+#+end_src
+
+* Chapter 6 - Recursive Functions
+** Recursion
+It exists different kind of recursion:
+- linear & tail recursion ([[id:34b61806-bd26-4d9e-ab15-2059a3ba4663][What is linear recursion?]])
+- multiple recursion ([[id:454696af-4430-421b-95bf-ce3b8eb0c377][What is multiple recursion?]])
+- mutual recursion ([[id:9c7c33dc-c978-4578-8eb1-2e4fae5d88a6][What is mutual recursion?]])
+
+
+** Recursive Functions
+1. Define type
+2. Enumerate the cases
+3. Define the simple case
+   - Often the base case
+4. Define the other cases
+   - Often the recursive cases
+5. Generalize and simplify
+
+
+#+begin_src haskell
+  -- Step 1
+  product :: [Int] -> Int
+
+  -- Step 2
+  product :: [Int] -> Int
+  product :: [] =
+  product :: (n:ns) =
+
+  -- Step 3
+  product :: [Int] -> Int
+  product :: [] = 1
+  product :: (n:ns) = 
+
+  -- Step 4
+  product :: [Int] -> Int
+  product :: [] = 1
+  product :: (n:ns) = n * product ns
+
+
+  -- Step 5
+  product :: Num a => [a] -> a
+  product = foldr (*) 1
+#+end_src
+
+* Chapter 7 - Higher-order Functions
+** Higher-Order Functions
+A higher-order function is a function which takes another function as an argument and / or returns a function.
+However, returning a function is often only called a curried function ([[id:32a85cf4-8bb6-4c67-9ff2-8d8594dcb6f5][What is curring in terms of math?]]) and
+higher-order means often only taking a function as argument.
+
+
+#+begin_src haskell
+  isEven :: [Int] -> [Bool]
+  isEven xs = map even xs
+
+  isEven [1,2,3,4,5,6,7]
+  [False,True,False,True,False,True,False]
+#+end_src
+
+** foldr and foldl
+/foldr/ and /foldl/ are the abbreviation for fold right / left.
+Many functions can be defined using the following pattern:
+
+#+begin_src haskell
+  f [] = v -- some value
+  f (x:xs) = x # f xs -- for example x + f xs
+#+end_src
+
+The function /foldr/ can be used to encapsulate this pattern.
+You can think that /foldr/ replaces the =:= with the operation =#=.
+#+begin_src haskell
+  sum :: Num a => [a] -> a
+  sum [] = 0
+  sum (x:xs) = x + sum xs
+
+
+  sum_foldr :: Num a => [a] -> a
+  sum_foldr = foldr (+) 0
+
+  {-
+  sum_foldr [1,2,3] =
+  sum_foldr 1 : (2 : (3 : [])) = 
+  1 + (2 + (3 + 0)) = 
+  6
+  -}
+
+  sum_foldl :: Num a => [a] -> a
+  sum_foldl = foldl (+) 0
+  {-
+  sum_foldl [1,2,3] =
+  sum_foldl 1 : (2 : (3 : [])) = 
+  ((0 + 1) + 2) + 3 =
+  6
+  -}
+#+end_src
+
+
+
+
+** Composition Operator
+The composition operator takes two function as argument and returns the composition of both.
+Therefore, is =(f . g) x = f (g x)= true.
+This is very useful to simplify nested function calls.
+
+
+#+begin_src haskell
+  odd :: Int -> Bool
+  odd n = not (even n)
+  odd n = not . even n
+
+  twice :: (a -> a) -> a -> a
+  twice f x = f (f x)
+
+  sumsqreven :: [Int] -> [Int]
+  sumsqreven xs = sum (map (^2) (filter even xs))
+  sumsqreven = sum . map (^2) . filter even
+
+  sumsqreven [1,2,3,4,5] -- 20
+#+end_src
+
+* Chapter 8 - Declaring types / classes
+** Create new types
+In Haskell, you have multiple ways to create an new type.
+- =type= ([[id:49e5de1c-52f4-4013-8216-464381809a86][The type keyword in Haskell]])
+- =data= ([[id:c2a9bc31-3b7a-4652-a78b-3ec84d995a09][The data keyword in Haskell]])
+- =newtype= ([[id:590d4a81-04c3-47bf-9b64-2e97540d510d][The newtype keyword in Haskell]])
+
+** type
+Using the keyword =type= you create basically an alias for the type.
+
+#+begin_src haskell
+  type String = [Char]
+#+end_src
+
+Recursive definition for a new type using =type= is *not* allowed:
+#+begin_src haskell
+type Tree = (Int, [Tree]) -- Not allowed
+#+end_src
+
+Typed declared using the =type= mechanism can not be made into new instances of classes ([[id:c1c0e325-f5f8-44d2-877e-296ccbca43c9][Classes in Haskell]]).
+  
+
+** data
+
+Using the keyword =data= you create real new types.
+
+#+begin_src haskell
+  data Bool = False | True
+  data Move = North | South | East | West
+#+end_src
+
+
+The new values (North, South, ...) must be unique and are called *constructors*.
+
+#+begin_src haskell
+  data Shape = Circle Float | Rect Float Float
+
+
+  area :: Shape -> Float
+  area (Circle r) = pi * r^2
+  area (Rect x y) = x * y
+
+
+  {-
+  :t Circle
+  Circle :: Float -> Shape
+  :t Rect
+  Rect :: Float -> Float -> Shape
+  -}
+#+end_src
+
+The =Circle= and =Rect= from the example are called *constructor functions*.
+
+** newtype
+Different to the =type= keyword ([[id:49e5de1c-52f4-4013-8216-464381809a86][The type keyword in Haskell]]) with =newtype= you create a real new type.
+
+#+begin_src haskell
+  newtype Nat = N Int
+
+  someFunc :: Nat -> Nat
+  someFunc x = x
+#+end_src
+
+For the function =someFunc= you can *not* use an =Int= (type safety).
+However, at compile time the =Nat= is replaced with =Int=.
+Therefore, I have type safety during development without performance impact (=data Nat = N Int= would be slower).
+
+** class
+#+begin_src haskell
+  class Eq a where
+    (==), (/=) :: a -> a -> Bool
+    x /= y = not (x == y)
+#+end_src
+
+
+
+** implement class
+#+begin_src haskell
+  instance Eq Bool where
+    False == False = True
+    True == True = True
+    _ == _ = False
+
+  data T a = Leaf | Node (T a) a (T a)
+
+  instance Show a => Show (T a) where
+    show x = show (toList x)
+
+  instance Eq a => Eq (T a) where
+    (==) x y = toList x == toList y
+
+  instance Ord a => Semigroup (T a) where
+    x <> y = merge x y
+
+  instance Ord a => Monoid (T a) where
+    mempty = empty
+#+end_src
+
+* Chapter 10 - Interactive Programming
+** Interactive Programming
+[[id:c9a2a575-2295-45af-981c-4ea1c0d27363][Haskell]] is a pure functional programming language.
+Therefore, side effects are not allowed and because of this interactive programming should not be possible.
+Haskell overcomes this problem using IO actions ([[id:706857b7-3a3a-4996-b6af-6c732907110b][IO actions in haskell]]).
+
+** IO Action
+=IO= can be seen as a data type which represents the whole world and is built-in into [[id:c9a2a575-2295-45af-981c-4ea1c0d27363][Haskell]].
+The most important actions for interactive programming are:
+- =getChar=
+- =putChar=
+- =return=
+
+#+begin_src haskell
+  getChar :: IO Char
+  putChar :: Char -> IO ()
+  return :: a -> IO a
+#+end_src
+
+=return= is a very important action which produces from a normal value an action with this value.
+
+#+begin_src haskell
+  myFunc :: IO a
+  myFunc = do v1 <- a1
+	      v2 <- a2
+	      v3 <- a3
+	      vn <- an
+	      return (f v1 v2 v3 vn)
+#+end_src
+
+* Chapter 12 - Monads and more
+** Functor
+A functor is a class ([[id:c1c0e325-f5f8-44d2-877e-296ccbca43c9][Classes in Haskell]]) which provides the =fmap= function.
+To be a valid functor the restrictions from listening ref:lst:functor-laws.
+
+#+begin_quote
+Functors are types that wrap values of other types
+and allow us to map functions over the wrapped value. -- Fahrad Metha
+#+end_quote
+
+#+begin_src haskell
+  class Functor f where
+    fmap :: (a -> b) -> f a -> f b
+#+end_src
+
+#+CAPTION: Functor laws
+#+NAME: lst:functor-laws
+#+begin_src haskell
+  fmap id = id
+  fmap (g . h) = fmap g . fmap h
+#+end_src
+
+** Applicatvie Functors
+=fmap= takes a function which takes only one argument ([[id:7d8a3ac1-acb0-4eee-9377-01570988298b][What is a functor in haskell?]]).
+#+begin_src haskell
+  fmap :: Functor f => (a -> b) -> f a -> f b
+#+end_src
+
+Sometimes it is required to provide a function with two or more input arguments.
+For this use case the =Applicative= typeclass ([[id:c1c0e325-f5f8-44d2-877e-296ccbca43c9][Classes in Haskell]]) exists (see ref:lst:applicative-class).
+
+#+CAPTION: Applicative Class
+#+NAME: lst:applicative-class
+#+begin_src haskell
+  class Functor f => Applicative f where
+    pure :: a -> f a
+    (<*>) :: f (a -> b) -> f a -> f b
+
+
+  g <*> x <*> y <*> z == ((g <*> x) <*> y) <*> z
+  pure g <*> x1 <*> x2 <*> xn
+#+end_src
+
+
+The =pure= function returns a functor with a value, noramally a function (see ref:fig:maybe-as-an-applicative-example).
+The function must be a curried ([[id:32a85cf4-8bb6-4c67-9ff2-8d8594dcb6f5][What is curring in terms of math?]]) one and takes n arguments.
+The =<*>= operator is now used to perform partial application and is used n times.
+The =<*>= operator uses =fmap= to apply the function to the elemens.
+
+#+CAPTION: Maybe as an Applicative example
+#+NAME: fig:maybe-as-an-applicative-example
+#+begin_src haskell
+  instance Applicative Maybe where
+    -- pure :: a -> Maybe a
+    pure = Just
+    -- (<*>) :: Maybe (a -> b) -> Maybe a -> Maybe b
+    --                  |          |
+    --    ---------------          |
+    --    |      -------------------
+    --           |
+    (Just g) <*> mx = fmap g mx
+    Nothing <*> _ = Nothing
+
+
+  myVar :: Maybe (Int -> Int)
+  myVar = pure (+) 
+  pure (+) <*> Just 1 <*> Just 2
+  -- Just 3
+#+end_src
+
+
+** Monad
+Monad is a typeclass in [[id:c9a2a575-2295-45af-981c-4ea1c0d27363][Haskell]] with the definition in listening ref:lst:monad-class-definition.
+
+#+CAPTION: Monad Class definition
+#+NAME: lst:monad-class-definition
+#+begin_src haskell
+  class Applicative m => Monad m where
+    return :: a -> m a
+    (>>=) :: m a -> (a -> m b) -> m b
+
+    return = pure
+#+end_src
+
+The =>>== operator takes a container with a value (=Just 2=), unwraps the value (=2=) and feed into the function, which returns again an container.
+
+#+begin_src haskell
+  myAddOne :: Int -> Maybe Int
+  myAddOne x = Just (x+1)
+
+  myValue :: Maybe Int
+  myValue = Just 2 >>= myAddOne
+#+end_src
+
+** Monad Example
+The =>>== operator for =Maybe= could look like in ref:lst:the-bind-operator-for-maybe.
+
+#+CAPTION: The bind operator for Maybe
+#+NAME: lst:the-bind-operator-for-maybe
+#+begin_src haskell
+  -- (>>=) :: Maybe a -> (a -> Maybe b) -> Maybe b
+  mx >>= f = case mx of
+	       Nothing -> Nothing
+	       Just x -> f x
+#+end_src
+
+In ref:fig:example-of-the-monad-typeclass the =eval= function is declared 3 times.
+Every definition does the exact same thing.
+The latter two variants are using the bind operator (>>=) from the Monad type class.
+
+#+CAPTION: Example of the monad typeclass in action
+#+NAME: fig:example-of-the-monad-typeclass
+#+begin_src haskell
+  data Expr = Val Int | Div Expr Expr
+
+  eval :: Expr -> Maybe Int
+  eval (Val n) = Just n
+  eval (Div x y) = case eval x of
+		     Nothing -> Nothing
+		     Just n -> case eval y of
+		       Nothing -> Nothing
+		       Just m -> safediv n m
+
+  eval (Div x y) = eval x >>= \n ->
+		   eval y >>= \m ->
+		   safediv n m 
+
+  eval (Div x y) = do n <- eval x
+		      m <- eval y
+		      safediv n m
+
+
+  safediv :: Int -> Int -> Maybe Int
+  safediv _ 0 = Nothing
+  safediv n m = Just (n `div` m)
+#+end_src
+
+** let expression
+The =let= expression is just syntactical sugar for immediate lambda evaluation.
+#+begin_src haskell
+let name =  value in body
+( \name -> body ) value
+#+end_src
+
+* Lambda Calculus
+** Lambda Calculus
+The lambda calculus is a programming language and the base for all functional programming languages.
+In the lambda calculus you only have the "$\lambda$", ".", "(", and ")" as reserved words.
+Everything else is achieved using function application.
+
+The lambda calculus has only two concepts: Predicates (P) and $\lambda$-terms (M).
+
+#+begin_src latex
+  \begin{equation}
+    \begin{align}
+      \label{eqn:syntax-of-lc}
+      P &::= M = M \\
+      M &::= x \; | \; \lambda x . \; M \; | \; M M
+    \end{align}
+  \end{equation}
+#+end_src
+
+** Free / Bound Variables
+In the lambda calculus you can use variables as placeholder.
+It exists two types of variables: bound and free variables.
+Bound variables are bound to a lambda term (y in equation eqref:eqn:bound-and-free-variables).
+Bound variables are only valid inside the lambda term.
+They are only placeholders and therefore can be renamed.
+
+The free variables (a, b in eqref:eqn:bound-and-free-variables) are globaly valid.
+
+
+#+begin_src latex
+  \begin{equation}
+    \label{eqn:bound-and-free-variables}
+    (\lambda y. \; y) a \; b
+  \end{equation}
+#+end_src
+
+
+** Alpha Conversion
+The $\alpha$ conversion is used to rename bound variables ([[id:902f87e7-80c1-4f31-9d0d-89e8bf25e55e][What are free and bound variables in the lambda calculus?]]).
+This is sometimes required during application because otherwise the free variable may be captured.
+
+#+begin_src latex
+  \begin{equation}
+    \label{eqn:example-alpha-conversion}
+    \begin{align}
+      &\lambda x. \; x \; z \\
+      &= \lambda a. \; a \; z \quad | \alpha \\
+      &= \lambda b. \; b \; z \quad | \alpha \\
+      & \ne \lambda z. \; z \; z \quad | \alpha
+    \end{align}
+  \end{equation}
+#+end_src
+
+** Beta Reduction
+The $\beta$ reduction is nothing else than one function application.
+In the equation eqref:eqn:beta-reduction-example the "a" is applied to the lambda term.
+Therefore, the "y" is replaced with "a".
+
+#+begin_src latex
+  \begin{equation}
+    \label{eqn:beta-reduction-example}
+    \begin{align}
+      &\underline{(\lambda y. \; y) \; a} \; b \\
+      &= a \; b
+    \end{align}
+  \end{equation}
+#+end_src
+
+** Normal Form
+A \lambda-term is then in the normal form if no further reduction ([[id:3bd4e25b-8abf-4185-90bd-fa18465bae47][Beta Reduction]]) is possible.
+Equation eqref:eqn:normal-form-one and eqref:eqn:normal-form-two are evaluated using two different strategies.
+Howerver, both are at the end in the normal form.
+
+Every \lambda-term has at most one normal form.
+Some \lambda-terms do not have a normal form (see eqref:eqn:non-terminating-evaluation).
+
+#+begin_src latex
+  \begin{equation}
+    \label{eqn:normal-form-one}
+    \begin{align}
+      &(\lambda x. \; square \; x) \; (\underline{(\lambda y. \' square \; y) 5}) \\
+      &= \underline{(\lambda x. \; square \; x) \; (square \; 5)} \\
+      &= square \; (square \; 5)
+    \end{align}
+  \end{equation}
+
+  \begin{equation}
+    \label{eqn:normal-form-two}
+    \begin{align}
+      &\underline{(\lambda x. \; square \; x) \; ((\lambda y. \; square \; y) 5)} \\
+      &= \underline{squre \; ((\lambda y. \; square \; y) 5)} \\
+      &= square \; (square \; 5)
+    \end{align}
+  \end{equation}
+
+  \begin{equation}
+    \label{eqn:non-terminating-evaluation}
+    \begin{align}
+      &\underline{(\lambda x. \; x \; x) \; (\lambda x. \; x \; x)} \\
+      &= \underline{(\lambda x. \; x \; x) \; (\lambda x. \; x \; x)} \\
+      &= \underline{(\lambda x. \; x \; x) \; (\lambda x. \; x \; x)} \\
+      & \vdots
+    \end{align}
+  \end{equation}
+#+end_src
+
+** Delta Reduction
+The \delta-reduction replaces the free variable ([[id:902f87e7-80c1-4f31-9d0d-89e8bf25e55e][What are free and bound variables in the lambda calculus?]]) with its definition.
+
+#+begin_src latex
+  \begin{equation}
+    \label{}
+    \begin{align}
+      &square = \lambda x. \; * \; x \; x \\
+      &\underline{(\lambda x. \; square \; x) \; 5} \\
+      &= (square \; 5) \quad | \; \beta \\
+      &= (\underline{(\lambda x. \; * \; x \; x) \; 5}) \quad | \; \delta \\
+      &= (* \; 5 \; 5) \quad | \; \beta
+    \end{align}
+  \end{equation}
+
+#+end_src
+
+** Evaluation Strategies
+
+Evaluation strategies describe in which order redexs (reducible expression, any \beta, \delta reducible sub-term) are reduced.
+
+
+A few of them are:
+- [[id:cf8c34a4-be87-4249-86d8-f0ac12f2c591][leftmost innermost]] / applicative order / innermost first
+- [[id:271a0c5d-0c4d-4531-9696-5b13ad523df2][leftmost outermost]] / normal order / outermost first
+- [[id:25afcc25-7a2c-4898-91e3-96d2dcb8a922][The lazy evaluation]] / call by need
+
+
+** Leftmost innermost
+Using this evaluation strategy the innermost redex is reduced first.
+In case there is more than one innermost redex, the leftmost innermost redex is reduced first.
+A redex is innermost, if there is no other redex inside it.
+
+Using this strategy the functions arguments are reduced exactly once.
+It is also called *Call by value*.
+
+#+begin_src latex
+  \begin{equation}
+    \label{eqn:example-of-leftmost-innermost}
+    \begin{align}
+      &\underline{square} \; (square \; 5) \\
+      &= (\lambda x. \; * \; x \; x) (\underline{square} \; 5) \\
+      &= (\lambda x. \; * \; x \; x) (\underline{(\lambda x. \; * \; x \; x) 5}) \\
+      &= \underline{(\lambda x. \; * \; x \; x) (* \; 5 \; 5)} \\
+      &= (* \; (* \; 5 \; 5) \; (* \; 5 \; 5))
+    \end{align}
+  \end{equation}
+#+end_src
+
+** Leftmost outermost
+Using this evaluation strategy the outermost redex is reduced first.
+In case there is more than one outermost redex, the leftmost outermost redex is reduced first.
+A redex is outermost, if there is no other redex outside it.
+
+A functions arguments are reduced as often as they are needed.
+This startegy will always find the normal form if one exits.
+It is also called call by name.
+
+#+begin_src latex
+  \begin{equation}
+    \label{blub}
+    \begin{align}
+      &\underline{square} \; (square \; 5) \\
+      &= \underline{(\lambda x. \; * \; x \; x) \; (square \; 5)} \\
+      &= (* \; (\underline{square} \; 5) \; (square \; 5)) \\
+      &= (* \; (\underline{(\lambda .x \; * \; x \; x) 5)}) \; (square \; 5)) \\
+      &= (* \; (* \; 5 \; 5) \; (\underline{square} \; 5)) \\
+      &= (* \; (* \; 5 \; 5) \; (\underline{(\lambda .x \; * \; x \; x) \; 5})) \\
+      &= (* \; (* \; 5 \; 5) \; (* \; 5 \; 5))
+    \end{align}
+  \end{equation}
+#+end_src
+
+** Lazy Evaluation
+The lazy evaluation is a combination of [[id:cf8c34a4-be87-4249-86d8-f0ac12f2c591][leftmost innermost]] and [[id:271a0c5d-0c4d-4531-9696-5b13ad523df2][leftmost outermost]].
+It uses the property from [[id:cf8c34a4-be87-4249-86d8-f0ac12f2c591][leftmost innermost]] (exactly once) and from [[id:271a0c5d-0c4d-4531-9696-5b13ad523df2][leftmost outermost]] (when needed, finds normal form).
+
+The lazy evaluation performs the [[id:271a0c5d-0c4d-4531-9696-5b13ad523df2][leftmost outermost]] strategy.
+However, it uses memoization (caching).
+If an expression was already evaluated it will use the same evaluated result again.
+[[id:c9a2a575-2295-45af-981c-4ea1c0d27363][Haskell]] uses this strategy for evaluation.
+
+* Property Based Testing
+\end{multicols}
+* Reasoning
+** Vollständige Induktion
+1. Verankerung 
+2. Induktionsschritt
+   1) Induktionsannahme
+   2) Induktionsbehauptung
+   3) Induktionsbeweis
+
+*** Beispiel
+Beweise dass folgendes gilt: $$\sum_{k=1}^n (k) = \frac{1}{2} \cdot n (n + 1)$$
+
+1. Verankerung ($n_0 = 1$)
+   Linke Seite $\sum_{k=1}^1 k = 1$, Rechte Seite $\frac{1}{2} \cdot 1 (1 + 1) = 1$
+
+2. Induktionsschirtt $n \Rightarrow n + 1$
+   1. Induktionsanhame:
+      $$\sum_{k=1}^n (k) = \frac{1}{2} \cdot n (n + 1)$$
+   2. Induktionsbehauptung
+      $$\sum_{k=1}^{n+1} (k) = \frac{1}{2} \cdot (n+1) (n + 2)$$
+   3. Induktionsbeweis
+      1. $$\sum_{k=1}^{n+1} (k) = \left(\sum_{k=1}^n k\right) + n + 1$$
+      2. $$\sum_{k=1}^{n+1} (k) = \frac{1}{2} \cdot n \cdot (n + 1) + n + 1$$
+      3. $$\sum_{k=1}^{n+1} (k) = \frac{1}{2} \cdot (n^2 + n + 2n +2) = \frac{1}{2} \cdot (n^2 + 3n + 2)$$
+      4. $$\sum_{k=1}^{n+1} (k) = \frac{1}{2} \cdot (n + 1) \cdot (n+2)$$
