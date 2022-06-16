@@ -159,7 +159,7 @@ Befindet man sich auf der Linken seite des Gleichgewichts entspricht das einer R
 Auf der rechten Seite ist der Boom, eine überhitze Wirtschaft.
 
 #+LATEX: {
-[[file:img/makroökonomisches_gleichgewicht.png]]
+[[file:static/img/vwltg/makroökonomisches_gleichgewicht.png]]
 #+LATEX: \captionof{figure}{Makroökonomisches Gleichgewicht}\label{fig:makroökonomisches-gleichgewicht}
 #+LATEX: }
 
@@ -167,10 +167,12 @@ Auf der rechten Seite ist der Boom, eine überhitze Wirtschaft.
 ** Phasen Konjunktur
 - Rezession :: Abnahme des BIP während min. zwei aufeinanderfolgenden Quartalen
 
-#+LATEX: {
+
+#+CAPTION: Die Phasen der Konjunktur
+#+name: fig:die-phasen-der-konjunktur
 [[file:img/konjunktur_phasen.png]]
-#+LATEX: \captionof{figure}{Die Phasen der Konjunktur}\label{fig:die-phasen-der-konjunktur}
-#+LATEX: }
+
+
 
 ** Veränderungen im makroökonomischen Modell
 Alle Veränderungen im Modell ([[id:fb691470-6f1f-4dda-919c-e9b6f35c84da][Was ist das Makroökonomische Modell?]]) haben einen Name, welcher wie folgt aufgebaut ist:
@@ -183,10 +185,9 @@ Die Bedeutung:
 - schock :: Bewegung findet statt
 
 
-#+LATEX: {
+#+CAPTION: Der negative Nachfrageschock
+#+NAME: fig:der-negative-nachfrageschock
 [[file:img/negative_nachfrageschock.png]]
-#+LATEX: \captionof{figure}{Der negative Nachfrageschock}\label{fig:der-negative-nachfrageschock}
-#+LATEX: }
 
 
 - Negative Nachfrageschock
@@ -227,10 +228,9 @@ In der Depression gibt es auch die Deflationsfalle, aus der man nicht mehr / sch
 Diese möchte man vermeiden.
 
 
-#+LATEX: {
+#+CAPTION: Konjunkturzyklen
+#+NAME: fig:konjunkturzyklen
 [[file:img/konjunkturzyklen.png]]
-#+LATEX: \captionof{figure}{Konjunkturzyklen}\label{fig:konjunkturzyklen}
-#+LATEX: }
 
 ** Verschiedene Arten Arbeitslosigkeit
 Es gibt in der Schweiz zwei Arten von Arbeitslosigkeit:
@@ -238,18 +238,16 @@ Es gibt in der Schweiz zwei Arten von Arbeitslosigkeit:
 - Sockelarbeitslosigkeit (X in ref:fig:die-beveridge-kurve)
 
 
-#+LATEX: {
+#+CAPTION: Die Beveridge-Kurve
+#+NAME: fig:die-beveridge-kurve
 [[file:img/beveridge_kurve.png]]
-#+LATEX: \captionof{figure}{Die Beveridge-Kurve}\label{fig:die-beveridge-kurve}
-#+LATEX: }
 
 ** Konjunkturelle Arbeitslosigkeit
 Konjunkturelle Arbeitslosigkeit ist dann, wenn es mehr Personen gibt, welche Arbeit suchen, als es offene Stellen gibt (Y in ref:fig:die-beveridge-kurve).
 
-#+LATEX: {
+#+CAPTION: Die Beveridge-Kurve
+#+NAME: fig:die-beveridge-kurve
 [[file:img/beveridge_kurve.png]]
-#+LATEX: \captionof{figure}{Die Beveridge-Kurve}\label{fig:die-beveridge-kurve}
-#+LATEX: }
 
 ** Konjunkturpolitiken
 Es gibt drei Möglichkeiten, um die Konjunktur zu lenken:
@@ -305,10 +303,9 @@ V kann nur berechnet werden, wenn die anderen drei Grössen bekannt sind.
 - Fall 2:
   - $\Delta P > \Delta Q$
 
-#+LATEX: {
-[[file:img/inflationswirkung_expansiver_geldpolitik.png]]
-#+LATEX: \captionof{figure}{Inflationswirkung expansiver Geldpolitik}\label{fig:inflationswirkung-expansiver-geldpolitik}
-#+LATEX: }
+#+CAPTION: Inflationswirkung expansiver Geldpolitik
+#+NAME: fig:inflationswirkung-expansiver-geldpolitik
+[[file:static/img/vwltg/inflationswirkung_expansiver_geldpolitik.png]]
 
 ** Deflation
 Deflation bedeutet ein permanenter Rückgang des Preisniveaus.
@@ -332,30 +329,27 @@ Es gibt zwei Arten, wie eine Volkswirtschaft organisiert werden kann:
   - Produzenten würden auch günstiger verkaufen, aber verkaufen zum Marktpreis
 - Wohlfahrt: Gesamte Rente = K-Rente = P-Rente
 
-#+LATEX: {
+#+CAPTION: Mikroökonomische Grundmodell
+#+NAME: fig:mikroökonomische-grundmodell
 [[file:img/mikrooekonomische_grundmodell.png]]
-#+LATEX: \captionof{figure}{Mikroökonomische Grundmodell}\label{fig:mikroökonomische-grundmodell}
-#+LATEX: }
 
 
 ** Mindestpreis
 Durch das Setzen eines Mindestpreises, entsteht Wohlfahrtsverlust.
 Zusätzlich gibt es mehr Angebot als Nachfrage.
 
-#+LATEX: {
+#+CAPTION: Mindestpreis
+#+NAME: fig:mindestpreis
 [[file:img/mindestpreis.png]]
-#+LATEX: \captionof{figure}{Mindestpreis}\label{fig:mindestpreis}
-#+LATEX: }
 
 ** Höchstpreis
 
 Durch das Setzten eines Höchstpreises entsteht Wohlfahrtsverlust.
 Zusätzlich gibt es mehr Nachfrage als Angebot.
 
-#+LATEX: {
+#+CAPTION: Höchstpreise
+#+NAME: fig:hoechstpreise
 [[file:img/hoechstpreis.png]]
-#+LATEX: \captionof{figure}{Höchstpreise}\label{fig:hoechstpreise}
-#+LATEX: }
 
 ** Preiselastizität
 Je kleiner desto unelastischer.
@@ -384,10 +378,9 @@ Wenn der Preis leicht steigt, gibt eine (sehr) starke Nachfrageeinbussen.
 Wichtig: Die Arbeitnehmer im Abschnitt 2 sind *NICHT* arbeitslos.
 Diese könnten arbeiten, wenn sie den Marktpreis akzeptieren würden.
 
-#+LATEX: {
+#+CAPTION: Arbeitsmarkt als mikroökonomisches Modell
+#+NAME: fig:arbeitsmarkt-als-mikroökonomisches-modell
 [[file:img/arbeitsmarkt_mikroökonomisch.png]]
-#+LATEX: \captionof{figure}{Arbeitsmarkt als mikroökonomisches Modell}\label{fig:arbeitsmarkt-als-mikroökonomisches-modell}
-#+LATEX: }
 
 
 ** Messung Arbeitslosigkeit
@@ -417,10 +410,9 @@ Diese werden dann versucht über Telefonumfrage, etc. zu ermittelt.
 #+end_src
 
 
-#+LATEX: {
+#+CAPTION: Zusammensetzung der Bevölkerung
+#+NAME: fig:zusammensetzung-der-bevölkerung
 [[file:img/arbeitslosigkeit_aufbau_bevoelkerung.png]]
-#+LATEX: \captionof{figure}{Zusammensetzung der Bevölkerung}\label{fig:zusammensetzung-der-bevölkerung}
-#+LATEX: }
 
 ** Sockelarbeitslosigkeit
 #+begin_quote
@@ -508,10 +500,9 @@ Beispiele für Angebote von Schweizer Franken währen:
 - Devisenkäufe der SNB
 
 
-#+LATEX: {
+#+CAPTION: Wechselkurse als mikroökonomisches Modell
+#+NAME: fig:wechselkurse-als-mikroökonomisches-modell
 [[file:img/wechselkurse_mikroökonomisch.png]]
-#+LATEX: \captionof{figure}{Wechselkurse als mikroökonomisches Modell}\label{fig:wechselkurse-als-mikroökonomisches-modell}
-#+LATEX: }
 
 ** Wechselkursarten
 Es gibt zwei Wechselkurse:
@@ -555,10 +546,9 @@ Langfristig passt sich das Preisniveau im Inland an.
 Der reale Wechselkurs bleibt langfristig gesehen gleich.
 
 
-#+LATEX: {
+#+CAPTION: Langfristige Effekte
+#+NAME: fig:langfristige-effekte
 [[file:img/langfritiger_effekt_realer_wechselkurs.png]]
-#+LATEX: \captionof{figure}{Langfristige Effekte}\label{fig:langfristige-effekte}
-#+LATEX: }
 
 * Staatsfinanzen
 ** Staatseinkommen
@@ -574,10 +564,9 @@ Der Staat hat drei Möglichkeiten Einnahmen zu generieren:
    1. Ausweitung der Geldmenge
 
 
-#+LATEX: {
+#+CAPTION: Aufteilung der Steuern
+#+NAME: fig:aufteilung-der-steuern
 [[file:img/staatseinnahmen_schweiz.png]]
-#+LATEX: \captionof{figure}{Aufteilung der Steuern}\label{fig:aufteilung-der-steuern}
-#+LATEX: }
 
 ** Vor- und Nachteile Staatsverschuldung
 Nachteile:
