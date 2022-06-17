@@ -1,0 +1,995 @@
+% Created 2022-06-16 Thu 19:39
+% Intended LaTeX compiler: xelatex
+\documentclass[11pt,twoside,landscape]{article}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{subcaption}
+\usepackage[newfloat]{minted}
+\usepackage{color}
+\usepackage{listings}
+\usepackage[top=2cm,bottom=2cm,right=2cm,left=2cm,landscape]{geometry}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{caption}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\setlist{noitemsep}
+\setlength{\parindent}{0pt}
+\setlength{\columnseprule}{0.2pt}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\lstset{ backgroundcolor=\color{white}, basicstyle=\footnotesize, breaklines=true, captionpos=b, commentstyle=\color{mygreen}, escapeinside={\%*}{*)},keywordstyle=\color{blue}, stringstyle=\color{mymauve},}
+\usepackage{caption}
+\author{Olivier Lischer}
+\date{\today}
+\title{FP Summary}
+\hypersetup{
+ pdfauthor={Olivier Lischer},
+ pdftitle={FP Summary},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 28.1 (Org mode 9.5.4)}, 
+ pdflang={English}}
+\begin{document}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{FP-FS22}
+\fancyhead[L]{Exam Summary}
+\fancyfoot[CE,CO]{\leftmark}
+\fancyfoot[R]{\thepage}
+\fancyfoot[L]{Olivier Lischer}
+\begin{multicols}{3}
+
+
+\section{Chapter 1 - Introduction}
+\label{sec:orgdcbf428}
+\begin{quote}
+[\ldots{}] functional programming can be viewed as a style of programming
+in which the basic method of computation is the application
+of functions to arguments.
+  -- Graham Hutton in Programming in Haskell
+\end{quote}
+
+\section{Chapter 2 - First Steps}
+\label{sec:org1f44ac6}
+\subparagraph{Lazy Evaluation} \
+\label{sec:org3655179}
+Lazy Evaluation is an evaluation strategy which delays the execution of an expression until its value is needed.
+The programming language \href{../../../roam/20210618182407-haskell.org}{Haskell} is one language which use this strategy.
+
+\subparagraph{Haskell Standard Prelude} \
+\label{sec:orgf8d7681}
+The standard prelude is the standard module in \href{../../../roam/20210618182407-haskell.org}{Haskell} which is always included unless you have the extension \texttt{NoImplicitPrelude} enabled.
+In this module are the most common functions, types and monads.
+This module is required to be able to implement any Haskell application.
+
+\subparagraph{Haskell Naming Requirements} \
+\label{sec:org97f3be5}
+Every \href{../../../roam/20210618182407-haskell.org}{Haskell} function has to start with a lower case.
+After that zero or more letters (upper and lowercase), digits, underscore and forward single quotes.
+Additionally, the keywords (\href{../../../roam/20220207164910-haskell_keywords.org}{Haskell Keywords}) can not be used for function names or their arguments.
+
+\subparagraph{Haskell Naming Convetions} \
+\label{sec:orged6f2e9}
+List arguments have in \href{../../../roam/20210618182407-haskell.org}{Haskell} normally the suffix \texttt{s}.
+Therefor, a list of numbers might be names \texttt{ns}.
+A list of arbitrary elements \texttt{xs} and a list of chars \texttt{css}.
+
+\section{Chapter 3 - Types and classes}
+\label{sec:orgdd8c41b}
+\subparagraph{Currying} \
+\label{sec:orgbf10cb7}
+Currying is the process of turning a multidimensional function into a function which takes one argument and returns a function which takes again one argument.
+In \href{../../../roam/20210618182407-haskell.org}{Haskell} and many other Functional Programming languages (\href{../../../roam/20220126170637-what_is_functional_programming.org}{What is functional programming?}) this is a common practice.
+
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+add :: Int -> Int -> Int
+add x y = x + y
+
+
+a = add 3 -- type Int -> Int
+b = a 4   -- type Int (7)
+\end{lstlisting}
+
+\subparagraph{Type Variables} \
+\label{sec:orga53b2e0}
+Type Variables are something like a placeholder for a real type.
+See the type of the \texttt{length} function:
+
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+length :: [a] -> Int
+--         ^
+--         |
+-- type variable
+\end{lstlisting}
+
+The function \texttt{length} can be applied to any list of any type.
+This is indicated with the type variable \texttt{a}.
+A type variable must start with a lower-case letter.
+Typically names are \texttt{a}, \texttt{b} and so on.
+\subparagraph{Polymorphic types} \
+\label{sec:orgda739f5}
+In \href{../../../roam/20210618182407-haskell.org}{Haskell} a type (functions are also types) is called polymorphic when it contains one or more type variables (\href{../../../roam/20220217094938-what_are_type_variables_in_haskell.org}{What are type variables in Haskell?}).
+\subparagraph{Classes} \
+\label{sec:org55ac3c5}
+Classes in Haskell are not quite the same as in OO languages.
+A class is a collection of types that support a certain overloaded operation called \emph{method}.
+Therefore, classes are more similar to Interfaces (\href{../../../roam/20211029131058-interfaces_in_c.org}{Interfaces in C\#}).
+
+\subparagraph{Class Constraints} \
+\label{sec:org588c210}
+Using type variables (\href{../../../roam/20220217094938-what_are_type_variables_in_haskell.org}{What are type variables in Haskell?}) you can create polymorphic types (\href{../../../roam/20220217095201-polymorphic_types_in_haskell.org}{Polymorphic types in Haskell}).
+These type can than applied to any other types.
+However, sometimes you want some restriction for example the \texttt{+} operation should only take numbers.
+This can be achieved using class constraints.
+
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+(+) :: Num a => a -> a -> a
+--        ^
+--        |
+-- class constraint
+\end{lstlisting}
+
+Now the type variable \texttt{a} must be an instance of the class (\href{../../../roam/20220217095852-classes_in_haskell.org}{Classes in Haskell}) \texttt{Num}.
+
+
+
+\subparagraph{Type Overloads} \
+\label{sec:org8a4bf32}
+A type is called overloaded when it constrains one or more class constraints (\href{../../../roam/20220217095938-what_are_class_constraints_in_haskell.org}{What are class constraints in Haskell?}).
+
+\section{Chapter 4 - Defining Functions}
+\label{sec:org0694c70}
+\subparagraph{Guarded Equations} \
+\label{sec:orgca8cc8c}
+In \href{../../../roam/20210618182407-haskell.org}{Haskell} you have multiple ways to choose between a number of possible results.
+The function \texttt{abs} returns the absolute value of a number \texttt{n}.
+You could write the \texttt{abs} function with guarded equations.
+
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+abs n | n >= 0 = n
+      | otherwise = -n
+
+-- in std prelude
+-- otherwise = True
+\end{lstlisting}
+
+Haskell reads from top to bottom.
+The first equation which evaluates to true is taken.
+\texttt{otherwise} is nothing else as \texttt{True}.
+The \texttt{|} symbol is read as \emph{such as}.
+
+
+\subparagraph{Pattern Matching} \
+\label{sec:org81b2e9b}
+Pattern Matching is very useful tool in \href{../../../roam/20210618182407-haskell.org}{Haskell}.
+It can also be used to define functions.
+
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+fst :: (a,b) -> a
+fst (x, _) = x
+
+snd :: (a,b) -> b
+snd (_, y) = y
+\end{lstlisting}
+
+The \texttt{\_} symbol matches everything.
+
+\subparagraph{List and Cons} \
+\label{sec:org9bce8c6}
+Lists are no primitives as \texttt{Int} for example.
+They are constructed from the empty list \texttt{[]} using the \texttt{:} cons operator.
+
+The following resulting always in the same list:
+
+
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+[1,2,3]
+1 : [2,3]
+1 : 2 : [3]
+1 : 2 : 3 : []
+\end{lstlisting}
+
+This can be really useful to define functions:
+
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+head :: [a] -> a
+head (x:_) = x
+
+tail :: [a] -> [a]
+tail (_:xs) = xs
+\end{lstlisting}
+
+In the function definition the \texttt{()} are required.
+Otherwise, it would cause syntax error (it would try to call tail / head with an argument).
+
+\subparagraph{Lambdas} \
+\label{sec:org278f72f}
+In \href{../../../roam/20210618182407-haskell.org}{Haskell} lambdas are defined using the \texttt{\textbackslash{}} symbol (should represent the \(\lambda\) symbol).
+
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+\x -> x + x
+(\x -> x + x) 2
+
+
+add :: Int -> Int -> Int
+add = \x -> \y -> x + y
+
+odds :: Int -> [Int]
+odds n = map (\x -> x*2 + 1) [0..n-1]
+\end{lstlisting}
+
+\subparagraph{Operators} \
+\label{sec:org9384d9c}
+A function which takes two arguments are called \emph{operators} in \href{../../../roam/20210618182407-haskell.org}{Haskell}.
+Mathematical functions are often written like the following:
+
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+8 `div` 2
+\end{lstlisting}
+
+But the typical way is also possible:
+
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+(+) 8 2 -- the parenthese are required
+-- >>> :t (+)
+-- (+) :: Num a => a -> a -> a
+
+(1+) 2 -- valid
+(+2) 1 -- valid
+\end{lstlisting}
+
+\subparagraph{Operator Sections} \
+\label{sec:org388025c}
+Operator Sections are the partial evaluated parts of an operator (\href{../../../roam/20220221074036-what_are_operators_in_haskell.org}{What are operators in Haskell?}).
+The following are examples are operator sections:
+
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+(+)
+(1+)
+(+2)
+
+(op) = \x -> (\y -> x op y)
+(x op) = \y -> x op y
+(op y) = \x -> x op y
+\end{lstlisting}
+
+Operator Sections are required because an operator alone is not a valid expression in \href{../../../roam/20210618182407-haskell.org}{Haskell}.
+Therefore, for functions like \texttt{foldl} operation sections are required:
+
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+sum :: [Int] -> Int
+sum xs = foldl (+) 0 xs
+\end{lstlisting}
+
+\section{Chapter 5 - List comprehensions}
+\label{sec:orgdc9ddde}
+\subparagraph{List comprehension} \
+\label{sec:org35beee9}
+In \href{../../../roam/20200914131723-math.org}{Math} you can create from one set of numbers a new set of numbers:
+\begin{equation}
+\{ x^2 | x \in \{1 \ldots 5 \} \}
+\end{equation}
+
+In Haskell you can do the same:
+
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+[x^2 | x <- [1..5]]
+--   ^    ^     ^ 
+--   |    |---  |-------- Generator
+-- "such as" |
+--          "is drawn from"
+\end{lstlisting}
+
+The list comprehension requireds at least one generator but multiple generators are allowed.
+
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+[(x, y) | x <- [1,2,3], y <- [4,5]]
+[(x, y) | x <- [1..3], y <- [x..3]]
+\end{lstlisting}
+
+\subparagraph{Usage of list comprehensions} \
+\label{sec:org793d3cd}
+When you are creating new lists using list comprehension (\href{../../../roam/20220221080228-what_is_list_comprehension_in_haskell.org}{What is list comprehension in Haskell?}) you dont always want to take all values.
+When creating a list using list comprehension (\href{../../../roam/20220221080228-what_is_list_comprehension_in_haskell.org}{What is list comprehension in Haskell?}) you have sometimes certain criterias which must be true.
+For example you want a list with only even numbers.
+This can be achived using a \emph{guard}.
+Evaluates the guard to \texttt{True} the value is taken.
+Otherwise, the value is discareded.
+
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+[x | x <- [1..10], even x] -- generates a list of even numbers
+--                   ^
+--                   |
+--                 Guard
+\end{lstlisting}
+
+\section{Chapter 6 - Recursive Functions}
+\label{sec:org7b49ee3}
+\subparagraph{Recursion} \
+\label{sec:org2e87530}
+It exists different kind of recursion:
+\begin{itemize}
+\item linear \& tail recursion (\href{../../../roam/20220307065956-what_is_linear_recursion.org}{What is linear recursion?})
+\item multiple recursion (\href{../../../roam/20220307071006-what_is_multiple_recursion.org}{What is multiple recursion?})
+\item mutual recursion (\href{../../../roam/20220307071331-what_is_mutual_recursion.org}{What is mutual recursion?})
+\end{itemize}
+
+
+\subparagraph{Recursive Functions} \
+\label{sec:org4bee947}
+\begin{enumerate}
+\item Define type
+\item Enumerate the cases
+\item Define the simple case
+\begin{itemize}
+\item Often the base case
+\end{itemize}
+\item Define the other cases
+\begin{itemize}
+\item Often the recursive cases
+\end{itemize}
+\item Generalize and simplify
+\end{enumerate}
+
+
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+-- Step 1
+product :: [Int] -> Int
+
+-- Step 2
+product :: [Int] -> Int
+product :: [] =
+product :: (n:ns) =
+
+-- Step 3
+product :: [Int] -> Int
+product :: [] = 1
+product :: (n:ns) = 
+
+-- Step 4
+product :: [Int] -> Int
+product :: [] = 1
+product :: (n:ns) = n * product ns
+
+
+-- Step 5
+product :: Num a => [a] -> a
+product = foldr (*) 1
+\end{lstlisting}
+
+\section{Chapter 7 - Higher-order Functions}
+\label{sec:org1cd6e6b}
+\subparagraph{Higher-Order Functions} \
+\label{sec:org18fbc54}
+A higher-order function is a function which takes another function as an argument and / or returns a function.
+However, returning a function is often only called a curried function (\href{../../../roam/20220217093010-what_is_curring_in_terms_of_math.org}{What is curring in terms of math?}) and
+higher-order means often only taking a function as argument.
+
+
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+isEven :: [Int] -> [Bool]
+isEven xs = map even xs
+
+isEven [1,2,3,4,5,6,7]
+[False,True,False,True,False,True,False]
+\end{lstlisting}
+
+\subparagraph{foldr and foldl} \
+\label{sec:org73137a5}
+\emph{foldr} and \emph{foldl} are the abbreviation for fold right / left.
+Many functions can be defined using the following pattern:
+
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+f [] = v -- some value
+f (x:xs) = x # f xs -- for example x + f xs
+\end{lstlisting}
+
+The function \emph{foldr} can be used to encapsulate this pattern.
+You can think that \emph{foldr} replaces the \texttt{:} with the operation \texttt{\#}.
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+sum :: Num a => [a] -> a
+sum [] = 0
+sum (x:xs) = x + sum xs
+
+
+sum_foldr :: Num a => [a] -> a
+sum_foldr = foldr (+) 0
+
+{-
+sum_foldr [1,2,3] =
+sum_foldr 1 : (2 : (3 : [])) = 
+1 + (2 + (3 + 0)) = 
+6
+-}
+
+sum_foldl :: Num a => [a] -> a
+sum_foldl = foldl (+) 0
+{-
+sum_foldl [1,2,3] =
+sum_foldl 1 : (2 : (3 : [])) = 
+((0 + 1) + 2) + 3 =
+6
+-}
+\end{lstlisting}
+
+
+
+
+\subparagraph{Composition Operator} \
+\label{sec:orgc94e9cc}
+The composition operator takes two function as argument and returns the composition of both.
+Therefore, is \texttt{(f . g) x = f (g x)} true.
+This is very useful to simplify nested function calls.
+
+
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+odd :: Int -> Bool
+odd n = not (even n)
+odd n = not . even n
+
+twice :: (a -> a) -> a -> a
+twice f x = f (f x)
+
+sumsqreven :: [Int] -> [Int]
+sumsqreven xs = sum (map (^2) (filter even xs))
+sumsqreven = sum . map (^2) . filter even
+
+sumsqreven [1,2,3,4,5] -- 20
+\end{lstlisting}
+
+\section{Chapter 8 - Declaring types / classes}
+\label{sec:orgc4a8f81}
+\subparagraph{Create new types} \
+\label{sec:org0d323d8}
+In Haskell, you have multiple ways to create an new type.
+\begin{itemize}
+\item \texttt{type} (\href{../../../roam/20220321113101-the_type_keyword_in_haskell.org}{The type keyword in Haskell})
+\item \texttt{data} (\href{../../../roam/20220321113711-the_data_keyword_in_haskell.org}{The data keyword in Haskell})
+\item \texttt{newtype} (\href{../../../roam/20220321114408-the_newtype_keyword_in_haskell.org}{The newtype keyword in Haskell})
+\end{itemize}
+
+\subparagraph{type} \
+\label{sec:org656a0bf}
+Using the keyword \texttt{type} you create basically an alias for the type.
+
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+type String = [Char]
+\end{lstlisting}
+
+Recursive definition for a new type using \texttt{type} is \textbf{not} allowed:
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+type Tree = (Int, [Tree]) -- Not allowed
+\end{lstlisting}
+
+Typed declared using the \texttt{type} mechanism can not be made into new instances of classes (\href{../../../roam/20220217095852-classes_in_haskell.org}{Classes in Haskell}).
+
+
+\subparagraph{data} \
+\label{sec:orga9de618}
+
+Using the keyword \texttt{data} you create real new types.
+
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+data Bool = False | True
+data Move = North | South | East | West
+\end{lstlisting}
+
+
+The new values (North, South, \ldots{}) must be unique and are called \textbf{constructors}.
+
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+data Shape = Circle Float | Rect Float Float
+
+
+area :: Shape -> Float
+area (Circle r) = pi * r^2
+area (Rect x y) = x * y
+
+
+{-
+:t Circle
+Circle :: Float -> Shape
+:t Rect
+Rect :: Float -> Float -> Shape
+-}
+\end{lstlisting}
+
+The \texttt{Circle} and \texttt{Rect} from the example are called \textbf{constructor functions}.
+
+\subparagraph{newtype} \
+\label{sec:org24387c4}
+Different to the \texttt{type} keyword (\href{../../../roam/20220321113101-the_type_keyword_in_haskell.org}{The type keyword in Haskell}) with \texttt{newtype} you create a real new type.
+
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+newtype Nat = N Int
+
+someFunc :: Nat -> Nat
+someFunc x = x
+\end{lstlisting}
+
+For the function \texttt{someFunc} you can \textbf{not} use an \texttt{Int} (type safety).
+However, at compile time the \texttt{Nat} is replaced with \texttt{Int}.
+Therefore, I have type safety during development without performance impact (\texttt{data Nat = N Int} would be slower).
+
+\subparagraph{class} \
+\label{sec:orgb7e9cc6}
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+class Eq a where
+  (==), (/=) :: a -> a -> Bool
+  x /= y = not (x == y)
+\end{lstlisting}
+
+
+
+\subparagraph{implement class} \
+\label{sec:org955a08d}
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+instance Eq Bool where
+  False == False = True
+  True == True = True
+  _ == _ = False
+
+data T a = Leaf | Node (T a) a (T a)
+
+instance Show a => Show (T a) where
+  show x = show (toList x)
+
+instance Eq a => Eq (T a) where
+  (==) x y = toList x == toList y
+
+instance Ord a => Semigroup (T a) where
+  x <> y = merge x y
+
+instance Ord a => Monoid (T a) where
+  mempty = empty
+\end{lstlisting}
+
+\section{Chapter 10 - Interactive Programming}
+\label{sec:org6229c8f}
+\subparagraph{Interactive Programming} \
+\label{sec:org8eaabfc}
+\href{../../../roam/20210618182407-haskell.org}{Haskell} is a pure functional programming language.
+Therefore, side effects are not allowed and because of this interactive programming should not be possible.
+Haskell overcomes this problem using IO actions (\href{../../../roam/20220508103131-io_actions_in_haskell.org}{IO actions in haskell}).
+
+\subparagraph{IO Action} \
+\label{sec:orgc696f9d}
+\texttt{IO} can be seen as a data type which represents the whole world and is built-in into \href{../../../roam/20210618182407-haskell.org}{Haskell}.
+The most important actions for interactive programming are:
+\begin{itemize}
+\item \texttt{getChar}
+\item \texttt{putChar}
+\item \texttt{return}
+\end{itemize}
+
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+getChar :: IO Char
+putChar :: Char -> IO ()
+return :: a -> IO a
+\end{lstlisting}
+
+\texttt{return} is a very important action which produces from a normal value an action with this value.
+
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+myFunc :: IO a
+myFunc = do v1 <- a1
+	    v2 <- a2
+	    v3 <- a3
+	    vn <- an
+	    return (f v1 v2 v3 vn)
+\end{lstlisting}
+
+\section{Chapter 12 - Monads and more}
+\label{sec:org00c2d90}
+\subparagraph{Functor} \
+\label{sec:org2241332}
+A functor is a class (\href{../../../roam/20220217095852-classes_in_haskell.org}{Classes in Haskell}) which provides the \texttt{fmap} function.
+To be a valid functor the restrictions from listening \ref{lst:functor-laws}.
+
+\begin{quote}
+Functors are types that wrap values of other types
+and allow us to map functions over the wrapped value. -- Fahrad Metha
+\end{quote}
+
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+class Functor f where
+  fmap :: (a -> b) -> f a -> f b
+\end{lstlisting}
+
+\lstset{language=haskell,label=lst:functor-laws,caption={Functor laws},captionpos=b,numbers=none}
+\begin{lstlisting}
+fmap id = id
+fmap (g . h) = fmap g . fmap h
+\end{lstlisting}
+
+\subparagraph{Applicatvie Functors} \
+\label{sec:orgffcd899}
+\texttt{fmap} takes a function which takes only one argument (\href{../../../roam/20220508104313-what_is_a_functor_in_haskell.org}{What is a functor in haskell?}).
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+fmap :: Functor f => (a -> b) -> f a -> f b
+\end{lstlisting}
+
+Sometimes it is required to provide a function with two or more input arguments.
+For this use case the \texttt{Applicative} typeclass (\href{../../../roam/20220217095852-classes_in_haskell.org}{Classes in Haskell}) exists (see \ref{lst:applicative-class}).
+
+\lstset{language=haskell,label=lst:applicative-class,caption={Applicative Class},captionpos=b,numbers=none}
+\begin{lstlisting}
+class Functor f => Applicative f where
+  pure :: a -> f a
+  (<*>) :: f (a -> b) -> f a -> f b
+
+
+g <*> x <*> y <*> z == ((g <*> x) <*> y) <*> z
+pure g <*> x1 <*> x2 <*> xn
+\end{lstlisting}
+
+
+The \texttt{pure} function returns a functor with a value, noramally a function (see \ref{fig:maybe-as-an-applicative-example}).
+The function must be a curried (\href{../../../roam/20220217093010-what_is_curring_in_terms_of_math.org}{What is curring in terms of math?}) one and takes n arguments.
+The \texttt{<*>} operator is now used to perform partial application and is used n times.
+The \texttt{<*>} operator uses \texttt{fmap} to apply the function to the elemens.
+
+\lstset{language=haskell,label=fig:maybe-as-an-applicative-example,caption={Maybe as an Applicative example},captionpos=b,numbers=none}
+\begin{lstlisting}
+instance Applicative Maybe where
+  -- pure :: a -> Maybe a
+  pure = Just
+  -- (<*>) :: Maybe (a -> b) -> Maybe a -> Maybe b
+  --                  |          |
+  --    ---------------          |
+  --    |      -------------------
+  --           |
+  (Just g) <*> mx = fmap g mx
+  Nothing <*> _ = Nothing
+
+
+myVar :: Maybe (Int -> Int)
+myVar = pure (+) 
+pure (+) <*> Just 1 <*> Just 2
+-- Just 3
+\end{lstlisting}
+
+
+\subparagraph{Monad} \
+\label{sec:orgee11172}
+Monad is a typeclass in \href{../../../roam/20210618182407-haskell.org}{Haskell} with the definition in listening \ref{lst:monad-class-definition}.
+
+\lstset{language=haskell,label=lst:monad-class-definition,caption={Monad Class definition},captionpos=b,numbers=none}
+\begin{lstlisting}
+class Applicative m => Monad m where
+  return :: a -> m a
+  (>>=) :: m a -> (a -> m b) -> m b
+
+  return = pure
+\end{lstlisting}
+
+The \texttt{>>=} operator takes a container with a value (\texttt{Just 2}), unwraps the value (\texttt{2}) and feed into the function, which returns again an container.
+
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+myAddOne :: Int -> Maybe Int
+myAddOne x = Just (x+1)
+
+myValue :: Maybe Int
+myValue = Just 2 >>= myAddOne
+\end{lstlisting}
+
+\subparagraph{Monad Example} \
+\label{sec:orgf84c560}
+The \texttt{>>=} operator for \texttt{Maybe} could look like in \ref{lst:the-bind-operator-for-maybe}.
+
+\lstset{language=haskell,label=lst:the-bind-operator-for-maybe,caption={The bind operator for Maybe},captionpos=b,numbers=none}
+\begin{lstlisting}
+-- (>>=) :: Maybe a -> (a -> Maybe b) -> Maybe b
+mx >>= f = case mx of
+	     Nothing -> Nothing
+	     Just x -> f x
+\end{lstlisting}
+
+In \ref{fig:example-of-the-monad-typeclass} the \texttt{eval} function is declared 3 times.
+Every definition does the exact same thing.
+The latter two variants are using the bind operator (>>=) from the Monad type class.
+
+\lstset{language=haskell,label=fig:example-of-the-monad-typeclass,caption={Example of the monad typeclass in action},captionpos=b,numbers=none}
+\begin{lstlisting}
+data Expr = Val Int | Div Expr Expr
+
+eval :: Expr -> Maybe Int
+eval (Val n) = Just n
+eval (Div x y) = case eval x of
+		   Nothing -> Nothing
+		   Just n -> case eval y of
+		     Nothing -> Nothing
+		     Just m -> safediv n m
+
+eval (Div x y) = eval x >>= \n ->
+		 eval y >>= \m ->
+		 safediv n m 
+
+eval (Div x y) = do n <- eval x
+		    m <- eval y
+		    safediv n m
+
+
+safediv :: Int -> Int -> Maybe Int
+safediv _ 0 = Nothing
+safediv n m = Just (n `div` m)
+\end{lstlisting}
+
+\subparagraph{let expression} \
+\label{sec:org5a5a97e}
+The \texttt{let} expression is just syntactical sugar for immediate lambda evaluation.
+\lstset{language=haskell,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+let name =  value in body
+( \name -> body ) value
+\end{lstlisting}
+
+\section{Lambda Calculus}
+\label{sec:orga9ba72c}
+\subparagraph{Lambda Calculus} \
+\label{sec:org4fc2f83}
+The lambda calculus is a programming language and the base for all functional programming languages.
+In the lambda calculus you only have the "\(\lambda\)", ".", "(", and ")" as reserved words.
+Everything else is achieved using function application.
+
+The lambda calculus has only two concepts: Predicates (P) and \$\(\lambda\)\$-terms (M).
+
+\begin{equation}
+  \begin{align}
+    \label{eqn:syntax-of-lc}
+    P &::= M = M \\
+    M &::= x \; | \; \lambda x . \; M \; | \; M M
+  \end{align}
+\end{equation}
+
+\subparagraph{Free / Bound Variables} \
+\label{sec:org89f4dc7}
+In the lambda calculus you can use variables as placeholder.
+It exists two types of variables: bound and free variables.
+Bound variables are bound to a lambda term (y in equation \eqref{eqn:bound-and-free-variables}).
+Bound variables are only valid inside the lambda term.
+They are only placeholders and therefore can be renamed.
+
+The free variables (a, b in \eqref{eqn:bound-and-free-variables}) are globaly valid.
+
+
+\begin{equation}
+  \label{eqn:bound-and-free-variables}
+  (\lambda y. \; y) a \; b
+\end{equation}
+
+
+\subparagraph{Alpha Conversion} \
+\label{sec:org65bae8d}
+The \(\alpha\) conversion is used to rename bound variables (\href{../../../roam/20220616081515-what_are_free_and_bound_variables_in_the_lambda_calculs.org}{What are free and bound variables in the lambda calculus?}).
+This is sometimes required during application because otherwise the free variable may be captured.
+
+\begin{equation}
+  \label{eqn:example-alpha-conversion}
+  \begin{align}
+    &\lambda x. \; x \; z \\
+    &= \lambda a. \; a \; z \quad | \alpha \\
+    &= \lambda b. \; b \; z \quad | \alpha \\
+    & \ne \lambda z. \; z \; z \quad | \alpha
+  \end{align}
+\end{equation}
+
+\subparagraph{Beta Reduction} \
+\label{sec:orgeba6760}
+The \(\beta\) reduction is nothing else than one function application.
+In the equation \eqref{eqn:beta-reduction-example} the "a" is applied to the lambda term.
+Therefore, the "y" is replaced with "a".
+
+\begin{equation}
+  \label{eqn:beta-reduction-example}
+  \begin{align}
+    &\underline{(\lambda y. \; y) \; a} \; b \\
+    &= a \; b
+  \end{align}
+\end{equation}
+
+\subparagraph{Normal Form} \
+\label{sec:org3ee8557}
+A \(\lambda\)-term is then in the normal form if no further reduction (\href{../../../roam/20220616084329-what_is_the_beta_reduction.org}{Beta Reduction}) is possible.
+Equation \eqref{eqn:normal-form-one} and \eqref{eqn:normal-form-two} are evaluated using two different strategies.
+Howerver, both are at the end in the normal form.
+
+Every \(\lambda\)-term has at most one normal form.
+Some \(\lambda\)-terms do not have a normal form (see \eqref{eqn:non-terminating-evaluation}).
+
+\begin{equation}
+  \label{eqn:normal-form-one}
+  \begin{align}
+    &(\lambda x. \; square \; x) \; (\underline{(\lambda y. \' square \; y) 5}) \\
+    &= \underline{(\lambda x. \; square \; x) \; (square \; 5)} \\
+    &= square \; (square \; 5)
+  \end{align}
+\end{equation}
+
+\begin{equation}
+  \label{eqn:normal-form-two}
+  \begin{align}
+    &\underline{(\lambda x. \; square \; x) \; ((\lambda y. \; square \; y) 5)} \\
+    &= \underline{squre \; ((\lambda y. \; square \; y) 5)} \\
+    &= square \; (square \; 5)
+  \end{align}
+\end{equation}
+
+\begin{equation}
+  \label{eqn:non-terminating-evaluation}
+  \begin{align}
+    &\underline{(\lambda x. \; x \; x) \; (\lambda x. \; x \; x)} \\
+    &= \underline{(\lambda x. \; x \; x) \; (\lambda x. \; x \; x)} \\
+    &= \underline{(\lambda x. \; x \; x) \; (\lambda x. \; x \; x)} \\
+    & \vdots
+  \end{align}
+\end{equation}
+
+\subparagraph{Delta Reduction} \
+\label{sec:orgd1a7631}
+The \(\delta\)-reduction replaces the free variable (\href{../../../roam/20220616081515-what_are_free_and_bound_variables_in_the_lambda_calculs.org}{What are free and bound variables in the lambda calculus?}) with its definition.
+
+\begin{equation}
+  \label{}
+  \begin{align}
+    &square = \lambda x. \; * \; x \; x \\
+    &\underline{(\lambda x. \; square \; x) \; 5} \\
+    &= (square \; 5) \quad | \; \beta \\
+    &= (\underline{(\lambda x. \; * \; x \; x) \; 5}) \quad | \; \delta \\
+    &= (* \; 5 \; 5) \quad | \; \beta
+  \end{align}
+\end{equation}
+
+\subparagraph{Evaluation Strategies} \
+\label{sec:org218fbd6}
+
+Evaluation strategies describe in which order redexs (reducible expression, any \(\beta\), \(\delta\) reducible sub-term) are reduced.
+
+
+A few of them are:
+\begin{itemize}
+\item \href{../../../roam/20220616093057-the_leftmost_innermost_evaluation_strategy.org}{leftmost innermost} / applicative order / innermost first
+\item \href{../../../roam/20220616104603-the_leftmost_outermost_evaluation_strategy.org}{leftmost outermost} / normal order / outermost first
+\item \href{../../../roam/20220616110146-the_lazy_evaluation.org}{The lazy evaluation} / call by need
+\end{itemize}
+
+
+\subparagraph{Leftmost innermost} \
+\label{sec:orgd35e7e7}
+Using this evaluation strategy the innermost redex is reduced first.
+In case there is more than one innermost redex, the leftmost innermost redex is reduced first.
+A redex is innermost, if there is no other redex inside it.
+
+Using this strategy the functions arguments are reduced exactly once.
+It is also called \textbf{Call by value}.
+
+\begin{equation}
+  \label{eqn:example-of-leftmost-innermost}
+  \begin{align}
+    &\underline{square} \; (square \; 5) \\
+    &= (\lambda x. \; * \; x \; x) (\underline{square} \; 5) \\
+    &= (\lambda x. \; * \; x \; x) (\underline{(\lambda x. \; * \; x \; x) 5}) \\
+    &= \underline{(\lambda x. \; * \; x \; x) (* \; 5 \; 5)} \\
+    &= (* \; (* \; 5 \; 5) \; (* \; 5 \; 5))
+  \end{align}
+\end{equation}
+
+\subparagraph{Leftmost outermost} \
+\label{sec:org973c27b}
+Using this evaluation strategy the outermost redex is reduced first.
+In case there is more than one outermost redex, the leftmost outermost redex is reduced first.
+A redex is outermost, if there is no other redex outside it.
+
+A functions arguments are reduced as often as they are needed.
+This startegy will always find the normal form if one exits.
+It is also called call by name.
+
+\begin{equation}
+  \label{blub}
+  \begin{align}
+    &\underline{square} \; (square \; 5) \\
+    &= \underline{(\lambda x. \; * \; x \; x) \; (square \; 5)} \\
+    &= (* \; (\underline{square} \; 5) \; (square \; 5)) \\
+    &= (* \; (\underline{(\lambda .x \; * \; x \; x) 5)}) \; (square \; 5)) \\
+    &= (* \; (* \; 5 \; 5) \; (\underline{square} \; 5)) \\
+    &= (* \; (* \; 5 \; 5) \; (\underline{(\lambda .x \; * \; x \; x) \; 5})) \\
+    &= (* \; (* \; 5 \; 5) \; (* \; 5 \; 5))
+  \end{align}
+\end{equation}
+
+\subparagraph{Lazy Evaluation} \
+\label{sec:orgc8658fc}
+The lazy evaluation is a combination of \href{../../../roam/20220616093057-the_leftmost_innermost_evaluation_strategy.org}{leftmost innermost} and \href{../../../roam/20220616104603-the_leftmost_outermost_evaluation_strategy.org}{leftmost outermost}.
+It uses the property from \href{../../../roam/20220616093057-the_leftmost_innermost_evaluation_strategy.org}{leftmost innermost} (exactly once) and from \href{../../../roam/20220616104603-the_leftmost_outermost_evaluation_strategy.org}{leftmost outermost} (when needed, finds normal form).
+
+The lazy evaluation performs the \href{../../../roam/20220616104603-the_leftmost_outermost_evaluation_strategy.org}{leftmost outermost} strategy.
+However, it uses memoization (caching).
+If an expression was already evaluated it will use the same evaluated result again.
+\href{../../../roam/20210618182407-haskell.org}{Haskell} uses this strategy for evaluation.
+
+\section{Property Based Testing}
+\label{sec:org5816406}
+\end{multicols}
+\section{Reasoning}
+\label{sec:org6c47a40}
+\subparagraph{Vollständige Induktion} \
+\label{sec:org3cfccca}
+\begin{enumerate}
+\item Verankerung
+\item Induktionsschritt
+\begin{enumerate}
+\item Induktionsannahme
+\item Induktionsbehauptung
+\item Induktionsbeweis
+\end{enumerate}
+\end{enumerate}
+
+\begin{enumerate}
+\item Beispiel
+\label{sec:orgf227eea}
+Beweise dass folgendes gilt: $$\sum_{k=1}^n (k) = \frac{1}{2} \cdot n (n + 1)$$
+
+\begin{enumerate}
+\item Verankerung (\(n_0 = 1\))
+Linke Seite \(\sum_{k=1}^1 k = 1\), Rechte Seite \(\frac{1}{2} \cdot 1 (1 + 1) = 1\)
+
+\item Induktionsschirtt \(n \Rightarrow n + 1\)
+\begin{enumerate}
+\item Induktionsanhame:
+$$\sum_{k=1}^n (k) = \frac{1}{2} \cdot n (n + 1)$$
+\item Induktionsbehauptung
+$$\sum_{k=1}^{n+1} (k) = \frac{1}{2} \cdot (n+1) (n + 2)$$
+\item Induktionsbeweis
+\begin{enumerate}
+\item $$\sum_{k=1}^{n+1} (k) = \left(\sum_{k=1}^n k\right) + n + 1$$
+\item $$\sum_{k=1}^{n+1} (k) = \frac{1}{2} \cdot n \cdot (n + 1) + n + 1$$
+\item $$\sum_{k=1}^{n+1} (k) = \frac{1}{2} \cdot (n^2 + n + 2n +2) = \frac{1}{2} \cdot (n^2 + 3n + 2)$$
+\item $$\sum_{k=1}^{n+1} (k) = \frac{1}{2} \cdot (n + 1) \cdot (n+2)$$
+\end{enumerate}
+\end{enumerate}
+\end{enumerate}
+\end{enumerate}
+\end{document}
