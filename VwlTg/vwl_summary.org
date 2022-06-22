@@ -439,7 +439,6 @@ Ursprünglich konnten die Ausländer für 9 Monat arbeiten, 3 Monate mussten sie
 Dies wurde angepasst und sie konnten bleiben.
 Währen dem Winter (3 Monate) erhalten sie nun Arbeitslosengeld, weil die Baustellen ja trotzdem geschlossen sind.
 
-
 * Geld
 ** Was ist Geld?
 Ich produziere nicht alle Güter, die ich benötige (Arbeitsteilung).
@@ -457,17 +456,17 @@ Die Zentralbank (z.B. die SNB) erschafft das M0 durch die Offenmarktpolitik ([[i
 M1, M2 und M3 wird von den Geschäftsbanken erschaffen durch Kreditvergaben.
 
 #+begin_src latex
-  \begin{figure}[h]
+  \begin{figure}[H]
     \centering
     \begin{subfigure}{0.4\textwidth}
       \centering
-      \includegraphics[width=3in]{static/img/vwltg/geldschöpfung_overview.png}
+      \includegraphics[width=3in]{img/geldschöpfung_overview.png}
       \caption{Geldschöpfung Überblick \label{fig:geldschöpfung-ueberblick}}
     \end{subfigure}
     \hfill
     \begin{subfigure}{0.4\textwidth}
       \centering
-      \includegraphics[width=3in]{static/img/vwltg/geldmenge_m1_m2_m3.png}
+      \includegraphics[width=3in]{img/geldmenge_m1_m2_m3.png}
       \caption{Geldmenge M1, M2, M3 \label{fig:geldmenge-m1-m2-m3}}
     \end{subfigure}
     \caption{
@@ -476,7 +475,6 @@ M1, M2 und M3 wird von den Geschäftsbanken erschaffen durch Kreditvergaben.
     }
   \end{figure}
 #+end_src
-
 
 ** Offenmarktpolitik
 
@@ -601,6 +599,139 @@ Die Fiskalquote beschreibt den Anteil der Steuereinnahmen am realen BIP ([[id:31
 Durch das Einführen der Schuldenbremse, baut der Schweizer Staat stetig die Schulden ab.
 
 * TODO Internationale Arbeitsteilung
-* TODO Regionale Integrationsräume
+** Prinzip des kompartiven Kostenvorteils
+
+#+begin_quote
+Internationale Arbeitsteilung bringt positive Wohlfahrtseffekte, unabhängig
+davon, ob der Weltmarktpreis eines Gutes höher oder tiefer als der
+entsprechende Heimmarktpreis ist.
+#+end_quote
+
+#+LATEX: {
+[[file:img/komparativen_kostenvorteils.png]]
+#+LATEX: \captionof{figure}{Komparativen Kostenvorteil}\label{fig:komparativen-kostenvorteil}
+#+LATEX: }
+
+** Wohlfahrt
+Die Wohlfahrt entspricht der Summe aus der Konsumentenrente und der Produzentenrente.
+In Figure ref:fig:wohlfahrt-bei-autarkie entspricht das dem blauen Dreieck.
+
+#+LATEX: {
+[[file:img/wohlfahrt_bei_autarkie.png]]
+#+LATEX: \captionof{figure}{Wohlfahrt bei Autarkie}\label{fig:wohlfahrt-bei-autarkie}
+#+LATEX: }
+
+** Wohlfahrtseffekte
+
+Wie die Figure ref:fig:mit-zoelle zeigt, sind Zölle keine gute Idee.
+Sie vermindern die Wohlfahrt.
+#+begin_src latex
+  \begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.4\textwidth}
+      \centering
+      \includegraphics[width=3in]{img/wohlfahrt_hoher_welkmakrspreis.png}
+      \captionof{figure}{Hoher Weltmarktpreis \label{fig:hoher-preis}}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.4\textwidth}
+      \centering
+      \includegraphics[width=3in]{img/wohlfahrt_tiefer_weltmarktpreis.png}
+      \captionof{figure}{Tiefer Weltmarktpreis \label{fig:tiefer-preis}}
+    \end{subfigure}
+    \vfill
+    \begin{subfigure}{0.4\textwidth}
+      \centering
+      \includegraphics[width=3in]{img/wohlfahrt_zoelle.png}
+      \captionof{figure}{
+	Zölle
+	\label{fig:mit-zoelle}
+      }
+    \end{subfigure}
+    \caption{
+      \label{fig:wohlfahrt-effekte}
+      Wohlfahrteffekte
+    }
+  \end{figure}
+#+end_src
+
+** Formen des Protektionsimus
+
+Importzölle haben negative Auswirkungen auf die Wohlfahrt ([[id:677285db-6295-44b5-8105-bcb242b2c591][Die verschiedenen Wohlfahrseffekte]]) und sind daher *nicht* zu empfehlen.
+Es gibt aber alternativen, um den inländischen zu schützen:
+
+- Quoten
+- Technische Handelshemmnisse
+- Subventionen
+- Öffentliche Aufträge (Bevorzugung von Inländer)
+
+** Handelsliberalisierungen
+
+Es werden drei Formen von internationaler Arbeitsteilung unterschieden:
+- Multilaterale Handelsliberalisierung (z.B. WTO)
+- Regionale Handelsliberalisierung (z.B. EU)
+- Bilaterale Handelsliberalisierung (der "Schweizer" Weg)
+
+** Effekte der Regionalen Integration
+Durch regionale Handelsliberalisierungen (z.B. EU) entsteht eine Diskriminierung der Länder, welche nicht in diesem Integrationsraum ist (z.B. die Schweiz).
+Dadurch entstehen zwei Effekte:
+- Handelsschaffung
+- Handelsumlenkung
+
+
+Handelsschaffung heisst, dass zwischen zwei Parteien (A und B) mehr Handel generiert wird.
+Zusätzlich wird der Handel mit Land C umgelenkt zu B.
+Das passiert, weil A und B keine Zölle mehr haben.
+Daher ist für A, B immer günstiger, da C immer noch Zölle hat.
+
+
+#+LATEX: {
+[[file:img/regionale_integrationsraueme.png]]
+#+LATEX: \captionof{figure}{Regionale Integrationsräume}\label{fig:Regionale Integrationsräume}
+#+LATEX: }
+
+* Regionale Integrationsräume
+** Geschite EU
+- EKGS: Europäische Gemeinschaft für Kohle und Stahl
+  - Ziel: dauerhafter Frieden zwischen DE und FR
+- EWG & Euratom:
+  - Ziel EWG: Schaffung eines allgemeinen gemeinsamen Marktes
+  - Ziel Euratom: Schaffung einer Europäischen Atomgemeinschaft
+- EU:
+  - Ziel: politische Union Europas, Staatenverbindung
+- EWU: Europäische Währungsunion
+  - Ziel: Zusammenschluss von EU-Mitgliedstaaten auf dem Gebiet der Geld- und Währungspolitik
+  - Tritt man der EU bei, muss man der EWU auch beitreten, sobald Kriterien erfüllt sind
+- EWR:
+  - Ziel: Binnenmarkt zwischen EU und EFTA
+  - Schweiz nicht im EWR, durch bilaterale aber "quasi-EWR"
+
+#+LATEX: {
+[[file:img/geschichte_eu.png]]
+#+LATEX: \captionof{figure}{Geschichte der EU}\label{fig:geschichte-der-eu}
+#+LATEX: }
+
+** Organe & Struktur der EU
+#+LATEX: {
+[[file:img/organe_und_strukturen_der_eu.png]]
+#+LATEX: \captionof{figure}{Organe und Strukturen der EU}\label{fig:organe-und-strukturen-der-eu}
+#+LATEX: }
+
 * TODO Aussenhandel Schweiz
+** Aufbau Zahlungsbilanz
+#+LATEX: {
+[[file:img/zahlungsbilanz.png]]
+#+LATEX: \captionof{figure}{Aufbau einer Zahlungsbilanz}\label{fig:aufbau-einer-zahlungsbilanz}
+#+LATEX: }
+
+** Intepretation Zahlungsbilanz
+
+Bei einem Leistungsbilanzüberschuss:
+- ist der Güterexport > Güterimport
+- Ausländische Touristen in der Schweiz > Schweizer Touristen im Ausland
+- Wir bieten mehr Leistung an, als wir selber vom Ausland nachfragen
+
+Das bedeutet, dass das Land auf Konsum verzichtet (Gegenwartskonsum < Zukunftskonsum).
+
+Bei einem Leistungsbilanzdefizit ist es genau umgekehrt, wir fragen nach mehr Güter als wir exportieren.
 \end{multicols}
