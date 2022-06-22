@@ -389,7 +389,6 @@ Diese könnten arbeiten, wenn sie den Marktpreis akzeptieren würden.
 #+LATEX: \captionof{figure}{Arbeitsmarkt als mikroökonomisches Modell}\label{fig:arbeitsmarkt-als-mikroökonomisches-modell}
 #+LATEX: }
 
-
 ** Messung Arbeitslosigkeit
 Als Arbeitslos gilt, wer zwischen 15 und 64 Jahren ist, arbeiten möchte, aber keine Arbeit findet.
 Studenten sind daher nicht Arbeitslos, sondern gehören zu der Nichterwerbsbevölkerung.
@@ -475,6 +474,12 @@ M1, M2 und M3 wird von den Geschäftsbanken erschaffen durch Kreditvergaben.
     }
   \end{figure}
 #+end_src
+
+** Bilanz der SNB
+#+LATEX: {
+[[file:img/bilanz_snb.png]]
+#+LATEX: \captionof{figure}{Bilanz der SNB}\label{fig:bilanz-der-snb}
+#+LATEX: }
 
 ** Offenmarktpolitik
 
@@ -725,7 +730,6 @@ Daher ist für A, B immer günstiger, da C immer noch Zölle hat.
 #+LATEX: }
 
 ** Intepretation Zahlungsbilanz
-
 Bei einem Leistungsbilanzüberschuss:
 - ist der Güterexport > Güterimport
 - Ausländische Touristen in der Schweiz > Schweizer Touristen im Ausland
@@ -734,4 +738,13 @@ Bei einem Leistungsbilanzüberschuss:
 Das bedeutet, dass das Land auf Konsum verzichtet (Gegenwartskonsum < Zukunftskonsum).
 
 Bei einem Leistungsbilanzdefizit ist es genau umgekehrt, wir fragen nach mehr Güter als wir exportieren.
+
+* General
+
+#+LATEX: {
+[[file:img/wirtschaftskrisen.png]]
+#+LATEX: \captionof{figure}{Wirtschaftskrisen bis 2011}\label{fig:wirtschaftskrisen}
+#+LATEX: }
+
 \end{multicols}
+
