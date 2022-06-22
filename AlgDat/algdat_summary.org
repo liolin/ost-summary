@@ -15,6 +15,18 @@
 \newpage
 
 
+* Math / Running Time
+** Sum
+
+\begin{equation}
+\sum_{i=1}^n i = \frac{n(n+1)}{2}
+\end{equation}
+
+** Basic Running Time
+
+\begin{equation}
+  T_2 = \frac{T_1 \cdot Formel_2}{Formel_1}
+\end{equation}
 * Data Structures 
 ** Binary Search Tree
 #+begin_quote
