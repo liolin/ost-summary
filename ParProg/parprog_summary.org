@@ -1,0 +1,1040 @@
+#+TITLE: ParProg Summary
+#+AUTHOR: Olivier Lischer
+#+SETUPFILE: ../latex_includes.conf
+#+LATEX_CLASS_OPTIONS: [11pt,twoside,landscape]
+
+#+begin_src latex
+  \pagestyle{fancy}
+  \fancyhf{}
+  \fancyhead[R]{ParProg-FS22}
+  \fancyhead[L]{Exam Summary}
+  \fancyfoot[CE,CO]{\leftmark}
+  \fancyfoot[R]{\thepage}
+  \fancyfoot[L]{Olivier Lischer}
+
+  \tableofcontents
+  \newpage
+#+end_src
+
+#+LATEX: \begin{multicols}{3}
+* Multi-Threading Basics
+** async VS. parallel
+/Attention/: Asynchron (Concurrent) ist not the same as parallel (see ref:fig:async-vs-parallel).
+Concurrent means that one core runs multiple threads.
+One thread makes progress while the other thread waits for IO.
+Parallel means that n cores run n threads at the exactly same time.
+
+#+LATEX: {
+[[file:img/async_vs_concurrent.png]]
+#+LATEX: \captionof{figure}{Async vs Parallel}\label{fig:async-vs-parallel}
+#+LATEX: }
+
+** User-Level Threadings
+User-Level Threads are implemented in a kind of runtime. 
+The runtime itself runs in a process.
+Using this approach no real parallelism is possible, only one process).
+
+** Kernel-Level Threading
+Today you normally work with Kernel-Level Threads.
+The thread mechanism is implemented directly in the kernel.
+The programming language only interacts with the kernel API.
+
+
+#+LATEX: {
+[[file:img/kernel_level_threads.png]]
+#+LATEX: \captionof{figure}{Kernel-Level Threads}\label{fig:kernel-level-threads}
+#+LATEX: }
+
+** Processor Sharing
+In modern system you have more threads than processors.
+That implies that not every thread can work at any time it wants.
+Therefore, the threads must /share/ the processor.
+
+** Multi-Tasking
+The processor has two strategies how the processor sharing should work.
+- cooperative
+- preemptive
+
+The preemptive is the used model on the processor.
+However, the most changes are cooperative because the thread has to wait for other resources (memory, IO, ...). 
+
+** Cooperative Multi-Tasking
+In this model the thread works as long as it wants.
+If the thread want to wait, it must initiate the process by itself.
+A scheduler can not interrupt a running thread!
+
+This model is not very common on modern systems.
+
+** Preemptive Multi-Tasking
+The scheduler uses a /Timer Interrupt/ to interrupt a running thread.
+Each Thread can work for a specific max. interval.
+After that interval is over and the thread is not finished, the thread is interrupted and is added to the /Ready-Queue/.
+
+This is the common model which is today used.
+
+** Thread State
+
+#+LATEX: {
+[[file:img/thread_states.png]]
+#+LATEX: \captionof{figure}{Thread States}\label{fig:thread-states}
+#+LATEX: }
+
+** JVM Thread Model
+The JVM is a single process system and has many threads (main, daemon threads, ...).
+
+#+LATEX: {
+[[file:img/jvm_thread_model.drawio.png]]
+#+LATEX: \captionof{figure}{The JVM Thread Model}\label{fig:the-jvm-thread-model}
+#+LATEX: }
+
+** JVM Termination
+The JVM runs as long as at least one non-daemon thread is running.
+If the last non-daemon thread is terminated then the JVM is shutdown and all daemon threads are killed uncontrolled.
+Therefore, it is not possible to implement something like goodbye message when the thread terminates.
+
+If inside a thread an uncaught exception occurs the other threads are *not* terminated and keep working.
+
+** InterruptedException Java
+In Java =join= and =sleep= can throw (theoretically) a checked =InterruptedException=.
+This exception is never thrown except you call =myThread.interrupt()=.
+Therefore, this exception should only be used if you implement a cooperative canceling.
+Otherwise, =xx.interrupt()= and the exception are indices for a code smell.
+
+* Monitor Synchronization
+** synchroniyed keyword
+In [[id:d4e5f169-81a7-4ce9-a0ff-e85399b1294a][Java]] every object has a lock called Monitor-Lock.
+At the beginning of a =synchronized= block you acquire the lock as long the lock is free.
+If the lock is already acquired then you have to wait.
+After the =synchronized= block the lock is release (in *every* case)
+
+#+begin_src java
+  public class Test {
+      synchronized void do_something() {
+	  /* do stuff */
+      }
+
+      static synchronized void do_other_stuff() { }
+
+  }
+
+  public class Test2 {
+      static void do_other_stuff() {
+	  synchronized(Test2.class) {}
+      }
+
+      void do_something() {
+	  synchronized(this) {}
+      }
+  }
+#+end_src
+
+** Monitor lock
+The monitor is a synchronisation mechanism which use the /Wait & Signal/ mechanism.
+
+1. Fight for lock
+   - winner: enters the monitor (acquire the lock)
+   - others: wait for entrance
+2. Thread in monitor does work
+   - if done: leaves monitor and wakes up other threads (=signal= / =signalAll()=)
+   - condition not satisfied: leaves monitor and goes to the right and wake up other threads (Wait on signal)
+3. Go to 1.
+
+
+#+LATEX: {
+[[file:img/monitor.png]]
+#+LATEX: \captionof{figure}{A monitor}\label{fig:monitor}
+#+LATEX: }
+
+** Wait Function in Loop
+The function =wait()= must be always called inside a loop.
+In a simple if condition the following could happen:
+
+1. thread 1: acquire lock, but condition is not fulfilled -> wait()
+2. thread 2: acquire lock, change something, but thread 1 condition not fulfilled
+3. thread 1: acquire lock again, make progress even the condition is not fulfilled
+
+** notify vs notifyAll
+A single notify can only be used when:
+1. every thread has the same condition
+2. only one *single* thread can make progress (One-In/One-Out)
+
+** Thread Wake Up
+A thread can be woken up by
+1. notifyAll(), notify()
+2. InterruptedException
+3. Spurious Wake up (falsely wake up POSIX Thread API)
+
+** Implement Monitor Lock
+   
+#+begin_src java
+  class BankAccount {
+      private int balance = 0;
+
+      public synchronized void deposit(int amount) {
+	  notifyAll();
+	  balance += amount;
+      }
+
+      public synchronized boolean withdraw(int amount) throws InterruptedException {
+	  int timeout = 0;
+	  while(amount > balance) {
+	      if (timeout >= 3) {
+		  return false;
+	      }
+	      wait();
+	  }
+
+	  balance -= amount;
+	  return true;
+      }
+
+      public synchronized int getBalance() {
+	  return balance;
+      }
+  }
+
+#+end_src
+* Specific Synchronization Mechanism
+** Semaphore
+A semaphore is a synchronisation mechanism.
+A semaphore is basically a counter which can not count down below 0.
+
+- =acquire()=:
+  - acquire resource from semaphore
+  - wait, as long the counter is <= 0
+  - otherwise, decrease counter
+- =release()=:
+  - release ressource
+  - increment counter
+
+** Lock and Condition
+In lock & condition you have a monitor, but instead of one queue you have a queue for each condition.
+This has the benefit that not always all threads must be woken up.
+Only the threads where the condition may be now fulfilled.
+
+#+LATEX: {
+[[file:img/lock_and_conditions.png]]
+#+LATEX: \captionof{Lock & Condition}\label{fig:lock-and-conditions}
+#+LATEX: }
+
+** Lock and Condition Example
+#+begin_src java
+  import java.util.concurrent.locks.Condition;
+  import java.util.concurrent.locks.Lock;
+  import java.util.concurrent.locks.ReentrantLock;
+
+  public class WarehouseWithLockCondition {
+      private Lock lock;
+      private Condition nonEmpty;
+      private Condition nonFull;
+
+      public WarehouseWithLockCondition(int capacity, boolean fair) {
+	  this.capacity = capacity;
+	  store = 0;
+	  lock = new ReentrantLock(fair);
+	  nonEmpty = lock.newCondition();
+	  nonFull = lock.newCondition();
+      }
+
+      @Override
+      public void put(int amount) throws InterruptedException {
+	  lock.lock();
+	  try {
+	      while (store + amount > capacity) {
+		  nonFull.await();
+	      }
+	      store += amount;
+	      nonEmpty.signalAll();
+	  } finally {
+	      lock.unlock();
+	  }
+      }
+
+      @Override
+      public void get(int amount) throws InterruptedException {
+	  lock.lock();
+	  try{
+	      while (store - amount < 0) { nonEmpty.await(); }
+	      store -= amount;
+	      nonFull.signalAll();
+	  }
+	  finally {
+	      lock.unlock();
+	  }
+      }
+  }
+#+end_src
+
+** Read-Write Locks
+Mutual exclusion is too strong when only reading happens.
+Mutual exclusion is only required when minimal one thread wants to write.
+
+| Parallel | Read | Write |
+| Read     | Yes  | No    |
+| Write    | No   | No    |
+
+
+#+begin_src java
+  var rwLock = new ReentrantReadWriteLock(true);
+  rwLock.readLock().lock();
+  // read-only accesses
+  rwLock.readLock().unlock();
+  rwLock.writeLock().lock();
+  // write (and read) accesses
+  rwLock.writeLock().unlock();
+#+end_src
+** Problems With Read-Write Locks
+The benefit of read-write locks is that you not have always mutual exclusion.
+But you can use the read lock only then, when *NO* write access happens on a shared object.
+But in common languages like [[id:d4e5f169-81a7-4ce9-a0ff-e85399b1294a][Java]] it is not possible to encode the read only property into the API.
+However, [[id:578e2997-4791-4315-b980-33ad95df881c][Rust]] encodes the mutability of a function directly into the function arguments.
+** Count-Down Latch
+The count down latch is synchronisation mechanism.
+It's a counter which counts down to zero.
+
+Using =await()= you wait until the counter is 0.
+Using =countDown()= you decrement the counter.
+
+#+begin_src java
+  CountDownLatch waitForAll = new CountDownLatch(this.CARS);
+  protected void waitForAllToBeReady() throws InterruptedException {
+      waitForAll.await();
+  }
+
+  @Override
+  public void readyToStart() {
+      waitForAll.countDown();
+  }
+#+end_src
+** Cyclic Barrier
+A cyclic barrier is a synchronisation mechanism.
+The cyclic barrier is a meeting point for a fixed number of threads.
+You wait with the function =await()=.
+In contrast to the count down latch a cyclic barrier can be reused.
+
+#+begin_src java
+  var gameRound = new CyclicBarrier(5);
+
+  /* 5 different players / threads */
+  while (true) {
+      gameRound.await();
+  }
+#+end_src
+
+
+#+LATEX: {
+[[file:img/cyclic_barrier.png]]
+#+LATEX: \captionof{figure}{Cyclic Barrier}\label{fig:cyclic-barrier}
+#+LATEX: }
+** Rendez-Vous
+A rendez-vous is a special type of cyclic barrier with only 2 participants.
+Often you want to exchange data between those two threads.
+For this an =Exchanger= is used.
+
+
+- Without exchange: =new CyclicBarrier(2);=
+- With exchange: =Exchanger.exchange(something)=;
+
+
+#+LATEX: {
+[[file:img/exchanger.png]]
+#+LATEX: \captionof{figure}{Exchanger Workflow}\label{fig:exchanger-workflow}
+#+LATEX: }
+
+* Threats of Concurrency
+** Race Conditions
+A race condition occurs then when multiple threads try to access the same resource without proper synchronization.
+This could result in wrong results or wrong behaviour.
+Often the reason is a data race.
+However, not always.
+
+** Deadlock
+A deadlock is when two or more threads waits on each other.
+This happens when thread 1 locks resource /a/ and then resource /b/ and thread 2 first resource /b/ and then resource /a/.
+
+#+begin_src java
+  /* Thread 1 */
+  synchronized(listA) {
+      synchronized(listB) {
+	  listB.addAll(listA);
+      }
+  }
+
+  /* Thread 2 */
+  synchronized(listB) {
+      synchronized(listA) {
+	  listA.addAll(listB);
+      }
+  }
+
+#+end_src
+
+#+LATEX: {
+[[file:img/deadlock_graph.png]]
+#+LATEX: \captionof{figure}{Deadlock detecion using resource graph}\label{fig:deadlock-detecion-using-resource-graph}
+#+LATEX: }
+
+** Starvation
+When a thread never can acquire the lock for a resource, even when the lock is release from time to time, we call this /starvation/.
+Therefore, it is *not* a deadlock but a fairness problem.
+
+** Data Race
+When unsynchronized access happens (Race Condition) on the same memory location we call this a data race.
+For example, when a thread reads from a variable and another thread writes to the same variable.
+A read-read access is *not* data race (it is also not dangerous).
+
+
+#+begin_src java
+  /* Thread 1*/
+  balance += 100;
+
+  /* Thread 2*/
+  balance += 50;
+#+end_src
+** Race Condtion withoput data race
+In the following code example we see, that no data race is possible.
+However, a race condition is still possible.
+The read and the subsequent write are not atomic.
+The thread can be interrupted between the read and write action.
+And the action from another thread gets lost (Lost Update).
+
+#+begin_src java
+  class BankAccount {
+      int balance = 0;
+      synchronized int getBalance() { return balance; }
+      synchronized void setBalance(int x) { balance = x; }
+  }
+
+  /* On multiple threads */
+  account.setBalance(account.getBalance() + 100);
+#+end_src
+** No synchronization needed
+Synchronization is not required when:
+- the object is immutable (read only access)
+- with confinement
+
+** Confinement
+Under confinement, we understand a structure that guaranties that only one thread can access an object at time.
+- /Thread Confinement/: an object belongs to a single thread and is used only be this thread
+- /Object Confinement/: an object is encapsulated in an already synchronized object
+
+
+#+begin_src java
+  class ProductDatabase {
+      private HashMap<String, Product> productMap = new HashMap<>();
+
+      public synchronized void addProduct(String name, String details) {
+	  productMap.put(name, new Product(details));
+      }
+
+      public synchronized getProductDetails(String name) {
+	  return productmap.get(name).getDetails(); // save, because String is immutable
+      }
+
+      public synchronized void notifySale(String name) {
+	  productMap.get(name).increaseSales();
+      }
+  }
+#+end_src
+
+
+#+LATEX: {
+[[file:img/object_confinement.png]]
+#+LATEX: \captionof{figure}{Example of object confinement}\label{fig:example-of-object-confinement}
+#+LATEX: }
+
+** Livelock
+A live lock is a special case of a deadlock.
+While in a deadlock all relevant threads are sleeping in a live lock the threads are doing some waiting instruction.
+During these waiting instructions the CPU is working (busy wait).
+** Avoiding deadlocks
+To avoid deadlocks you have two possibilities:
+- with a linear lock order
+- coarse-grained locking (when linear lock order is not possible)
+
+
+#+LATEX: {
+[[file:img/linear_lock_order.png]]
+#+LATEX: \captionof{figure}{Linear Lock Order}\label{fig:linear-lock-order}
+#+LATEX: }
+
+#+LATEX: {
+[[file:img/coarse_grained_locking.png]]
+#+LATEX: \captionof{figure}{Coarse Grained Lock}\label{fig:coarse-grained-lock}
+#+LATEX: }
+* Thread Pools
+** Thead Pool
+A thread pool consists of a task queue and n worker threads.
+A new task is inserted in the queue.
+The new free thread from the thread pool takes the first task from the queue and process it.
+
+#+LATEX: {
+[[file:img/thread_pool.png]]
+#+LATEX: \captionof{Thread Pool}\label{fig:thread-pool}
+#+LATEX: }
+
+** Number of Threads in Thread Pool
+A thread pool has as much threads as processors (cores) and little bit more.
+A little bit more than the number of processors is ideally because when one thread has to wait for I/O another thread can use the processor:
+
+#+begin_src latex
+  \begin{equation}
+    \begin{align}
+      & \text{\#Worker Threads} = \\
+      & \text{\#Prozessoren} + \text{\#Pendente I/O-Aufrufe}
+    \end{align}
+  \end{equation}
+#+end_src
+
+** Thread Pool Java
+Today in modern Java you should only use the =ForkJoinPool=.
+If an exception occures then the exception is returnted to the caller of =get()=.
+
+#+begin_src java
+  var threadPool = new ForkJoinPool();
+  // submit is non-blocking
+  Future<Integer> future = threadPool.submit(() -> {
+	  int value = 1;
+	  // long calculation
+	  return value;
+      });
+
+  // get blocks / same as await in Rust
+  Integer i = future.get();
+#+end_src
+** Task Parallelism .NET
+In [[id:95b391d4-12b4-4143-89c8-6bdde15489f1][.NET]] you have one thread pool for:
+- task parallelization
+- data parallelization
+- async programming
+
+#+begin_src csharp
+  Task task1 = Task.Run(() => { /* Do some stuff */ });
+  task1.Wait(); // blocking
+
+  // Task with return value
+  Task task2 = Task.Run(() => { return 3;});
+  Console.Write(task.Result); // blocking
+
+  // Task with Sub Tasks
+  Task.Run(() => {
+      var left = Task.Run(() => Count(leftPart));
+      var right = Task.Run(() => Count(rightPart));
+      int result = left.Result + right.Result;
+      return result;
+  });
+
+  // Parallele Statements
+  Parallel.Invoke(
+      () => MergeSort(l, m),
+      () => MergeSort(m, r)
+  );
+
+  // Parallel Loop
+  Parallel.ForEach(list, file => Convert(file));
+
+  // Parallel For - only if iterations are indepentend
+  Parallel.For(0, array.Length, i => DoComputation(array[i]));
+
+  // PLINQ
+  from book in bookCollection.AsParallel()
+      where book.Title.Contains("Concurrency")
+      select book.ISBN;
+
+  from number in inputList.AsParallel().AsOrdered()
+      select IsPrime(number);
+#+end_src
+** Parallel Loop .NET
+Often a loop has just a very short body.
+It is inefficient to execute every iteration in its own task.
+Therefore, the TPL groups automatically multiple bodies to a single task.
+
+#+LATEX: {
+[[file:img/partitioning_in_loop_tpl.png]]
+#+LATEX: \captionof{figure}{Partitioning in Parallel Loops}\label{fig:partitioning-in-parallel-loops}
+#+LATEX: {
+** Work Stealing Pool
+Each Worker Thread has also its own task queue.
+A worker thread takes some task from the global queue and move it to the local queue.
+If the another worker thread wants to work but the global queue is empty, it steals it from other worker threads.
+
+
+#+LATEX: {
+[[file:img/work_stealing_thread_pool.png]]
+#+LATEX: \captionof{figure}{Work Stealing Thread Pool}\label{fig:work-stealing-thread-pool}
+#+LATEX: }
+** Thread Injection
+When I injection new Threads in the thread pool during runtime is called /Thread Injection/.
+This can mitigate possible deadlocks when two task are not indepentend (only if not max threads is set).
+
+** TODO Some Stuff
+* Async Programming
+** Types of asynchrony
+You differ between two types of asynchrony:
+- caller centric (pull)
+  - The caller waits for task end and pulls the result
+- callee centric (push)
+  - task forwards the result to the successor task
+
+** Continuation in C#
+
+#+begin_src csharp
+  Task.Run(task1).
+      ContinueWith(task2).
+      COntinueWith(task3);
+#+end_src
+
+#+LATEX: {
+[[file:img/task_continuations.png]]
+#+LATEX: \captionof{figure}{Task Continuations}\label{fig:task-continuations}
+#+LATEX: }
+
+
+#+begin_src csharp
+  Task.WhenAll(task1, task2).
+      ContinueWith(continuation);
+
+  Task.WhenAny(task1, task2).
+      ContinueWith(continuation);
+#+end_src
+
+#+LATEX: {
+[[file:img/task_multi_continuation.png]]
+#+LATEX: \captionof{figure}{Multi Continuation}\label{fig:multi-continuation}
+#+LATEX: }
+
+** Exception Handling Continuation
+Exception in a Fire & Forget Tasks are ignored.
+
+#+begin_src csharp
+  Task.Run(() => {
+      throw new Exception("Some text"); // This exception is ignored by the system
+  });
+#+end_src
+
+To handle exceptions you could wait synchrony for finishing the task continuations (listening ref:lst:synchron-wait-for-finishing-task-continuation).
+Another option would be to subscribe for the =UnobservedTaskException=.
+However, this event is only triggered when the task is clean upped by the [[id:c79b363f-ff8a-458a-9f8e-3b18dfd72a57][Garbage Collection]].
+This can be at every point in time or even never (not deterministic).
+
+#+CAPTION: Synchron Wait for finishing task continuation
+#+NAME: lst:synchron-wait-for-finishing-task-continuation
+#+begin_src csharp
+  task1.
+      ContinueWith(task2).
+      ContinueWith(task3).
+      Wait();
+#+end_src
+** CompletableFuture Java
+=CompletableFuture= is how you write async programs in modern [[id:d4e5f169-81a7-4ce9-a0ff-e85399b1294a][Java]] and is the Java part of =Task= from C#.
+
+The =CopletableFuture= has the methods listed in ref:tbl:methods-for-async-programming. 
+
+#+CAPTION: Methods for async programming
+#+NAME: tbl:methods-for-async-programming
+|              | void operation | with return value |
+|--------------+----------------+-------------------|
+| Async Call   | =runAsync=     | =supplyAsync=     |
+| Continuation | =thenAccept=   | =thenApply=       |
+
+For Multi Continuation you have the following methods:
+- =CompletableFuture.allOf(future1, future2)=
+- =CompletableFuture.any(future1, future2)=
+
+
+Other than .NET you can perform proper exception handling in continuations with =exceptionally()=.
+
+** Update UI .NET
+In [[id:4155cb18-18b1-40c3-9b4e-c0471e52bcd2][WPF]] only the UI Thread is allowed to update the UI.
+Using a Dispatcher you can run an operation on the UI Thread from the background.
+In a WPF Project you can access the dispatcher:
+- Code Behind: =this.Dispatcher=
+- Other classes: =Application.Current.Dispather=
+** Aysnc in .NET
+A async function in [[id:95b391d4-12b4-4143-89c8-6bdde15489f1][.NET]] can only have the following return types:
+  - =Task=
+  - =Task<T>=
+  - =void= (fire and forget, should only be used in exceptional cases)
+
+
+#+LATEX: {
+[[file:img/async_await_execution_modell.png]]
+#+LATEX: \captionof{figure}{Async / Await Execution Modell}\label{fig:async-await-execution-modell}
+#+LATEX: }
+
+** async / await execution model .NET
+The compiler splits the async function in multiple parts:
+1. section before await: this section is executed synchrony
+2. section after await: This is executed *after* the task is finished as a continuation.
+
+
+#+LATEX: {
+[[file:img/async_method_call.png]]
+#+LATEX: \captionof{figure}{Async Method Call}\label{fig:async-method-call}
+#+LATEX: }
+
+#+begin_src latex
+  \begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.4\textwidth}
+      \includegraphics[width=3in]{img/non_ui_thread.png}
+      \caption{Non-UI Thread Execution \label{fig:non-ui-thread-execution}}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.4\textwidth}
+      \includegraphics[width=3in]{img/ui_thread.png} 
+      \caption{UI Thread Execution \label{fig:ui-thread-execution}}
+    \end{subfigure}
+    \caption{
+      \label{fig:thread-execution}
+      Thread Execution
+    }
+  \end{figure}
+#+end_src
+  
+* Memory Model
+** Lock Free Programming
+Lock Free Programming is a type of programming where you write concurrent programs without any lock mechanism.
+In lock free programming you use the guaranties of the memory model.
+The goal of lock free programming is to create efficient synchronization.
+
+** Weak Consistency
+The memory access to the same memory address is seen differently by different threads.
+The possible output for j and i in ref:fig:example-for-weak-consitency-example are:
+- i = 0, j = 0
+- i = 1, j = 1
+- i = 0, j = 1
+- i = 1, j = 0
+
+
+#+LATEX: {
+[[file:img/weak_consistency_example.png]]
+#+LATEX: \captionof{figure}{Example for Weak Consitency Example}\label{fig:example-for-weak-consitency-example}
+#+LATEX: }
+
+The reason for this is that the compiler, runtime systems, CPUs, etc. can reorder instructions for optimization purpose.
+*Expect*, you use synchronization or memory barriers.
+This is called *weak consistency*.
+
+** Atomicity Guaranty Java
+Single reads / writes are atomic for:
+- primitive data types until 32 bits
+- object references
+- long and double only with the =volatile= keyword
+
+** Visibility Guaranty Java
+
+Java guaranties the following visibility:
+- changes before release are visible at acquire (ref:fig:visibility-lock-unlock)
+- changes until write are visible at read (ref:fig:visibility-volatile-write-read)
+- the thread sees the correct start values and Join the output of the thread
+- initialization of final variables (only relevant if you get the object from a data race!)
+
+
+#+LATEX: {
+[[file:img/visibility_lock_unlock.png]]
+#+LATEX: \captionof{figure}{Visibility Lock / Unlock}\label{fig:visibility-lock-unlock}
+#+LATEX: }
+
+#+LATEX: {
+[[file:img/visibility_volatile_write_read.png]]
+#+LATEX: \captionof{figure}{Visibility Volatile Write / Read}\label{fig:visibility-volatile-write-read}
+#+LATEX: }
+
+
+#+LATEX: {
+[[file:img/visibility_problems.png]]
+#+LATEX: \captionof{figure}{Visibility Problems}\label{fig:visibility-problems}
+#+LATEX: }
+** Ordering Guaranty Java
+The order of the visibility is the same as in visibility.
+Additional:
+- synchronization instructions are never reordered to each other
+- Lock/Unlock, volatile, thread start / join are never reordered
+- if everything is a synchronization mechanism than we talk about total order
+
+
+#+LATEX: {
+[[file:img/total_order.png]]
+#+LATEX: \captionof{figure}{Total Order Rendez-Vous}\label{fig:total-order-rendez-vous}
+#+LATEX: }
+** Atomic Actions Java
+Java has for each type an Atomic class.
+This class provides many functions which are atomic.
+- =getAndSet()=
+- =compareAndSet()=
+- =set()=
+- ...
+
+** Optimistic Synchronization Java
+In optimistic synchronization you perform the operation on a snapshot.
+If the snapshot is still the same value after the (long) operation you can update it.
+Otherwise, you have to do the same steps again until the fetch value is equal.
+
+#+begin_src java
+  do {
+      oldValue = var.get();
+      newValue = caculateChanges(oldValue);
+  } while(!var.compareAndSet(oldValue, newValue));
+
+
+  // possible implementation for updateAndGet on the AtomicXXX
+  void updateAndGet(lambda calculateChanges) {
+      do {
+	  oldValue = this.get();
+	  newValue = calculateChanges(oldValue);
+      } while (!var.compareAndSet(oldValue, newValue));
+  }
+#+end_src
+
+** .NET Memory Model
+In general the .NET Memory Model is the same as in Java with a few exepctions:
+- atomicity: long / double are not atomic, event with volatile
+- visibility: not defined, implicit defined by ordering
+- ordering: only half and full fences
+
+
+The .NET version of the Atomic classes in [[id:d4e5f169-81a7-4ce9-a0ff-e85399b1294a][Java]] is the =Interlocked= class.
+
+
+#+CAPTION: .NET Full Fence
+#+NAME: fig:net-full-fence
+#+begin_src csharp
+  Thread.MemoryBarrier();
+#+end_src
+
+
+#+LATEX: {
+[[file:img/rendez_vous_in_net.png]]
+#+LATEX: \captionof{figure}{Rendez-Vous in .NET}\label{fig:rendez-vous-in-net}
+#+LATEX: }
+** Volatile Half Fences .NET
+The =volatile= keyword in .NET is only a Half Fence.
+That means
+- volatile writes: previous access stay before
+- volatile reads: following access remain after
+
+#+LATEX: {
+[[file:img/net_volatile_half_fences.png]]
+#+LATEX: \captionof{figure}{.NET Volatile Half Fences}\label{fig:net-volatile-half-fences}
+#+LATEX: }
+* GPU Parallelization:
+** Lacency vs throughput
+- latency :: how long does it take to execute a single instruction / operation
+- throughput :: number of instructions / operations completed per second
+
+High throughput: lots of pizzas per hour
+** compute & memory bound
+The performance of a function is defined by memory bandwidth, compute bandwidth and latency.
+Total time for a function is ~memory access + compute time~.
+If the compute time takes longer we say the function is /compute bound/.
+If the memory time takes longer we say the function is /memory bound/.
+
+** When to use the GPU
+The GPU is good if you can run the same instruction on multiple data at the same time.
+Therefore, GPU parallelism is only then a good idea when the function / code is compute bound.
+If the problems is the memory access then it is not a good idea to use the GPU.
+
+** Arithmetic Intensity
+The arithmetic intensity describes the ration between computing and memory access.
+The higher, the better: efficient utilization of modern parallel processors.
+
+#+begin_src latex
+  \begin{equation}
+    \begin{align}
+      &t_c > t_m \\
+      &\frac{ops}{BW_c} > \frac{bytes}{BW_m} \\
+      &\frac{ops}{bytes} > \frac{BW_C}{BW_m} \\
+      &\text{Arithmetic intensity} = \frac{BW_c}{BW_m}
+    \end{align}
+  \end{equation}
+#+end_src
+
+If your arithmetic intensity is low, then you may not want to use the GPU.
+Instead, you want to optimize the memory access.
+
+** Roof line model
+
+The roof line model describes visually where your applications has performance issues.
+
+In point O_1 we can not fully use the GPU because the memory is too slow.
+However, in O_2 the CPU is can not calculate faster and in this point it is a good idea to use [[id:59dd6d97-e61d-43cc-8137-3b52a61e497b][GPU]]. 
+
+
+#+LATEX: {
+[[file:img/roof_line_model.png]]
+#+LATEX: \captionof{figure}{Roof line model}\label{fig:roof-line-model}
+#+LATEX: }
+
+** GPU Structure
+The big difference between the CPU and the [[id:59dd6d97-e61d-43cc-8137-3b52a61e497b][GPU]] are the numbers of transistors for computing.
+The GPU has a lot more, but they are that good as the CPU ones.
+
+A GPU consists of many *Streaming Multiprocessors (SM)*.
+And each SM consist of many *Streaming Processors (SP)* (Cores).
+
+
+#+LATEX: {
+[[file:img/gpu_structure.png]]
+#+LATEX: \captionof{GPU structure}\label{fig:gpu-structure}
+#+LATEX: }
+
+** SIMD
+Single Instruction Multiple Data (SIMD) is performed on a Streaming Multiprocessor.
+Each core performs the exact same instructions but with different data.
+
+#+LATEX: {
+[[file:img/simd_vector_parallelism.png]]
+#+LATEX: \captionof{figure}{SIMD Vector parallelism}\label{fig:simd-vector-parallelism}
+#+LATEX: }
+
+** NUMA
+The NUMA model (Non-Uniform Memory Access) describes a model where two processors (CPU or GPU) do *NOT* share the memory.
+Therefore, one processor has to copy the data into other memory and back from there.
+The access time to the local memory (on-device) is much faster than the access to the remote one.
+
+#+LATEX: {
+[[file:img/numa_model_cpu.png]]
+#+LATEX: \captionof{figure}{The NUMA model}\label{fig:the-numa-model}
+#+LATEX: }
+
+** Thermilogy
+
+| CUDA         | OpenCL       | Desc                                                |
+|--------------+--------------+-----------------------------------------------------|
+| Kernel       | Kernel       | Function to run on GPU                              |
+| Host Program | Host Program | Application which calls the kernel on the GPU       |
+| Thread       | Work Item    | A single thread which runs on the GPU               |
+| Block        | Work Group   | A collection of threads running simultaneously (SM) |
+| Grid         | NDRange      | A collection of blocks                              |
+
+
+#+LATEX: {
+[[file:img/cuda_to_gpu_analogy.png]]
+#+LATEX: \captionof{figure}{CUDA concepts on the GPU}\label{fig:cuda-concepts-on-the-gpu}
+#+LATEX: }
+
+** Thread Hierarchy
+A Kernel is executed in a single thread.
+The single thread is executed simultaneously to other threads in a block.
+Many blocks are executed at the same time on a grid.
+
+Internally, the threads are grouped into warps.
+Theses, are executed in a block.
+
+Important: Each block can only execute a specific number of threads.
+And a grid can only execute a specific number of blocks.
+
+
+#+LATEX: {
+[[file:img/thread_hierarchy.png]]
+#+LATEX: \captionof{figure}{Thread Hierarchy on GPU}\label{fig:thread-hierarchy-on-gpu}
+#+LATEX: }
+
+* Performance Optimizations
+** Compilation Workflow
+The same applies to OpenCL (probably).
+
+In CUDA you separate the device code from the host code.
+The device code is compiled into an assembly form (PTX code).
+The host codes loads and launches the compiled kernel (PTX code).
+The PTX code can be loaded by an application at runtime and is then *just-in-time compiled*.
+This has the benefits that you can benefit from the improvements of the compiler in the newer driver versions.
+
+#+LATEX: {
+[[file:img/cuda_execution.png]]
+#+LATEX: \captionof{figure}{The CUDA execution}\label{fig:the-cuda-execution}
+#+LATEX: }
+
+** Ceiling Integer
+#+begin_src latex
+  \begin{equation}
+    \text{#blocks} = \frac{N + (m-1)}{m}
+  \end{equation}
+
+
+  \begin{equation}
+    \text{#blocks} = \frac{N + 1023}{1024}
+  \end{equation}
+#+end_src
+** Warp
+A block is internally in *Warps* allocated.
+One Warp consists of 32 Threads.
+Each of these 32 threads executeds the same instructions (same branch in same kernel).
+
+#+LATEX: {
+[[file:img/block_in_warps.png]]
+#+LATEX: \captionof{figure}{Block in Warp allocated}\label{fig:block-in-warp-allocated}
+#+LATEX: }
+
+** Memory Coalescing
+The pattern how a thread access the memory is critical.
+All threads in a warp should access the same ares (burst).
+Then a combined access is possible.
+Otherwise, you have to do expensive individual accesses.
+
+
+If you have a an access on memory use always the =threadIdx.x/y/z= to align the memory access.
+
+#+CAPTION: Align memory access (coalescing)
+#+NAME: fig:align-memory-access
+#+begin_src c
+  data[(Expression without threadIdx.x) + threadIdx.x]
+#+end_src
+
+
+#+begin_src latex
+  \begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.4\textwidth}
+      \includegraphics[width=3in]{img/memory_coalescing.png}
+      \caption{Memory Coalescing\label{fig:memory-coalescing}}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.4\textwidth}
+      \includegraphics[width=3in]{img/no_memory_coalescing.png}
+      \caption{Non-Memory Coalescing\label{fig:non-memory-coalescing}}
+    \end{subfigure}
+  \end{figure}
+#+end_src
+
+** CUDA Memory Model
+All threads have access to the same global memory.
+Each thread block has shared memory, which is visible to all threads of the block.
+The shared memory is much faster because it is on-chip.
+The variables in the kernel are normally stored in the regiester (fastest access).
+Each thread has private local memory which resides in device memory (slow).
+Only when all register are used the GPU uses the local memory.
+
+
+#+LATEX: {
+[[file:img/simple_memory_model.png]]
+#+LATEX: \captionof{figure}{CUDA memory model}\label{fig:cuda-memory-model}
+#+LATEX: }
+
+** Shared Memory
+In matrix multiplication the same row / column is used multiple times.
+If the matrix are too big then can not load the whole row / column into memory.
+Therefore, the multiplication has to split up.
+
+#+LATEX: {
+[[file:img/tiling_matrix_multiplication.png]]
+#+LATEX: \captionof{figure}{Tiling Matrix Multiplication}\label{fig:tiling-matrix-multiplication}
+#+LATEX: }
+
+#+begin_src c
+  float sum = 0.0;
+  for (int tile = 0; tile < nofTiles; tile++) {
+    // read tile from a and b in shared memory
+    // each thread reads an element from each tile
+    __syncthreads();
+    // Multiply row of A-Tile by
+    // Column of B-Tile from shared memory
+    sum += partialProduct;
+    __syncthreads();
+  }
+  C[row * M + col] = sum;
+#+end_src
+* Cluster Parallelization
+* End
+#+LATEX: \end{multicols}
