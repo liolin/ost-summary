@@ -1,0 +1,211 @@
+#+TITLE: ParProg Summary
+#+AUTHOR: Olivier Lischer
+#+SETUPFILE: ../latex_includes.conf
+#+LATEX_CLASS_OPTIONS: [11pt,twoside,landscape]
+
+#+begin_src latex
+  \pagestyle{fancy}
+  \fancyhf{}
+  \fancyhead[R]{ParProg-FS22}
+  \fancyhead[L]{Exam Summary}
+  \fancyfoot[CE,CO]{\leftmark}
+  \fancyfoot[R]{\thepage}
+  \fancyfoot[L]{Olivier Lischer}
+#+end_src
+
+#+LATEX: \begin{multicols}{3}
+
+* Synchronization Mechanism
+** Lock & Conditions
+#+LATEX: {
+[[file:img/lock_and_conditions.png]]
+#+LATEX: \captionof{figure}{Lock & Conditions}\label{fig:lock-and-conditions}
+#+LATEX: }
+
+#+begin_src java
+  public class WarehouseWithLockCondition {
+      public WarehouseWithLockCondition(int capacity, boolean fair) {
+	  lock = new ReentrantLock(fair);
+	  nonEmpty = lock.newCondition();
+	  nonFull = lock.newCondition();
+      }
+
+      @Override
+      public void put(int amount) throws InterruptedException {
+	  lock.lock();
+	  try {
+	      // nonFull.await();
+	      // nonEmpty.signalAll();
+	  } finally {
+	      lock.unlock();
+	  }
+      }
+
+      @Override
+      public void get(int amount) throws InterruptedException { /* code */ }
+  }
+#+end_src
+
+** Read-Write Locks
+#+begin_src java
+  var rwLock = new ReentrantReadWriteLock(true);
+  rwLock.readLock().lock();
+  // read-only accesses
+  rwLock.readLock().unlock();
+  rwLock.writeLock().lock();
+  // write (and read) accesses
+  rwLock.writeLock().unlock();
+#+end_src
+** CountdownLatch
+#+begin_src java
+  CountDownLatch waitForAll = new CountDownLatch(this.CARS);
+  protected void test() throws InterruptedException {
+      waitForAll.countDown();
+      waitForAll.await();
+  }
+#+end_src
+** Cyclic Barrier
+#+begin_src java
+  var gameRound = new CyclicBarrier(5);
+
+  /* 5 different players / threads */
+  while (true) gameRound.await();
+#+end_src
+
+** Rendez-Vous
+- Without exchange: =new CyclicBarrier(2);=
+- With exchange: =Exchanger.exchange(something)=;
+* Thread Pool
+** Java
+#+begin_src java
+  var threadPool = new ForkJoinPool();
+  Future<Integer> future = threadPool.submit(() -> {
+	  int value = 1;
+	  return value;
+  });
+  Integer i = future.get();
+
+  class MyTask extends RecursiveTask<Integer> {
+      boolean finished = false;
+      @Override
+      protected Integer compute() {
+	  if (finished) return 1;
+	  var left = new MyTask();
+	  var right = new MyTask();
+	  left.fork();
+	  right.fork();
+	  return left.join() + right.join();
+      }
+  }
+#+end_src
+** .NET
+#+begin_src csharp
+  Task task1 = Task.Run(() => { /* Do some stuff */ });
+  task1.Wait(); // blocking
+
+  // Task with return value
+  Task task2 = Task.Run(() => { return 3;});
+  Console.Write(task.Result); // blocking
+
+  // Task with Sub Tasks
+  Task.Run(() => {
+      var left = Task.Run(() => Count(leftPart));
+      var right = Task.Run(() => Count(rightPart));
+      int result = left.Result + right.Result;
+      return result;
+  });
+
+  // Parallele Statements
+  Parallel.Invoke(
+      () => MergeSort(l, m),
+      () => MergeSort(m, r)
+  );
+
+  // Parallel Loop
+  Parallel.ForEach(list, file => Convert(file));
+
+  // Parallel For - only if iterations are indepentend
+  Parallel.For(0, array.Length, i => DoComputation(array[i]));
+#+end_src
+* Async
+** Continuation
+Exception in Fire & Forget are ignored.
+To handle exception you have to wait synchrony for finishing the task.
+
+#+begin_src csharp
+  Task.Run(task1).
+      ContinueWith(task2).
+      ContinueWith(task3).Wait();
+  Task.WhenAll(task1, task2).
+      ContinueWith(continuation).Wait();
+  Task.WhenAny(task1, task2).
+      ContinueWith(continuation).Wait();
+#+end_src
+* Memory Modell
+** Atomicity
+Single reads / writes are atomic for:
+- primitive data types until 32 bits
+- object references
+- long and double only with the =volatile= keyword
+** Visibility
+Java guaranties the following visibility:
+- changes before release are visible at acquire
+- changes until write are visible at read
+- the thread sees the correct start values and Join the output of the thread
+- initialization of final variables (only relevant if you get the object from a data race!)
+
+** Ordering
+The order of the visibility is the same as in visibility.
+Additional:
+- synchronization instructions are never reordered to each other
+- Lock/Unlock, volatile, thread start / join are never reordered
+- if everything is a synchronization mechanism than we talk about total order
+  
+* GPU
+- latency :: how long does it take to execute a single instruction / operation
+- throughput :: number of instructions / operations completed per second
+** Arithmetic Intensity
+
+#+begin_src latex
+  \begin{equation}
+    \begin{align}
+      &t_c > t_m \\
+      &\frac{ops}{BW_c} > \frac{bytes}{BW_m} \\
+      &\frac{ops}{bytes} > \frac{BW_C}{BW_m} \\
+      &\text{Arithmetic intensity} = \frac{BW_c}{BW_m}
+    \end{align}
+  \end{equation}
+#+end_src
+** Thermilogy
+#+LATEX: {
+[[file:img/cuda_to_gpu_analogy.png]]
+#+LATEX: \captionof{figure}{CUDA concepts on the GPU}\label{fig:cuda-concepts-on-the-gpu}
+#+LATEX: }
+
+** Classification
+
+#+LATEX: {
+[[file:img/flynn_classical_taxonomy.png]]
+#+LATEX: \captionof{figure}{Flynn's Classical Taxonomy}\label{fig:flynns-classical-taxonomy}
+#+LATEX: }
+
+* Laws
+** Amdahls's law
+#+begin_src latex
+  \begin{equation}
+    \text{SpeedUp} = \frac{1}{s + \frac{p}{N}}
+  \end{equation}
+#+end_src
+
+** Gutafson's law
+- s :: serial part
+- p :: parallel part
+- N :: number of processes 
+#+begin_src latex
+  \begin{equation}
+  \text{SpeedUp} = s + p \cdot N = s + (1-s) \cdot N
+  \end{equation}
+#+end_src
+
+
+#+LATEX: \end{multicols}
