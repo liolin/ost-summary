@@ -1,5 +1,5 @@
-#+title: Betriebsysteme 2
-#+PROPERTY: header-args:latex :tangle ./bsys2_summary.tex
+#+title: Exam Summary Betriebsysteme 2
+#+PROPERTY: header-args:latex :tangle ./bsys2_exam_summary.tex
 
 * Preamble
 #+begin_src latex
@@ -26,7 +26,7 @@
   \setcounter{secnumdepth}{0}
   \author{Olivier Lischer}
   \date{\today}
-  \title{Experimentieren und Evaluieren}
+  \title{Betriebsysteme 2}
   \hypersetup{
     pdfauthor={Olivier Lischer},
     pdftitle={Betriebsysteme 2},

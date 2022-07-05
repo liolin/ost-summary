@@ -7,7 +7,7 @@
   \pagestyle{fancy}
   \fancyhf{}
   \fancyhead[R]{ParProg-FS22}
-  \fancyhead[L]{Exam Summary}
+  \fancyhead[L]{Summary}
   \fancyfoot[CE,CO]{\leftmark}
   \fancyfoot[R]{\thepage}
   \fancyfoot[L]{Olivier Lischer}
