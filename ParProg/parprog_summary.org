@@ -1,7 +1,6 @@
 #+TITLE: ParProg Summary
 #+AUTHOR: Olivier Lischer
 #+SETUPFILE: ../latex_includes.conf
-#+LATEX_CLASS_OPTIONS: [11pt,twoside,landscape]
 
 #+begin_src latex
   \pagestyle{fancy}
