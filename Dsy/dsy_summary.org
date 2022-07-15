@@ -1,0 +1,22 @@
+#+TITLE: Dsy Summary
+#+AUTHOR: Olivier Lischer
+#+SETUPFILE: ../latex_includes.conf
+#+LATEX_CLASS_OPTIONS: [11pt,twoside,landscape]
+#+LATEX_HEADER: \usepackage{caption}
+
+
+#+begin_src latex
+  \pagestyle{fancy}
+  \fancyhf{}
+  \fancyhead[R]{Dsy-FS22}
+  \fancyhead[L]{Exam Summary}
+  \fancyfoot[CE,CO]{\leftmark}
+  \fancyfoot[R]{\thepage}
+  \fancyfoot[L]{Olivier Lischer}
+
+  \tableofcontents
+  \newpage
+
+  \begin{multicols}{3}
+  \end{multicols}
+#+end_src
