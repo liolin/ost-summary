@@ -1,21 +1,72 @@
 #+TITLE: ParProg Summary
 #+AUTHOR: Olivier Lischer
-#+SETUPFILE: ../latex_includes.conf
-#+LATEX_CLASS_OPTIONS: [11pt,twoside,landscape]
+#+SETUPFILE: ../latex_exam_includes.conf
+#+LATEX: \begin{multicols}{5}
 
-#+begin_src latex
-  \pagestyle{fancy}
-  \fancyhf{}
-  \fancyhead[R]{ParProg-FS22}
-  \fancyhead[L]{Exam Summary}
-  \fancyfoot[CE,CO]{\leftmark}
-  \fancyfoot[R]{\thepage}
-  \fancyfoot[L]{Olivier Lischer}
-#+end_src
+* Multi-Threading Basics
+** Cooperative Multi-Tasking
+In this model the thread works as long as it wants.
+If the thread want to wait, it must initiate the process by itself.
+A scheduler can not interrupt a running thread!
 
-#+LATEX: \begin{multicols}{3}
+** Preemptive Multi-Tasking
 
+The scheduler uses a /Timer Interrupt/ to interrupt a running thread.
+Each Thread can work for a specific max. interval.
+After that interval is over and the thread is not finished, the thread is interrupted and is added to the /Ready-Queue/.
+
+
+** Thread States
+
+#+LATEX: {
+[[file:img/thread_states.png]]
+#+LATEX: \captionof{figure}{Thread States}\label{fig:thread-states}
+#+LATEX: }
+** JVM termination
+The JVM runs as long as at least one non-daemon thread is running.
+If the last non-daemon thread is terminated then the JVM is shutdown and all daemon threads are killed uncontrolled.
+Therefore, it is not possible to implement something like goodbye message when the thread terminates.
+If inside a thread an uncaught exception occurs the other threads are *not* terminated and keep working.
+* Monitor
+** Monitor
+The monitor is a synchronisation mechanism which use the /Wait & Signal/ / /Signal & Continue/ mechanism.
+1. Fight for lock
+   - winner: enters the monitor (acquire the lock)
+   - others: wait for entrance
+2. Thread in monitor does work
+   - if done: leaves monitor and wakes up other threads (=notify()= / =notifyAll()=)
+   - condition not satisfied: leaves monitor and goes to the right and wake up other threads (Wait on signal)
+3. Go to 1.
+
+#+LATEX: {
+[[file:img/monitor.png]]
+#+LATEX: \captionof{figure}{A monitor}\label{fig:monitor}
+#+LATEX: }
+** Single Notify
+A single notify can only be used when:
+1. every thread has the same condition
+2. only one *single* thread can make progress (One-In/One-Out)
+** Thread Wake up
+1. notifyAll(), notify()
+2. InterruptedException
+3. Spurious Wake up (falsely wake up POSIX Thread API)
 * Synchronization Mechanism
+** Semaphore
+#+begin_src java
+public class BoundedBufferSemaphore<T> {
+    private Queue<T> queue = new LinkedList<>();
+
+    public BoundedBufferSemaphore(int capacity) {
+        upperLimit = new Semaphore(capacity, true);
+    }
+
+    public void put(T element) throws InterruptedException {
+        upperLimit.acquire(); // counter--
+        mutex.acquire(); queue.add(element); mutex.release();
+        lowerLimit.release(); //counter++
+    }
+}
+#+end_src
 ** Lock & Conditions
 #+LATEX: {
 [[file:img/lock_and_conditions.png]]
@@ -29,20 +80,14 @@
 	  nonEmpty = lock.newCondition();
 	  nonFull = lock.newCondition();
       }
-
       @Override
       public void put(int amount) throws InterruptedException {
 	  lock.lock();
 	  try {
-	      // nonFull.await();
-	      // nonEmpty.signalAll();
-	  } finally {
-	      lock.unlock();
-	  }
+	      nonFull.await();
+	      nonEmpty.signalAll();
+	  } finally { lock.unlock(); }
       }
-
-      @Override
-      public void get(int amount) throws InterruptedException { /* code */ }
   }
 #+end_src
 
@@ -67,7 +112,6 @@
 ** Cyclic Barrier
 #+begin_src java
   var gameRound = new CyclicBarrier(5);
-
   /* 5 different players / threads */
   while (true) gameRound.await();
 #+end_src
@@ -75,8 +119,50 @@
 ** Rendez-Vous
 - Without exchange: =new CyclicBarrier(2);=
 - With exchange: =Exchanger.exchange(something)=;
+** Monitor in .NET
+#+begin_src csharp
+  class BankAccount {
+      private decimal balance;
+      private object syncObject = new();
+      public void Deposite(decimal amount) {
+	  lock (syncObject) {
+	      balance += amaount;
+	      Monitor.PulseAll(syncObject);
+	      //Monitor.Wait(syncObject);
+	  }
+      }
+  }
+#+end_src
+* Threats
+** General
+Race Condition, Deadlock, Starvation
+** Confinement
+Under confinement, we understand a structure that guaranties that only one thread can access an object at time.
+- /Thread Confinement/: an object belongs to a single thread and is used only be this thread
+- /Object Confinement/: an object is encapsulated in an already synchronized object
+
+#+LATEX: {
+[[file:img/object_confinement.png]]
+#+LATEX: \captionof{figure}{Example of object confinement}\label{fig:example-of-object-confinement}
+#+LATEX: }
 * Thread Pool
-** Java
+** Thread Pool
+A thread pool consists of a task queue and n worker threads.
+A new task is inserted in the queue.
+The new free thread from the thread pool takes the first task from the queue and process it.
+
+** Work stealing
+Each Worker Thread has also its own task queue.
+A worker thread takes some task from the global queue and move it to the local queue.
+If the another worker thread wants to work but the global queue is empty, it steals it from other worker threads.
+** Thread Injection
+When I injection new Threads in the thread pool during runtime is called /Thread Injection/.
+This can mitigate possible deadlocks when two task are not indepentend (only if not max threads is set).
+** Number of Threads
+A thread pool has as much threads as processors (cores) and little bit more.
+A little bit more than the number of processors is ideally because when one thread has to wait for I/O another thread can use the processor:
+
+** ForkJoinPool
 #+begin_src java
   var threadPool = new ForkJoinPool();
   Future<Integer> future = threadPool.submit(() -> {
@@ -97,6 +183,7 @@
 	  return left.join() + right.join();
       }
   }
+  var n = threadPool.invoke(new MyTask());
 #+end_src
 ** .NET
 #+begin_src csharp
@@ -128,7 +215,13 @@
   Parallel.For(0, array.Length, i => DoComputation(array[i]));
 #+end_src
 * Async
-** Continuation
+** Types
+You differ between two types of asynchrony:
+- caller centric (pull)
+  - The caller waits for task end and pulls the result
+- callee centric (push)
+  - task forwards the result to the successor task
+** Continuation C#
 Exception in Fire & Forget are ignored.
 To handle exception you have to wait synchrony for finishing the task.
 
@@ -141,12 +234,24 @@ To handle exception you have to wait synchrony for finishing the task.
   Task.WhenAny(task1, task2).
       ContinueWith(continuation).Wait();
 #+end_src
+** CompleatableFuture Java
+#+begin_src java
+  var all = CompletableFuture.<Void>completedFuture(null);
+  for (int i = 0; i < LINKS.length; i++) {
+      var link = LINKS[i];
+      var future = downloader.asyncDownloadUrl(link).thenAcceptAsync(result -> { /*Stuff*/ });
+      all = CompletableFuture.allOf(all, future);
+  }
+  all.thenAcceptAsync(voids -> { /*Stuff*/ }).join();
+#+end_src
 * Memory Modell
 ** Atomicity
 Single reads / writes are atomic for:
 - primitive data types until 32 bits
 - object references
-- long and double only with the =volatile= keyword
+- long and double only with the =volatile= keyword (only Java)
+Java: =AtomicBoolean= / C# =Interlocked=
+  
 ** Visibility
 Java guaranties the following visibility:
 - changes before release are visible at acquire
@@ -161,6 +266,15 @@ Additional:
 - Lock/Unlock, volatile, thread start / join are never reordered
 - if everything is a synchronization mechanism than we talk about total order
   
+** Voltile
+The =volatile= keyword in .NET is only a Half Fence.
+That means
+- volatile writes: previous access stay before
+- volatile reads: following access remain after
+In Java is a Full Fence (no reordering).
+#+begin_src csharp
+  Thread.MemoryBarrier(); // Full Fence
+#+end_src
 * GPU
 - latency :: how long does it take to execute a single instruction / operation
 - throughput :: number of instructions / operations completed per second
@@ -189,6 +303,127 @@ Additional:
 #+LATEX: \captionof{figure}{Flynn's Classical Taxonomy}\label{fig:flynns-classical-taxonomy}
 #+LATEX: }
 
+** Launch Kernel
+#+begin_src c
+  __global__
+  void VectorAddKernel(float *a, float *b, float *c, int size) {
+    int i = blockIdx.x * blockDim.x + threadIdx.x;
+    if (i < size) {
+      c[i] = a[i] + b[i];
+    }
+  }
+  int blockSize = 1024;
+  int gridSize = (numElements + blockSize - 1) / blockSize;
+  VectorAddKernel<<<gridSize, blockSize>>>(d_a, d_b, d_c, numElements);
+#+end_src
+** Thread Hierarchy
+A Kernel is executed in a single thread.
+The single thread is executed simultaneously to other threads in a block.
+Many blocks are executed at the same time on a grid.
+Internally, the threads are grouped into warps ([[id:069970e1-88bf-4746-a7dd-3cfc06d35a51][What is a warp?]]).
+Theses, are executed in a block.
+Important: Each block can only execute a specific number of threads.
+And a grid can only execute a specific number of blocks.
+
+#+LATEX: {
+[[file:img/thread_hierarchy.png]]
+#+LATEX: \captionof{figure}{Thread Hierarchy on GPU}\label{fig:thread-hierarchy-on-gpu}
+#+LATEX: }
+** CUDA Memroy Model
+All threads have access to the same global memory.
+Each thread block has shared memory, which is visible to all threads of the block.
+The shared memory is much faster because it is on-chip.
+The variables in the kernel are normally stored in the regiester (fastest access).
+Each thread has private local memory which resides in device memory (slow).
+Only when all register are used the GPU uses the local memory.
+** Memory Coalescing
+#+begin_src c
+  data[(Expression without threadIdx.x) + threadIdx.x]
+#+end_src
+
+#+LATEX: {
+[[file:img/memory_coalescing.png]]
+#+LATEX: \captionof{figure}{Memory Coalescing}\label{fig:memory-coalescing}
+#+LATEX: }
+
+#+LATEX: {
+[[file:img/no_memory_coalescing.png]]
+#+LATEX: \captionof{figure}{No Memory Coalescing}\label{fig:no-memory-coalescing}
+#+LATEX: }
+** Branching / Divergenz
+The Streaming Multiprocessor executes the instruction of one branch per warp.
+All the other threads have to wait.
+Then the next branch is executed.
+Some threads have to wait again.
+This leads to performance problem.
+Single =if= is not a problem
+* MPI
+** Hybrid Memory Architecture
+Most modern supercomputers use a hybrid memory architecture.
+All processors in a machine can share the memory ([[id:e4e7051f-1a12-45bb-8cbf-acab84d58ee8][UMA]]).
+The memory from a remote machine can be requested programmatically ([[id:9cc077ef-a9a4-4942-92c1-8cc8cfa3faee][NUMA]]).
+
+#+LATEX: {
+[[file:img/hybrid_memory_architecture.png]]
+#+LATEX: \captionof{figure}{Hybrid Memory Architecture}\label{fig:hybrid-memory-architecture}
+#+LATEX: }
+** SPMD / MPMD
+#+LATEX: {
+[[file:img/spmd_model.png]]
+#+LATEX: \captionof{figure}{Single Program Multiple Data}\label{fig:spmd}
+#+LATEX: }
+
+#+LATEX: {
+[[file:img/mpmd_model.png]]
+#+LATEX: \captionof{figure}{Multiple Program Multiple Data}\label{fig:mpmd}
+#+LATEX: }
+** Communication Modes
+Scatter, Gather, Broadcast
+** MPI Message
+When one process transfers data to another process the following data are sent:
+- ID of the sender
+- ID of the receiver
+- Data type to be sent (int, float, char, ...)
+- number of data items
+- the data itself
+- a message type identifier
+** Broadcast
+The root note sends the data to all notes.
+As soon as a node receives the data it sends the data to other notes.
+Because of this, =MPI_Bcast= is faster than =MPI_Send=.
+** Structure
+#+begin_src c
+  int main(int argc, char* argv[]) {
+    MPI_Init(&argc, &argv);
+    int rank;
+    int size;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+
+    if (rank == ROOT_RANK) {
+      MPI_Gather(/**/);
+    } else {
+      MPI_Gather(/**/);
+    }
+    MPI_Finalize();
+    return 0;
+  }
+#+end_src
+** OpenMP
+OpenMP is an API for writing multithreaded code in [[id:747a02a0-9b6e-4f64-9584-a6b89d7b776a][C]], [[id:1c55f087-be39-4107-b72a-ff7afa4d9ce7][CPP]].
+OpenMP uses =#pragma= to insert instructions.
+
+#+begin_src c
+  #include <stdio.h>
+  #include <omp.h>
+
+  int main(void)
+  {
+  #pragma omp parallel
+    printf("Hello, world.\n");
+    return 0;
+  }
+#+end_src
 * Laws
 ** Amdahls's law
 #+begin_src latex
