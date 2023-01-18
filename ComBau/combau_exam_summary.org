@@ -1,0 +1,6 @@
+#+TITLE: ComBau Exam Summary
+#+AUTHOR: Olivier Lischer
+#+SETUPFILE: ../latex_exam_includes.conf
+#+LATEX: \begin{multicols}{5}
+
+#+LATEX: \end{multicols}
