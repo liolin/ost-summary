@@ -1,6 +1,143 @@
 #+TITLE: ComBau Exam Summary
 #+AUTHOR: Olivier Lischer
-#+SETUPFILE: ../latex_exam_includes.conf
-#+LATEX: \begin{multicols}{5}
+#+LATEX_CLASS: ost-exam-summary
+#+LATEX_CLASS_OPTIONS: [12pt,twoside,landscape]
+#+LATEX_HEADER: \usepackage[top=5mm,bottom=5mm,right=5mm,left=5mm,landscape]{geometry}
+#+LATEX_HEADER: \usepackage{multicol}
+#+LATEX_HEADER: \usepackage{enumitem}
+#+LATEX_HEADER: \usepackage{fancyhdr}
+#+LATEX_HEADER: \usepackage{caption}
+#+LATEX_HEADER: \usepackage{algorithm}
+#+LATEX_HEADER: \usepackage{algpseudocode}
+#+LATEX_HEADER: \usepackage{float}
+#+LATEX_HEADER: \setlist{noitemsep, topsep=0pt}
+#+LATEX_HEADER: \setlength{\parindent}{0pt}
+#+LATEX_HEADER: \setlength{\columnseprule}{0.2pt}
+
+#+LATEX_HEADER: \definecolor{mygreen}{rgb}{0,0.6,0}
+#+LATEX_HEADER: \definecolor{mygray}{rgb}{0.5,0.5,0.5}
+#+LATEX_HEADER: \definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+#+LATEX_HEADER: \lstset{ backgroundcolor=\color{white}, basicstyle=\footnotesize, breaklines=true, captionpos=b, commentstyle=\color{mygreen}, escapeinside={\%*}{*)},keywordstyle=\color{blue}, stringstyle=\color{mymauve},}
+#+LATEX: \begin{multicols}{4}
+
+* General
+** Chomsky Hierarchy
+The Chomsky Hierarchy describes what is required to read and understand a specific language.
+Lexer, Parser and Semantic Checker reads the Language while the [[id:60b0e92e-4c0c-469d-a899-ec8a4c7a3527][DEA]], Push down Automata and Bounded Turing Machine runs the application.
+
+#+LATEX: {
+[[file:img/chomsky_hierarchie.png]]
+#+LATEX: \captionof{figure}{Chomsky Hierarchy}\label{fig:chomsky-hierarchy}
+#+LATEX: }
+
+* Parser
+** Parser Categories
+- first letter
+  - L :: read from left to right
+  - R :: read from right to left
+- second letter
+  - L :: Left-most expansion (top-down parser)
+  - R :: right-most reduction (bottom-up parser)
+- number in parentheses
+  - number of symbols look ahead
+
+#+LATEX: {
+[[file:img/parser_notation.png]]
+#+LATEX: \captionof{figure}{Parser notation}\label{fig:parser-notation}
+#+LATEX: }
+
+* Checker
+** Symbol Table
+The Symbol Table is a data structure produced by the [[id:6bf110f5-151c-41bd-bd8d-95d9ff810b7d][Semantic Checker]].
+The Symbol table is used to manage all declaration in a program source code.
+
+The symbol table contains a mapping from /Symbol/ to the /AST/ node (=node = symbolTable.getDeclarationNode(symbol);=)
+
+
+#+LATEX: {
+[[file:img/symbol_table_example.png]]
+#+LATEX: \captionof{figure}{Example Structure for a Symbol Table}\label{fig:example-structure-for-a-symbol-table}
+#+LATEX: }
+* VM
+** Ancestor Table
+The ancestor table is used to check if a class inherits from another in constant time.
+In [[autoref:fig:ancestor-table-example]] you see an example how such an ancestor table is constructed.
+The last element in the table for each class is the reference to itself.
+However, this only works for *Single-Inheritance*.
+
+In languages like [[id:d4e5f169-81a7-4ce9-a0ff-e85399b1294a][Java]] you don't have to allocate memory for the =object= class, because every class inherits from it (in the ancestor table this would be -1).
+
+#+LATEX: {
+[[file:img/ancestor_table.png]]
+#+LATEX: \captionof{figure}{Ancestor Table Example}\label{fig:ancestor-table-example}
+#+LATEX: }
+
+** Type Cast / Checking
+You have a target type (you want to cast into this type) and a source type (you want to cast from this type).
+
+1. Get the ancestor level from the target type (for example 0). Call the level ~x~
+2. Check in the ancestor table of the source type if the ancestor at level ~x~ is the same as the target class
+
+
+#+begin_src java
+  private boolean typeTest(Pointer instance, ClassDescriptor targetType) {
+      ClassDescriptor sourceType = heap.getDescriptor(instance);
+      if (sourceType == targetType) {
+	  return true;
+      }
+      var level = targetClass.getAncestorLevel();
+
+      if (sourceClass.getAncestorTable().length > level) {
+	  return sourceClass.getAncestorTable()[level] == targetClass;
+      } else {
+	  return false;
+      }
+  }
+#+end_src
+
+** Virtual Table
+Each type has a Virtual Method Table (vtable).
+The vtable describes which virtual method should be called when dynamic dispatch is performed. 
+In a [[id:f6fab7f1-f45f-4dff-beb3-50f32cae922b][VM]] the vtable often points not directly to the function but to the method descriptor.
+
+However, this only works with *Single-Inheritance*.
+
+#+LATEX: {
+[[file:img/vtable_example.png]]
+#+LATEX: \captionof{figure}{VTable example}\label{fig:vtable-example}
+#+LATEX: }
+
+* GC
+** Generational GC
+A Generational GC is an incremental GC because it often does not clean up the whole heap but in generations.
+For example, you have 3 generations as describe in [[autoref:tbl:example-for-generations]]
+
+#+CAPTION: Example for generations
+#+NAME: tbl:example-for-generations
+| age    | generation | GC frequency | GC break |
+|--------+------------+--------------+----------|
+| new    | G0         | high         | short    |
+| middle | G1         | middle       | middle   |
+| old    | G2         | low          | long     |
+
+If you want to clean up /Gn/ you must extend your root set with all references from the latter generations which are pointing into /Gn/.
+If you want to clean up /Gn/ you also have to clean up all previous generations.
+
+#+LATEX: {
+[[file:img/gc_of_g0.png]]
+#+LATEX: \captionof{figure}{GC of G0}\label{fig:gc-of-g0}
+#+LATEX: }
+
+** Resurrection
+A finalizer can revive objects (no garbage anymore).
+This can happen not only for the current object but also for other objects.
+
+
+#+LATEX: {
+[[file:img/resurrection_example.png]]
+#+LATEX: \captionof{figure}{Resurrection Example}\label{fig:resurrection-example}
+#+LATEX: }
+
 
 #+LATEX: \end{multicols}

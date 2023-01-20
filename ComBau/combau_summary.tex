@@ -1,4 +1,4 @@
-% Created 2023-01-18 Wed 15:26
+% Created 2023-01-20 Fri 11:42
 % Intended LaTeX compiler: xelatex
 \documentclass[11pt,twoside,landscape]{article}
 \usepackage{graphicx}
@@ -31,19 +31,19 @@
 \lstset{ backgroundcolor=\color{white}, basicstyle=\footnotesize, breaklines=true, captionpos=b, commentstyle=\color{mygreen}, escapeinside={\%*}{*)},keywordstyle=\color{blue}, stringstyle=\color{mymauve},}
 \author{Olivier Lischer}
 \date{\today}
-\title{ParProg Summary}
+\title{ComBau Summary}
 \hypersetup{
  pdfauthor={Olivier Lischer},
- pdftitle={ParProg Summary},
+ pdftitle={ComBau Summary},
  pdfkeywords={},
  pdfsubject={},
- pdfcreator={Emacs 28.2 (Org mode 9.6)}, 
+ pdfcreator={Emacs 27.2 (Org mode 9.5.5)}, 
  pdflang={English}}
 \begin{document}
 
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[R]{ParProg-FS22}
+\fancyhead[R]{ComBau-HS22}
 \fancyhead[L]{Summary}
 \fancyfoot[CE,CO]{\leftmark}
 \fancyfoot[R]{\thepage}
@@ -54,12 +54,12 @@
 
 \begin{multicols}{3}
 \section{Compiler \& Runtime System}
-\label{sec:org2372875}
+\label{sec:org1280796}
 \subparagraph{Runtime System} \
-\label{sec:org21955f2}
+\label{sec:orge12ffa6}
 A Runtime System supports the application execution using software and hardware mechanism.
 \subparagraph{Architecture} \
-\label{sec:org357c486}
+\label{sec:orgbb9dbf8}
 
 {
 \begin{center}
@@ -84,7 +84,7 @@ A Runtime System supports the application execution using software and hardware 
 }
 
 \subparagraph{Compiler Architecture} \
-\label{sec:org0d4b247}
+\label{sec:org47aaac5}
 A compiler consists of the following parts:
 \begin{itemize}
 \item Lexer
@@ -103,7 +103,7 @@ A compiler consists of the following parts:
 }
 
 \subparagraph{Runtime Architecture} \
-\label{sec:orga9166a3}
+\label{sec:org6a53bb6}
 A Runtime System consists of the following parts:
 \begin{itemize}
 \item Loader
@@ -122,18 +122,18 @@ A Runtime System consists of the following parts:
 }
 
 \subparagraph{EBNF} \
-\label{sec:org5c89c69}
+\label{sec:org18edccf}
 The syntax of a language can be expressed using the (E)BNF.
 The EBNF has some convenient features but can not express more than the BNF.
 \subparagraph{Syntax vs. Semantic} \
-\label{sec:orge9d4248}
+\label{sec:org31c40e1}
 The syntax defines the structure of the program while the semantic describes the meaning behind the syntax.
 The syntax is often described using the \href{../../../roam/20221228120443-how_do_you_specify_the_syntax_of_a_language.org}{EBNF}.
 The semantic is often described in prose.
 \section{Lexer}
-\label{sec:org08efbd1}
+\label{sec:orgf56b616}
 \subparagraph{Lexer} \
-\label{sec:orga662acf}
+\label{sec:org30fbab4}
 A Lexer takes a string of chars as input (source code) and produces a stream of terminal symbols (tokens).
 You want to use a lexer because it will help to parse the input.
 
@@ -155,7 +155,7 @@ Digit = "0" | ... | "9".
 Ausdruck = [ "(" Ausdruck ")" ]. // not regular
 \end{verbatim}
 \subparagraph{Chomsky Hierarchy} \
-\label{sec:org1b46423}
+\label{sec:org4f49650}
 The Chomsky Hierarchy describes what is required to read and understand a specific language.
 Lexer, Parser and Semantic Checker reads the Language while the \href{../../../roam/20211109182310-deterministic_finite_automaton.org}{DEA}, Push down Automata and Bounded Turing Machine runs the application.
 
@@ -167,11 +167,11 @@ Lexer, Parser and Semantic Checker reads the Language while the \href{../../../r
 }
 
 \section{Parser}
-\label{sec:orgaf0054b}
+\label{sec:org15bcf01}
 \subparagraph{Parser} \
-\label{sec:org38a1375}
+\label{sec:org5ab0536}
 A Parser takes the output of a \href{../../../roam/20221228115248-what_is_a_lexer.org}{Lexer} (token stream) and checks if the input follows the given syntax.
-A parser can read only context free languages (see \ref{sec:org1b46423}).
+A parser can read only context free languages (see \ref{sec:org4f49650}).
 
 The output from a parser is normally an \href{../../../roam/20221228141024-what_is_a_abstract_syntax_tree.org}{Abstract Syntax Tree} or \href{../../../roam/20221228140533-what_is_a_parse_tree.org}{Concrete Syntax Tree}.
 If you write the parser by your self you normally want to create an \href{../../../roam/20221228141024-what_is_a_abstract_syntax_tree.org}{AST}.
@@ -183,7 +183,7 @@ If you write the parser by your self you normally want to create an \href{../../
 \captionof{figure}{In- and Output for Parser}\label{fig:in-and-output-for-parser}
 }
 \subparagraph{Pare Tree} \
-\label{sec:org4229597}
+\label{sec:org4bc8344}
 A parse tree a.k.a. Concrete Syntax Tree is a derivation of the syntax rules as tree.
 A Concrete Syntax Tree contains everything, even the not required parentheses.
 The order of the evaluation is implicitly given through the data structure.
@@ -198,13 +198,13 @@ The \href{../../../roam/20221228141024-what_is_a_abstract_syntax_tree.org}{Abstr
 }
 
 \subparagraph{AST} \
-\label{sec:org97f333a}
+\label{sec:orgdfd94e5}
 The Abstract Syntax Tree is a possible output from the \href{../../../roam/20221228115311-what_is_a_parser.org}{Parser}.
 The Abstract Syntax Tree contains only the required information.
 For example parentheses are not stored for a \href{../../../roam/20201116150053-java.org}{Java} AST.
 
 \subparagraph{Top-Down Parsing} \
-\label{sec:orgb59c0f1}
+\label{sec:org675764e}
 A Top-Down \href{../../../roam/20221228115311-what_is_a_parser.org}{Parser} will start with the Start Symbol form the \href{../../../roam/20221228120443-how_do_you_specify_the_syntax_of_a_language.org}{EBNF} and performs production on the input.
 The Top-Down parser will expand from the start symbol to the terminal symbol.
 
@@ -216,7 +216,7 @@ The Top-Down parser will expand from the start symbol to the terminal symbol.
 }
 
 \subparagraph{Bottom-Up Parsing} \
-\label{sec:orgbe280f9}
+\label{sec:org30afc35}
 A Bottom-Up parser starts with the input stream (tokens).
 As soon as the parser can match the input on a rule it will reduce it.
 
@@ -227,7 +227,7 @@ As soon as the parser can match the input on a rule it will reduce it.
 \captionof{figure}{Bottom-Up Parsing}\label{fig:bottom-up-parsing}
 }
 \subparagraph{Recursive Descent Parser} \
-\label{sec:orgb781a9c}
+\label{sec:orgbc21a14}
 A recursive descent parser is a Top-Down Parser. 
 For each non-terminal symbol in a \href{../../../roam/20221228120443-how_do_you_specify_the_syntax_of_a_language.org}{EBNF} you will implement a function.
 During parsing, it will call the function \texttt{parseExpression} which will call \texttt{parseTerm}.
@@ -240,12 +240,12 @@ Expression = Term { ( "+" | "-" ) Term }.
 Term = Number | "(" Expression ")".
 \end{verbatim}
 
-\begin{lstlisting}[language=java,numbers=none]
+\begin{lstlisting}[language=java,label= ,caption= ,captionpos=b,numbers=none]
 void parseExpression() {
     parseTerm();
     while (is(Tag.PLUS) || is(Tag.MINUS)) {
-        next();
-        parseTerm();
+	next();
+	parseTerm();
     }
 }
 
@@ -256,7 +256,7 @@ void parseTerm() {
 }
 \end{lstlisting}
 \subparagraph{Parser Categories} \
-\label{sec:orgebc730c}
+\label{sec:org082194c}
 \begin{itemize}
 \item first letter
 \begin{description}
@@ -281,9 +281,9 @@ void parseTerm() {
 \captionof{figure}{Parser notation}\label{fig:parser-notation}
 }
 \section{Semantic Checker}
-\label{sec:org3b3fb76}
+\label{sec:orgb851c2a}
 \subparagraph{Semantic Checker} \
-\label{sec:org2c6a211}
+\label{sec:org55ecc8b}
 A Semantic Checker takes the syntax tree (\href{../../../roam/20221228141024-what_is_a_abstract_syntax_tree.org}{AST} / \href{../../../roam/20221228140533-what_is_a_parse_tree.org}{Concrete Syntax Tree}) from the \href{../../../roam/20221228115311-what_is_a_parser.org}{Parser} and returns the syntax tree with a \href{../../../roam/20221229173335-what_is_the_symbol_table_produced_by_a_semantic_checker.org}{Symbol Table}.
 The semantic checker performs context-sensitive checks as:
 \begin{description}
@@ -296,7 +296,7 @@ The semantic checker performs context-sensitive checks as:
 
 To perform this checks the checker requires all declarations (variables, methods, classes) and all types (predefined, user defined, array, type polymorphism).
 \subparagraph{Symbol Table} \
-\label{sec:org319e039}
+\label{sec:orgb6ba624}
 The Symbol Table is a data structure produced by the \href{../../../roam/20221228115353-what_is_a_semantic_checker.org}{Semantic Checker}.
 The Symbol table is used to manage all declaration in a program source code.
 
@@ -311,7 +311,7 @@ The symbol table contains a mapping from \emph{Symbol} to the \emph{AST} node (\
 }
 
 \subparagraph{Symbol Table Construction} \
-\label{sec:org6e9d1b3}
+\label{sec:orgaa4e8a8}
 The Semantic Checker performs the following steps:
 \begin{enumerate}
 \item construct the symbol table
@@ -361,9 +361,9 @@ The Semantic Checker performs the following steps:
 \captionof{figure}{Resolve Types in AST}\label{fig:resolve-types-in-ast}
 }
 \section{Code Generation}
-\label{sec:org0756056}
+\label{sec:orga79a4bb}
 \subparagraph{Code Generator} \
-\label{sec:orgf4735aa}
+\label{sec:orgbee6035}
 The Code Generator takes the \href{../../../roam/20221229173335-what_is_the_symbol_table_produced_by_a_semantic_checker.org}{Symbol Table} and the \href{../../../roam/20221228141024-what_is_a_abstract_syntax_tree.org}{AST} as input and generates machine code (Intel, ARM, JVM, \ldots{}).
 Normally you want to separate the Code Generator from the \href{../../../roam/20221228115311-what_is_a_parser.org}{Parser}, \href{../../../roam/20221228115353-what_is_a_semantic_checker.org}{Semantic Checker}.
 If you do so, you can use the same backend to produce code for various different platforms.
@@ -375,7 +375,7 @@ If you do so, you can use the same backend to produce code for various different
 \captionof{figure}{Seperate Backend / Frontend}\label{fig:seperate-backend-frontend}
 }
 \subparagraph{Evaluation Stack} \
-\label{sec:orgc362dd8}
+\label{sec:org3ee2238}
 In a VM (e.g. JVM - \href{../../../roam/20201116150053-java.org}{Java}) you may use an evaluation stack to run interpret your instructions.
 The evaluation stack is an alternative to using registers (what you normally do on real processors).
 For example the \texttt{imul} instruction will:
@@ -398,9 +398,9 @@ Each function call has its own evaluation stack and should be empty at the begin
 }
 
 \section{Virtual Machine}
-\label{sec:orgd13bb0f}
+\label{sec:orge3ec5a4}
 \subparagraph{VM} \
-\label{sec:orgfcccbe1}
+\label{sec:orgc208e4a}
 A VM is a piece of software which emulates a processor.
 This processor can have a custom instruction set.
 
@@ -420,7 +420,7 @@ The benefit of a VM is:
 }
 
 \subparagraph{Loader} \
-\label{sec:org128a22a}
+\label{sec:org17fcfe9}
 The loader
 \begin{itemize}
 \item reads the application binary into memory
@@ -431,7 +431,7 @@ The loader
 \end{itemize}
 
 \subparagraph{Descriptor} \
-\label{sec:org6a64a8a}
+\label{sec:orgf9278cf}
 A descriptor contains the runtime information for types \& methods:
 \begin{itemize}
 \item types: classes, arrays or base type
@@ -440,7 +440,7 @@ A descriptor contains the runtime information for types \& methods:
 \end{itemize}
 
 \subparagraph{Ancestor Table} \
-\label{sec:org2661ff0}
+\label{sec:org5e91dec}
 The ancestor table is used to check if a class inherits from another in constant time.
 In \autoref{fig:ancestor-table-example} you see an example how such an ancestor table is constructed.
 The last element in the table for each class is the reference to itself.
@@ -456,7 +456,7 @@ In languages like \href{../../../roam/20201116150053-java.org}{Java} you don't h
 }
 
 \subparagraph{Type Cast / Checking} \
-\label{sec:orge0d63c7}
+\label{sec:orge8dc6e4}
 You have a target type (you want to cast into this type) and a source type (you want to cast from this type).
 
 \begin{enumerate}
@@ -465,24 +465,24 @@ You have a target type (you want to cast into this type) and a source type (you 
 \end{enumerate}
 
 
-\begin{lstlisting}[language=java,numbers=none]
+\begin{lstlisting}[language=java,label= ,caption= ,captionpos=b,numbers=none]
 private boolean typeTest(Pointer instance, ClassDescriptor targetType) {
     ClassDescriptor sourceType = heap.getDescriptor(instance);
     if (sourceType == targetType) {
-        return true;
+	return true;
     }
     var level = targetClass.getAncestorLevel();
 
     if (sourceClass.getAncestorTable().length > level) {
-        return sourceClass.getAncestorTable()[level] == targetClass;
+	return sourceClass.getAncestorTable()[level] == targetClass;
     } else {
-        return false;
+	return false;
     }
 }
 \end{lstlisting}
 
 \subparagraph{Virtual Table} \
-\label{sec:org2da21cf}
+\label{sec:org53b7c4d}
 Each type has a Virtual Method Table (vtable).
 The vtable describes which virtual method should be called when dynamic dispatch is performed. 
 In a \href{../../../roam/20221230173400-what_is_a_virtual_machine.org}{VM} the vtable often points not directly to the function but to the method descriptor.
@@ -496,19 +496,19 @@ However, this only works with \textbf{Single-Inheritance}.
 \captionof{figure}{VTable example}\label{fig:vtable-example}
 }
 \section{GC}
-\label{sec:org6043a76}
+\label{sec:orgce57075}
 \subparagraph{Dangling Pointer} \
-\label{sec:org2e298a7}
+\label{sec:org2a514cc}
 A dangling pointer is a pointer which points to a location in memory which is already freed.
 Reading / Writing to such a pointer can / will cause problems (segfault).
 
 \subparagraph{Memory Leak} \
-\label{sec:org3cb1782}
+\label{sec:orge8c44c7}
 We talk about memory leak if an object is not accessible anymore from the application but are not getting cleaned up.
 This is not as dangerous as a \href{../../../roam/20221230183145-what_is_a_dangling_pointer.org}{Dangling Pointer}, but it will fill your memory with useless data.
 
 \subparagraph{GC} \
-\label{sec:org52235ed}
+\label{sec:org82334a9}
 The Garbage Collector is a piece of software which automatically cleans unused memory.
 The usage of a Garbage Collector is memory safe.
 That means:
@@ -520,13 +520,13 @@ That means:
 
 
 \subparagraph{Reference Counting} \
-\label{sec:orgfb5f103}
+\label{sec:org812b367}
 Reference counting is a mechanism to store the number of pointers to a reference.
 Every time a pointer starts to point to a resource the counter is incremented.
 As soon as one pointer does not point anymore to this location the counter is decremented.
 
 \subparagraph{RC Cyclic Graph} \
-\label{sec:orgc23fd84}
+\label{sec:orge6003c0}
 As soon as you get a cyclic object structure the counter for each object can not reach zero.
 Therefore, the Garbage Collector will never recognize it as garbage and a \href{../../../roam/20221230183215-what_is_a_memory_leak.org}{Memory Leak} occurs.
 
@@ -539,7 +539,7 @@ Therefore, the Garbage Collector will never recognize it as garbage and a \href{
 }
 
 \subparagraph{Mark \& Sweep} \
-\label{sec:org21c3809}
+\label{sec:org0724191}
 The Mark And Sweep Algorithm can be used to inside a Garbage Collector to find and free garbage.
 In the first phase (mark phase) you perform a \href{../../../roam/20220202095038-dfs.org}{DFS} staring from a root set.
 Every time you visit a node you mark it.
@@ -564,7 +564,7 @@ If the node is not marked you will free it.
 }
 
 \subparagraph{GC Execution} \
-\label{sec:orga998926}
+\label{sec:org070d29a}
 The Garbage Collector is executed at the latest when the Heap is full.
 However, most common Garbage Collector are executed earlier.
 
@@ -579,7 +579,7 @@ Depending on the implementation the application can not run, while the Garbage C
 }
 
 \subparagraph{Finalizer} \
-\label{sec:orgac42d44}
+\label{sec:org96919c4}
 A Finalizer is a method which is run just before the objects get deleted.
 These functions are normally called by the \href{../../../roam/20211008083744-garbage_collection.org}{GC} but not during normal GC phases.
 
@@ -587,16 +587,16 @@ Finalizers are executed in an arbitrary order and time.
 They run concurrent to the main program.
 In Java the finalizer is \textbf{NOT} executed again after \href{../../../roam/20221231095240-what_is_resurrection.org}{Resurrection}.
 
-\begin{lstlisting}[language=java,numbers=none]
+\begin{lstlisting}[language=java,label= ,caption= ,captionpos=b,numbers=none]
 class Block {
     @Override
     protected void finalize() {
-        //...
+	//...
     }
 }
 \end{lstlisting}
 \subparagraph{Finalizer Execution: Time} \
-\label{sec:orge5847f5}
+\label{sec:orge87ac41}
 A finalizer is called from the \href{../../../roam/20211008083744-garbage_collection.org}{GC} but not during the normal GC phases. 
 Reasons for this are:
 \begin{itemize}
@@ -606,7 +606,7 @@ Reasons for this are:
 \item finalizer can revive objects => \href{../../../roam/20221231095240-what_is_resurrection.org}{Resurrection}
 \end{itemize}
 \subparagraph{Finalizer Execution: How} \
-\label{sec:org58efcdf}
+\label{sec:org8201c11}
 The \href{../../../roam/20211008083744-garbage_collection.org}{GC} has a \textbf{finalizer set} where all finalizers are registered.
 In the \textbf{pending queue} are all finalizers which are not executed yet but has to.
 \textbf{Attention}: as soon as you insert the finalizer into the pending queue the object the revived (\href{../../../roam/20221231095240-what_is_resurrection.org}{Resurrection}).
@@ -620,7 +620,7 @@ An additional GC phase is required.
 \captionof{figure}{Pending Queue}\label{fig:pending-queue}
 }
 \subparagraph{Resurrection} \
-\label{sec:orgfc5fc96}
+\label{sec:org4a2b8b3}
 A finalizer can revive objects (no garbage anymore).
 This can happen not only for the current object but also for other objects.
 
@@ -632,7 +632,7 @@ This can happen not only for the current object but also for other objects.
 \captionof{figure}{Resurrection Example}\label{fig:resurrection-example}
 }
 \subparagraph{Weak References} \
-\label{sec:orgd180e37}
+\label{sec:org078f071}
 A Weak Reference are references which are not counted for Reference Counting.
 In a \href{../../../roam/20211008083744-garbage_collection.org}{GC} context this can be used for object caches.
 Weak References must be set to \texttt{NULL} after the target object is freed (\href{../../../roam/20221230183145-what_is_a_dangling_pointer.org}{Dangling Pointer}).
@@ -645,7 +645,7 @@ Weak References must be set to \texttt{NULL} after the target object is freed (\
 }
 
 \subparagraph{Compacting GC} \
-\label{sec:org51f4ac1}
+\label{sec:orgd20c4cb}
 A compacting GC always allocates at the end of the Heap right after the last object.
 During the GC Phases (here mark and copy) the marked objects (non-garbage objects) are copied to the beginning.
 
@@ -657,7 +657,7 @@ During the GC Phases (here mark and copy) the marked objects (non-garbage object
 \captionof{figure}{Compacting GC Example}\label{fig:compacting-gc-example}
 }
 \subparagraph{Incremental GC} \
-\label{sec:org0df491d}
+\label{sec:org2fa6b69}
 An incremental GC runs \textbf{quasi parallel} to the mutator.
 The main execution is interrupted only a very short time (No \href{../../../roam/20221230204307-when_is_the_garbage_collector_executed.org}{Stop \& Go GC}).
 
@@ -670,7 +670,7 @@ The main execution is interrupted only a very short time (No \href{../../../roam
 }
 
 \subparagraph{Generational GC} \
-\label{sec:orgb04de04}
+\label{sec:org7160787}
 A Generational GC is an incremental GC because it often does not clean up the whole heap but in generations.
 For example, you have 3 generations as describe in \autoref{tbl:example-for-generations}
 
@@ -697,7 +697,7 @@ If you want to clean up \emph{Gn} you also have to clean up all previous generat
 }
 
 \subparagraph{Partitioned GC} \
-\label{sec:org7fcef79}
+\label{sec:orgec3969a}
 A Partitioned GC is an incremental GC.
 The Heap is partitioned.
 The GC will focus on the partition with the most garbage.
@@ -711,16 +711,16 @@ The non-garbage objects are moved to a new partition before cleaning up the part
 \captionof{figure}{Partitioned GC}\label{fig:partitioned-gc}
 }
 \section{JIT}
-\label{sec:org2066497}
+\label{sec:orgdc16029}
 \subparagraph{JIT} \
-\label{sec:orgdfe75fb}
+\label{sec:org4a3a6f2}
 A Just-in-Time compiler is used in interpreted languages to compile the intermediate code (e.g. java byte code) to native machine code.
 This process speeds up the execution.
 Because JIT compiling takes time you normally don't want to compile everything but only so-called \textbf{Hot Spots}.
 Hot Spots are code sections which are executed more often.
 
 \subparagraph{Registers} \
-\label{sec:orge669fd4}
+\label{sec:org78608d3}
 In the original registers you have to specify another name.
 For detail information see \autoref{fig:register-sub-access}.
 
@@ -732,16 +732,175 @@ For detail information see \autoref{fig:register-sub-access}.
 \captionof{figure}{Register sub access}\label{fig:register-sub-access}
 }
 \subparagraph{Registers Management} \
-\label{sec:org4987dd4}
+\label{sec:orga625e8f}
 The JIT Compiler keeps track of used registers in a \href{../../../roam/20210806220134-stack.org}{Stack} (similar to the \href{../../../roam/20221230171752-what_is_a_evaluation_stack.org}{Evaluation Stack}).
 The stack is updated for each translated byte code instruction.
 \subparagraph{Register Clobbering} \
-\label{sec:org80eb31b}
+\label{sec:orgfc7decd}
 For example the \emph{IDVI} assembler instruction overrides the values in \emph{RAX} and \emph{RDX} as side effects.
 This is called register clobbering.
 Therefore, you have to save thoses values before you executed \emph{IDIV} (Register Relocation).
 
+\section{Code Optimization}
+\label{sec:org175527c}
+\subparagraph{Optimizer} \
+\label{sec:org66075da}
+The Optimizer is a part of the compiler.
+The optimizer transforms an Intermediate Representation or machine code with the goal to generate a more efficient version.
+This is often done using multiple steps.
+Sometimes the same step is performed multiple times.
+\subparagraph{Strategies} \
+\label{sec:orgfaad831}
+\begin{itemize}
+\item arithmetic optimization
+\begin{itemize}
+\item replace \texttt{*, /, \%} with bit operations when possible
+\end{itemize}
+\item algebraic simplification
+\begin{itemize}
+\item replace const expression with const value
+\item \texttt{expr / 1 -> expr}
+\item \texttt{expr * 0 -> ldc 0}
+\item \texttt{1 + 3 -> ldc 4}
+\end{itemize}
+\item loop invariant code
+\begin{itemize}
+\item calculate unchanged expressions during loop outside the loop (see \autoref{lst:loop-invariant} and \autoref{lst:optimizied-loop})
+\end{itemize}
+\item common sub-expressions
+\begin{itemize}
+\item calculate same sub-expression only once (var are not allowed to change in between) (see \autoref{lst:common-sub-expression})
+\end{itemize}
+\item dead code
+\begin{itemize}
+\item eliminate dead code (May has to be performed multiple times to eliminate all dead code)
+\end{itemize}
+\item redundant read and write
+\begin{itemize}
+\item this may lead to dead code elimination
+\end{itemize}
+\item constant propagation / constant folding
+\begin{itemize}
+\item some variables are constant even after some long operations
+\item load constant, may lead to dead code (in \autoref{lst:constant-propagation} \texttt{ldc 3} has to be performed)
+\end{itemize}
+\item partial redundancy
+\begin{itemize}
+\item some expressions are evaluated one or more times (depending on the branching)
+\item evaluate only once
+\end{itemize}
+\end{itemize}
+
+
+\begin{lstlisting}[language=java,label=lst:loop-invariant,caption={Loop invariant},captionpos=b,numbers=none]
+while (x < N * M) { // N * M does never change during loop
+  k = y * M;        // k does not change during loop
+  x = x + k;
+}
+\end{lstlisting}
+
+
+\begin{lstlisting}[language=java,label=lst:optimizied-loop,caption={Optimizied Loop},captionpos=b,numbers=none]
+k = y * M;
+temp = N * M;
+while (x < temp) {
+  x = x + k;
+}
+\end{lstlisting}
+
+
+\begin{lstlisting}[language=java,label=lst:common-sub-expression,caption={Common sub-expression},captionpos=b,numbers=none]
+x = a * b + c;
+// operations, but no changes on a and b
+y = a * b + d;
+
+temp = a * b;
+x = temp + c;
+// operations, but no changes on a and b
+y = temp + d;
+\end{lstlisting}
+
+\begin{lstlisting}[language=java,label=lst:constant-propagation,caption={Constant Propagation},captionpos=b,numbers=none]
+a = 1;
+if (...) {
+    a = a + 1; // a = 2
+    b = a;     // b = 2
+} else {
+    b = 2;
+}
+c = b + 1;    // c = 2
+\end{lstlisting}
+\subparagraph{SSA} \
+\label{sec:org18d906e}
+Static Single Assignment is a method to detect optimization possibilities.
+In SSA each variable is assigned only once.
+If a variable is assigned multiple times you rename it.
+Assignments in different branches also get different indexes.
+To find the right index at the \href{../../../roam/20230120100519-what_is_the_phi_function_in_ssa.org}{Phi Function} is used.
+
+\begin{lstlisting}[language=java,label=lst:ssa-with-branches,caption={SSA with branches},captionpos=b,numbers=none]
+if (...) {
+    x_1 = 1;
+} else {
+    x_2 = 2;
+}
+y_1 = x_?;
+\end{lstlisting}
+\subparagraph{Phi Function} \
+\label{sec:org23d4663}
+The Phi Function is used to check which \texttt{x} should be used during SSA after branching.
+In \autoref{lst:phi-function} the phi function performs the following:
+\begin{itemize}
+\item return \texttt{x\_1} if the \texttt{if} branch was taken
+\item return \texttt{x\_2} if the \texttt{else} branch was taken
+\end{itemize}
+
+\begin{lstlisting}[language=java,label=lst:phi-function,caption={Phi-Function},captionpos=b,numbers=none]
+if (...) {
+    x_1 = 1;
+} else {
+    x_2 = 2;
+}
+y_1 = phi(x_1, x_2);
+\end{lstlisting}
+\subparagraph{SSA and Common Subexpression} \
+\label{sec:org2b62bfa}
+Using SSA you can detect multiple assignments to the same variable (or the absence of them).
+Thanks to this, you can detect common sub-expressions.
+
+\begin{lstlisting}[language=java,label=lst:common-sub-expressions-in-ssa,caption={Common sub-expressions in SSA},captionpos=b,numbers=none]
+x_1 = a_1 * b_1 + c_1;
+// some operations
+y_1 = a_1 * b_1 + d_1; // no changes on a and b otherwise index would be incremented
+// some operations
+z = a_1 * b_2 + d_3;
+\end{lstlisting}
+\subparagraph{SSA and Dead Code} \
+\label{sec:org13c9a2c}
+Thanks to SSA you can detect that \texttt{x\_1} is never read.
+Therefore, you don't have to generate code for this expression.
+
+\begin{lstlisting}[language=java,label=lst:dead-code-detection,caption={Dead code detection},captionpos=b,numbers=none]
+x_1 = 1;
+x_2 = 2;
+y_1 = x_2 + 1;
+writeInt(y_1);
+\end{lstlisting}
+\subparagraph{Peephole Optimization} \
+\label{sec:org28ff275}
+Peephole Optimization is used only on a small set of instruction.
+This set of instruction is changed using a Sliding Window.
+The Optimizations are performed on the sliding window.
+
+
+{
+\begin{center}
+\includegraphics[width=.9\linewidth]{img/peephole_optimization.png}
+\end{center}
+\captionof{figure}{Peephole Optimization Example}\label{fig:peephole-optimization-example}
+}
+
 \section{END}
-\label{sec:org2ce2fd7}
+\label{sec:org12b408a}
 \end{multicols}
 \end{document}

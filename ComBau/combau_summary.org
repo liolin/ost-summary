@@ -367,7 +367,6 @@ That means:
 - no [[id:757392e4-dcce-41b4-adea-b1127ce74f5e][Memory Leak]]
 - an overall simplification for programming
 
-
 ** Reference Counting
 Reference counting is a mechanism to store the number of pointers to a reference.
 Every time a pointer starts to point to a resource the counter is incremented.
@@ -541,6 +540,151 @@ The stack is updated for each translated byte code instruction.
 For example the /IDVI/ assembler instruction overrides the values in /RAX/ and /RDX/ as side effects.
 This is called register clobbering.
 Therefore, you have to save thoses values before you executed /IDIV/ (Register Relocation).
+
+* Code Optimization
+** Optimizer
+The Optimizer is a part of the compiler.
+The optimizer transforms an Intermediate Representation or machine code with the goal to generate a more efficient version.
+This is often done using multiple steps.
+Sometimes the same step is performed multiple times.
+** Strategies
+- arithmetic optimization
+  - replace =*, /, %= with bit operations when possible
+- algebraic simplification
+  - replace const expression with const value
+  - =expr / 1 -> expr=
+  - =expr * 0 -> ldc 0=
+  - =1 + 3 -> ldc 4=
+- loop invariant code
+  - calculate unchanged expressions during loop outside the loop (see [[autoref:lst:loop-invariant]] and [[autoref:lst:optimizied-loop]])
+- common sub-expressions
+  - calculate same sub-expression only once (var are not allowed to change in between) (see [[autoref:lst:common-sub-expression]])
+- dead code
+  - eliminate dead code (May has to be performed multiple times to eliminate all dead code)
+- redundant read and write
+  - this may lead to dead code elimination
+- constant propagation / constant folding
+  - some variables are constant even after some long operations
+  - load constant, may lead to dead code (in [[autoref:lst:constant-propagation]] =ldc 3= has to be performed)
+- partial redundancy
+  - some expressions are evaluated one or more times (depending on the branching)
+  - evaluate only once
+
+
+#+CAPTION: Loop invariant
+#+NAME: lst:loop-invariant
+#+begin_src java
+  while (x < N * M) { // N * M does never change during loop
+    k = y * M;        // k does not change during loop
+    x = x + k;
+  }
+#+end_src
+
+
+#+CAPTION: Optimizied Loop
+#+NAME: lst:optimizied-loop
+#+begin_src java
+  k = y * M;
+  temp = N * M;
+  while (x < temp) {
+    x = x + k;
+  }
+#+end_src
+
+
+#+CAPTION: Common sub-expression
+#+NAME: lst:common-sub-expression
+#+begin_src java
+  x = a * b + c;
+  // operations, but no changes on a and b
+  y = a * b + d;
+
+  temp = a * b;
+  x = temp + c;
+  // operations, but no changes on a and b
+  y = temp + d;
+#+end_src
+
+#+CAPTION: Constant Propagation
+#+NAME: lst:constant-propagation
+#+begin_src java
+  a = 1;
+  if (...) {
+      a = a + 1; // a = 2
+      b = a;     // b = 2
+  } else {
+      b = 2;
+  }
+  c = b + 1;    // c = 2
+#+end_src
+** SSA
+Static Single Assignment is a method to detect optimization possibilities.
+In SSA each variable is assigned only once.
+If a variable is assigned multiple times you rename it.
+Assignments in different branches also get different indexes.
+To find the right index at the [[id:63f650ca-9ada-4f28-92c3-0a1a5f785e5c][Phi Function]] is used.
+
+#+CAPTION: SSA with branches
+#+NAME: lst:ssa-with-branches
+#+begin_src java
+  if (...) {
+      x_1 = 1;
+  } else {
+      x_2 = 2;
+  }
+  y_1 = x_?;
+#+end_src
+** Phi Function
+The Phi Function is used to check which =x= should be used during SSA after branching.
+In [[autoref:lst:phi-function]] the phi function performs the following:
+- return =x_1= if the =if= branch was taken
+- return =x_2= if the =else= branch was taken
+
+#+CAPTION: Phi-Function
+#+NAME: lst:phi-function
+#+begin_src java
+  if (...) {
+      x_1 = 1;
+  } else {
+      x_2 = 2;
+  }
+  y_1 = phi(x_1, x_2);
+#+end_src
+** SSA and Common Subexpression
+Using SSA you can detect multiple assignments to the same variable (or the absence of them).
+Thanks to this, you can detect common sub-expressions.
+
+#+CAPTION: Common sub-expressions in SSA
+#+NAME: lst:common-sub-expressions-in-ssa
+#+begin_src java
+  x_1 = a_1 * b_1 + c_1;
+  // some operations
+  y_1 = a_1 * b_1 + d_1; // no changes on a and b otherwise index would be incremented
+  // some operations
+  z = a_1 * b_2 + d_3;
+#+end_src
+** SSA and Dead Code
+Thanks to SSA you can detect that =x_1= is never read.
+Therefore, you don't have to generate code for this expression.
+
+#+CAPTION: Dead code detection
+#+NAME: lst:dead-code-detection
+#+begin_src java
+  x_1 = 1;
+  x_2 = 2;
+  y_1 = x_2 + 1;
+  writeInt(y_1);
+#+end_src
+** Peephole Optimization
+Peephole Optimization is used only on a small set of instruction.
+This set of instruction is changed using a Sliding Window.
+The Optimizations are performed on the sliding window.
+
+
+#+LATEX: {
+[[file:img/peephole_optimization.png]]
+#+LATEX: \captionof{figure}{Peephole Optimization Example}\label{fig:peephole-optimization-example}
+#+LATEX: }
 
 * END
 #+LATEX: \end{multicols}
