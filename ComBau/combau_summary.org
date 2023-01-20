@@ -490,13 +490,14 @@ The main execution is interrupted only a very short time (No [[id:1df18b6b-6816-
 A Generational GC is an incremental GC because it often does not clean up the whole heap but in generations.
 For example, you have 3 generations as describe in [[autoref:tbl:example-for-generations]]
 
-#+CAPTION: Example for generations
-#+NAME: tbl:example-for-generations
+#+LATEX: {
 | age    | generation | GC frequency | GC break |
 |--------+------------+--------------+----------|
 | new    | G0         | high         | short    |
 | middle | G1         | middle       | middle   |
 | old    | G2         | low          | long     |
+#+LATEX: \captionof{table}{Example for generations}\label{tbl:example-for-generations}
+#+LATEX: }
 
 If you want to clean up /Gn/ you must extend your root set with all references from the latter generations which are pointing into /Gn/.
 If you want to clean up /Gn/ you also have to clean up all previous generations.
