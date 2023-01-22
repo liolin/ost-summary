@@ -567,6 +567,20 @@ For example the /IDVI/ assembler instruction overrides the values in /RAX/ and /
 This is called register clobbering.
 Therefore, you have to save thoses values before you executed /IDIV/ (Register Relocation).
 
+** Allocation Record
+The JIT Compiler has to track the usage of the processor registers.
+For this you could use the Allocation Record.
+The allocation record contains:
+- a list of registers for parameters
+- a list of registers for local variables
+- a set of registers for not used / free registers (missing in [[autoref:fig:allocation-record-load-variable]])
+- and a linked list / stack for the [[id:0777c9ea-94ba-44df-8fdf-ccaea0fb36cf][Evaluation Stack]]
+
+
+#+LATEX: {
+[[file:img/allocation_record_load_var.png]]
+#+LATEX: \captionof{figure}{Allocation Record: Load Variable}\label{fig:allocation-record-load-variable}
+#+LATEX: }
 * Code Optimization
 ** Optimizer
 The Optimizer is a part of the compiler.

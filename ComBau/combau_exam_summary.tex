@@ -1,4 +1,4 @@
-% Created 2023-01-22 Sun 12:50
+% Created 2023-01-22 Sun 14:31
 % Intended LaTeX compiler: xelatex
 \documentclass[12pt,twoside,landscape]{extarticle}
 \usepackage{graphicx}
@@ -44,9 +44,9 @@
 \begin{multicols}{4}
 
 \section{General}
-\label{sec:org501faec}
+\label{sec:org7b5a2bf}
 \subparagraph{Chomsky Hierarchy} \
-\label{sec:org81d3fba}
+\label{sec:org0b228d1}
 The Chomsky Hierarchy describes what is required to read and understand a specific language.
 Lexer, Parser and Semantic Checker reads the Language while the \href{../../../roam/20211109182310-deterministic_finite_automaton.org}{DEA}, Push down Automata and Bounded Turing Machine runs the application.
 
@@ -58,9 +58,9 @@ Lexer, Parser and Semantic Checker reads the Language while the \href{../../../r
 }
 
 \section{Parser}
-\label{sec:org394f8cd}
+\label{sec:org1cd8a81}
 \subparagraph{Parser Categories} \
-\label{sec:org707cd01}
+\label{sec:org9a60e97}
 \begin{itemize}
 \item first letter
 \begin{description}
@@ -86,9 +86,9 @@ Lexer, Parser and Semantic Checker reads the Language while the \href{../../../r
 }
 
 \section{Checker}
-\label{sec:org9480cc4}
+\label{sec:org8e99352}
 \subparagraph{Symbol Table} \
-\label{sec:org56eca94}
+\label{sec:orgc98b086}
 The Symbol Table is a data structure produced by the \href{../../../roam/20221228115353-what_is_a_semantic_checker.org}{Semantic Checker}.
 The Symbol table is used to manage all declaration in a program source code.
 
@@ -102,9 +102,9 @@ The symbol table contains a mapping from \emph{Symbol} to the \emph{AST} node (\
 \captionof{figure}{Example Structure for a Symbol Table}\label{fig:example-structure-for-a-symbol-table}
 }
 \section{VM}
-\label{sec:orgc889292}
+\label{sec:org64ebcae}
 \subparagraph{Ancestor Table} \
-\label{sec:org8ee74d6}
+\label{sec:org470da50}
 The ancestor table is used to check if a class inherits from another in constant time.
 In \autoref{fig:ancestor-table-example} you see an example how such an ancestor table is constructed.
 The last element in the table for each class is the reference to itself.
@@ -120,7 +120,7 @@ In languages like \href{../../../roam/20201116150053-java.org}{Java} you don't h
 }
 
 \subparagraph{Type Cast / Checking} \
-\label{sec:org196a3c5}
+\label{sec:orga5c8e26}
 You have a target type (you want to cast into this type) and a source type (you want to cast from this type).
 
 \begin{enumerate}
@@ -146,7 +146,7 @@ private boolean typeTest(Pointer instance, ClassDescriptor targetType) {
 \end{lstlisting}
 
 \subparagraph{Virtual Table} \
-\label{sec:org83f5aa2}
+\label{sec:orgb4781b1}
 Each type has a Virtual Method Table (vtable).
 The vtable describes which virtual method should be called when dynamic dispatch is performed. 
 In a \href{../../../roam/20221230173400-what_is_a_virtual_machine.org}{VM} the vtable often points not directly to the function but to the method descriptor.
@@ -161,7 +161,7 @@ However, this only works with \textbf{Single-Inheritance}.
 }
 
 \subparagraph{Interface Support} \
-\label{sec:orgddd2b0e}
+\label{sec:org2c81d77}
 To implement dynamic polymorphism using Interfaces you can't use the same approach as using a \href{../../../roam/20221230181314-what_is_the_virtual_method_table.org}{vtable} in inheritance.
 Because you would end up with inconsistent numbering (see \autoref{fig:bad-interface-implementation-attempt}).
 
@@ -192,10 +192,29 @@ To safe memory you can generate a single itable with different offsets.
 \captionof{figure}{Total Interface Support}\label{fig:total-interface-support}
 }
 
+\subparagraph{Allocation Record} \
+\label{sec:org8dd2ec7}
+The JIT Compiler has to track the usage of the processor registers.
+For this you could use the Allocation Record.
+The allocation record contains:
+\begin{itemize}
+\item a list of registers for parameters
+\item a list of registers for local variables
+\item a set of registers for not used / free registers (missing in \autoref{fig:allocation-record-load-variable})
+\item and a linked list / stack for the \href{../../../roam/20221230171752-what_is_a_evaluation_stack.org}{Evaluation Stack}
+\end{itemize}
+
+
+{
+\begin{center}
+\includegraphics[width=.9\linewidth]{img/allocation_record_load_var.png}
+\end{center}
+\captionof{figure}{Allocation Record: Load Variable}\label{fig:allocation-record-load-variable}
+}
 \section{GC}
-\label{sec:org5b4be01}
+\label{sec:orgedae212}
 \subparagraph{Generational GC} \
-\label{sec:org9c30724}
+\label{sec:orga213972}
 A Generational GC is an incremental GC because it often does not clean up the whole heap but in generations.
 For example, you have 3 generations as describe in \autoref{tbl:example-for-generations}
 
@@ -222,7 +241,7 @@ If you want to clean up \emph{Gn} you also have to clean up all previous generat
 }
 
 \subparagraph{Resurrection} \
-\label{sec:orgd63c4b3}
+\label{sec:orgfa7f20d}
 A finalizer can revive objects (no garbage anymore).
 This can happen not only for the current object but also for other objects.
 

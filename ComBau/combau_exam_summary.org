@@ -133,6 +133,20 @@ To safe memory you can generate a single itable with different offsets.
 #+LATEX: \captionof{figure}{Total Interface Support}\label{fig:total-interface-support}
 #+LATEX: }
 
+** Allocation Record
+The JIT Compiler has to track the usage of the processor registers.
+For this you could use the Allocation Record.
+The allocation record contains:
+- a list of registers for parameters
+- a list of registers for local variables
+- a set of registers for not used / free registers (missing in [[autoref:fig:allocation-record-load-variable]])
+- and a linked list / stack for the [[id:0777c9ea-94ba-44df-8fdf-ccaea0fb36cf][Evaluation Stack]]
+
+
+#+LATEX: {
+[[file:img/allocation_record_load_var.png]]
+#+LATEX: \captionof{figure}{Allocation Record: Load Variable}\label{fig:allocation-record-load-variable}
+#+LATEX: }
 * GC
 ** Generational GC
 A Generational GC is an incremental GC because it often does not clean up the whole heap but in generations.
