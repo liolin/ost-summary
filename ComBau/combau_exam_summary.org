@@ -108,6 +108,31 @@ However, this only works with *Single-Inheritance*.
 #+LATEX: \captionof{figure}{VTable example}\label{fig:vtable-example}
 #+LATEX: }
 
+** Interface Support
+To implement dynamic polymorphism using Interfaces you can't use the same approach as using a [[id:84b22e3e-9f80-4a8a-984c-429e09c258fa][vtable]] in inheritance.
+Because you would end up with inconsistent numbering (see [[autoref:fig:bad-interface-implementation-attempt]]).
+
+#+LATEX: {
+[[file:img/interface_bad_attempt.png]]
+#+LATEX: \captionof{figure}{Bad Interface Implementation Attempt}\label{fig:bad-interface-implementation-attempt}
+#+LATEX: }
+
+To support interfaces you have to globally numbering all interfaces.
+For each class you also have to generate an interface table (itable).
+This table contains only the implemented interfaces at the same index as they are globally numbered (see [[autoref:fig:interface-support]]).
+
+#+LATEX: {
+[[file:img/interface_support_2.png]]
+#+LATEX: \captionof{figure}{Interface Support}\label{fig:interface-support}
+#+LATEX: }
+
+To safe memory you can generate a single itable with different offsets.
+
+#+LATEX: {
+[[file:img/total_interface_support.png]]
+#+LATEX: \captionof{figure}{Total Interface Support}\label{fig:total-interface-support}
+#+LATEX: }
+
 * GC
 ** Generational GC
 A Generational GC is an incremental GC because it often does not clean up the whole heap but in generations.
