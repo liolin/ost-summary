@@ -669,5 +669,4 @@ Known uses are:
 #+begin_quote
 Renders information into HTML by embedding markers in an HTML page.
 #+end_quote
-* END
 #+LATEX: \end{multicols}

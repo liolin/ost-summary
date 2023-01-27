@@ -1,4 +1,4 @@
-% Created 2023-01-20 Fri 14:34
+% Created 2023-01-27 Fri 12:09
 % Intended LaTeX compiler: xelatex
 \documentclass[11pt,twoside,landscape]{article}
 \usepackage{graphicx}
@@ -54,9 +54,9 @@
 
 \begin{multicols}{3}
 \section{Architecture Significance}
-\label{sec:orgeeba1e8}
+\label{sec:org389e4d9}
 \subparagraph{Software Architecture} \
-\label{sec:org13ea293}
+\label{sec:orgc5107a6}
 Software Architecture is the organization of the system components with their relationships.
 Design principles should help to make decisions how to create components and the relationships.
 
@@ -68,7 +68,7 @@ principles guiding its design and evolution.
 -- [ISO/IEC/IEEE 42010, November 2011]
 \end{quote}
 \subparagraph{User Story} \
-\label{sec:org6e48838}
+\label{sec:org973a28a}
 User Stories describe a feature which should be implemented.
 User Stories can often translate from \href{../../../roam/20230102105027-functional_requirements.org}{Functional Requirements}.
 
@@ -86,11 +86,11 @@ An example:
 \item So that I’m not constrained by opening hours or lines at the teller’s
 \end{itemize}
 \subparagraph{Architectural Significance of Requirements} \
-\label{sec:org44690ac}
+\label{sec:orga357bdd}
 ASR are requirements (\href{../../../roam/20230102105027-functional_requirements.org}{Functional Requirements} or \href{../../../roam/20230102105647-non_functional_requirements.org}{Non-Functional Requirements}) which have a measurable impact on the systems' architecture.
 
 \subparagraph{ASR Test} \
-\label{sec:org5d5ad38}
+\label{sec:org18e02af}
 With the ASR Test you can test / determine the architectural significance of requirements.
 \textbf{Important}: They are not \href{../../../roam/20230102114435-mece.org}{MECE}.
 
@@ -111,7 +111,7 @@ With the ASR Test you can test / determine the architectural significance of req
 \captionof{figure}{Example for an ASR template}\label{fig:example-for-an-asr-template}
 }
 \subparagraph{SMART} \
-\label{sec:org9ab77e8}
+\label{sec:org95ba92b}
 \textbf{SMART} are the letters
 
 
@@ -136,9 +136,9 @@ T & Time-Bound & Time-Bound\\[0pt]
 \item[{M}] How can you find out whether the requirement is met (or not), is it quantified?
 \end{description}
 \section{Requirements}
-\label{sec:org8cccf69}
+\label{sec:org6ca5642}
 \subparagraph{FURPS} \
-\label{sec:org9bc0e3f}
+\label{sec:org853f28e}
 \textbf{FURPS} is an acronym representing a model for classifying software quality attributes (\href{../../../roam/20230102105027-functional_requirements.org}{Functional Requirements} and \href{../../../roam/20230102105647-non_functional_requirements.org}{Non-Functional Requirements}).
 
 FURPS:
@@ -159,7 +159,7 @@ Plus (+)
 \item Interface constraints
 \end{itemize}
 \subparagraph{Quality Attribute Scenario} \
-\label{sec:orgfa49cae}
+\label{sec:org11746f3}
 Quality Attribute Scenario (QAS) are \href{../../../roam/20230102105647-non_functional_requirements.org}{Non-Functional Requirements} which are very important (high impact).
 For such requirements you could fill out the template as show in \autoref{fig:qas-template}.
 
@@ -199,7 +199,7 @@ For such requirements you could fill out the template as show in \autoref{fig:qa
 \captionof{figure}{QAS Template}\label{fig:qas-template}
 }
 \subparagraph{Agile Landing Zones} \
-\label{sec:org8efead3}
+\label{sec:org7fb6464}
 Agile Landing Zones can be used to quantify \href{../../../roam/20230102105647-non_functional_requirements.org}{NFR}.
 Instead of estimating a single value you estimate three values (M1, M2, M3).
 Instead of aiming for a single value you have three values.
@@ -210,7 +210,7 @@ Instead of aiming for a single value you have three values.
 \item[{M3}] Outstanding (you design for this goal)
 \end{description}
 \subparagraph{C4 Model} \
-\label{sec:org29ee0d4}
+\label{sec:orgc457e25}
 The C4 Model consists of 4 different diagrams:
 \begin{itemize}
 \item Context
@@ -222,13 +222,13 @@ The C4 Model consists of 4 different diagrams:
 
 Each diagram zooms more and more into the class diagram.
 \subparagraph{System Context Diagram} \
-\label{sec:org07b6404}
+\label{sec:orgad1192d}
 A System Context Diagram (SCD) is used to define the boundary between systems, as part of the whole system and its relationship.
 The Context Diagram from the C4 Model (\href{../../../roam/20230102124209-what_is_the_c4_model.org}{What is the C4 Model}) is such a SCD.
 \section{Solution Strategy}
-\label{sec:orgeedb822}
+\label{sec:org8fa78cc}
 \subparagraph{Solution Strategy} \
-\label{sec:orgef357f4}
+\label{sec:orgc5f00a4}
 \begin{quote}
 Summary of the fundamental decisions and solution strategies that shape the architecture.
 Can include technology, top-level decomposition, approaches to achieve top quality goals
@@ -248,11 +248,11 @@ In Solution Strategy you will make big decisions as:
 
 Solution Strategy will be performed during Inception \& Elaboration from \href{../../../roam/20220222103504-rational_unified_process.org}{RUP}.
 \subparagraph{Architectural Decisions} \
-\label{sec:org869c2bd}
+\label{sec:org132c734}
 Architectural Decisions are used to capture \textbf{key design} issues and the rationale behind chosen solutions.
 These decisions can be documented with e.g. \href{../../../roam/20230102142920-what_are_y_statements.org}{Y Statements}
 \subparagraph{Y Statements} \
-\label{sec:org1cd2ac3}
+\label{sec:orgdabc2dc}
 The Y-Statement can be used to document \href{../../../roam/20230102130829-what_are_architectural_decisions.org}{Architectural Decisions}.
 \textbf{Facing} and \textbf{to achieve} look very similar.
 \textbf{Facing} talks about what is required / needed (by the client).
@@ -279,12 +279,12 @@ The Y-Statement can be used to document \href{../../../roam/20230102130829-what_
 \captionof{figure}{Y-Statement Template}\label{fig:y-statement-template}
 }
 \section{Container Architecture}
-\label{sec:org02bde22}
+\label{sec:org0cdcb5b}
 \subparagraph{Beans} \
-\label{sec:org5bb7121}
+\label{sec:org49ab34f}
 Beans are self written components (see \href{../../../roam/20230102124209-what_is_the_c4_model.org}{C4 Model}).
 \subparagraph{Inversion of Control (IoC)} \
-\label{sec:org1579caa}
+\label{sec:org4050082}
 Inversion of Control is a design pattern which is often used by frameworks.
 I write a component, and then I tell the framework how and when it should be called.
 
@@ -301,9 +301,9 @@ Don't call us, we call you!
 \captionof{figure}{Example for IoC}\label{fig:example-for-ioc}
 }
 \section{Story Splitting}
-\label{sec:orge4f60cc}
+\label{sec:orgeebd121}
 \subparagraph{INVEST} \
-\label{sec:org1414752}
+\label{sec:org1030f4b}
 If a \href{../../../roam/20230102104722-what_is_a_user_story.org}{User Story} is too large for a sprint you have to brake it down.
 The INVEST properties should help you:
 
@@ -316,13 +316,13 @@ The INVEST properties should help you:
 \item[{T}] Testable
 \end{description}
 \subparagraph{Story Splitting} \
-\label{sec:org5f89cd0}
+\label{sec:orgfcc161b}
 Sometimes a \href{../../../roam/20230102104722-what_is_a_user_story.org}{User Story} does not satisfy the \href{../../../roam/20230102161001-what_is_invest.org}{INVEST} criteria.
 In these cases you should perform Story Splitting.
 Story Splitting is the process of splitting a bad written User Story into many smaller and better User Stories. 
 
 \subparagraph{Story Splitting: Example\hfill{}\textsc{ATTACH}} \
-\label{sec:org6213288}
+\label{sec:org0d068e6}
 \begin{verbatim}
 As a Virtual Service Provider (VSP) and client of “T”, I would like to create telephony orders
 on behalf of my end customers rapidly and reliably to that they are satisfied and stay with
@@ -336,9 +336,9 @@ me rather than switch to T or another VSP.
 \captionof{figure}{Example output after Story Splitting}\label{fig:example-output-after-story-splitting}
 }
 \section{Tactic DDD}
-\label{sec:org689863f}
+\label{sec:org8e12c30}
 \subparagraph{Domain-Driven Design} \
-\label{sec:org160b577}
+\label{sec:org4cc6b0c}
 Domain-Driven Design is a software design approach, focusing on modeling software to match a domain according to input from a domain's experts.
 
 \begin{quote}
@@ -355,7 +355,7 @@ Try to avoid naming like in \autoref{fig:aligning-organization-and-architecture-
 \captionof{figure}{Aligning organization and architecture with strategic DDD}\label{fig:aligning-organization-and-architecture-with-strategic-ddd}
 }
 \subparagraph{Tactic DDD} \
-\label{sec:orgf6571e9}
+\label{sec:org5f62263}
 In tactic / tactical DDD you focus on how to build a \href{../../../roam/20211013171211-what_is_a_domain_model.org}{Domain Model} from a few basic building blocks.
 
 \begin{description}
@@ -389,7 +389,7 @@ In tactic / tactical DDD you focus on how to build a \href{../../../roam/2021101
 \captionof{figure}{Tactic DDD Example 2}\label{fig:tactic-ddd-example-2}
 }
 \subparagraph{CRC Cards} \
-\label{sec:org39396b9}
+\label{sec:orgd5622ef}
 CRC Cards (Class-Responsibility-Collaboration Cards) is a brainstorming method to design and find components.
 Original from the OO world, but is well suited for software architecture and web.
 
@@ -400,9 +400,9 @@ Original from the OO world, but is well suited for software architecture and web
 \captionof{figure}{CRC Card Template}\label{fig:crc-card-template}
 }
 \section{Strategic DDD}
-\label{sec:orgbfdef5f}
+\label{sec:orgdd61117}
 \subparagraph{Business Rule} \
-\label{sec:orgc5e52de}
+\label{sec:org72f57c4}
 A Business Rule has (at least) two meanings:
 \begin{enumerate}
 \item Executable part of the business logic (algorithm) which is expressed declarative
@@ -416,7 +416,7 @@ A Business Rule has (at least) two meanings:
 \end{itemize}
 \end{enumerate}
 \subparagraph{Strategic DDD} \
-\label{sec:org03b8324}
+\label{sec:orga5c0ff9}
 In Strategic DDD you will define
 \begin{itemize}
 \item Bounded Contexts
@@ -424,7 +424,7 @@ In Strategic DDD you will define
 \item Context Map
 \end{itemize}
 \subparagraph{Bounded Context} \
-\label{sec:org1cd2911}
+\label{sec:org80eb3d3}
 When you try to model a big \href{../../../roam/20211013171211-what_is_a_domain_model.org}{Domain Model} you may encounter the problem that different groups use different terms.
 A Bounded Context is mainly for linguistic purpose.
 Each Bounded Context has its own \href{../../../roam/20230107180234-what_is_a_ubiquitous_language.org}{Ubiquitous Language}.
@@ -432,12 +432,12 @@ Each Bounded Context has its own \href{../../../roam/20230107180234-what_is_a_ub
 As your model evolves you may want to create relationships between Bounded Contexts.
 For this we have the \href{../../../roam/20230107180425-what_is_a_context_map.org}{Context Map}.
 \subparagraph{Ubiquitous Language} \
-\label{sec:orgbe60f56}
+\label{sec:orgb8ed1b1}
 Inside a \href{../../../roam/20230107175921-what_are_bounded_context.org}{Bounded Context} you speak a ubiquitous language.
 This language is determined in collaboration with the whole team and the domain expert.
 The language should uniquely identify each concept in this context (sub domain).
 \subparagraph{Context Map} \
-\label{sec:org12bd981}
+\label{sec:org1c68b8d}
 In a big \href{../../../roam/20211013171211-what_is_a_domain_model.org}{Domain Model} you will have multiple \href{../../../roam/20230107175921-what_are_bounded_context.org}{Bounded Context}.
 At some point you have to bring this Bounded Context in a relationship.
 The context map should help here.
@@ -470,9 +470,9 @@ This might apply to code (libraries depending on one another) but also on less t
 \captionof{figure}{Context Map Example}\label{fig:context-map-example}
 }
 \section{Messaging}
-\label{sec:org769a3f8}
+\label{sec:org16823ff}
 \subparagraph{Lose Coupling} \
-\label{sec:orga29c116}
+\label{sec:org20b7010}
 Loose coupling means that two or more components does not depend on each strictly.
 Every component could be replaced if desired.
 
@@ -497,7 +497,7 @@ Loose coupling has (at least) four dimensions:
 \end{itemize}
 
 \subparagraph{Integration Styles} \
-\label{sec:org827e735}
+\label{sec:org911b2ca}
 Integration Styles are used to communicate between different components.
 A few examples:
 \begin{description}
@@ -507,7 +507,7 @@ A few examples:
 \item[{Messaging}] e.g. JMS, RabbitMQ
 \end{description}
 \subparagraph{Integration Style Messaging} \
-\label{sec:org517078d}
+\label{sec:orgef3106d}
 A message is transmitted in five steps:
 \begin{enumerate}
 \item Create: the sender creates the message
@@ -534,17 +534,17 @@ The Messaging Pattern has many variations.
 \item[{Publish-Subscribe Channel}] A sender sends the message to many receivers
 \end{description}
 \subparagraph{AMQP} \
-\label{sec:orgb07c7e2}
+\label{sec:orgb4706b5}
 AMQP is a Peer-to-Peer Transport Protocol operating over TCP for message-oriented middleware.
 AMQP is a great protocol to use the \href{../../../roam/20230108144047-what_is_the_integration_style_messaging.org}{Messaging} Integration Style.
 \section{Microservices}
-\label{sec:org973ffad}
+\label{sec:org0c09273}
 \subparagraph{Service vs Components} \
-\label{sec:orgaea57cd}
+\label{sec:org6ada7fa}
 A Component is a piece of software which can be used by foreign applications without changing its source code (e.g. JAR, DLL, \ldots{}).
 A Service is similar to a component, but you will use it remotely through some remote interface (\href{../../../roam/20220704074452-grpc.org}{gRPC}, \href{../../../roam/20230108144047-what_is_the_integration_style_messaging.org}{Messaging}, \ldots{}).
 \subparagraph{Clean Architecture} \
-\label{sec:org021609c}
+\label{sec:orgad57ad4}
 In the clean architecture you have rings.
 The further out the code is, the more volatile it is.
 The more in the center, the more stable is the code.
@@ -557,7 +557,7 @@ So your domain code is in the center and at the outer ring are things like UI fr
 \captionof{figure}{Clean Architecture}\label{fig:clean-architecture}
 }
 \subparagraph{Hexagonal Architecture} \
-\label{sec:org45722fc}
+\label{sec:org692d3cb}
 The Hexagonal Architecture / Onion Architecture / Ports and Adapters Pattern is a way how you can structure your application.
 
 On the outside are the \emph{adapters}.
@@ -574,7 +574,7 @@ Therefor, you implement against interfaces (\href{../../../roam/20220102152742-d
 \captionof{figure}{Hexagonal Architecture}\label{fig:hexagonal-architecture}
 }
 \subparagraph{Service-Oriented Architecture} \
-\label{sec:orgce29422}
+\label{sec:orga136256}
 Service-Oriented Architecture is:
 \begin{itemize}
 \item a set of services and operations (Business Domain Analyst)
@@ -583,7 +583,7 @@ Service-Oriented Architecture is:
 \item a programming and deployment model (Developer, Administrator)
 \end{itemize}
 \subparagraph{Microservices} \
-\label{sec:org8a8bb43}
+\label{sec:orgd94b5e5}
 Microservices is an architecture type consists of many
 \begin{itemize}
 \item independently deployable
@@ -595,7 +595,7 @@ services.
 Each service encapsulates and manages its \emph{own} store and communicates via message-based remote APIs (\href{../../../roam/20230108144047-what_is_the_integration_style_messaging.org}{Messaging}).
 Idealy in a loosely coupled fashion (\href{../../../roam/20230108141515-what_does_loose_coupling_mean.org}{What does loose coupling mean}).
 \subparagraph{Pro / Con Microservices} \
-\label{sec:org0aa3925}
+\label{sec:orgd876a31}
 Pros:
 \begin{itemize}
 \item single components can be scaled
@@ -614,7 +614,7 @@ Cons:
 \item autonomy and consistency for the whole microservice architecture cannot be both guaranteed
 \end{itemize}
 \subparagraph{REST} \
-\label{sec:org7f811aa}
+\label{sec:org35948fe}
 REST is an architectural style (for integration), defined via constraint.
 To be a REST conform you have to follow the following constraints:
 \begin{itemize}
@@ -635,7 +635,7 @@ To be RESTFul you have also to satisfy the next four constraints:
 \item hypermedia as the engine of application state (HATEOAS)
 \end{itemize}
 \subparagraph{REST Maturity Levels} \
-\label{sec:org385d0b4}
+\label{sec:org053d10d}
 An API on the web can be on different maturity levels:
 
 \begin{itemize}
@@ -666,7 +666,7 @@ An API on the web can be on different maturity levels:
 \captionof{figure}{REST Maturity Levels}\label{fig:rest-maturity-levels}
 }
 \subparagraph{HATEOAS} \
-\label{sec:org1509a50}
+\label{sec:orgc5a6f07}
 HATEOAS (Hypermedia As The Engine Of Application State) is constraint of the \href{../../../roam/20230108172748-what_is_rest.org}{RESTFul} style.
 In HATEOAS the server provides the possible next actions in the request in form of links (see \autoref{lst:http-response})
 
@@ -692,7 +692,7 @@ Content-Length: ...
 }
 \end{lstlisting}
 \subparagraph{From Monolith and Components to SOA} \
-\label{sec:org0556d98}
+\label{sec:orgf130ace}
 \begin{itemize}
 \item \textbf{Monolitich application} aka the big ball of mud
 \item \textbf{Internally componentized application}
@@ -704,9 +704,9 @@ Content-Length: ...
 \end{itemize}
 
 \section{API Description}
-\label{sec:org2a96e09}
+\label{sec:orgfb6d0e3}
 \subparagraph{Describe API} \
-\label{sec:org2e9bf9b}
+\label{sec:orga0d0b3c}
 To describe / document an API at least 3 information are required:
 \begin{itemize}
 \item API Endpoint Information (e.g. URL / URI / \ldots{})
@@ -725,18 +725,18 @@ A more complete description / documentation contains a few additional informatio
 \item Versioning Metadata
 \end{itemize}
 \subparagraph{Interface Definition Language} \
-\label{sec:orgd2fda33}
+\label{sec:org192abba}
 An Interface Definition Language is used to describe an API in a \href{../../../roam/20210920103254-programming_language.org}{Programming Language} independent way.
 One of the most common one for \href{../../../roam/20230108172748-what_is_rest.org}{REST} APIs is \href{../../../roam/20230111084434-openapi_specification.org}{OpenAPI Specification}.
 An alternative WDSL (Web Services Description Language).
 \subparagraph{OpenAPI Specification} \
-\label{sec:orgfdc6127}
+\label{sec:orgf138a61}
 The OpenAPI Specification (OAS) is an \href{../../../roam/20230111084138-what_is_an_interface_definition_language.org}{IDL} to describe \href{../../../roam/20230108172748-what_is_rest.org}{REST} APIs.
 The OpenAPI Specification is often written in JSON or YAML.
 \section{Service Granularity}
-\label{sec:org2352d49}
+\label{sec:orgcdd8de4}
 \subparagraph{Service Granularity} \
-\label{sec:orgcfa8dbc}
+\label{sec:org6035ed5}
 Service Granularity is the size of a service.
 
 \begin{quote}
@@ -746,7 +746,7 @@ service, but rather what the service does. -- Dr. Gerald Reif
 
 To find the right size / granularity for a service we have \href{../../../roam/20230111100624-what_are_service_granularity_integrators.org}{Service Granularity Integrators} and \href{../../../roam/20230111100600-what_are_service_granularity_disintegrators.org}{Service Granularity Disintegrators}.
 \subparagraph{Service Granularity Disintegrators} \
-\label{sec:orga542bca}
+\label{sec:org2c15128}
 Provide guidance and justification for when to break a service into smaller pieces.
 
 \begin{description}
@@ -758,7 +758,7 @@ Provide guidance and justification for when to break a service into smaller piec
 \item[{Extensibility}] Is the service always expanding to add new contexts?
 \end{description}
 \subparagraph{Service Granularity Integrators} \
-\label{sec:orgdcd15ba}
+\label{sec:org4ae056e}
 Provide guidance and justification for putting services back together (or not breaking apart a service in the first place).
 
 
@@ -769,7 +769,7 @@ Provide guidance and justification for putting services back together (or not br
 \item[{Database relationships}] Although a service can be broken apart, can the data it uses be broken apart as well?
 \end{description}
 \subparagraph{Async vs sync} \
-\label{sec:org2dc4079}
+\label{sec:org58ad7f6}
 Two services can communicate in a synchronous or asynchronous (\href{../../../roam/20211207194612-async_vs_parallel.org}{async vs parallel}) manner.
 Both have their pros and cons.
 
@@ -804,7 +804,7 @@ async pro:
 \item high performance and scale
 \end{itemize}
 \subparagraph{Orchestrator} \
-\label{sec:org5bd0178}
+\label{sec:orgd4fdd38}
 An Orchestrator implements the whole workflow logic.
 The different services are not communicating directly, but over the orchestrator.
 This is an implementation of the \href{../../../roam/20220413201546-design_pattern_mediator.org}{Design Pattern - Mediator}.
@@ -816,7 +816,7 @@ This is an implementation of the \href{../../../roam/20220413201546-design_patte
 \captionof{figure}{orchestration vs choregraphy}\label{fig:orchestration-vs-choregraphy}
 }
 \subparagraph{orchestration vs choreography} \
-\label{sec:org48acb15}
+\label{sec:org27b7583}
 orchestration contra:
 \begin{itemize}
 \item slow responsiveness
@@ -852,16 +852,16 @@ choreography pro:
 \item service coupling (each service only has to know the service which communicates with)
 \end{itemize}
 \subparagraph{atomicity vs eventual consistency} \
-\label{sec:org15f6be5}
+\label{sec:orgdf57720}
 \emph{Atomicity} guaranties that each transaction is treated as a single "unit".
 This unit succeeds completely or fails completely.
 
 \emph{Eventual Consistency} guaranties if no new updates are made to a given data item, eventually all access to that item will return the last updated value.
 Language: [en] eventual -> [de] schlussendlich, irgendwann, letzten Endes – \textbf{Nicht eventuell!}
 \section{Session State}
-\label{sec:org02ea72e}
+\label{sec:org15a03bb}
 \subparagraph{Session State Management} \
-\label{sec:org0bc6c7a}
+\label{sec:org0325c2f}
 In general there exists 3 types how / where you can manage / store state:
 \begin{itemize}
 \item Client Session State (REST Level 3)
@@ -879,9 +879,9 @@ In general there exists 3 types how / where you can manage / store state:
 \end{itemize}
 \end{itemize}
 \section{Patterns}
-\label{sec:org900d0fe}
+\label{sec:orgbb86a8b}
 \subparagraph{Architecture Pattern - Layering} \
-\label{sec:org5bedbac}
+\label{sec:orgd658a63}
 \begin{description}
 \item[{Context}] A system that needs to be segmented due to its size and specialization.
 \item[{Problem}] System design that supports a mixture of tasks on different levels.
@@ -904,7 +904,7 @@ Physical layers (tiers)
 \item Database Server
 \end{itemize}
 \subparagraph{Architecture Pattern - Distribution Pattern} \
-\label{sec:org96f7ff4}
+\label{sec:org1f938ba}
 The Distribution Pattern describes how you can partition your application in client and server components.
 
 \begin{itemize}
@@ -915,30 +915,30 @@ The Distribution Pattern describes how you can partition your application in cli
 \item \href{../../../roam/20230107151436-distribution_pattern_distributed_database.org}{Distribution Pattern - Distributed Database}
 \end{itemize}
 \subparagraph{Distribution Pattern - Remote User Interface} \
-\label{sec:org25900a3}
+\label{sec:orga843b0b}
 In \emph{Remote User Interface} the tier 1 runs dialog control sub-layer (the C and the M in MVC) in addition to display.
 An example for this pattern are today's Single-Page Applications (\href{../../../roam/20220513105545-javascript.org}{JavaScript} performs calls to API).
 \subparagraph{Distribution Pattern - Distributed Presentation Layer} \
-\label{sec:org41cb372}
+\label{sec:org8c582a8}
 In the \emph{Distributed Presentation Layer} the tier 1 client only renders display elements (the V in MVC).
 Tier 2 owns/controls screen/page flow.
 
 Example for this pattern are traditional (MVC) PHP application.
 \subparagraph{Distribution Pattern - Distributed Application Kernel} \
-\label{sec:org2656a87}
+\label{sec:org346330b}
 In the \emph{Distributed Application Kernel} pattern the business logic is \textbf{physically} distributed.
 An example for this pattern are \href{../../../roam/20230107150950-what_are_microservices.org}{Microservice}.
 \subparagraph{Distribution Pattern - Remote Database} \
-\label{sec:org2ba1310}
+\label{sec:org505aa89}
 In the \emph{Remote Database} pattern you use a Remote Database Access Protocol to connection your application to the database.
 Example for this is JDBC/ODBC (Java) or sqlx (Rust, Go).
 The transaction management is performed by the database itself.
 \subparagraph{Distribution Pattern - Distributed Database} \
-\label{sec:org3b5c399}
+\label{sec:org77c1a64}
 In the \emph{Distribution Database} your database is partitioned and/or partially replicated.
 This can be done using a \href{../../../roam/20230107151606-what_is_a_two_phase_commit.org}{Two-Phase Commit} with an external transaction manager.
 \subparagraph{Design Pattern - Template View} \
-\label{sec:org32bd2f1}
+\label{sec:org1ed55ea}
 You insert markers in the markup (for example HTML).
 These markers are then replaced at runtime with real values.
 Known uses are:
@@ -950,7 +950,5 @@ Known uses are:
 \begin{quote}
 Renders information into HTML by embedding markers in an HTML page.
 \end{quote}
-\section{END}
-\label{sec:org08e3363}
 \end{multicols}
 \end{document}
