@@ -1,0 +1,567 @@
+% Created 2023-01-27 Fri 12:07
+% Intended LaTeX compiler: xelatex
+\documentclass[8pt,twoside,landscape]{extarticle}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{subcaption}
+\usepackage[newfloat]{minted}
+\usepackage{color}
+\usepackage{listings}
+\usepackage[top=5mm,bottom=5mm,right=5mm,left=5mm,landscape]{geometry}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{caption}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{float}
+\setlist{noitemsep, topsep=0pt}
+\setlength{\parindent}{0pt}
+\setlength{\columnseprule}{0.2pt}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\lstset{ backgroundcolor=\color{white}, basicstyle=\footnotesize, breaklines=true, captionpos=b, commentstyle=\color{mygreen}, escapeinside={\%*}{*)},keywordstyle=\color{blue}, stringstyle=\color{mymauve},}
+\author{Olivier Lischer}
+\date{\today}
+\title{PF Exam Summary}
+\hypersetup{
+ pdfauthor={Olivier Lischer},
+ pdftitle={PF Exam Summary},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 27.2 (Org mode 9.5.5)}, 
+ pdflang={English}}
+\begin{document}
+
+\begin{multicols}{4}
+
+\section{GoF}
+\label{sec:org650ee28}
+\subparagraph{Mediator} \
+\label{sec:org7291e76}
+The Mediator Design Pattern is used to encapsulate how a set of objects interact with each other.
+The different objects do not have to reference each other explicit.
+\subparagraph{Memento} \
+\label{sec:orgf631f84}
+The Memento Design Pattern is used to store an internal state.
+This is often used for restoring the internal state of an object.
+
+The object creates a memento (a copy of the state itself) and returns it to the world.
+The state of the object can be restored using such a memento.
+You can not change the memento and the inner live is unknown to the outer world.
+\subparagraph{Command} \
+\label{sec:orga832c78}
+The command pattern is used to encapsulate actions / request inside an object.
+For example, the design of a framework does not know which action the button should perform.
+Therefore, the button is created using a command as parameter.
+As soon as the user clicks on the button, the button executions the \texttt{command.Execute()} function.
+\subparagraph{Command Processor} \
+\label{sec:org81cb79e}
+The Command Processor is an extension of the Command Pattern.
+The Command Processor is more or less just a \href{../../../roam/20210806220134-stack.org}{Stack} of Commands.
+
+The Command Processor gets the command (\texttt{do\_it}).
+If you want to undo more than one command you just call \texttt{undo\_it} multiple times on the processor.
+\subparagraph{Visitor} \
+\label{sec:orgac2eb30}
+The Visitor Patter is used to "visit" class hierarchy.
+The visitor can perform action on the visited elements (for example spell checking in a document).
+
+It is easy to implement a new Visitor (Just implement the Interface).
+However, extending the class hierarchy with a new subclass is very difficult.
+You have to extend the interface \texttt{Visitor} and therefore all implementations of this interface.
+\subparagraph{(External) Iterator} \
+\label{sec:orgb865d47}
+The iterator design pattern is used to access the items in a \href{../../../roam/20210518131131-datastructure.org}{Data structure} (Aggregate in figure \ref{fig:iterator-class-diagram}).
+The benefit of iterator is that it hides the implementation details of the data structure.
+\subparagraph{Internal Iterator} \
+\label{sec:org74a2619}
+The internal Iterator is used to iterate over a data structure.
+In contrast to the \href{../../../roam/20220413201100-design_pattern_iterator.org}{Design Pattern - External Iterator} you provide a function, which is called for each element.
+
+\begin{lstlisting}[language=csharp,label=lst:internal-iterator-examples,caption={Internal Iterator Examples},captionpos=b,numbers=none]
+List<T>.ForEach(Action<T>); // C#
+Collection.forEach(); // Java
+Stream.forEach(); // Java
+Array.prototype.forEach(); // JS
+\end{lstlisting}
+\subparagraph{Class for States} \
+\label{sec:org2042beb}
+The state pattern is used allow an object to alter its internal behavior depending on its state.
+The object will appear to change its class.
+\subparagraph{Method for States} \
+\label{sec:org3901349}
+\subparagraph{Collection for States} \
+\label{sec:org0b97703}
+\subparagraph{Collection for States} \
+\label{sec:orgf098759}
+Collection for States is a way to handle multiple objects in a particular state.
+For each state you have a list / collection, which contains the objects in this state.
+
+If an event is triggered, then the event is executed on all objects in the list, which should handle this.
+The distinction between the states is made depending on which list / collection the work item is.
+\subparagraph{Factory Method} \
+\label{sec:org6180847}
+The Factory Method is used to create an object, but the subclass decides which class is instantiated.
+With this pattern you can create concrete creators which can decide which concrete product should be created.
+The user of the creator only has to use the interface.
+\subparagraph{Template Method} \
+\label{sec:orga3ef0b2}
+Using the Template Method Pattern you write the skeleton for an algorithm in the base class.
+The functions which do something with data can be overwritten in a subclass.
+\subparagraph{Strategy} \
+\label{sec:org429ba7c}
+The Strategy Pattern is used to encapsulate an algorithm in an object.
+With this approach you can change the algorithm at runtime.
+\subparagraph{Flyweight} \
+\label{sec:orgaddef9d}
+The Flyweight pattern is used to support large number of objects efficiently.
+For example, you can store every character in its own object.
+In a document with 1000 characters you need more than 1000 objects.
+The Flyweight pattern helps here.
+
+In the Flyweight class is only state indecent stuff stored.
+Therefore, the Flyweight is shareable.
+Instead, creating every time a new object with the character "a" you always reference to the same object.
+\section{Value Patterns}
+\label{sec:orgec13aed}
+\subparagraph{Value Object} \
+\label{sec:org664e37d}
+The Value Object Pattern is used to represent a class as values (immutable).
+In \href{../../../roam/20201116150053-java.org}{Java} you don't have a Value Type \texttt{Year}.
+Year however, is just a number.
+With the Value Object Pattern you can simulate the same behavior for the Class \texttt{Year} as it was a type \texttt{int}.
+The Identity is \textbf{not} important for such a type / value.
+
+
+In \href{../../../roam/20211003114158-c.org}{C\#} just use the \texttt{struct} keyword.
+In \href{../../../roam/20201116150053-java.org}{Java} use the \texttt{record} keyword.
+However, you have to do some more stuff in Java.
+\subparagraph{Whole Value} \
+\label{sec:org6cd671f}
+The Whole Value Pattern answers the following question:
+\begin{quote}
+How can you represent primitive quantities from your problem domain without loss
+of meaning?
+
+«Express the type of the quantity as a Value Class.» [Henney]
+\end{quote}
+
+The Whole Value can be immutable, but it is not required to be.
+\begin{lstlisting}[language=java,label= ,caption= ,captionpos=b,numbers=none]
+public final class Year {
+    public Year(int year) { value = year; }
+    public int getValue() { return value; }
+    private final int value;
+}
+\end{lstlisting}
+
+\subparagraph{Enumeration Value} \
+\label{sec:org99e3029}
+An enumeration value is just an Enum in \href{../../../roam/20201116150053-java.org}{Java}, \href{../../../roam/20211003114158-c.org}{C\#} or \href{../../../roam/20200904153952-rust.org}{Rust}.
+\subparagraph{Immutable Value} \
+\label{sec:orgf8d38aa}
+An Immutable Value can not be changed.
+That means all internal fields are \texttt{const} or \texttt{final}.
+
+\begin{lstlisting}[language=csharp,label= ,caption= ,captionpos=b,numbers=none]
+struct Value {
+    readonly int _value;
+}
+\end{lstlisting}
+\subparagraph{Simple Factory} \
+\label{sec:org5cb430a}
+Intent:
+\begin{itemize}
+\item Provide an interface for creating objects without specifying the concrete implementation.
+\end{itemize}
+
+Motivation:
+\begin{itemize}
+\item You want to create concrete objects without knowing which concrete type you get.
+\item You are only interested in the interface.
+\end{itemize}
+\subparagraph{Mutable Companion} \
+\label{sec:org04d906f}
+\begin{quote}
+How can you simplify complex construction of an Immutable Value?
+\end{quote}
+
+
+A Mutable Companion is a factory object for immutable values.
+\texttt{StringBuilder} is an example for such a Mutable Companion for \texttt{Strings}.
+For the final creation of the object (see \autoref{lst:example-for-mutable-companion}) you use the \href{../../../roam/20220413195351-design_pattern_factory_method.org}{Design Pattern - Factory Method}.
+
+\begin{lstlisting}[language=java,label=lst:example-for-mutable-companion,caption={Example for Mutable Companion},captionpos=b,numbers=none]
+var yearBuilder = new YearCompanion(Year.of(2020));
+yearBuilder.next();
+var nextYear = yearBuilder.asValue();
+
+public final class YearCompanion {
+    private int value;
+
+    public YearCompanion(Year toModify) {
+	this.value = toModify.getValue();
+    }
+    public void next() {
+	this.value++;
+    }
+    public Year asValue() { // factory method
+	return Year.of(value);
+    }
+}
+\end{lstlisting}
+\section{CHECKS Patterns}
+\label{sec:orgc220a81}
+\subparagraph{Exceptional Behavior} \
+\label{sec:org83498ee}
+\begin{quote}
+How can exceptional behavior caused by invalid input be handled without throwing errors?
+\end{quote}
+
+If your function should indicate an error, but should not throw an error / exception then return an \emph{exceptional value} in an error case.
+An \emph{exceptional value} could be:
+\begin{itemize}
+\item \texttt{null} or \texttt{undefined} (not recommended)
+\item Enumeration Value to identify what went wrong
+\end{itemize}
+
+
+\begin{lstlisting}[language=js,label=lst:example-for-exceptional-behavior,caption={Example for Exceptional Behavior},captionpos=b,numbers=none]
+export enum CalculationError {
+    DivByZero = "div/0",
+    NumeratorIsNaN = "NaN(numerator)",
+    DivisorIsNaN = "NaN(divisor)"
+}
+
+export class Calculator {
+    public static divide(numerator: number, divisor: number): number | CalculationError {
+	if (divisor === 0) {return CalculationError.DivByZero; }
+	if (isNaN(numerator)) {return CalculationError.NumertorIsNaN; }
+	if (isNaN(divisor)) {return CalculationError.DivisorIsNaN; }
+
+	return numerator / divisor;
+    }
+}
+\end{lstlisting}
+\subparagraph{Meaningless Behavior} \
+\label{sec:org1168d12}
+\begin{quote}
+Write methods (without) with minimalistic concern for possible failure.
+\end{quote}
+
+You will return a meaningless value unless a condition has domain meaning
+\section{Framework}
+\label{sec:org3406aa7}
+\subparagraph{Framework} \
+\label{sec:org12ebe80}
+A framework is a collection of classes, functions, \ldots{} that are working together.
+A framework provides \emph{hook} for \emph{extensions}.
+In contrast to a library is, that the framework own the control flow and calls \textbf{your} components (\href{../../../roam/20230102153338-what_is_inversion_of_control.org}{Inversion of Control}).
+
+
+Examples:
+\begin{itemize}
+\item Java
+\begin{itemize}
+\item Hibernate
+\item Velocity
+\end{itemize}
+\item C\#
+\begin{itemize}
+\item .NET / Core
+\item Entity Framework
+\end{itemize}
+\item JS
+\begin{itemize}
+\item Vue.js
+\end{itemize}
+\end{itemize}
+\subparagraph{Application Framework} \
+\label{sec:orga8f49fd}
+An Application Framework is a special kind of framework.
+In a framework you use the framework, and you start the framework.
+In an Application Framework the "main" method lives inside the application framework.
+
+An example for an Application Framework is Eclipse.
+Based on the Eclipse you can create many other products (Java IDE, C++ IDE, \ldots{}).
+
+Examples:
+\begin{itemize}
+\item Java
+\begin{itemize}
+\item Spring (Boot)
+\item Application Server (J2EE)
+\end{itemize}
+\item C\#
+\begin{itemize}
+\item ASP.NT
+\end{itemize}
+\item JS
+\begin{itemize}
+\item Angular
+\end{itemize}
+\end{itemize}
+\section{Reflection}
+\label{sec:orga9ee521}
+\subparagraph{Reflection} \
+\label{sec:org91a004f}
+Reflection consists of two aspects:
+\begin{itemize}
+\item \emph{Introspection} (observe own state, e.g. query object properties)
+\item \emph{Intercession} (modify own state, e.g. add another attribute)
+\end{itemize}
+
+\begin{quote}
+In computer science, reflective programming or reflection is the ability of a process to examine, introspect, and modify its own structure and behavior. [Wikipedia]
+\end{quote}
+
+
+\begin{lstlisting}[language=java,label= ,caption= ,captionpos=b,numbers=none]
+if (origin instanceof Cloneable) {
+    cloned = ((Cloneable)origin).clone();
+} else {
+    cloned = origin.getClass().getDeclaredConstructor().newInstance();
+    // ...
+    BeanUtils.copyProperties(origin, cloned); // get data from getters, fill into setters.
+}
+\end{lstlisting}
+\subparagraph{Meta Level Programming} \
+\label{sec:org8cb24b0}
+The \emph{Meta Level} provides a self-representaiton
+\begin{itemize}
+\item gives the software knowledge of its own structure
+\item consists of \href{../../../roam/20230115160536-what_are_meta_objects.org}{Meta Objects}
+\item interface for manipulation meta objects is called \href{../../../roam/20230115160651-what_is_the_metaobject_protocol.org}{Metaobject Protocol}
+\end{itemize}
+
+
+The \emph{base level} defines the application logic.
+\subparagraph{Meta Object} \
+\label{sec:org12e281f}
+If a programming language uses reflections it uses meta objects for:
+\begin{itemize}
+\item classes
+\item object attributes
+\item methods
+\item class relationships
+\item \ldots{}
+\end{itemize}
+\subparagraph{Meta Object Protocol} \
+\label{sec:orgcab1d1b}
+The Metaobject protocol provides a vocabulary to access and manipulate the structure and behavior of a system of objects.
+\subparagraph{Pro / Con Reflection} \
+\label{sec:org6a33388}
+Benefits:
+\begin{itemize}
+\item Adapting a software system is easy
+\item support for many kinds of changes
+\end{itemize}
+
+
+Liabilities:
+\begin{itemize}
+\item Produces non-transparent APIs
+\begin{itemize}
+\item control flow already hard to understand with polymorphism
+\end{itemize}
+\item binding at runtime (late binding)
+\begin{itemize}
+\item limited type safety (Rename class, but class name in string during reflection class is not renamed)
+\item lower efficiency, no compiler-optimizaiton
+\end{itemize}
+\end{itemize}
+\subparagraph{Type Object} \
+\label{sec:org51b3b6f}
+A Rental System contains books and videos.
+For each book / video multiple copies may exist.
+The descriptive information (title, author, actors) is stored in the book / video class (shared among copies).
+Each media item type has own data and behavior.
+
+\textbf{Problem}:
+\begin{itemize}
+\item We want to keep common behavior and data in only one place
+\begin{itemize}
+\item object behavior depends on category (video / book)
+\item categories should be objects themselves
+\end{itemize}
+\end{itemize}
+
+\begin{quote}
+How can you categorize objects, eventually dynamically?
+
+Categorize objects by another object instead of a class (Book, Video)
+Thus, an object can change 'class' at runtime.
+\end{quote}
+
+
+\textbf{Solution}:
+\begin{itemize}
+\item crate a category (\emph{type}) object which describes multiple objects
+\item \emph{objects} forward the calls to the underlying type
+\end{itemize}
+
+
+\begin{lstlisting}[language=java,label=lst:example-for-type-object,caption={Example for Type Object},captionpos=b,numbers=none]
+// Base level
+public class Copy {
+    protected MediaType type;
+    protected int copyid; // invoentory no
+
+    public int getId() { return copyid; }
+    // example for delegation
+    public String getTypeid() { return type.getId(); }
+    public String getTitle() { return type.getTitle() ;}
+}
+
+// Meta level
+public class MediaType {
+    protected String title;
+    protected String typeid;
+
+    public String getId() { return typeid; }
+    public String getTitle() { return title; }
+}
+\end{lstlisting}
+\subparagraph{Property List} \
+\label{sec:orgb968156}
+\textbf{Problem}:
+\begin{itemize}
+\item attributes should be attachable / detachable after compilation
+\item objects share attributes / parameters across the class hierarchy
+\end{itemize}
+
+
+\begin{quote}
+How do you define properties (also arguments) in a flexible way, so they can be attached and detached at runtime?
+
+Provide objects with a 'property list'. That list allows to associate names with other values or objects.
+\end{quote}
+
+
+\textbf{Solution}:
+\begin{itemize}
+\item property list maps attribute names to values
+\item each name (e.g. a string) defines a slot / property
+\end{itemize}
+
+\begin{lstlisting}[language=java,label=lst:example-for-anything,caption={Example for Anything},captionpos=b,numbers=none]
+public class Graphics {
+    private Properties pl;
+
+    public String get(String prop) {
+	return pl.getProperty(prop, "");
+    }
+    public void set(String prop, Object value) {
+	pl.setProperty(prop, value);
+    }
+}
+
+package java.util;
+public class Properties {
+    public Set<String> stringPropertyNames() { /**/ }
+    public String getProperty(String prop, String defaultValue) { /**/ }
+    public String setProperty(String prop, Object value) { /**/ }
+}
+\end{lstlisting}
+
+
+\textbf{Benefits}:
+\begin{itemize}
+\item you can extend the object with properties at runtime while keeping object identity
+\end{itemize}
+
+
+\textbf{Liabilities}:
+\begin{itemize}
+\item Type safety left to the programmer (see \href{../../../roam/20230115180651-design_pattern_bridge_method.org}{Design Pattern - Bridge Method})
+\item naming not checked by a compiler (see \href{../../../roam/20230115180651-design_pattern_bridge_method.org}{Design Pattern - Bridge Method})
+\end{itemize}
+\subparagraph{Anything} \
+\label{sec:org6feb0aa}
+The Anything Pattern can be used to describe / create arbitrary data structure.
+The Anything Pattern is something like a recursively structured Property List (\href{../../../roam/20230115171958-design_pattern_property_list.org}{Design Pattern - Property List})
+
+An object is a collection of properties (property list) where you access the different values by name / key.
+An array is a collection of properties (property list) where you access the different values by index.
+\section{Singleton}
+\label{sec:org1f25cc7}
+\subparagraph{Singleton} \
+\label{sec:org3722bee}
+The Singleton pattern ensures that a class has only one (global) instance.
+Additionally, it provides easy access to this element.
+
+However, you should \textbf{NOT} use it in your software.
+It is basically a global variable.
+Therefore, not testable and difficult to maintain.
+
+If you want something like singleton, you should use a simple factory which always returns the same instance.
+
+\subparagraph{Registry} \
+\label{sec:orgf972b86}
+The Singleton Design Pattern is evil and should not be used.
+An alternative could be the Registry pattern.
+
+You will register multiple singletons in the registry.
+Using a \texttt{lookup(name)} function you will get your specific singleton.
+The \texttt{instance()} returns the default singleton from the registry.
+
+\subparagraph{Monostate} \
+\label{sec:orgef9a99d}
+If you have to use a framework, which provides a singleton you can kill this singleton using a \emph{Monostate}.
+A monostate is a normal class, \textbf{but} all member variables are static members (see \autoref{lst:kill-a-singleton}).
+\textbf{Attention:} In parallel and async execution you have to sync the access to static members.
+
+
+\begin{lstlisting}[language=java,label=lst:kill-a-singleton,caption={Kill a singleton},captionpos=b,numbers=none]
+public interface Monostate {
+    int getX();
+    int getY();
+}
+
+public class MonostateImpl implements Monostate {
+    public int getX() {
+	return Singleton.getInstance().getX();
+    }
+
+    public int getY() {
+	return Singleton.getInstance().getY();
+    }
+}
+\end{lstlisting}
+
+\subparagraph{Service Locator} \
+\label{sec:orgcd715d5}
+The Service Locator is a singleton, which only returns services or finders to find the concrete service.
+The Service Locator is similar to a Registry.
+If you use the Service Locator you have only \textbf{one} singleton in your application.
+{
+\begin{center}
+\includegraphics[width=.9\linewidth]{img/service_locator_dynamics.png}
+\end{center}
+\captionof{figure}{Service Locator Dynamics}\label{fig:service-locator-dynamics}
+}
+\subparagraph{Parameterize from Above} \
+\label{sec:orgbaaa9d9}
+Often you have functionality which should be shared over multiple or all layers (configuration, security).
+To solve this problem, without creating a singleton you can use \emph{Parameterize from Above}.
+In the main method you will create all services.
+And you provide all services over the constructor.
+\subparagraph{Dependency Injection} \
+\label{sec:orgc646889}
+A Dependency Injection Container is used to store all services in a registry and injects the required services in the constructor while creating (\href{../../../roam/20230125163949-how_to_share_classes_over_multiple_layers.org}{Parameterize from Above}).
+
+You register all services and components in the container.
+The container will inject a compatible component according to your function signature.
+
+
+\end{multicols}
+\end{document}
