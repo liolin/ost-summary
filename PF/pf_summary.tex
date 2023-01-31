@@ -1,4 +1,4 @@
-% Created 2023-01-27 Fri 11:28
+% Created 2023-01-31 Tue 16:46
 % Intended LaTeX compiler: xelatex
 \documentclass[11pt,twoside,landscape]{article}
 \usepackage{graphicx}
@@ -54,9 +54,9 @@
 
 \begin{multicols}{3}
 \section{Patterns}
-\label{sec:org7f35119}
+\label{sec:orgb03538d}
 \subparagraph{What is a Pattern} \
-\label{sec:org5d5d5ff}
+\label{sec:orga345d4e}
 The GoF had 4 elements for specifying a design pattern.
 Today you have 6:
 \begin{description}
@@ -77,13 +77,13 @@ Example:
 \item Liabilities: Costs
 \end{itemize}
 \subparagraph{Pattern Language} \
-\label{sec:orgcf27c29}
+\label{sec:orgd647590}
 A Pattern Languages combine patterns according to their relationships.
 If you have established a Pattern Language, you can read a text and just insert the name of the patterns, and it does make sense.
 \section{GoF}
-\label{sec:org93f9d38}
+\label{sec:org1acd697}
 \subparagraph{Mediator} \
-\label{sec:orgdfc4f90}
+\label{sec:org92dd46b}
 The Mediator Design Pattern is used to encapsulate how a set of objects interact with each other.
 The different objects do not have to reference each other explicit.
 
@@ -96,7 +96,7 @@ The different objects do not have to reference each other explicit.
 
 \begin{enumerate}
 \item How does it work?
-\label{sec:orgab6ce89}
+\label{sec:org53740e4}
 The mediator holds a reference to every object.
 The user selected some item from the list box (object A).
 Object A notifies the mediator that the value has changed.
@@ -111,7 +111,7 @@ The mediator know notifies the other objects.
 \end{enumerate}
 
 \subparagraph{Memento} \
-\label{sec:org92f4a9d}
+\label{sec:org06b5bcc}
 The Memento Design Pattern is used to store an internal state.
 This is often used for restoring the internal state of an object.
 
@@ -127,7 +127,7 @@ You can not change the memento and the inner live is unknown to the outer world.
 \captionof{figure}{Memento Class Diagram}\label{fig:memento-class-diagram}
 }
 \subparagraph{Command} \
-\label{sec:org61d6925}
+\label{sec:org0c514e5}
 The command pattern is used to encapsulate actions / request inside an object.
 For example, the design of a framework does not know which action the button should perform.
 Therefore, the button is created using a command as parameter.
@@ -147,7 +147,7 @@ As soon as the user clicks on the button, the button executions the \texttt{comm
 \captionof{figure}{Example of Command Pattern}\label{fig:example-of-command-pattern}
 }
 \subparagraph{Command Processor} \
-\label{sec:orgb7fec81}
+\label{sec:org297fabd}
 The Command Processor is an extension of the Command Pattern.
 The Command Processor is more or less just a \href{../../../roam/20210806220134-stack.org}{Stack} of Commands.
 
@@ -162,7 +162,7 @@ If you want to undo more than one command you just call \texttt{undo\_it} multip
 \captionof{figure}{Command Processor}\label{fig:command-processor}
 }
 \subparagraph{Visitor} \
-\label{sec:org7462e16}
+\label{sec:org06eda8d}
 The Visitor Patter is used to "visit" class hierarchy.
 The visitor can perform action on the visited elements (for example spell checking in a document).
 
@@ -184,8 +184,8 @@ You have to extend the interface \texttt{Visitor} and therefore all implementati
 \captionof{figure}{Visitor Sequence}\label{fig:visitor-sequence}
 }
 
-\subparagraph{Iterator} \
-\label{sec:org72faf05}
+\subparagraph{(External) Iterator} \
+\label{sec:org2073614}
 The iterator design pattern is used to access the items in a \href{../../../roam/20210518131131-datastructure.org}{Data structure} (Aggregate in figure \ref{fig:iterator-class-diagram}).
 The benefit of iterator is that it hides the implementation details of the data structure.
 
@@ -204,8 +204,19 @@ let _ = iter.next();
 \end{center}
 \captionof{figure}{Iterator Class Diagram}\label{fig:iterator-class-diagram}
 }
+\subparagraph{Internal Iterator} \
+\label{sec:orgd6b1c35}
+The internal Iterator is used to iterate over a data structure.
+In contrast to the \href{../../../roam/20220413201100-design_pattern_iterator.org}{Design Pattern - External Iterator} you provide a function, which is called for each element.
+
+\begin{lstlisting}[language=csharp,label=lst:internal-iterator-examples,caption={Internal Iterator Examples},captionpos=b,numbers=none]
+List<T>.ForEach(Action<T>); // C#
+Collection.forEach(); // Java
+Stream.forEach(); // Java
+Array.prototype.forEach(); // JS
+\end{lstlisting}
 \subparagraph{State} \
-\label{sec:orgcac0d82}
+\label{sec:orgc387691}
 The state pattern is used allow an object to alter its internal behavior depending on its state.
 The object will appear to change its class.
 
@@ -219,7 +230,7 @@ The object will appear to change its class.
 \captionof{figure}{TCP Connection with State}\label{fig:tcp-connection-with-state}
 
 \subparagraph{Method for States} \
-\label{sec:org7fd2fcb}
+\label{sec:org975d21e}
 The Methods for States Pattern is a derivation of the State Pattern by GoF.
 A State is represented as a collection of functions (struct, HashMap, enum, \ldots{}).
 The State Machine itself stores such a collection of function inside and just executes the function on the struct.
@@ -232,14 +243,14 @@ The State Machine itself stores such a collection of function inside and just ex
 \captionof{figure}{Methods For State Example}\label{NAME: Methods For State Example}
 }
 \subparagraph{Collection for States} \
-\label{sec:org83bfaa8}
+\label{sec:orgdbff90c}
 Collection for States is a way to handle multiple objects in a particular state.
 For each state you have a list / collection, which contains the objects in this state.
 
 If an event is triggered, then the event is executed on all objects in the list, which should handle this.
 The distinction between the states is made depending on which list / collection the work item is.
 \subparagraph{Factory Method} \
-\label{sec:org5b408f6}
+\label{sec:org4ef9ee5}
 The Factory Method is used to create an object, but the subclass decides which class is instantiated.
 With this pattern you can create concrete creators which can decide which concrete product should be created.
 The user of the creator only has to use the interface.
@@ -252,7 +263,7 @@ The user of the creator only has to use the interface.
 \captionof{figure}{Factory Method Class Diagram}\label{fig:factory-method-class-diagram}
 }
 \subparagraph{Template Method} \
-\label{sec:org199e4b4}
+\label{sec:org39161cf}
 Using the Template Method Pattern you write the skeleton for an algorithm in the base class.
 The functions which do something with data can be overwritten in a subclass.
 
@@ -264,14 +275,14 @@ The functions which do something with data can be overwritten in a subclass.
 }
 \begin{enumerate}
 \item Example
-\label{sec:org2ff9094}
+\label{sec:org7b37bd9}
 In an algorithm to traverse a tree in order you can implement a function \texttt{handleData()}.
 This function is called every time when the element is "in order".
 You have now one implementation of the algorithm, but you can handle the data differently using subclasses.
 \end{enumerate}
 
 \subparagraph{Strategy} \
-\label{sec:orgc865a32}
+\label{sec:orga9a2634}
 The Strategy Pattern is used to encapsulate an algorithm in an object.
 With this approach you can change the algorithm at runtime.
 
@@ -282,7 +293,7 @@ With this approach you can change the algorithm at runtime.
 \captionof{figure}{Strategy Class Diagram}\label{fig:strategy-class-diagram}
 }
 \subparagraph{Flyweight} \
-\label{sec:org213473b}
+\label{sec:orgefcf572}
 The Flyweight pattern is used to support large number of objects efficiently.
 For example, you can store every character in its own object.
 In a document with 1000 characters you need more than 1000 objects.
@@ -307,9 +318,9 @@ Instead, creating every time a new object with the character "a" you always refe
 \captionof{figure}{Flyweight Class Diagram}\label{fig:flyweight-class-diagram}
 }
 \section{Value Patterns}
-\label{sec:orgdbdca7d}
+\label{sec:org622c666}
 \subparagraph{Value Object} \
-\label{sec:org1a8bebf}
+\label{sec:org9c950b5}
 The Value Object Pattern is used to represent a class as values (immutable).
 In \href{../../../roam/20201116150053-java.org}{Java} you don't have a Value Type \texttt{Year}.
 Year however, is just a number.
@@ -345,7 +356,7 @@ public final class Date implements Serializable {
 }
 \end{lstlisting}
 \subparagraph{Whole Value} \
-\label{sec:org44fbd1c}
+\label{sec:org3484a6d}
 The Whole Value Pattern answers the following question:
 \begin{quote}
 How can you represent primitive quantities from your problem domain without loss
@@ -370,20 +381,20 @@ public final class Date {
 Date first = new Date(new Year(year), new Month(month), new Day(day));
 \end{lstlisting}
 \subparagraph{Enumeration Value} \
-\label{sec:org56673d6}
+\label{sec:org6c7ecf3}
 An enumeration value is just an Enum in \href{../../../roam/20201116150053-java.org}{Java}, \href{../../../roam/20211003114158-c.org}{C\#} or \href{../../../roam/20200904153952-rust.org}{Rust}.
 \subparagraph{Immutable Value} \
-\label{sec:org9349a44}
+\label{sec:orge4d029d}
 An Immutable Value can not be changed.
 That means all internal fields are \texttt{const} or \texttt{final}.
 
-\begin{lstlisting}[language=csharp,label= ,caption= ,captionpos=b,numbers=none]
+\begin{lstlisting}[language=csharp,label=lst:example-for-immutable-value,caption={Example for Immutable Value},captionpos=b,numbers=none]
 struct Value {
     readonly int _value;
 }
 \end{lstlisting}
 \subparagraph{Simple Factory} \
-\label{sec:orgb81d636}
+\label{sec:orgc3304af}
 Intent:
 \begin{itemize}
 \item Provide an interface for creating objects without specifying the concrete implementation.
@@ -395,7 +406,7 @@ Motivation:
 \item You are only interested in the interface.
 \end{itemize}
 \subparagraph{Mutable Companion} \
-\label{sec:org8e6474a}
+\label{sec:org23ae38d}
 \begin{quote}
 How can you simplify complex construction of an Immutable Value?
 \end{quote}
@@ -425,9 +436,9 @@ public final class YearCompanion {
 }
 \end{lstlisting}
 \section{CHECKS Patterns}
-\label{sec:org475d1c3}
+\label{sec:orge7ff1d9}
 \subparagraph{Exceptional Behavior} \
-\label{sec:org19332dd}
+\label{sec:org67ab758}
 \begin{quote}
 How can exceptional behavior caused by invalid input be handled without throwing errors?
 \end{quote}
@@ -440,7 +451,7 @@ An \emph{exceptional value} could be:
 \end{itemize}
 
 
-\begin{lstlisting}[language=js,label= ,caption= ,captionpos=b,numbers=none]
+\begin{lstlisting}[language=js,label=lst:example-for-exceptional-behavior,caption={Example for Exceptional Behavior},captionpos=b,numbers=none]
 export enum CalculationError {
     DivByZero = "div/0",
     NumeratorIsNaN = "NaN(numerator)",
@@ -458,16 +469,16 @@ export class Calculator {
 }
 \end{lstlisting}
 \subparagraph{Meaningless Behavior} \
-\label{sec:orge086c8b}
+\label{sec:orge63fe68}
 \begin{quote}
 Write methods (without) with minimalistic concern for possible failure.
 \end{quote}
 
 You will return a meaningless value unless a condition has domain meaning
 \section{Framework}
-\label{sec:org53195d7}
+\label{sec:org8eaa9fa}
 \subparagraph{Framework} \
-\label{sec:org0c5a98e}
+\label{sec:org3472158}
 A framework is a collection of classes, functions, \ldots{} that are working together.
 A framework provides \emph{hook} for \emph{extensions}.
 In contrast to a library is, that the framework own the control flow and calls \textbf{your} components (\href{../../../roam/20230102153338-what_is_inversion_of_control.org}{Inversion of Control}).
@@ -491,7 +502,7 @@ Examples:
 \end{itemize}
 \end{itemize}
 \subparagraph{Application Framework} \
-\label{sec:orgdbcbc04}
+\label{sec:org64d09fe}
 An Application Framework is a special kind of framework.
 In a framework you use the framework, and you start the framework.
 In an Application Framework the "main" method lives inside the application framework.
@@ -516,9 +527,9 @@ Examples:
 \end{itemize}
 \end{itemize}
 \section{Reflection}
-\label{sec:org16d2c81}
+\label{sec:orgb67cd5d}
 \subparagraph{Reflection} \
-\label{sec:orgf8832c8}
+\label{sec:org3438860}
 Reflection consists of two aspects:
 \begin{itemize}
 \item \emph{Introspection} (observe own state, e.g. query object properties)
@@ -540,7 +551,7 @@ if (origin instanceof Cloneable) {
 }
 \end{lstlisting}
 \subparagraph{Meta Level Programming} \
-\label{sec:org0e94475}
+\label{sec:org8981247}
 The \emph{Meta Level} provides a self-representaiton
 \begin{itemize}
 \item gives the software knowledge of its own structure
@@ -558,7 +569,7 @@ The \emph{base level} defines the application logic.
 \captionof{figure}{Meta Level and Base Level}\label{fig:meta-level-and-base-level}
 }
 \subparagraph{Meta Object} \
-\label{sec:org9188e67}
+\label{sec:orgcca959f}
 If a programming language uses reflections it uses meta objects for:
 \begin{itemize}
 \item classes
@@ -576,10 +587,10 @@ If a programming language uses reflections it uses meta objects for:
 \captionof{figure}{Meta Object class relations}\label{fig:meta-object-class-relations}
 }
 \subparagraph{Meta Object Protocol} \
-\label{sec:orgc85d023}
+\label{sec:orgf0a56d4}
 The Metaobject protocol provides a vocabulary to access and manipulate the structure and behavior of a system of objects.
 \subparagraph{Pro / Con Reflection} \
-\label{sec:org476fe60}
+\label{sec:org627e18d}
 Benefits:
 \begin{itemize}
 \item Adapting a software system is easy
@@ -600,7 +611,7 @@ Liabilities:
 \end{itemize}
 \end{itemize}
 \subparagraph{Type Object} \
-\label{sec:orge3602a3}
+\label{sec:orgc4b6b6f}
 A Rental System contains books and videos.
 For each book / video multiple copies may exist.
 The descriptive information (title, author, actors) is stored in the book / video class (shared among copies).
@@ -642,7 +653,8 @@ Thus, an object can change 'class' at runtime.
 \end{center}
 \captionof{figure}{Meta / Base Level Interactions}\label{fig:meta-base-level-interactions}
 }
-\begin{lstlisting}[language=java,label= ,caption= ,captionpos=b,numbers=none]
+
+\begin{lstlisting}[language=java,label=lst:example-for-type-object,caption={Example for Type Object},captionpos=b,numbers=none]
 // Base level
 public class Copy {
     protected MediaType type;
@@ -664,7 +676,7 @@ public class MediaType {
 }
 \end{lstlisting}
 \subparagraph{Property List} \
-\label{sec:orgafd881a}
+\label{sec:org51a68ec}
 \textbf{Problem}:
 \begin{itemize}
 \item attributes should be attachable / detachable after compilation
@@ -692,7 +704,7 @@ Provide objects with a 'property list'. That list allows to associate names with
 \captionof{figure}{Property List Example}\label{fig:property-list-example}
 }
 
-\begin{lstlisting}[language=java,label= ,caption= ,captionpos=b,numbers=none]
+\begin{lstlisting}[language=java,label=lst:example-for-anything,caption={Example for Anything},captionpos=b,numbers=none]
 public class Graphics {
     private Properties pl;
 
@@ -725,7 +737,7 @@ public class Properties {
 \item naming not checked by a compiler (see \href{../../../roam/20230115180651-design_pattern_bridge_method.org}{Design Pattern - Bridge Method})
 \end{itemize}
 \subparagraph{Anything} \
-\label{sec:orgd30fcad}
+\label{sec:org7bf322d}
 The Anything Pattern can be used to describe / create arbitrary data structure.
 The Anything Pattern is something like a recursively structured Property List (\href{../../../roam/20230115171958-design_pattern_property_list.org}{Design Pattern - Property List})
 
@@ -740,9 +752,9 @@ An array is a collection of properties (property list) where you access the diff
 \captionof{figure}{Anything Class Diagram}\label{fig:anything-class-diagram}
 }
 \section{Singleton}
-\label{sec:orgf455374}
+\label{sec:orgcbfcfca}
 \subparagraph{Singleton} \
-\label{sec:orgac20113}
+\label{sec:org9d165fe}
 The Singleton pattern ensures that a class has only one (global) instance.
 Additionally, it provides easy access to this element.
 
@@ -773,7 +785,7 @@ class SingletonFactory {
 \captionof{figure}{Singelton Class Diagram}\label{fig:singelton-class-diagram}
 }
 \subparagraph{Registry} \
-\label{sec:orgec597ec}
+\label{sec:orgeafc9db}
 The Singleton Design Pattern is evil and should not be used.
 An alternative could be the Registry pattern.
 
@@ -789,7 +801,7 @@ The \texttt{instance()} returns the default singleton from the registry.
 \captionof{figure}{Registry UML}\label{fig:registry uml}
 }
 \subparagraph{Monostate} \
-\label{sec:org9651d1a}
+\label{sec:org6e3a0a4}
 If you have to use a framework, which provides a singleton you can kill this singleton using a \emph{Monostate}.
 A monostate is a normal class, \textbf{but} all member variables are static members (see \autoref{lst:example-for-a-simple-monostate} and \autoref{lst:kill-a-singleton}).
 \textbf{Attention:} In parallel and async execution you have to sync the access to static members.
@@ -823,7 +835,7 @@ public class MonostateImpl implements Monostate {
 }
 \end{lstlisting}
 \subparagraph{Service Locator} \
-\label{sec:orgccf8c25}
+\label{sec:org59c8b33}
 The Service Locator is a singleton, which only returns services or finders to find the concrete service.
 The Service Locator is similar to a Registry.
 If you use the Service Locator you have only \textbf{one} singleton in your application.
@@ -843,7 +855,7 @@ If you use the Service Locator you have only \textbf{one} singleton in your appl
 }
 
 \subparagraph{Parameterize from Above} \
-\label{sec:org655db05}
+\label{sec:org6458356}
 Often you have functionality which should be shared over multiple or all layers (configuration, security).
 To solve this problem, without creating a singleton you can use \emph{Parameterize from Above}.
 In the main method you will create all services.
@@ -876,7 +888,7 @@ public final class Bootstrapper {
 }
 \end{lstlisting}
 \subparagraph{Dependency Injection} \
-\label{sec:orgba08751}
+\label{sec:orge14ed24}
 A Dependency Injection Container is used to store all services in a registry and injects the required services in the constructor while creating (\href{../../../roam/20230125163949-how_to_share_classes_over_multiple_layers.org}{Parameterize from Above}).
 
 You register all services and components in the container.
@@ -890,6 +902,6 @@ The container will inject a compatible component according to your function sign
 \captionof{figure}{Dependency Injection Example}\label{fig:dependency-injection-example}
 }
 \section{END}
-\label{sec:org2cda378}
+\label{sec:org5ef54c8}
 \end{multicols}
 \end{document}

@@ -633,7 +633,7 @@ Physical layers (tiers)
 - Browser
 - Application Server
 - Database Server
-** Architecture Pattern - Distribution Pattern
+** Architecture Pattern - Distribution Pattern / Client Server Cuts (CSC)
 The Distribution Pattern describes how you can partition your application in client and server components.
 
 - [[id:7b194dc0-0e39-4131-8259-3d1d6417c69f][Distribution Pattern - Remote User Interface]]
