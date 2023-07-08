@@ -1,0 +1,2042 @@
+#+TITLE: CPlA Summary
+#+AUTHOR: Olivier Lischer
+#+SETUPFILE: ../latex_includes.conf
+#+LATEX_HEADER: \usepackage{caption}
+
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{CPlA-FS23}
+\fancyhead[L]{Exam Summary}
+\fancyfoot[CE,CO]{\leftmark}
+\fancyfoot[R]{\thepage}
+\fancyfoot[L]{Olivier Lischer}
+
+\tableofcontents
+\newpage
+\begin{multicols}{2}
+
+* Move Semantics
+** What is move semantics?
+Move Semantics is when you do not copy an object, but you move it.
+A small object lives on the stack (see [[id:66dbbc4f-7ff1-4275-b83f-15fb2de7153e][Smart Pointers in the CPP STL]]) and points to a huge amount of data on the heap.
+Moving means, you create a new small object on the stack let it point to the huge amount of data and the old small object does not point anymore to the data.
+
+
+#+LATEX: {
+[[file:img/copy_vs_move_semantics.png]]
+#+LATEX: \captionof{figure}{Copy vs move semantics}
+#+LATEX: }
+
+** C++ References
+In [[id:1c55f087-be39-4107-b72a-ff7afa4d9ce7][C++]] references are not the same as in Java.
+In [[id:1c55f087-be39-4107-b72a-ff7afa4d9ce7][C++]] we have two kinds of references:
+- [[id:200174fb-050d-4ec2-86e4-696427dc74ac][lvalue references]]
+- [[id:78938fd8-6e6e-4c4d-b899-96cccda80177][rvalue references]]
+  
+
+- =void scale(Point point)=: No side-effect (call by value)
+- =void scale(Point & point)=: Has side-effect (call by ref - lvalue reference)
+- =void scale(Point && point)=: rvalue reference
+ 
+** lvalue reference
+lvalue references in C++ are just another name for a existing object.
+The original must exists as long as it is referred to.
+Do not return locales as reference)!
+lvalue references binds to an [[id:a9d4989a-de57-479e-a1b1-f41826be6edc][lvalue]].
+
+The synatx for a lvalue reference is =T &=.
+
+#+CAPTION: lvalue reference example
+#+NAME: lst:lvalue-reference-example
+#+begin_src c++
+  auto modify(T& t) -> void {
+    //manipulate t
+  }
+  auto lvalueRefExample() -> void {
+    T t = 5;
+    modify(t);
+    T& ir = t;
+    //...
+  }
+#+end_src
+
+** rvalue reference
+
+rvalue references can extend the life-time of an temporary.
+The synatx for an rvalue reference is =T &&=.
+rvalue references binds to an rvalue ([[id:590d78e0-cf20-4015-97c7-b5a88a395ef4][xvalues]], [[id:6ad9058e-17d4-4c08-b234-91881577611c][prvalues]])
+
+
+#+CAPTION: rvalue reference example
+#+NAME: lst:rvalue-reference-example
+#+begin_src c++
+  auto consume(Food&& food) -> void;
+  auto fryBurger() -> Food;
+  auto fastFood() -> void {
+    Food fries{"salty and greasy"};
+    consume(fryBurger());        //call with rvalue
+    consume(fries);              //cannot pass lvalue to rvalue reference, does not compile
+    consume(std::move(fries));   //explicit conversion lvalue to xvalue
+    Food&& burger = fryBurger(); //life-extension of temporary
+#+end_src
+
+** Different value categories
+| has identity? | can be moved from? | Value Category             |
+|---------------+--------------------+----------------------------|
+| Yes           | No                 | lvalue                     |
+| Yes           | Yes                | xvalue (expiring value)    |
+| No            | No (Since C++17)   | prvalue (pure value)       |
+| No            | Yes (Since C++17)  | - (does not exist anymore) |
+
+
+#+LATEX: {
+[[file:img/kinds_of_expressions.png]]
+#+LATEX: \captionof{figure}{Kinds of expressions}\label{fig:kinds-of-expressions}
+#+LATEX: }
+
+** lvalues
+Everything which belongs to the lvalue category can be bind by a lvalue reference.
+- address can be taken
+- can be on the left-hand side of an assignment if modifiable (i.e. non-const)
+- can be used to initialize an lvalue reference
+
+
+Examples for an lvalue:
+- names of variables and parameters
+- function call with return type of lvalue reference to class type (=std::cout << 23=)
+- build-in prefix increment/decrement expressions (++a)
+- array index access (=arr[0]=), when =arr= is an lvalue
+- all string-literals by definition (="name"=)
+  - does not included user-defined literals like ="name"s= or ="name"sv=
+
+** prvalues
+- address can not be taken
+- can not be left-hand side argument of built-in assignment operators
+- temporary materialization when a gvalue is required
+  - conversion to xvalue
+
+
+Examples for prvalues:
+- literals: =23=, =false=, =nullptr=
+- function call expression of non-reference return type: =int std::abs(int n)=
+- serveral operators for built-in types, like post-increment / decremnt expressions: x++
+
+
+temporary materialization (prvalue to xvalue) happens:
+- when binding a reference to a prvalue (see 1 in \autoref{lst:example-for-conversion})
+- when accessing a member of a prvalue (see 2 in \autoref{lst:example-for-conversion})
+- when accessing an element of a prvalue array
+- when converting a prvalue array to a pointer
+- when initializing an =std::initializer_list<T>= from a braced-init-list
+
+
+#+CAPTION: Example for prvalue to xvalue conversion
+#+NAME: lst:example-for-conversion
+#+begin_src c++
+  struct Ghost {
+    auto haunt() const -> void {
+      std::cout << "booooo!\n";
+    }
+    //~Ghost() = delete;
+  };
+  auto evoke() -> Ghost {
+    return Ghost{};
+  }
+  auto main() -> int {
+    Ghost&& sam = evoke();  
+    Ghost{}.haunt();
+  } 
+#+end_src
+
+** xvalues
+- address can not be taken
+- can not be taken
+- can not be used as left-hand operator of built-in assignment
+- conversion from prvalue throught temporary materialization
+
+
+Examples for an xvalue:
+- function call with rvalue reference return type, like =std::move=: =std::move(x)=
+- access of non-reference members of an rvalue object
+- array index access (=arr[0]=), when =arr= is an rvalue
+
+
+#+begin_src c++
+X x1{}, x2{};
+consume(std::move(x1));
+std::move(x2).member;
+X{}.member;
+#+end_src
+
+
+** Overload for references
+The overload for lvalue parameters impose ambiguities (you can not use lvalue and rvalue overloads).
+
+#+LATEX: {
+[[file:img/overloard_resolution_for_free_functions.png]]
+#+LATEX: \captionof{figure}{Overloard resolution for free functions}\label{fig:overloard-resolution-for-free-functions}
+#+LATEX: }
+
+#+LATEX: {
+[[file:img/overload_resoulution_for_member_functions.png]]
+#+LATEX: \captionof{figure}{Overloard resolution for member functions}\label{fig:overloard-resolution-for-member-functions}
+#+LATEX: }
+** Move constructor
+The move constructor is a type of constructors ([[id:c02bff7b-77d4-4ba1-bb5e-7dc5e1d709c9][Which kind of constructor exits in CPP?]]) in [[id:1c55f087-be39-4107-b72a-ff7afa4d9ce7][CPP]] to move all members to an new object.
+#+begin_src c++
+  struct S {
+    S(S && s) : member{std::move(s.member)}
+    {}
+    M member; 
+  };
+
+  auto f(S param) -> void {
+    S local{std::move{param}}
+  }
+#+end_src
+
+** Copy constructor
+The copy constructor is a type of constructors ([[id:c02bff7b-77d4-4ba1-bb5e-7dc5e1d709c9][Which kind of constructor exits in CPP?]]) in [[id:1c55f087-be39-4107-b72a-ff7afa4d9ce7][CPP]] to copy all members to an new object.
+
+#+begin_src c++
+  struct Date {
+    Date(Date const &)
+  };
+#+end_src
+
+** Destructor
+The Destructor is the counter part to the constructor ([[id:c02bff7b-77d4-4ba1-bb5e-7dc5e1d709c9][Which kind of constructor exits in CPP?]]).
+It must release all resources and is not allowed to throw an exception.
+If you program properly you will hardly ever need to implement it yourself.
+It is called automatically for local instances at the end of the block.
+Must not rhow exceptions!
+
+#+begin_src c++
+  class Date {
+    ~Date();
+  };
+#+end_src
+
+** Copy assignment
+If you need to implement the copy assignment operator you should follow the following points:
+- avoid self-copy
+- use the copy constructor to create the copy of the argument
+- swap the =this= object with the copy (swapping is expected to be efficient)
+- Copy-Swap-Idiom
+
+
+#+CAPTION: Example for copy assignment
+#+NAME: lst:example-for-copy-assignment
+#+begin_src c++
+  struct S {
+    auto operator=(S const & s) -> S& {
+      if (std::addressof(s) != this) {
+        S copy = s;
+        swap(copy)
+  	}
+      return *this;
+    }
+  };
+#+end_src
+
+** Move assignment
+Usually you don't need to implment this at all.
+If you have to, following the pattern is usually recommended:
+- avoid self-move
+- swap the =this= object with the parameter
+
+
+#+CAPTION: Example for a move assignment
+#+NAME: lst:example-for-a-move-assignment
+#+begin_src c++
+  struct S {
+    auto operator=(S && s) -> S & {
+      if (std::addressof(s) != this) {
+        swap(s);
+      }
+      return *this;
+    }
+  };
+#+end_src
+
+** What special members do you get?
+#+LATEX: {
+[[file:img/what_special_member_function_do_you_get.png]]
+#+LATEX: \captionof{figure}{What special member function do you get?}\label{fig:what-special-member-function-do-you-get}
+#+LATEX: }
+** Copy elision
+In some cases the compiler is required to elide (omit) specific copy/move operations
+Regardless of the side-effects of the corresponding special member functions!
+- The omitted copy/move special member functions need not exist
+- If they exist, their side-effects are ignored
+
+
+If initialization, when the initializer is a [[id:6ad9058e-17d4-4c08-b234-91881577611c][prvalues]] (see 1 in \autoref{lst:copy-elision-examples}) and when a function call returns a prvalue the compiler must omit the copy / move operations (see 2 in \autoref{lst:copy-elision-examples}).
+
+#+CAPTION: copy elision examples
+#+NAME: lst:copy-elision-examples
+#+begin_src c++
+  auto create() -> S {
+    return S{};
+  }
+  auto main() -> int {
+    S s = S{S{}};             // 1
+    S new_sw{create()};       // 2.1 
+    S * sp = new S{create()}; // 2.2
+  }
+#+end_src
+
+The compiler is also allowed to optimize in throw and catch.
+To be sure to avoid copies, catch by =const &=.
+
+#+CAPTION: copy elision examples try catch
+#+NAME: lst:copy-elision-examples-try-catch
+#+begin_src c++
+  try {
+    throw S{7};
+   } catch (...) {}
+
+
+  try {
+    throw S{7};
+   } catch (S s) {}
+#+end_src
+
+** Copy elision rules
+- NRVO (Named Return Value Optimization)
+  - return type is value type
+  - return expression is a local variable (more or less) of the return type (const is ignored for type comparison)
+  - the object is construced in the location of the return value (insted of moved or copied)
+- throw Expression
+  - return expression is a local variable from the innermost surround try block
+  - the object is constructed in the location where it would be moved or copied
+- catch Clause
+  - if the caught type is the same as the object thrown, it access the object directly (as if caught by reference)
+
+* Type Deduction
+** Forwarding reference
+A forwarding reference can bind to an rvalue ([[id:6ad9058e-17d4-4c08-b234-91881577611c][prvalues]], [[id:590d78e0-cf20-4015-97c7-b5a88a395ef4][xvalues]]) and [[id:a9d4989a-de57-479e-a1b1-f41826be6edc][lvalue]]s depending on the context.
+To create a forwarding reference, the function must be a template function.
+If the function is part of a template class, the function must introduce a new template.
+
+
+#+CAPTION: Example for forwarding references
+#+NAME: lst:example-for-forwarding-references
+#+begin_src c++
+// template function
+template <typename T>
+auto f(T && param) -> void;
+
+template <typename T>
+struct S {
+T member
+
+// no forwarding reference
+auto f(T && param) -> void {}
+}
+
+// forwarding reference
+template <typename E>
+auto g(E && param) -> void {}
+}
+
+
+int main() {
+  int x = 23;
+  f(x)  // lvalue
+
+  f(23) // rvalue
+}
+#+end_src
+
+** Type deduction
+#+CAPTION: Context
+#+NAME: fig:context
+#+begin_src c++
+  template <typename T>
+  auto f(ParamType param) -> void;
+#+end_src
+
+Deduction of type =T= depends on the structure of =ParamType=.
+We have three cases:
+1. =ParamType= is value type (=auto f(T param) -> void=) ([[id:192944c2-1de3-4904-bee3-8cfb3291a7fc][Rules for type deduction with value type in CPP]])
+2. =ParamType= is reference (=auto f(T & param) -> void=) ([[id:33eb9445-3596-43d7-849f-210ab6c912d5][Rules for type deduction with reference type in CPP]])
+3. =ParamType= is a forwarding reference (=auto f(T && param) -> void=) ([[id:6be0ceef-7fdf-4072-8b29-f91b50134abd][Rules for type deduction with forwarding reference type]])
+
+
+Type deduction with =std::initializer_list= does not work.
+#+CAPTION: std::initializer_list in type deduction
+#+NAME: lst:std_initializer_list-in-type-deduction
+#+begin_src c++
+  template <typename T>
+  auto f(T param) -> void {}
+  f({23})  // error
+
+  template <typename T>
+  auto g(std::initializer_list<T> param) -> void {}
+  g({23})  // T = int, ParamType = std::initializer_list<int>
+#+end_src
+
+** Type deduction with value types
+#+CAPTION: Context
+#+NAME: fig:context-value
+#+begin_src c++
+  template <typename T>
+  auto f(T param) -> void;
+
+  f(<expr>);
+#+end_src
+
+Steps:
+1. =<expr>= is a reference type: ignore the reference
+2. ignore =const= of =<expr>= (outermost)
+3. pattern match =<expr>='s type against ParamType to figure out =T=
+
+
+#+LATEX: {
+[[file:img/type_deduction_value_type.png]]
+#+LATEX: \captionof{figure}{Example for type deduction with value type}\label{fig:example-for-type-deduction-with-value-type}
+#+LATEX: }
+
+** Type deduction with reference types
+#+CAPTION: Context non const
+#+NAME: fig:context-non-const
+#+begin_src c++
+  template <typename T>
+  auto f(T & param) -> void;
+
+  f(<expr>);
+#+end_src
+
+Steps:
+1. =<expr>= is a reference type: ignore the reference
+2. Pattern match =<expr>='s type against ParamType to figure out T
+
+
+#+LATEX: {
+[[file:img/type_deduction_reference_type.png]]
+#+LATEX: \captionof{figure}{Example for type deduction with reference type}\label{fig:example-for-type-deduction-with-reference-type}
+#+LATEX: }
+
+#+CAPTION: Context const
+#+NAME: fig:context-const
+#+begin_src c++
+  template <typename T>
+  auto f(T const & param) -> void;
+
+  f(<expr>);
+#+end_src
+
+Steps:
+1. =<expr>= is a reference type: ignore the reference
+2. Pattern match =<expr>='s type against ParamType to figure out T
+
+
+#+LATEX: {
+[[file:img/type_deduction_with_const_reference_type.png]]
+#+LATEX: \captionof{figure}{Example for type deduction with const reference type}\label{fig:example-for-type-deduction-with-const-reference-type}
+#+LATEX: }
+** Type deduction with forwarding reference types
+#+CAPTION: Context
+#+NAME: fig:context-fwr
+#+begin_src c++
+  template <typename T>
+  auto f(T && param) -> void;
+
+  f(<expr>);
+#+end_src
+
+Steps:
+1. =<expr>= is an lvalue: =T= and =ParamType= become lvalue references.
+2. Otherwise (if =<expr>= is an rvalue): Rules for references apply ([[id:33eb9445-3596-43d7-849f-210ab6c912d5][Rules for type deduction with reference type in CPP]])
+
+
+#+LATEX: {
+[[file:img/type_deduction_with_forwarding_references.png]]
+#+LATEX: \captionof{figure}{Example for type deduction with forwarding reference type}\label{fig:example-for-type-deduction-with-forwarding-reference-type}
+#+LATEX: }
+** Type deduction with auto
+The type deduction with =auto= is the same as with templates ([[id:20bab80f-02f4-41da-83bd-14df7b916cd1][Rules for type deduction in CPP]]).
+=auto= takes the place of =T=.
+
+#+begin_src c++
+  auto x = 23;              //auto is a value type
+  auto const cx = x;        //auto is a value type
+  auto& rx = x;             //auto is a reference type
+
+  auto&& uref1 = x;         //x is an lvalue, uref1 is int&
+  auto&& uref2 = cx;        //cx is an lvalue, uref2 is int const&
+  auto&& uref3 = 23;        //23 is an rvalue, uref3 is int&&
+
+  auto init_list1 = {23};   //std::initializer_list<int>
+  auto init_list2{23};      //int, was std::initializer_list<int>1
+  auto init_list3{23, 23};  //Error, requires one single argument
+#+end_src
+
+=auto= can also be used as return type as well for parameter declarations in labmdas and functions.
+
+#+CAPTION: auto as function parameter
+#+NAME: lst:auto-as-function-parameter
+#+begin_src c++
+  auto function(auto arg1, auto arg1) -> void {}
+
+  // results in this
+  template <typename T1, typename T2>
+  auto function(T1 arg1, T2 arg1) -> void {}
+
+  template <typename T>
+  concept Incrementable = requires (T const v){
+    {v.increment()} -> std::same_as<T>;
+  };
+  auto increment(Incrementable auto value) -> T {
+    return value.increment();
+  }
+#+end_src
+
+** Type deduction with decltype
+=decltype= can be applied to an expression: =decltype(x)=.
+=decltype= represents the type of the applied expression.
+
+#+CAPTION: decltype examples
+#+NAME: lst:decltype-examples
+#+begin_src c++
+  int            x       = 23;
+  int const      cx      = x;
+  decltype(cx)   cx_too  = cx; // type of cx_too is int const
+  int&           rx      = x;
+  decltype(rx)   rx_too  = rx; // type of rx_too is int&
+
+  auto           just_x  = rx; // type of just_x is int
+  decltype(auto) more_rx = rx; // type of more_rx is int&
+#+end_src
+
+
+#+begin_src c++
+  template <typename Container, typename Index>
+  decltype(auto) access(Container & c, Index i) {
+    return c[i];
+  }
+  
+  template <typename Container, typename Index>
+  auto access(Container & c, Index i) -> decltype(c[i]) {
+    return c[i];
+  }
+#+end_src
+
+rules for =decltype(auto)=:
+- unparenthesized variable name or data member: =T=, Type of the expression (retains reference)
+- expression of value category xvalue: =T&&=, rvalue reference
+- expression of value category lvalue: =T&=, lvalue reference
+- expression of value category prvalue: =T=, value type of the expression
+
+
+#+CAPTION: Example for decltype(auto)
+#+NAME: lst:example-for-decltype(auto)
+#+begin_src c++
+  decltype(auto) funcName() {
+    int local = 42;
+    return local; //decltype(local) => int
+  }
+  decltype(auto) funcNameRef() {
+    int local = 42;
+    int & lref = local;
+    return lref; //int & -> bad, dangling reference
+  }
+  decltype(auto) funcXvalue() {
+    int local = 42;
+    return std::move(local); //int && -> bad, dangling reference
+  }
+  decltype(auto) funcLvalue() {
+    int local = 42;
+    return (local); //int & -> bad, dangling reference
+  }
+  decltype(auto) funcPrvalue() {
+    return 5; //int
+  }
+#+end_src
+
+** Perfect forwarding
+#+CAPTION: Forwarding Reference example
+#+NAME: lst:forwarding-reference-example
+#+begin_src c++
+  template <typename T>
+  auto log_and_do(T&& param) -> void {
+    //log
+    do_something(std::move(param));
+  }
+#+end_src
+
+In \autoref{lst:forwarding-reference-example} param is a forwarding reference.
+However, =param= is always an lvalue and =std::move(param)= always an rvalue.
+If =T= is of reference type we want to pass an lvalue otherwise we want to pass an rvalue.
+You can do this using =std::forward=.
+
+#+CAPTION: Forwarding Reference using std::forward example
+#+NAME: lst:forwarding-reference-using-std-forward-example
+#+begin_src c++
+  template <typename T>
+  auto log_and_do(T&& param) -> void {
+    //log
+    do_something(std::forward(param));
+  }
+
+  Content c{};
+  log_and_do(c);
+  auto log_and_do(Content& param) -> void {
+    do_something(std::forward<Content&>(param));
+  }
+
+  log_and_do(Content{});
+  auto log_and_do(Content&& param) -> void {
+    do_something(std::forward<Content>(param));
+  }
+#+end_src
+** TODO Inside std::forward
+
+* Heap Memory Management
+** Pointers
+Pointer are things which point to a thing somewhere in the memory.
+
+
+#+LATEX: {
+[[file:img/pointer_to_heap.png]]
+#+LATEX: \captionof{figure}{Point from stack to heap}\label{fig:point-from-stack-to-heap}
+#+LATEX: }
+To create an array on the heap you have to use the following synatx:
+#+begin_src c++
+  auto arr = new int[5]{};
+  // or
+  int * arr2 = new int[5]{};
+  // arr and arr2 are pointesr to the first element
+#+end_src
+
+#+LATEX: {
+[[file:img/pointer_to_array.png]]
+#+LATEX: \captionof{figure}{Pointer to array}\label{fig:pointer-to-array}
+#+LATEX: }
+
+If you want to create a null pointer (a pointer which points nowhere), you should use =nullptr= instead of =0= or =NULL= (=NULL= is just an alias to =0=).
+
+#+begin_src c++
+auto bar(int i) -> void;
+auto bar(S* ps) -> void;
+//calls
+bar(0);       //bar(int)
+bar(NULL);    //surprising also bar(int)
+bar(nullptr); //bar(S*)
+#+end_src
+
+** Allocate memory
+To allocate new memory on heap, use the following syntax:
+- =new <type> <initializer>=
+  
+
+However, you can not allocate an array of non-default constructible types.
+However, you can allocate plain memory (=std::byte[]=) and initialize it later using [[id:c03447e3-eb00-4e2f-8e02-4b7e661f733b][Placement new]].
+
+#+CAPTION: Allocate new memory on heap
+#+NAME: lst:allocate-new-memory-on-heap
+#+begin_src c++
+  struct Point {
+    Point(int x, int y) : x {x}, y {y}{}
+    int x, y;
+  };
+
+  auto createPoint(int x, int y) -> Point* {
+    return new Point{x, y}; //constructor
+  }
+
+  auto createCorners(int x, int y) -> Point* {
+    return new Point[2]{{0, 0}, {x, y}};
+  }
+
+  auto defaultPoints(int x, int y) -> Point* {
+    return new Point[2]{}; // does not work, because no default constructor
+  }
+#+end_src
+
+#+CAPTION: Example for a non default constructible type on the heap
+#+NAME: lst:example-for-a-non-default-constructible-type-on-the-heap
+#+begin_src c++
+  auto elementAt(std::byte * memory, size_t index) -> Point& {
+    return reinterpret_cast<Point *>(memory)[index];
+  }
+  auto memory = std::make_unique<std::byte[]>(sizeof(Point) * 2); // allocate plain memory
+  Point * first = &elementAt(memory.get(), 0);
+  new (first) Point{1, 2};  // create new Point object in the alread allocated memory
+  Point * second = &elementAt(memory.get(), 1);
+  new (second) Point{4, 5};  // create new Point object in the alread allocated memory
+
+  std::destory_at(second);
+  std::destory_at(first);
+#+end_src
+
+** Deallocate memory
+To deallocate memory you have to distinguied between array and single objects:
+- memory deallocation: =delete <pointer>=
+- array memory deallocation: =delete[] <pointer-to-array>=
+  - this deallocates also multidimensional arrays
+
+
+Deleting a =nullptr= does nothing
+However, deleting the same object twiche is *Undefined Behaviour*.
+** Placement new
+If you already allocated some memory, you can construct an object to this location.
+- =new (<location> <type> <initializer>=)
+
+This instruction does *NOT* allocate newy memory.
+  
+The same can also be done using the =std::construct_at= from the std library.
+
+
+
+
+#+begin_src c++
+  struct Point {
+    Point(int x, int y) :
+      x {x}, y {y}{}
+    int x, y;
+  };
+  auto funWithPoint() -> void {
+    auto ptr = new Point{9, 8};
+    //must release Point{9, 8}
+    new (ptr) Point{7, 6};
+    delete ptr;
+  }
+#+end_src
+
+** Placement delete
+If you want to destruct an object but you dont want to free the memory, you can call the destructor manually.
+- =ptr->~S()=
+
+This instruction does *NOT* free the memory
+  
+The same can also be done using the =std::destroy_at= from the std library.
+
+
+#+CAPTION: Example for placement new and delete
+#+NAME: lst:example-for-placement-new-and-delete
+#+begin_src c++
+  struct Resource {
+    Resource() {
+      /*allocate resource*/
+    }
+    ~Resource() {
+      /*deallocate resource*/
+    }
+  };
+  auto funWithPoint() -> void {
+    auto ptr = new Resource{};
+    std::destroy_at(ptr);
+    // or ptr->~Resource();
+    new (ptr) Resource{};
+    delete ptr;
+  }
+#+end_src
+
+** Stack only class
+If you want to prevent, that the user creates your data structure on the heap, you have to override the =new= and =delete= operators.
+The =new= operator should throw an exception, while the =delete= operator does nothing.
+
+#+CAPTION: Example struct with overriden operators
+#+NAME: lst:example-struct-with-overriden-operators
+#+begin_src c++
+  struct not_on_heap {
+    static auto operator new(std::size_t sz) -> void * {
+      throw std::bad_alloc{};
+    }
+    static auto operator new[](std::size_t sz) -> void * {
+      throw std::bad_alloc{};
+    }
+    static auto operator delete(void *ptr) -> void noexcept {
+      // do nothing, never called, but should come in pairs
+    }
+    static auto operator delete[](void *ptr) -> void noexcept {
+      // do nothing, never called, but should come in pairs
+    }
+  };
+#+end_src
+
+* Iterator und Tags
+** What is a type tag
+A tag type is a class, which is only used to mark capabilities of associated types.
+Suach a tag type does not contain ayn members.
+It is also possible to derive tag types from each other to "inherit" the capabilities.
+
+
+#+begin_src c++
+  //Provides travelThroughSpace
+  struct SpaceDriveTag{};
+  //Provides travelThroughSpace and travelThroughHyperspace
+  struct HyperspaceDriveTag : SpaceDriveTag{};
+  //Provides travelThroughSpace and travelImprobably
+  struct InfniteProbabilityDriveTag : SpaceDriveTag{};
+#+end_src
+
+** Tags for dispatch
+You should implement traits!
+You implement a trait using templates and set the tag.
+For each concrete implementation you can now create a template specialization and set tag accordingly.
+Then you create one public function (=travelTo=), which calls the dispachted functions with the tag (=travelToDispatch=).
+
+#+CAPTION: Tag for dispatching example
+#+NAME: lst:tag-for-dispatching-example
+#+begin_src c++
+  struct SpaceDriveTag {};
+  struct HyperspaceDriveTag : SpaceDriveTag {};
+  struct InfiniteProbabilityDriveTag : SpaceDriveTag {};
+
+  struct MultiPurposeCrewVehicle;
+  struct GalaxyClassShip;
+  struct HeartOfGoldPrototype;
+
+  // Every Spaceship can travel through space
+  template <typename>
+  struct SpaceshipTraits {
+    using Drive = SpaceDriveTag;
+  };
+
+  template <>
+  struct SpaceshiTraits<GalaxyClassShip> {
+    using Drive = HyperspaceDriveTag;
+  };
+
+  template <typename Spaceshipt>
+  auto travelToDispatch(Galaxy destination, Spaceship& ship, SpaceDriveTag) -> void {
+    ship.travelThroughSpace(destination);
+  }
+
+  template <typename Spaceshipt>
+  auto travelToDispatch(Galaxy destination, Spaceship& ship, InfiniteProbabilityDriveTag) -> void {
+    while(destination != ship.travelImprobably());
+  }
+
+  template <typename Spaceship>
+  auto travelTo(Galaxy destination, Spaceship& ship) -> void {
+    typename SpaceShipTraits<SpaceShip>::Drive drive{};
+    travelToDispatch(destination, ship, drive);
+  }
+#+end_src
+
+** Iterator Tags
+In CPP exits two kinds of iterators:
+- input iterator
+- forward iterator
+- bidirectional iterator
+- random access iterator
+- output iterator
+
+
+#+LATEX: {
+[[file:img/stl_iterator_categories.png]]
+#+LATEX: \captionof{figure}{STL Iterator Categories}\label{fig:stl-iterator-categories}
+#+LATEX: }
+
+** Iterator member types
+#+CAPTION: Expected members in a C++ iterator
+#+NAME: tbl:expected-members-in-a-cpp-iterator
+| member                   | description                                                               |
+|--------------------------+---------------------------------------------------------------------------|
+| iterator\under{}category | Specifies the iterator category by tag                                    |
+| value\under{}type        | Specifies the type of the elements the iterator iterates over             |
+| difference\under{}type   | Specifies the type used to specify iterator distance (ususally ptrdiff_t) |
+| pointer                  | Specifies the pointer type for the elements the iterator iterates over    |
+| reference                | Specifies the reference type for the elements the iterator iterates       |
+
+
+#+CAPTION: Example member types for an iterator
+#+NAME: lst:example-member-types-for-an-iterator
+#+begin_src c++
+  struct IntIterator {
+    using iterator_category = std::input_iterator_tag;
+    using value_type = int;
+    using difference_type = ptrdiff_t;
+    using pointer = int *;
+    using reference = int &;
+  }
+#+end_src
+
+** TODO Iterator_traits<>
+** TODO Using Boost iterator
+* Advanced Templates
+** Static polymorphism
+Static polymorphism happens at compile-time and is therefore faster in the execution and the type checks happens at compile-time.
+In C++ static polymorhism works using templates.
+At compile time every call to the template, with an different type, is copied and the template parameter replaced with the type.
+
+The drawback is, the compiler has to generate larger binary, the template code has to be known when used and the compile-time is longer.
+
+#+CAPTION: Example for a C++ template
+#+NAME: lst:example-for-a-cpp-template
+#+begin_src c++
+  template <typename T>
+  auto f(T t) -> void {
+    // do something
+  }
+
+  f(int);
+  // generates this
+  auto f(int t) -> void {
+    // do something
+  }
+#+end_src
+
+** Dynamic polymorphism
+Dynamic polymorphism is when you have a inheritance hirarchy and you call a virtual function on the object.
+This will then call the actual implementation on the object (not necessary the function on the base object).
+The dynamic dispatch is performed using a [[id:84b22e3e-9f80-4a8a-984c-429e09c258fa][vtable]].
+
+#+begin_src c++
+  struct Shape {
+    virtual unsigned area() const = 0;
+    virtual ~Shape();
+  };
+  struct Square : Shape {
+    Square(unsigned side_length)
+      : side_length{side_length} {}
+    unsigned area() const {
+      return side_length * side_length;
+    }
+    unsigned side_length;
+  };
+
+  decltype(auto) amountOfSeeds(Shape const & shape) {
+    auto area = shape.area(); // calls area function on Square
+    return area * seedsPerSquareMeter;
+  };
+
+  amountOfSeeds(Square{1});
+#+end_src
+
+
+#+LATEX: {
+[[file:img/dynamic_dispatch.png]]
+#+LATEX: \captionof{figure}{Dynamic Dispatch}\label{fig:dynamic-dispatch}
+#+LATEX: }
+** SFINAE
+SFINAE stands for /Substitution Failure Is Not An Error/.
+When the C++ compiler performs overload resolution, the template parameters in a template declaration are substituted with the deducted types.
+This can result in template instances that can not be compiled.
+If the substituion of template parameters fails that overload candidate is discareded.
+
+Substitution failure might happen in:
+- function return type
+- function parameter
+- template parameter decleration
+- and expressions in the above
+
+
+However, errors in the instance body are still errors.
+
+
+#+LATEX: {
+[[file:img/sfinae_locations.png]]
+#+LATEX: \captionof{figure}{Positions for substituion}\label{fig:positions-for-substituion}
+#+LATEX: }
+** How to use SFINAE?
+One solution might be to use =decltype= as trailing return type.
+However, this does not always work (for example =void= as return type).
+Instead you should use type traits from the =<type_traits>= header.
+
+#+CAPTION: Example useage for SFINAE
+#+NAME: lst:example-useage-for-sfinae
+#+begin_src c++
+  template <typename T>
+  auto increment1(T value) -> std::enable_if<std::is_class_v<T>, T> {
+    return value.increment();
+  }
+
+  template <typename T>
+  auto increment2(std::enable_if_t<std::is_class_v<T>, T> value) -> T {
+    return value.increment();
+  }
+
+  template <typename T, typename = std::enable_if_t<std::is_class_v<T>, void>>
+  auto increment3(T value) {
+    return value.increment();
+  }
+
+#+end_src
+
+** Concepts
+Contraints are used to specify the characteristics of a type in template contextes.
+=requires= clauses allow constraining template parameters.
+=requires= is followed by a compile-time constatnt boolean expression.
+
+#+CAPTION: constraints vs SFINAE
+#+NAME: lst:constraints-vs-sfinae
+#+begin_src c++
+  template <typename T>
+  requires std::is_class_v<T>
+  auto function1(T argument) -> void {}
+
+  template <typename T>
+  auto function2(T argument) -> void requires std::is_class_v<T> {}
+
+  template <typename T>
+  requires requires (T const v) { v.increment(); } // requires requires is not an error
+  auto increment(T value) -> T {
+    return value.increment();
+  }
+
+  // SFINAE
+  template <typename T>
+  auto function3(T value) -> std::enable_if<std::is_class_v<T>, T> {}
+#+end_src
+
+** requires expressions
+The =requires= keyword can also be used to start an expression that evaluates to bool.
+You can perform the following things:
+- *simpel requirements* are statements that are true when they can be compiled
+- *type requirements* check wheter a specific tpye exists
+- *compound requirements* checks constraints on an expressions type
+- *nested requirements* contain further (nested) requires expression
+
+
+#+CAPTION: simple requirements example
+#+NAME: lst:simple-requirements-examples
+#+begin_src c++
+  // simple requirements
+  template <typename T>
+  requires requires (T const v) { v.increment(); }
+  auto increment(T value) -> T {
+    return value.increment();
+  }
+#+end_src
+
+#+CAPTION: type requirements example
+#+NAME: lst:type-requirements-example
+#+begin_src c++
+  // type requirements
+  template <typename T>
+  requires {
+    typename BoundedBuffer<int>::value_type;
+    typename BoundedBuffer<int>::size_type;
+    typename BoundedBuffer<int>::reference;
+    typename BoundedBuffer<int>::const_reference;
+  }
+#+end_src
+
+#+CAPTION: Compound requirements exmaple
+#+NAME: lst:compound-requirements-exmaple
+#+begin_src c++
+  // compound requirements
+  template <typename T>
+  requires requires (T const v) {
+    { v.increment() } -> std::same_as<T>;
+  }
+  auto increment(T value) -> T {
+    return value.increment();
+  }
+
+  template <typename T>
+  concept Incrementable = requires (T const v){
+    {v.increment()} -> std::same_as<T>;
+  };
+  template <Incrementable T>
+  auto increment(T value) -> T {
+    return value.increment();
+  }
+  template <typename T>
+  requires Incrementable<T>
+  auto increment(T value) -> T {
+    return value.increment();
+  }
+#+end_src
+
+** Deduction guides
+Deduction Guides are used to tell the compiler how to translate a set of constructor arguments into template parameters for the class.
+
+In the following code snippet I have to tell the compiler how to map the Template Parameter =Iter=.
+Otherwise, the compiler would not know that =Iter= should be an iterator.
+It could be also an =int= or anything else.
+
+
+#+begin_src c++
+  template <typename T>
+  class Sack {
+    //...
+    template <typename Iter>
+    Sack(Iter begin, Iter end) : theSack(begin, end) {}
+    //...
+  };
+
+  // deduction guide
+  template <typename Iter>
+  Sack(Iter begin, Iter end) -> Sack<typename std::iterator_traits<Iter>::value_type>;
+#+end_src
+
+* Compile Time Computation
+** constexpr contexts
+- non-type template arguments: =std::array<Element, 5> arr{};=
+- array bounds: =double matrix[ROWS][COLS]{};=
+- case expressions
+- enumerator initializers
+- static_assert: =static_assert(order == 66)=
+- =constexpr= variables: =constexpr unsigned pi = 3;=
+- =constexpr if= statements: =if constexpr (size > 0){}=
+- =noexcept=
+
+** constexpr vs constinit
+=consexpr= variables are =const= while =constinit= variables are non-const.
+However, both are initialized at compile time.
+
+#+CAPTION: constexpr and constinit initialization
+#+NAME: lst:constexpr-and-constinit-initialization
+#+begin_src c++
+  constexpr unsigned pi = 3;
+  constinit unsigned pi2 = 3;
+#+end_src
+
+** constexpr functions
+=constexpr= functions can be used to perform operations at compile-time.
+A =constexpr= function can:
+- have local variables of literal types
+- use loops, recursion, arrays, references
+- can contain branches with run-time features, if branch is not executed during compile-time computation
+- allocate dynamic memory (=new= / =delete=) that is cleandup by the end of the compilation
+- be a virtual member function
+- can only =constexpr= functions
+- can not use exception handling on executed path
+
+
+#+CAPTION: Examples for constexpr function usage
+#+NAME: lst:examples-for-constexpr-function-usage
+#+begin_src c++
+  constexpr factorial(unsigned n) -> void {
+    int local1;
+    LiteralType local2{};
+    std::string local3{};
+  }
+
+  consexpr auto allocate() -> int* {
+    return new int{};
+  } //requires corresponding delete somewhere
+
+  struct Base {
+    constexpr virtual auto modify() -> void;
+  };
+#+end_src
+
+** consteval functions
+=consteval= functions are usable in =constexpr= contexts (see [[id:23ec8c8d-ee9a-4a87-bc70-4b707b8e3380][What are constant expression contexts in CPP?]]) only.
+
+#+CAPTION: consteval example
+#+NAME: lst:consteval-example
+#+begin_src c++
+  consteval auto factorial(unsigned n) {
+    auto result = 1u;
+    for (auto i = 2u; i <= n; i++) {
+      result *= i;
+    }
+    return result;
+  }
+
+  constexpr auto factorialOf5 = factorial(5);
+
+  auto main() -> int {
+    static_assert(factorialOf5 == 120);
+    unsigned n;
+    std::cin >> n;
+    //std::cout << factorial(n); // does not compile
+  }
+#+end_src
+
+** UB in constexpr
+The compiler will prevent Undefined Behaviour during constexpr evaluation and generates a compiler error.
+
+** literal types
+A literal type is one of the following:
+- built-in scalar types (=int=, =double=, pointers, enumerations)
+- structs with some restrictions
+  - trivial destructor (non-user-defined)
+  - with a =constexpr= / =constval= constructor
+- lambdas
+- references
+- arrays of literal types
+- void
+
+
+Literal types can be usedin in [[id:67c0f57b-336f-4253-85c9-ce830a7533e8][constexpr function]]s, but only =constexpr= member function can be called on values of literal types.
+
+** literal class types
+To be a literal type the class must have:
+- a trivial destructor (non-user defined)
+- at least one constexpr / constval constructor
+- constexpr / constval member functions (only those are usabel in constexpr context)
+
+
+It is also possible to have non-constexpr constructors as well as non-constexpr member functions.
+
+#+CAPTION: Example for a literal class type
+#+NAME: lst:example-for-a-literal-class-type
+#+begin_src c++
+  template <typename T>
+  class Vector {
+    constexpr static size_t dimensions = 3;
+    std::array<T, dimensions> values{};
+
+  public:
+    constexpr Vector(T x, T y, T z)
+      : values{x, y, z} {}
+
+    constexpr auto length() const -> {
+      auto squares = x() * x() +
+	y() * y() +
+	z() * z();
+      return std::sqrt(squares);
+    }
+
+    constexpr auto x() -> T& {
+      return values[0];
+    }
+
+    constexpr auto x() const -> T const & {
+      return values[0];
+    }
+    // ...
+  }
+#+end_src
+
+** user-defined literals
+User-defined literals are a way to construct a class from a literal type.
+
+#+CAPTION: User-defined literals in action
+#+NAME: lst:user-defined-literals-in-action
+#+begin_src c++
+  auto speed1 = Speed<Kph>{5.0};
+  auto speed2 = Speed<Mph>{5.0};
+  auto speed3 = Speed<Mps>{5.0};
+
+  // vs.
+
+  auto speed1 = 5.0_kph;
+  auto speed2 = 5.0_mph;
+  auto speed3 = 5.0_mps;
+#+end_src
+
+** create user-defined literals
+To create a user-defined literal you have to overwrite to operator for it.
+The UDLSuffix could lexically be any identifier, but must start with an underscore.
+Other suffixes are reserved for the standard.
+
+Also put your UDL overloads that belong together in a sperate namespace and import them when required using =using namespace=.
+
+#+CAPTION: user-defined literal for Speed
+#+NAME: lst:user-defined-literal-for-speed
+#+begin_src c++
+  namespace velocity::literals {
+    constexpr inline auto operator"" _kph(unsigned long long value) -> Speed<Kph> {
+      return Speed<Kph>{safeToDouble(value)};
+    }
+
+    constexpr inline auto operator"" _kph(long double value) -> Speed<Kph> {
+      return Speed<Kph>{safeToDouble(value)};
+    }
+  }
+
+  namespace mystring {
+    inline auto operator"" _s(char const *s, std::size_t len) -> std::string {
+      return std::string {s, len };
+    }
+
+    // works only for integral and floating literals
+    // 42_ss becomes std::string{"42"}
+    inline auto operator"" _ss(char const *s) -> std::string {
+      return std::string { s }
+    }
+  }
+#+end_src
+
+* Threading and Mutexes
+** Threads
+In CPP we have many different classes for threads:
+- =std::thread=: is started automatically ([[id:e4c56b39-9b91-4b0d-b607-4fc3efd64e55][How to use std::thread in CPP?]])
+- =std::jthread=: automatically calls =join=
+
+
+
+#+CAPTION: threads in CPP
+#+NAME: lst:threads-in-cpp
+#+begin_src c++
+  auto main() -> int {
+    std::thread greeter {
+      []{ std::cout << "Hello, I'm thread!\n" }
+    };
+    greeter.join();
+  }
+#+end_src
+
+** std::thread
+A =std::thread= is started automatically after its creation.
+To run a thread you have to provide a lambda, a function or a functor object which can be executed in a thread.
+Return values are ignored.
+
+If possible you should pass all arguments by value to avoid [[id:416819d5-21bc-4cd1-aaf3-8ea3f788aa89][data race]]s and danglign references.
+If the thread goes out of scope you have to =join= or =detach= the thread.
+
+#+CAPTION: std::thread example
+#+begin_src c++
+  struct Functor {
+    auto operator()() const -> void {
+      std::cout << "Functor" << std::endl;
+    }
+  };
+
+  struct function() -> void {
+    std::cout << "Function" << std::endl;
+  }
+
+  auto main() -> int {
+    std::thread functionThread{function};
+    std::thread functorThread{Functor{}};
+    std::thread lambdaThread{
+      []{ std::cout << "Lambda" << std::endl; }
+    };
+
+    lambdaThread.join();
+    functorThread.join();
+    functionThread.join();
+  }
+#+end_src
+
+** Wake up a thread
+1. =notifyAll()=, =notify()=
+2. InterruptedException ([[id:b522a710-a0e2-4ee5-949b-e6c45c011407][The InterruptedException in Java]])
+3. Spurious Wake up (falsely wake up POSIX Thread API)
+
+** Mutexes
+In the C++ standard library we have four kinds of mutexes.
+They can be devided into recursive and timed.
+
+- recursive :: allow multiple nested acquire operations of the same thread (prevents self-deadlock)
+- timed :: also provides timed acquire operations (=try_lock_for / try_lock_until=)
+
+
+Each mutex has multiple operations defined (more for read-locking - =_shared=):
+- =lock()= - blocking
+- =try_lock()= non-blocking
+- =unlock()= - non-blocking
+- =try_lock_for(<duration>)= - only for timed
+- =try_lock_until(<time>)= - only for timed
+
+
+After each lock you must unlock the mutex, otherwise deadlocks can occurs.
+To prevent this problem you can use RAII wrappers ([[id:1a85d09f-c19c-4b55-a417-b710422a25f2][What are the different locks for mutexes?]]).
+
+
+#+CAPTION: Various mutexs by recursive and timed
+#+NAME: tbl:various-mutexs-by-recursive-and-timed
++-----------+-----------------------------------------------+
+|           | Recursive                                     |
+|           +------------------+----------------------------+
+|           |No                |Yes                         |
++-----+-----+------------------+----------------------------+
+|Timed|No   |std::mutex        |std::recursive_mute         |
+|     +-----+------------------+----------------------------+
+|     |Yes  |std::timed_mutex  |std::recursive_timed_mutex  |
++-----+-----+------------------+----------------------------+
+
+** read-write locks
+Mutual exclusion is too strong when only reading happens.
+Mutual exclusion is only required when minimal one thread wants to write.
+
+| Parallel | Read | Write |
+| Read     | Yes  | No    |
+| Write    | No   | No    |
+
+
+#+begin_src java
+  var rwLock = new ReentrantReadWriteLock(true);
+  rwLock.readLock().lock();
+  // read-only accesses
+  rwLock.readLock().unlock();
+  rwLock.writeLock().lock();
+  // write (and read) accesses
+  rwLock.writeLock().unlock();
+#+end_src
+
+** different locks
+Instead of locking and unlocking manually a mutex, you can use [[id:cd8ffc35-c654-4403-b685-3ba999b9509d][RAII]] wrappers to automatically lock and unlock a mutex.
+
+#+CAPTION: RAII wrappers for mutexes
+#+NAME: tbl:raii-wrappers-for-mutexes
++-----------------+----------------------------------------------------+
+|std::lock_gurad  |RAII wrapper for a single mutex                     |
+|                 | - Locks immediately when constructed               |
+|                 | - Unlocks when destructed                          |
++-----------------+----------------------------------------------------+
+|std::scoped_lock |RAII wrapper for multiple mutexes                   |
+|                 | - Locks immediately when constructed               |
+|                 | - Unlocks when destructed                          |
++-----------------+----------------------------------------------------+
+|std::unique_lock |Mutex wrapper that allows defered and timed locking |
+|                 | - Similar interface to timed mutex                 |
+|                 | - Allows explicit locking / unlocking              |
+|                 | - Unlocks when destructed (if still locked)        |
++-----------------+----------------------------------------------------+
+|std::shared_lock |Wrapper for shared mutexes                          |
+|                 | - Allows explicit locking / unlocking              |
+|                 | - Unlocks when destructed (if still locked)        |
++-----------------+----------------------------------------------------+
+
+
+#+CAPTION: Example usage for RAII wrappers
+#+NAME: lst:example-usage-for-raii-wrappers
+#+begin_src c++
+  template <typename T, tpyename MUTEX = std::mutex>
+  struct threadsafe_queue {
+    using gurad std::lock_guard<MUTEX>;
+
+    auto push(T const &t) -> void {
+      guard lk{mx}; // acquire lock
+      q.push(t);
+    } // release lock
+
+    auto empty() const -> bool {
+      guard lk{mx};
+      return q.empty();
+    }
+
+    auto swap(threadsafe_queue<T> & other) -> void {
+      if (this == &other) return;
+
+      std::scoped_lock both{mx, other.mx}; // lock multiple mutexes
+      std::swap(q, other.q);
+      // no need to swap mutex or condition variable
+    }
+
+  private:
+    mutable MUTEX mx{}; // must be mutable, otherwise you could not call empty
+    std::queue<T> q{};
+  }
+#+end_src
+
+** lock and conditions
+In lock & condition you have a monitor ([[id:406e03ae-3e42-4399-9b10-b9b19018ee76][How does the monitor lock work?]]), but instead of one queue you have a queue for each condition.
+This has the benefit that not always all threads must be woken up.
+Only the threads where the condition may be now fulfilled.
+
+
+#+LATEX: {
+[[file:img/lock_and_conditions.png]]
+#+LATEX: \captionof{figure}{Lock \& Conditions}\label{fig:lock-and-conditions}
+#+LATEX: }
+** TODO std::condition_variable
+** Return value from thread
+In C++ we have /futures/ and /promise/ to communicate results from a thread to another.
+The =std::future= represent results that may be computes asynchronously, while the =std::promise= is a possible origin for a future.
+
+#+CAPTION: Example usage for future and promise
+#+NAME: lst:example-usage-for-future-and-promise
+#+begin_src c++
+  auto main() -> int {
+    using namespace std::chrono_literals;
+
+    std::promise<int> promise{};
+    auto result = promise.get_future();
+
+    auto thread = std::thread { [&]{
+      std::this_thread::sleep_for(2s);
+      promise.set_value(42); // communicate result
+    }};
+
+    std::this_thread::sleep_for(1s);
+
+    std::cout << "The answer is: " << result.get() << '\n';
+    thread.join();
+  }
+#+end_src
+
+** std::async
+Performing intesive computations on a different thread is a common task.
+The C++ standard library uses for this the =std::async= class.
+=std::async= returns a =std::future=.
+Based on the /launch policy/ the execution is scheduled on the current thread (=std::launch:deferred=) or in a new thread (=std::launch::async=).
+You should always the /launch policy/ because the standard does not define it uniquely. 
+
+#+CAPTION: Example usage for std::async
+#+NAME: lst:example-usage-for-std-async
+#+begin_src c++
+  auto main() -> {
+    auto the_answer = std::async(std::launch::async, [] {
+      return 42;
+    });
+
+    std::cout << "The answer is: " << the_answer << '\n';
+  }
+#+end_src
+
+The =std::launch::async= policy performs the operation, regardless if the result is required.
+Attention: the destructor will block until the result is availabel, but not in the =deferred= policy.
+The =std::launch::deferred= policy performs the operation only if you need the result.
+But the calculation is performed in the calling thread.
+
+* Memory Model and Atomic
+** Memory Location
+In C++ a memory location must be one of the following types:
+- arithmetic
+- pointer
+- enum
+- std::nullptr
+
+** Memory Model
+Visibility of effects:
+- sequenced-before :: withing a single thread
+- happens-before :: either sequenced-before or inter-thread happens-before
+- synchonizes-with :: inter-thread sync
+
+
+Reads / Writes in a single statement are *unsequenced*!
+
+For the memory ordering see [[id:5ee27455-4cd2-4444-af60-6e687b567311][The memory ordering in CPP]].
+
+** Memory Ordering
+The memory orderings defi define when effects become visible:
+- sequentially-consistent :: intuitive and the default behaviour
+- acquire / relase :: weaker guarantees than sequentailly-consistent
+- consume (do not use this) :: slightl weaker than acquire-release
+- relaxed :: no guarantees besides atomicity
+
+** Atomics
+In C++ atomics are realised using the =atomics= template.
+atomics ar guaranteed to be data-race free.
+=std::atomic_flag= is guranteed to be lock-free.
+All other atomics might use locks internally (for example for custom types).
+However, they must be *trivially-copyable*.
+
+All atomic operations take an additional argument to specify the memory ordering ([[id:5ee27455-4cd2-4444-af60-6e687b567311][The memory ordering in CPP]]):
+- =std::memory_order::seq_cst=
+- =std::memory_order::acquire=
+- =std::memory_order::release=
+- =std::memory_order::acq_rel=
+- =std::memory_order::release=
+
+
+#+CAPTION: Example for atomic_flag
+#+NAME: lst:example-for-atomic_flag
+#+begin_src c++
+  auto outputWhenReady(std::atomic_flag & flag, std::ostream & out) -> void {
+    while (flag.test_and_set(std::memory_order::seq_cst)) yield();
+
+    out << "Here is thread: "
+	<< get_id()
+	<< std::endl;
+    flag.clear();
+  }
+#+end_src
+
+** Seq-Cst Ordering
+Using sequential consistency all operations are globally ordered.
+Every thread will observe the same order.
+
+The latest modification (in the global execution order) will be available to a read.
+
+** Acquire / Release Ordering
+Using the /acquire/ ordering no reads or writes in the current thread can be reordered *before* this load.
+All writes in other threads that release *the same atomic* are visibile in the current thread.
+
+#+begin_src c++
+  x.load(std::memory_order::acquire);
+#+end_src
+
+Using the /release/ ordering no reads or writes in the current thread can be reordered *after* this store.
+All writes in the current thread are visible in other threads that acquire the same atomic.
+
+#+begin_src c++
+  x.store(std::memory_order::release);
+#+end_src
+
+the /acquire/release/ works on the latest value.
+#+begin_src c++
+  x.test_and_set(std::memory_order::acq_rel);
+#+end_src
+
+Note: It is not guaranteed that you always see the latest write in a read operation, but what you see is consistent according to the ordering above regarding the same atomic!
+
+** Releaxed Ordering
+The relaxed memory order does not give and guarantees about sequencing.
+It guarantees only no data-races for atomic variables.
+
+#+begin_src c++
+  x.store(true, std::memory_order::relaxed);
+#+end_src
+
+** Volatile
+The =volatile= keyword prevents the compiler from optimizing the varaible, even if the compiler can not see any visible side-effects within the same thread.
+The compiler also does not reorder the instructions.
+However, the hardware might still reorder instructions.
+
+#+begin_src c++
+  volatile int mem{0};
+#+end_src
+
+* Networking
+** Socket primites
+#+CAPTION: Berkley socket primitives
+#+NAME: tbl:berkley-socket-primitives
+| Primitive | Meaning                                         |
+|-----------+-------------------------------------------------|
+| socket    | create a new communication end point            |
+| bind      | attach a local address to a socket              |
+| listen    | announce willingness to accept connections      |
+| accept    | block caller until a connection request arrives |
+| connect   | actively attempt to establish a connection      |
+| send      | send some data over the connection              |
+| receive   | receive some data over the connection           |
+| close     | release the connection                          |
+| shutdown  | tear down the connection                        |
+
+#+LATEX: {
+[[file:img/connection_oriented_communication_pattern.png]]
+#+LATEX: \captionof{figure}{Connection-oriented communication pattern using sockets}\label{tbl:connection-oriented-communication-pattern-using-sockets}
+#+LATEX: }
+** Sync TCP client
+#+CAPTION: Client connection example using ASIO
+#+NAME: lst:client-connection-example-using-asio
+#+begin_src c++
+  auto main() -> int {
+    asio::io_context context{};
+    asio::ip::tcp::socket socket{context};
+    auto address = asio::ip::make_address("127.0.0.1");
+    auto endpoint = asio::ip::tcp::endpoint(address, 80);
+
+    // asio::ip::tcp::resolver resolver{context};
+    // auto endpoints = resolver.resolver(domain, "80"); // DNS
+    socket.connect(endpoint);
+
+    std::ostringstream request{};
+    request << "GET / HTTP/1.1\r\n";
+    request << "Host: " << domain << "\r\n";
+    request << "\r\n";
+    asio::write(socket, asio::buffer(request.str()));
+
+    constexpr size_t bufferSize = 1024;
+    std::array<char, bufferSize> reply{};
+    asio::error_code errorCode{};
+    auto readLength = asio::read(socket, asio::buffer(reply.data(), bufferSize), errorCode);
+
+    socket.shutdown(asio::ip::tcp::socket::shutdown_both);
+    socket.close();
+  }
+#+end_src
+
+** Sync TCP server
+#+CAPTION: Server example using ASIO
+#+NAME: lst:server-example-using-asio
+#+begin_src c++
+  auto main() -> int {
+    asio::io_context context{};
+    asio::ip::tcp::endpoint localEndpoint{asio::ip::tcp::v4(), port};
+    asio::ip::tcp::accptor acceptor{context, localEndpoint};
+
+    asio::ip::tcp::endpoint peerEndpoint{};
+    asio::ip::tcp::socket peerSocket = acceptor.accept(peerEndpoint);
+  }
+#+end_src
+
+** ASIO async operations
+1. the application invokes an async operation on an IO object and passes a completion handler as a callback
+2. the IO object delegates the operation and the callback to its =io_context=
+3. the OS performs the async operation
+4. the OS signals the =io_context= that the operation has been completed
+5. when the program calls =io_context::run()= the remaining async operations are performed (wait for the result of the OS)
+6. still inside =io_context::run()= the completion handler is called to handle the result / error of the async operation
+
+
+#+LATEX: {
+[[file:img/asio_async_operation.png]]
+#+LATEX: \captionof{figure}{ASIO async operations part 1}\label{fig:asio-async-operations-part-1}
+#+LATEX: }
+
+#+LATEX: {
+[[file:img/async_operations_2.png]]
+#+LATEX: \captionof{figure}{ASIO async operations part 2}\label{fig:asio-async-operations-part-2}
+#+LATEX: }
+** ASIO async example
+Make sure the =Server= lives as long as async operations on it are proccessed
+
+#+CAPTION: Async Example using ASIO
+#+NAME: lst:async-example-using-asio
+#+begin_src c++
+    struct Session : std::enable_shared_from_this<Session> {
+      explicit Session(asio::ip::tcp::socket socket);
+      void start() {
+	read;
+      }
+
+    private:
+      void read() {
+	// using shared_from_this the session is kept alives
+	auto handler = [self = shared_from_this()](error_code ec, size_t length) {}
+      }
+      void write(std::string data);
+
+      asio::streambuf buffer{};
+      std::istream input{&buffer};
+      asio::ip::tcp::socket socket;
+    };
+
+    struct Server {
+      using tcp = asio::ip::tcp;
+      Server(asio::io_context & context, unsigned short port)
+	: acceptor{context, tcp::endpoint{tcp::v4(), port}} {
+	accept();
+      }
+
+    private:
+      void accept() {
+	auto acceptHandler = [this](asio::error_code ec, tcp::socket peer) {
+	  if (!ec) {
+	    auto session = std::make_shared<Session>(std::move(peer));
+	    session->start(); //without the shared_from_this, the session would die here
+	  }
+	  accept();
+	};
+	acceptor.async_accept(acceptHandler);
+      }
+
+      tcp::acceptor acceptor;
+    };
+#+end_src
+
+
+#+LATEX: {
+[[file:img/asio_keep_session_alive.png]]
+#+LATEX: \captionof{figure}{Keep session alive}\label{fig:keep-session-alive}
+#+LATEX: }
+** Signal handling
+#+CAPTION: Example for signal handling using ASIO
+#+NAME: lst:example-for-signal-handling-using-asio
+#+begin_src c++
+  #include <asio.hpp>
+  #include <csignal>
+  #include <iostream>
+
+  auto main() -> int {
+    auto context = asio::io_context{};
+
+    auto signals = asio::signal_set{context, SIGINT, SIGTERM};
+    signals.async_wait([&](auto error, auto sig) {
+      if (!error) {
+	std::cout << "received signal: " << sig << '\n';
+      } else {
+	std::cout << "signal handling aborted\n";
+      }
+    });
+
+    context.run();
+  }
+#+end_src
+
+* Advanced Library Design
+** Exception Safety
+In generic code ([[id:00066cb5-65b5-4dcb-b0dc-4c70d7f0b951][CPP Template]]) you might call user-defined operations from the template argument.
+The user-defined operations must not garble the data structure or leak resources.
+At the same time, your template code is responsible that user-provided code does not suffer.
+
+When an exception is thrown, "stack unwinding" destroys local and temporary objects.
+If an exception is thrown during unwinding the program is terminated using =std::terminate()=.
+To prevent this, you normally should not throw exceptions in the destructor.
+
+To prevent all named problems you need to specify exception safty / exception guaranty.
+
+** Exception Safety Levels
+- noexcept / no-throw :: will never-ever throw an exception
+- strong exception safety :: operation succeeds and does not throw, or nothing happens but an exception is thrown (transaction)
+- basic exception safety :: does not leak resources or garble interanl data structures in case of an exception but might be incomplete
+- no guarantee :: undefined behaviour and garbled data lurking if exception is thrown (you dont want to go here)
+
+
+A function can only be as exception-safe as the weakest sub-function it calls!
+
+
+#+CAPTION: Overview of Exception Safety Guarantees
+#+NAME: tbl:overview-of-exception-safety-guarantees
+|                    | Invariant OK | All or Nothing | Will not Throw |
+| No Guarantee       | No           | No             | No             |
+| Basic Guarantee    | Yes          | No             | No             |
+| Strong Guarantee   | Yes          | Yes            | No             |
+| No-Throw Guarantee | Yes          | Yes            | Yes            |
+
+** noexcept keyword
+The =noexcept= keyword belongs to the function signature, but you can no overload on =noexcept=.
+The compiler might optimize a call of a =noexcept= function better because it is not required to provide the infrastructure of uniwinding the stack.
+However, if you throw in a =noexcept= environment the application terminates immediately.
+
+
+#+CAPTION: Exaple for noexcept in signature
+#+NAME: lst:exaple-for-noexcept-in-signature
+#+begin_src c++
+  auto function() noexcept -> void {
+    // ...
+  }
+
+  template <typename T>
+  auto function(T t) noexcept(true) -> void {
+    // ...
+  }
+
+
+  template <typename T>
+  auto function(T t) noexcept(false) -> void {
+    // ...
+  }
+#+end_src
+
+You can use the =noexcept= keyword also for conditions.
+
+#+CAPTION: Example for conditional noexcept
+#+NAME: lst:example-for-conditional-noexcept
+#+begin_src c++
+  auto function2() noexcept(noexcept(function())) -> void {
+    // function2 is noexcept when function() is also noexcept
+  }
+
+
+  auto main() -> int {
+    std::cout << "is function() noexcept? " << noexcept(function()) << '\n';
+  }
+#+end_src
+
+** Throwing in member functions
+The destructor should normally not throw an exception.
+During stack unwinding the destructor is called and if you then throw an exception the application terminates.
+
+Move construction, move assignment and =swap= should not throw.
+Copy can throw when new resources need to be allocated.
+
+** wide vs narrow contracts
+
+A function that can handle all argument values of the given parameter types successfully has a "Wide Contract":
+- it can not fail
+- it should be specified as =noexcept(true)=
+- =this= is also a parameter
+- globals and external resources also (e.g. heap)
+
+
+A function that has preconditions on its parameters has a narrow contract:
+- i.e., =int= parameter must not be zero
+- i.e., pointer parameter must not be =nullptr=
+- even if not checked and no excption thrown, those function should not be =noexcept=
+- this allows later checking and throwing if U.B.
+
+** TODO Standard Library Helpers
+** Opaque Types
+
+For an opaque type we do not know anything about its structure but its name.
+This is achived using a forward declaration.
+
+#+CATPION: Example for an opaque type
+#+NAME: lst:example-for-an-opaque-type
+#+begin_src c++
+  struct S; // Forward declaration
+  auto foo(S & s) -> void {
+    foo(s);
+    //S s{}; // Invalid
+  }
+
+  struct S{}; // Definition
+  auto main() -> int {
+    S s{};
+    foo(s);
+  }
+#+end_src
+
+** PIMPL Idiom
+If you make changes to a class definition, the client must be recompiled.
+Even then, when the changes are not visible from outside.
+Using PIMPL this can be neglected.
+
+In the /exported/ header file you write a class consisting of a *Pointer to Implementaiton* and all public members of the real implementation.
+
+#+CAPTION: PIMPL example using shared_ptr
+#+begin_src c++
+  // Wizard.hpp
+  class Wizard {
+    // class WizardImpl is a forward declaration
+    std::shared_ptr<class WizardImpl> pImpl;
+
+  public:
+    Wizard(std::string name = "Rincewind");
+    auto domagic(std::string wish) -> std::string;
+  };
+
+  // WizardImpl.cpp
+  class WizardImpl {
+    std::string name;
+    /// ...
+  public:
+    WizardImpl(std::string name = "Rincewind") :
+      name{name} {}
+    auto doMagic(std::string const & wish) -> std::string {}
+  };
+
+  Wizard::Wizard(std::string name) :
+    pImpl{std::make_shard<WizardImpl>(name)} {}
+
+  auto Wizard::doMagic(std::string wish) -> std::string {
+    return pImpl->doMagic(wish);
+  }
+#+end_src
+
+** PIMPL with unique_ptr
+If you want to implement the PIMPL idiom using an =unique_ptr= you must define the desturcotr ([[id:dbb807a5-ab27-432d-a19b-e939eca4c107][The Destructor in CPP]]) manually in the class declaration.
+This is required, because the default delter for the =unique_ptr= has to know, how big the implementation is.
+Therefore, you have to implement the destructor *after* the implementation again with =default=.
+
+#+CAPTION: PIMPL using unique_ptr
+#+NAME: lst:pimpl-using-unique_ptr
+#+begin_src c++
+  // Wizard.hpp
+  class Wizard {
+    std::unique_ptr<class WizardImpl> pImpl;
+  public:
+    Wizard(std::string name);
+    ~Wizard();
+    auto doMagic(std::string wish) -> std::string;
+  };
+
+  // WizardImpl.cpp
+  class WizardImpl {
+    // ...
+  };
+
+
+  // Default the destructor
+  Wizard::~Wizard() = default;
+#+end_src
+
+** PIMPL and Copy
+ +-------------------+---------------------------------------+
+ |No copying - only  |std::unique_ptr<class Impl>            |
+ |moving             | - declare destructor & = default      |
+ |                   | - declare move operations & = default |
+ |                   |                                       |
+ +-------------------+---------------------------------------+
+ | Shallow copying   |std::shared_ptr<class Impl>            |
+ |(Sharing the       |                                       |
+ |implementation)    |                                       |
+ +-------------------+---------------------------------------+
+ |Deep copying       |std::unique_ptr<class Impl>            |
+ |(default for C++)  | - with DIY copy constructor (use copy |
+ |                   |constructor of Impl)                   |
+ +-------------------+---------------------------------------+
+
+* Hour Glass Interface
+** Hour Glass Interface
+An hourglass interface is a way to expose your C++ library over a C ABI to another language (or C++).
+
+
+#+LATEX: {
+[[file:img/hourglass_interface.png]]
+#+LATEX: \captionof{figure}{Hourglass Interface idea}\label{fig:hourglass-interface-idea}
+#+LATEX: }
+** C++ to C ABI
+Abstract data types can represented by pointers (=void *=).
+Member functions map to functions taking the abstract data type pointer as first argument.
+Constructors and destructors are replaced with factory and disposal functions.
+Strings can only represented by =char *=.
+Exception do not work across the C ABI.
+
+** C++ in extern C
+C++ has a lot more features than C has.
+Therefore, you can not use all features in an =extern "C"= interface:
+
+- functions, but no template or variadic
+- C primitive types (=char=, =int=, =double=, =void=)
+- pointers, including function pointers
+- forward-declared structs
+  - pointers to those are opaque types
+  - are used for abstract data types
+- enums (unscoped - wouthout class or base type)
+
+
+#+CAPTION: Example for a extern C interface
+#+NAME: lst:example-for-a-extern-c-interface
+#+begin_src c++
+  #ifdef __cplusplus
+  extern "C" {
+  #endif
+
+    typedef struct Wizard * wizard;
+    typedef struct Wizard const * cwizard;
+    wizard createWizard(char const * name, error_t * out_error);
+    void disposeWizard(wizard toDispose);
+
+  #ifdef __cplusplus
+  }
+  #endif
+#+end_src
+
+** Full C++ using extern C
+In the =extern C= interface we can only use a subset of C++ ([[id:c0422795-02c0-463e-87bb-265f3aa30ff5][What parts of CPP can be used in an extern C interface?]]).
+So that we can use full C++ we have to create a so-called trampolin class.
+
+#+CAPTION: Example for a trampolin class
+#+NAME: lst:example-for-a-trampolin-class
+#+begin_src c++
+  // Wizard.cpp
+  extern "C" {
+    struct Wizard { // C linkage trampolin
+      Wizard(char const * name)
+      : wiz{nmae} {}
+
+      unseen::Wizard wiz;
+    };
+  }
+
+  // WizardHidden.hpp
+  namespace unseen {
+    struct Wizard {
+      // ...
+      Wizard(std::string name = "Rincewind")
+      : name{name}, wand{} {}
+
+      auto doMagic(std::string const & wish) -> char const *;
+      auto getName() const -> char const * {
+	return name.c_str();
+      }
+    };
+  }
+#+end_src
+
+** Exception in extern C
+In =extern C= we can not use exception and we must use pointers to pointers.
+If an error occurs (exception) we have to allocate error value on the heap and provide a disposal function to clean up error.
+To convert an exception to an error, we just capture everything and create an error when required.
+We use a pointer to a pointer as referenec to a pointer.
+Therefore, =out_error= must not be =nullptr=;
+
+On the client side we can use [[id:cd8ffc35-c654-4403-b685-3ba999b9509d][RAII]] wrappers to convert errors again into exceptions.
+
+
+#+begin_src c++
+  // Wizard.cpp
+  extern "C" {
+    template<typename Fn>
+    bool translateExceptions(error_t * out_error, Fn && fn)
+      try {
+	fn();
+	return true;
+      } catch (const std::exception & e) {
+	,*out_error = new Error{e.what()};
+	return false;
+      } catch (...) {
+	,*out_error = new Error{"Unkown internal error"};
+	return false;
+      }
+
+    wizard create_wizard(const char * name, error_t * out_error) {
+      wizard result = nullptr;
+      translateException(out_error, [&] {
+	result = new Wizard{name};
+      });
+      return result;
+    }
+  }
+#+end_src
+
+* Build Automation
+\end{multicols}
