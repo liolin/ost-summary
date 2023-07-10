@@ -2039,4 +2039,60 @@ On the client side we can use [[id:cd8ffc35-c654-4403-b685-3ba999b9509d][RAII]] 
 #+end_src
 
 * Build Automation
+** Build Automation Software
+You can seperate into two classes of build automation software:
+- Make-style build tools
+  - run build scripts
+  - produce your final products
+- Build Script Generators
+  - generate configuration for make-style build systems
+  - configuration independent of actual build tool
+  - advanced features (download dependencies, ...)
+
+
+** cmake
+When the flag is =PUBLIC=, a libraries or executables which links against it will inherit the properties.
+Therefore, libraries should be =PUBLIC= and executables =PRIVATE= because you cannot link against an executable.
+
+
+#+CAPTION: Example for CMakeLists.txt
+#+NAME: lst:example-for-cmakelists-txt
+#+begin_src sh
+  cmake_minimum_required(VERSION "3.12.0")
+
+  project("my_lib" LANGUAGES CXX)
+
+  add_library("my_lib" "lib.cpp")
+  target_include_directories("my_lib" PUBLIC "includes")
+  target_compile_features("my_lib" PUBLIC "cxx_std_17")
+  set_target_properties("my_lib" PROPERTIES
+  		      CXX_STARNDARD_REQUIRED YES
+  		      CXX_EXTENSIONS NO)
+
+
+  add_executable("my_app" "app.cpp")
+  target_link_libraries("my_app" PRIVATE "my_lib")
+#+end_src
+
+#+CAPTION: Build cmake project
+#+NAME: lst:build-cmake-project
+#+begin_src sh
+  mkdir build
+  cd build
+  cmake ..
+  cmake --build .
+#+end_src
+
+** Project Layout
+#+LATEX: {
+[[file:img/cpp_project_layout_app.png]]
+#+LATEX: \captionof{figure}{Recomended project layout for an application}\label{fig:recomended-project-layout-for-an-application}
+#+LATEX: }
+
+
+#+LATEX: {
+[[file:img/cpp_project_layout_library.png]]
+#+LATEX: \captionof{figure}{Recomended project layout for a library}\label{fig:recomended-project-layout-for-a-library}
+#+LATEX: }
+
 \end{multicols}
