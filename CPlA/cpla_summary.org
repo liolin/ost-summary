@@ -592,7 +592,31 @@ You can do this using =std::forward=.
     do_something(std::forward<Content>(param));
   }
 #+end_src
-** TODO Inside std::forward
+** Inside std::forward
+The =std::forward= is used to forward an incoming reference to another function as the same type.
+Therefore, [[id:200174fb-050d-4ec2-86e4-696427dc74ac][lvalue references]] and [[id:78938fd8-6e6e-4c4d-b899-96cccda80177][rvalue references]] are forward as such.
+
+- If =T= is of value type, a =T&&= is the result of the expression
+- If =T= is of lvalue reference type, a =T & &&= is the result of the expression
+- If =T= is of rvalue reference type, a =T && &&= is the result of the expression
+
+
+A =T & &&= is a rvalue reference to an lvalue reference, which collapse to a simple lvalue reference.
+A =T && &&= is a rvalue reference to an lvalue reference, which collapse to a simple rvale reference.
+
+#+CAPTION: Example implementation for std::forward
+#+NAME: lst:std-forward-for-lvalue-references
+#+begin_src c++
+  template <typename T>
+  decltype(auto) forward(std::remove_reference_t<T> & param) {
+    return static_cast<T&&>(param);
+  }
+
+  template <typename T>
+  decltype(auto) forward(std::remove_reference_t<T> && param) {
+    return static_cast<T&&>(param);
+  }
+#+end_src
 
 * Heap Memory Management
 ** Pointers
@@ -857,8 +881,48 @@ In CPP exits two kinds of iterators:
   }
 #+end_src
 
-** TODO Iterator_traits<>
-** TODO Using Boost iterator
+** Iterator_traits<>
+=std::iterator_traits= is used implement algorithms only based on this "interface".
+Therefore, if a type provides all required properties, it can be used as an iterator.
+
+#+CAPTION: Example usage of iterator_traits
+#+NAME: lst:example-usage-of-iterator_traits
+#+begin_src c++
+  template <typename InputIter, typename Distance>
+  auto advanceImpl(InputIter & i, Distance d, std::input_iterator_tag) -> void {
+    while (d--) { i++; }
+  }
+
+  template <typename RandomAccessIter, typename Distance>
+  auto advanceImpl(RandomAccessIter & i, Distance d, std::random_access_iterator_tag) -> void {
+    i += d;
+  }
+
+  template <typename InputIter, typename Distance>
+  auto advance(Inputer & i, Distance n) -> void {
+    typename std::iterator_traits<InputIter>::difference_type d = n;
+    advanceImpl(i, d, std::iterator_traits<InputIter>::iterator_category{});
+  }
+#+end_src
+
+** Using Boost iterator
+#+begin_src c++
+  struct IntIteratorBoost
+    : boost::input_iterator_helper<IntIteratorBoost, int> {
+    explicit IntIteratorBoost(int start = 0)
+      : value { start } {}
+    auto operator==(IntIteratorBoost const& r) const -> bool {
+      return value == r.value;
+    }
+    auto operator*() const -> value_type { return value; }
+    auto operator ++() -> IntIteratorBoost& {
+      ++value;
+      return *this;
+    }
+  private:
+    value_type value;
+  };
+#+end_src
 * Advanced Templates
 ** Static polymorphism
 Static polymorphism happens at compile-time and is therefore faster in the execution and the type checks happens at compile-time.
@@ -1423,7 +1487,37 @@ Only the threads where the condition may be now fulfilled.
 [[file:img/lock_and_conditions.png]]
 #+LATEX: \captionof{figure}{Lock \& Conditions}\label{fig:lock-and-conditions}
 #+LATEX: }
-** TODO std::condition_variable
+** std::condition_variable
+#+CAPTION: Example usage std::condition_variable
+#+NAME: lst:example-usage-std-condition_variable
+#+begin_src c++
+  template <typename T, typename MUTEX = std::mutex>
+  struct queue {
+    using guard = std::lock_guard<MUTEX>;
+    using lock = std::unique_lock<MUTEX>;
+
+    auto push(T const & t) -> void {
+      guard lk{mx};
+      q.push(t);
+      notEmpty.notify_one();
+    }
+
+    auto pop() -> T {
+      lock lk{mx};
+      notEmpty.wait(lk, [this] {
+        return !q.empty();
+      });
+      T t = q.front();
+      q.pop();
+      return t;
+    }
+
+  private:
+    mutable MUTEX mx{};
+    std::condition_variable notEmpty{};
+    std::queue<T> q{};
+  };
+#+end_src
 ** Return value from thread
 In C++ we have /futures/ and /promise/ to communicate results from a thread to another.
 The =std::future= represent results that may be computes asynchronously, while the =std::promise= is a possible origin for a future.
@@ -1822,7 +1916,16 @@ A function that has preconditions on its parameters has a narrow contract:
 - even if not checked and no excption thrown, those function should not be =noexcept=
 - this allows later checking and throwing if U.B.
 
-** TODO Standard Library Helpers
+** Standard Library Helpers
+- =is_nothrow_constructible=
+- =is_nothrow_default_constructible=
+- =is_nothrow_copy_constructible=
+- =is_nothrow_move_constructible=
+- =is_nothrow_assignable=
+- =is_nothrow_copy_assignable=
+- =is_nothrow_move_assignable=
+- =is_nothrow_destructible=
+- =is_nothrow_swappable=
 ** Opaque Types
 
 For an opaque type we do not know anything about its structure but its name.

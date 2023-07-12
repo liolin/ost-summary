@@ -1,4 +1,4 @@
-% Created 2023-07-10 Mon 20:54
+% Created 2023-07-12 Wed 15:36
 % Intended LaTeX compiler: xelatex
 \documentclass[11pt,twoside,landscape]{article}
 \usepackage{graphicx}
@@ -57,9 +57,9 @@
 \begin{multicols}{2}
 
 \section{Move Semantics}
-\label{sec:org42b5159}
+\label{sec:org829f9da}
 \subparagraph{What is move semantics?} \
-\label{sec:org3a8187a}
+\label{sec:org5410cf5}
 Move Semantics is when you do not copy an object, but you move it.
 A small object lives on the stack (see \href{../../../roam/20220118181342-smart_pointers_in_the_cpp_stl.org}{Smart Pointers in the CPP STL}) and points to a huge amount of data on the heap.
 Moving means, you create a new small object on the stack let it point to the huge amount of data and the old small object does not point anymore to the data.
@@ -73,7 +73,7 @@ Moving means, you create a new small object on the stack let it point to the hug
 }
 
 \subparagraph{C++ References} \
-\label{sec:orgd87765b}
+\label{sec:org8a4b470}
 In \href{../../../roam/20210920103243-c.org}{C++} references are not the same as in Java.
 In \href{../../../roam/20210920103243-c.org}{C++} we have two kinds of references:
 \begin{itemize}
@@ -89,7 +89,7 @@ In \href{../../../roam/20210920103243-c.org}{C++} we have two kinds of reference
 \end{itemize}
 
 \subparagraph{lvalue reference} \
-\label{sec:orga74f650}
+\label{sec:org574c703}
 lvalue references in C++ are just another name for a existing object.
 The original must exists as long as it is referred to.
 Do not return locales as reference)!
@@ -97,7 +97,7 @@ lvalue references binds to an \href{../../../roam/20230622085021-what_are_lvalue
 
 The synatx for a lvalue reference is \texttt{T \&}.
 
-\begin{lstlisting}[language=c++,label=lst:org8a7a10c,caption={lvalue reference example},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:lvalue-reference-example,caption={lvalue reference example},captionpos=b,numbers=none]
 auto modify(T& t) -> void {
   //manipulate t
 }
@@ -110,14 +110,14 @@ auto lvalueRefExample() -> void {
 \end{lstlisting}
 
 \subparagraph{rvalue reference} \
-\label{sec:orga366a07}
+\label{sec:org8fc8dd7}
 
 rvalue references can extend the life-time of an temporary.
 The synatx for an rvalue reference is \texttt{T \&\&}.
 rvalue references binds to an rvalue (\href{../../../roam/20230622091114-what_are_xvalues.org}{xvalues}, \href{../../../roam/20230622085448-what_are_prvalues.org}{prvalues})
 
 
-\begin{lstlisting}[language=c++,label=lst:orgf431d32,caption={rvalue reference example},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:rvalue-reference-example,caption={rvalue reference example},captionpos=b,numbers=none]
 auto consume(Food&& food) -> void;
 auto fryBurger() -> Food;
 auto fastFood() -> void {
@@ -129,7 +129,7 @@ auto fastFood() -> void {
 \end{lstlisting}
 
 \subparagraph{Different value categories} \
-\label{sec:org28c6d0b}
+\label{sec:org30a4834}
 \begin{center}
 \begin{tabular}{lll}
 has identity? & can be moved from? & Value Category\\[0pt]
@@ -150,7 +150,7 @@ No & Yes (Since C++17) & - (does not exist anymore)\\[0pt]
 }
 
 \subparagraph{lvalues} \
-\label{sec:org5550eb1}
+\label{sec:org88111f3}
 Everything which belongs to the lvalue category can be bind by a lvalue reference.
 \begin{itemize}
 \item address can be taken
@@ -172,7 +172,7 @@ Examples for an lvalue:
 \end{itemize}
 
 \subparagraph{prvalues} \
-\label{sec:org2e87a2e}
+\label{sec:org18c5f76}
 \begin{itemize}
 \item address can not be taken
 \item can not be left-hand side argument of built-in assignment operators
@@ -201,7 +201,7 @@ temporary materialization (prvalue to xvalue) happens:
 \end{itemize}
 
 
-\begin{lstlisting}[language=c++,label=lst:org55100ea,caption={Example for prvalue to xvalue conversion},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:example-for-conversion,caption={Example for prvalue to xvalue conversion},captionpos=b,numbers=none]
 struct Ghost {
   auto haunt() const -> void {
     std::cout << "booooo!\n";
@@ -218,7 +218,7 @@ auto main() -> int {
 \end{lstlisting}
 
 \subparagraph{xvalues} \
-\label{sec:orgaf08be5}
+\label{sec:orge1f4967}
 \begin{itemize}
 \item address can not be taken
 \item can not be taken
@@ -244,7 +244,7 @@ X{}.member;
 
 
 \subparagraph{Overload for references} \
-\label{sec:orgacee0b6}
+\label{sec:org5007b84}
 The overload for lvalue parameters impose ambiguities (you can not use lvalue and rvalue overloads).
 
 {
@@ -261,7 +261,7 @@ The overload for lvalue parameters impose ambiguities (you can not use lvalue an
 \captionof{figure}{Overloard resolution for member functions}\label{fig:overloard-resolution-for-member-functions}
 }
 \subparagraph{Move constructor} \
-\label{sec:orgcd3bfa3}
+\label{sec:orge5abd84}
 The move constructor is a type of constructors (\href{../../../roam/20211119152518-which_kind_of_constructor_exits_in_cpp.org}{Which kind of constructor exits in CPP?}) in \href{../../../roam/20210920103243-c.org}{CPP} to move all members to an new object.
 \begin{lstlisting}[language=c++,numbers=none]
 struct S {
@@ -276,7 +276,7 @@ auto f(S param) -> void {
 \end{lstlisting}
 
 \subparagraph{Copy constructor} \
-\label{sec:org5383549}
+\label{sec:orgb651fcd}
 The copy constructor is a type of constructors (\href{../../../roam/20211119152518-which_kind_of_constructor_exits_in_cpp.org}{Which kind of constructor exits in CPP?}) in \href{../../../roam/20210920103243-c.org}{CPP} to copy all members to an new object.
 
 \begin{lstlisting}[language=c++,numbers=none]
@@ -286,7 +286,7 @@ struct Date {
 \end{lstlisting}
 
 \subparagraph{Destructor} \
-\label{sec:org5bfb813}
+\label{sec:orge4708b4}
 The Destructor is the counter part to the constructor (\href{../../../roam/20211119152518-which_kind_of_constructor_exits_in_cpp.org}{Which kind of constructor exits in CPP?}).
 It must release all resources and is not allowed to throw an exception.
 If you program properly you will hardly ever need to implement it yourself.
@@ -300,7 +300,7 @@ class Date {
 \end{lstlisting}
 
 \subparagraph{Copy assignment} \
-\label{sec:org532f6da}
+\label{sec:orgc9d9dca}
 If you need to implement the copy assignment operator you should follow the following points:
 \begin{itemize}
 \item avoid self-copy
@@ -310,7 +310,7 @@ If you need to implement the copy assignment operator you should follow the foll
 \end{itemize}
 
 
-\begin{lstlisting}[language=c++,label=lst:orgc67f91b,caption={Example for copy assignment},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:example-for-copy-assignment,caption={Example for copy assignment},captionpos=b,numbers=none]
 struct S {
   auto operator=(S const & s) -> S& {
     if (std::addressof(s) != this) {
@@ -323,7 +323,7 @@ struct S {
 \end{lstlisting}
 
 \subparagraph{Move assignment} \
-\label{sec:org1515f35}
+\label{sec:orgd6a3dec}
 Usually you don't need to implment this at all.
 If you have to, following the pattern is usually recommended:
 \begin{itemize}
@@ -332,7 +332,7 @@ If you have to, following the pattern is usually recommended:
 \end{itemize}
 
 
-\begin{lstlisting}[language=c++,label=lst:orgf3ce34f,caption={Example for a move assignment},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:example-for-a-move-assignment,caption={Example for a move assignment},captionpos=b,numbers=none]
 struct S {
   auto operator=(S && s) -> S & {
     if (std::addressof(s) != this) {
@@ -344,7 +344,7 @@ struct S {
 \end{lstlisting}
 
 \subparagraph{What special members do you get?} \
-\label{sec:org5d219db}
+\label{sec:orgfb1ca86}
 {
 \begin{center}
 \includegraphics[width=.9\linewidth]{img/what_special_member_function_do_you_get.png}
@@ -352,7 +352,7 @@ struct S {
 \captionof{figure}{What special member function do you get?}\label{fig:what-special-member-function-do-you-get}
 }
 \subparagraph{Copy elision} \
-\label{sec:org775ab90}
+\label{sec:org7e9766b}
 In some cases the compiler is required to elide (omit) specific copy/move operations
 Regardless of the side-effects of the corresponding special member functions!
 \begin{itemize}
@@ -363,7 +363,7 @@ Regardless of the side-effects of the corresponding special member functions!
 
 If initialization, when the initializer is a \href{../../../roam/20230622085448-what_are_prvalues.org}{prvalues} (see 1 in \autoref{lst:copy-elision-examples}) and when a function call returns a prvalue the compiler must omit the copy / move operations (see 2 in \autoref{lst:copy-elision-examples}).
 
-\begin{lstlisting}[language=c++,label=lst:org3e5cbc2,caption={copy elision examples},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:copy-elision-examples,caption={copy elision examples},captionpos=b,numbers=none]
 auto create() -> S {
   return S{};
 }
@@ -377,7 +377,7 @@ auto main() -> int {
 The compiler is also allowed to optimize in throw and catch.
 To be sure to avoid copies, catch by \texttt{const \&}.
 
-\begin{lstlisting}[language=c++,label=lst:org666c600,caption={copy elision examples try catch},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:copy-elision-examples-try-catch,caption={copy elision examples try catch},captionpos=b,numbers=none]
 try {
   throw S{7};
  } catch (...) {}
@@ -389,7 +389,7 @@ try {
 \end{lstlisting}
 
 \subparagraph{Copy elision rules} \
-\label{sec:orgead907c}
+\label{sec:orgcf5543f}
 \begin{itemize}
 \item NRVO (Named Return Value Optimization)
 \begin{itemize}
@@ -409,15 +409,15 @@ try {
 \end{itemize}
 
 \section{Type Deduction}
-\label{sec:org9103e45}
+\label{sec:orgfb132d7}
 \subparagraph{Forwarding reference} \
-\label{sec:org92903e8}
+\label{sec:orgee39c1b}
 A forwarding reference can bind to an rvalue (\href{../../../roam/20230622085448-what_are_prvalues.org}{prvalues}, \href{../../../roam/20230622091114-what_are_xvalues.org}{xvalues}) and \href{../../../roam/20230622085021-what_are_lvalues.org}{lvalue}s depending on the context.
 To create a forwarding reference, the function must be a template function.
 If the function is part of a template class, the function must introduce a new template.
 
 
-\begin{lstlisting}[language=c++,label=lst:orgfcdc8fc,caption={Example for forwarding references},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:example-for-forwarding-references,caption={Example for forwarding references},captionpos=b,numbers=none]
 // template function
 template <typename T>
 auto f(T && param) -> void;
@@ -445,8 +445,8 @@ int main() {
 \end{lstlisting}
 
 \subparagraph{Type deduction} \
-\label{sec:orga188c44}
-\begin{lstlisting}[language=c++,label=lst:orge6b5e14,caption={Context},captionpos=b,numbers=none]
+\label{sec:org686fdac}
+\begin{lstlisting}[language=c++,label=fig:context,caption={Context},captionpos=b,numbers=none]
 template <typename T>
 auto f(ParamType param) -> void;
 \end{lstlisting}
@@ -461,7 +461,7 @@ We have three cases:
 
 
 Type deduction with \texttt{std::initializer\_list} does not work.
-\begin{lstlisting}[language=c++,label=lst:org44e80f2,caption={std::initializer\textsubscript{list} in type deduction},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:std_initializer_list-in-type-deduction,caption={std::initializer\textsubscript{list} in type deduction},captionpos=b,numbers=none]
 template <typename T>
 auto f(T param) -> void {}
 f({23})  // error
@@ -472,8 +472,8 @@ g({23})  // T = int, ParamType = std::initializer_list<int>
 \end{lstlisting}
 
 \subparagraph{Type deduction with value types} \
-\label{sec:org87f5b95}
-\begin{lstlisting}[language=c++,label=lst:org320f16f,caption={Context},captionpos=b,numbers=none]
+\label{sec:org31227b1}
+\begin{lstlisting}[language=c++,label=fig:context-value,caption={Context},captionpos=b,numbers=none]
 template <typename T>
 auto f(T param) -> void;
 
@@ -496,8 +496,8 @@ Steps:
 }
 
 \subparagraph{Type deduction with reference types} \
-\label{sec:org7872b25}
-\begin{lstlisting}[language=c++,label=lst:org5d3dc3f,caption={Context non const},captionpos=b,numbers=none]
+\label{sec:org8366d9b}
+\begin{lstlisting}[language=c++,label=fig:context-non-const,caption={Context non const},captionpos=b,numbers=none]
 template <typename T>
 auto f(T & param) -> void;
 
@@ -518,7 +518,7 @@ Steps:
 \captionof{figure}{Example for type deduction with reference type}\label{fig:example-for-type-deduction-with-reference-type}
 }
 
-\begin{lstlisting}[language=c++,label=lst:org1e8bea2,caption={Context const},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=fig:context-const,caption={Context const},captionpos=b,numbers=none]
 template <typename T>
 auto f(T const & param) -> void;
 
@@ -539,8 +539,8 @@ Steps:
 \captionof{figure}{Example for type deduction with const reference type}\label{fig:example-for-type-deduction-with-const-reference-type}
 }
 \subparagraph{Type deduction with forwarding reference types} \
-\label{sec:org2f6753e}
-\begin{lstlisting}[language=c++,label=lst:orgbf0ffc1,caption={Context},captionpos=b,numbers=none]
+\label{sec:orgd15ca0b}
+\begin{lstlisting}[language=c++,label=fig:context-fwr,caption={Context},captionpos=b,numbers=none]
 template <typename T>
 auto f(T && param) -> void;
 
@@ -561,7 +561,7 @@ Steps:
 \captionof{figure}{Example for type deduction with forwarding reference type}\label{fig:example-for-type-deduction-with-forwarding-reference-type}
 }
 \subparagraph{Type deduction with auto} \
-\label{sec:org17972b5}
+\label{sec:org057be65}
 The type deduction with \texttt{auto} is the same as with templates (\href{../../../roam/20230622105606-rules_for_type_deduction_in_cpp.org}{Rules for type deduction in CPP}).
 \texttt{auto} takes the place of \texttt{T}.
 
@@ -581,7 +581,7 @@ auto init_list3{23, 23};  //Error, requires one single argument
 
 \texttt{auto} can also be used as return type as well for parameter declarations in labmdas and functions.
 
-\begin{lstlisting}[language=c++,label=lst:org1d709ab,caption={auto as function parameter},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:auto-as-function-parameter,caption={auto as function parameter},captionpos=b,numbers=none]
 auto function(auto arg1, auto arg1) -> void {}
 
 // results in this
@@ -598,11 +598,11 @@ auto increment(Incrementable auto value) -> T {
 \end{lstlisting}
 
 \subparagraph{Type deduction with decltype} \
-\label{sec:orge275648}
+\label{sec:org7b54017}
 \texttt{decltype} can be applied to an expression: \texttt{decltype(x)}.
 \texttt{decltype} represents the type of the applied expression.
 
-\begin{lstlisting}[language=c++,label=lst:orgcac22c8,caption={decltype examples},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:decltype-examples,caption={decltype examples},captionpos=b,numbers=none]
 int            x       = 23;
 int const      cx      = x;
 decltype(cx)   cx_too  = cx; // type of cx_too is int const
@@ -635,7 +635,7 @@ rules for \texttt{decltype(auto)}:
 \end{itemize}
 
 
-\begin{lstlisting}[language=c++,label=lst:orgc440ed1,caption={Example for decltype(auto)},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:example-for-decltype(auto),caption={Example for decltype(auto)},captionpos=b,numbers=none]
 decltype(auto) funcName() {
   int local = 42;
   return local; //decltype(local) => int
@@ -659,8 +659,8 @@ decltype(auto) funcPrvalue() {
 \end{lstlisting}
 
 \subparagraph{Perfect forwarding} \
-\label{sec:org7c4aff6}
-\begin{lstlisting}[language=c++,label=lst:org87971fd,caption={Forwarding Reference example},captionpos=b,numbers=none]
+\label{sec:org97dab5c}
+\begin{lstlisting}[language=c++,label=lst:forwarding-reference-example,caption={Forwarding Reference example},captionpos=b,numbers=none]
 template <typename T>
 auto log_and_do(T&& param) -> void {
   //log
@@ -673,7 +673,7 @@ However, \texttt{param} is always an lvalue and \texttt{std::move(param)} always
 If \texttt{T} is of reference type we want to pass an lvalue otherwise we want to pass an rvalue.
 You can do this using \texttt{std::forward}.
 
-\begin{lstlisting}[language=c++,label=lst:org92ee8a1,caption={Forwarding Reference using std::forward example},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:forwarding-reference-using-std-forward-example,caption={Forwarding Reference using std::forward example},captionpos=b,numbers=none]
 template <typename T>
 auto log_and_do(T&& param) -> void {
   //log
@@ -691,13 +691,37 @@ auto log_and_do(Content&& param) -> void {
   do_something(std::forward<Content>(param));
 }
 \end{lstlisting}
-\subparagraph{{\bfseries\sffamily TODO} Inside std::forward} \
-\label{sec:org5c1a866}
+\subparagraph{Inside std::forward} \
+\label{sec:orge75a7bc}
+The \texttt{std::forward} is used to forward an incoming reference to another function as the same type.
+Therefore, \href{../../../roam/20230622083312-what_are_lvalue_references.org}{lvalue references} and \href{../../../roam/20230622083721-what_are_rvalue_references.org}{rvalue references} are forward as such.
+
+\begin{itemize}
+\item If \texttt{T} is of value type, a \texttt{T\&\&} is the result of the expression
+\item If \texttt{T} is of lvalue reference type, a \texttt{T \& \&\&} is the result of the expression
+\item If \texttt{T} is of rvalue reference type, a \texttt{T \&\& \&\&} is the result of the expression
+\end{itemize}
+
+
+A \texttt{T \& \&\&} is a rvalue reference to an lvalue reference, which collapse to a simple lvalue reference.
+A \texttt{T \&\& \&\&} is a rvalue reference to an lvalue reference, which collapse to a simple rvale reference.
+
+\begin{lstlisting}[language=c++,label=lst:std-forward-for-lvalue-references,caption={Example implementation for std::forward},captionpos=b,numbers=none]
+template <typename T>
+decltype(auto) forward(std::remove_reference_t<T> & param) {
+  return static_cast<T&&>(param);
+}
+
+template <typename T>
+decltype(auto) forward(std::remove_reference_t<T> && param) {
+  return static_cast<T&&>(param);
+}
+\end{lstlisting}
 
 \section{Heap Memory Management}
-\label{sec:org9f087f3}
+\label{sec:org0b69890}
 \subparagraph{Pointers} \
-\label{sec:org3b65534}
+\label{sec:orgc3c170f}
 Pointer are things which point to a thing somewhere in the memory.
 
 
@@ -734,7 +758,7 @@ bar(nullptr); //bar(S*)
 \end{lstlisting}
 
 \subparagraph{Allocate memory} \
-\label{sec:org5acad63}
+\label{sec:org846e5f6}
 To allocate new memory on heap, use the following syntax:
 \begin{itemize}
 \item \texttt{new <type> <initializer>}
@@ -744,7 +768,7 @@ To allocate new memory on heap, use the following syntax:
 However, you can not allocate an array of non-default constructible types.
 However, you can allocate plain memory (\texttt{std::byte[]}) and initialize it later using \href{../../../roam/20230622180239-what_is_placement_new_in_cpp.org}{Placement new}.
 
-\begin{lstlisting}[language=c++,label=lst:orga060ac0,caption={Allocate new memory on heap},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:allocate-new-memory-on-heap,caption={Allocate new memory on heap},captionpos=b,numbers=none]
 struct Point {
   Point(int x, int y) : x {x}, y {y}{}
   int x, y;
@@ -763,7 +787,7 @@ auto defaultPoints(int x, int y) -> Point* {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[language=c++,label=lst:org38096ef,caption={Example for a non default constructible type on the heap},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:example-for-a-non-default-constructible-type-on-the-heap,caption={Example for a non default constructible type on the heap},captionpos=b,numbers=none]
 auto elementAt(std::byte * memory, size_t index) -> Point& {
   return reinterpret_cast<Point *>(memory)[index];
 }
@@ -778,7 +802,7 @@ std::destory_at(first);
 \end{lstlisting}
 
 \subparagraph{Deallocate memory} \
-\label{sec:orgfbd0e5d}
+\label{sec:org41d2ea5}
 To deallocate memory you have to distinguied between array and single objects:
 \begin{itemize}
 \item memory deallocation: \texttt{delete <pointer>}
@@ -792,7 +816,7 @@ To deallocate memory you have to distinguied between array and single objects:
 Deleting a \texttt{nullptr} does nothing
 However, deleting the same object twiche is \textbf{Undefined Behaviour}.
 \subparagraph{Placement new} \
-\label{sec:org9cddd3c}
+\label{sec:org9999eed}
 If you already allocated some memory, you can construct an object to this location.
 \begin{itemize}
 \item \texttt{new (<location> <type> <initializer>})
@@ -820,7 +844,7 @@ auto funWithPoint() -> void {
 \end{lstlisting}
 
 \subparagraph{Placement delete} \
-\label{sec:orgaa081c7}
+\label{sec:org37c23b5}
 If you want to destruct an object but you dont want to free the memory, you can call the destructor manually.
 \begin{itemize}
 \item \texttt{ptr->\textasciitilde{}S()}
@@ -831,7 +855,7 @@ This instruction does \textbf{NOT} free the memory
 The same can also be done using the \texttt{std::destroy\_at} from the std library.
 
 
-\begin{lstlisting}[language=c++,label=lst:org22f9af6,caption={Example for placement new and delete},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:example-for-placement-new-and-delete,caption={Example for placement new and delete},captionpos=b,numbers=none]
 struct Resource {
   Resource() {
     /*allocate resource*/
@@ -850,11 +874,11 @@ auto funWithPoint() -> void {
 \end{lstlisting}
 
 \subparagraph{Stack only class} \
-\label{sec:org886b45d}
+\label{sec:org2384bc6}
 If you want to prevent, that the user creates your data structure on the heap, you have to override the \texttt{new} and \texttt{delete} operators.
 The \texttt{new} operator should throw an exception, while the \texttt{delete} operator does nothing.
 
-\begin{lstlisting}[language=c++,label=lst:org4882595,caption={Example struct with overriden operators},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:example-struct-with-overriden-operators,caption={Example struct with overriden operators},captionpos=b,numbers=none]
 struct not_on_heap {
   static auto operator new(std::size_t sz) -> void * {
     throw std::bad_alloc{};
@@ -872,9 +896,9 @@ struct not_on_heap {
 \end{lstlisting}
 
 \section{Iterator und Tags}
-\label{sec:orgb762ff0}
+\label{sec:orgbbd56b9}
 \subparagraph{What is a type tag} \
-\label{sec:orgf20483f}
+\label{sec:org0fb6f50}
 A tag type is a class, which is only used to mark capabilities of associated types.
 Suach a tag type does not contain ayn members.
 It is also possible to derive tag types from each other to "inherit" the capabilities.
@@ -890,13 +914,13 @@ struct InfniteProbabilityDriveTag : SpaceDriveTag{};
 \end{lstlisting}
 
 \subparagraph{Tags for dispatch} \
-\label{sec:org7bca053}
+\label{sec:org7d48eb8}
 You should implement traits!
 You implement a trait using templates and set the tag.
 For each concrete implementation you can now create a template specialization and set tag accordingly.
 Then you create one public function (\texttt{travelTo}), which calls the dispachted functions with the tag (\texttt{travelToDispatch}).
 
-\begin{lstlisting}[language=c++,label=lst:orgdc64eac,caption={Tag for dispatching example},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:tag-for-dispatching-example,caption={Tag for dispatching example},captionpos=b,numbers=none]
 struct SpaceDriveTag {};
 struct HyperspaceDriveTag : SpaceDriveTag {};
 struct InfiniteProbabilityDriveTag : SpaceDriveTag {};
@@ -934,7 +958,7 @@ auto travelTo(Galaxy destination, Spaceship& ship) -> void {
 \end{lstlisting}
 
 \subparagraph{Iterator Tags} \
-\label{sec:orgb89cbb2}
+\label{sec:org53a6d49}
 In CPP exits two kinds of iterators:
 \begin{itemize}
 \item input iterator
@@ -953,9 +977,9 @@ In CPP exits two kinds of iterators:
 }
 
 \subparagraph{Iterator member types} \
-\label{sec:org285de1c}
+\label{sec:orgf07d3b7}
 \begin{table}[htbp]
-\caption{\label{tab:org8ba45d6}Expected members in a C++ iterator}
+\caption{\label{tbl:expected-members-in-a-cpp-iterator}Expected members in a C++ iterator}
 \centering
 \begin{tabular}{ll}
 member & description\\[0pt]
@@ -969,7 +993,7 @@ reference & Specifies the reference type for the elements the iterator iterates\
 \end{table}
 
 
-\begin{lstlisting}[language=c++,label=lst:orgc7c1191,caption={Example member types for an iterator},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:example-member-types-for-an-iterator,caption={Example member types for an iterator},captionpos=b,numbers=none]
 struct IntIterator {
   using iterator_category = std::input_iterator_tag;
   using value_type = int;
@@ -979,21 +1003,59 @@ struct IntIterator {
 }
 \end{lstlisting}
 
-\subparagraph{{\bfseries\sffamily TODO} Iterator\textsubscript{traits}<>} \
-\label{sec:orgbe9182a}
-\subparagraph{{\bfseries\sffamily TODO} Using Boost iterator} \
-\label{sec:orgc76e81b}
+\subparagraph{Iterator\textsubscript{traits}<>} \
+\label{sec:org7543e01}
+\texttt{std::iterator\_traits} is used implement algorithms only based on this "interface".
+Therefore, if a type provides all required properties, it can be used as an iterator.
+
+\begin{lstlisting}[language=c++,label=lst:example-usage-of-iterator_traits,caption={Example usage of iterator\textsubscript{traits}},captionpos=b,numbers=none]
+template <typename InputIter, typename Distance>
+auto advanceImpl(InputIter & i, Distance d, std::input_iterator_tag) -> void {
+  while (d--) { i++; }
+}
+
+template <typename RandomAccessIter, typename Distance>
+auto advanceImpl(RandomAccessIter & i, Distance d, std::random_access_iterator_tag) -> void {
+  i += d;
+}
+
+template <typename InputIter, typename Distance>
+auto advance(Inputer & i, Distance n) -> void {
+  typename std::iterator_traits<InputIter>::difference_type d = n;
+  advanceImpl(i, d, std::iterator_traits<InputIter>::iterator_category{});
+}
+\end{lstlisting}
+
+\subparagraph{Using Boost iterator} \
+\label{sec:org358d51d}
+\begin{lstlisting}[language=c++,numbers=none]
+struct IntIteratorBoost
+  : boost::input_iterator_helper<IntIteratorBoost, int> {
+  explicit IntIteratorBoost(int start = 0)
+    : value { start } {}
+  auto operator==(IntIteratorBoost const& r) const -> bool {
+    return value == r.value;
+  }
+  auto operator*() const -> value_type { return value; }
+  auto operator ++() -> IntIteratorBoost& {
+    ++value;
+    return *this;
+  }
+private:
+  value_type value;
+};
+\end{lstlisting}
 \section{Advanced Templates}
-\label{sec:org1d8884b}
+\label{sec:org2621b01}
 \subparagraph{Static polymorphism} \
-\label{sec:orgbeb6011}
+\label{sec:org390601d}
 Static polymorphism happens at compile-time and is therefore faster in the execution and the type checks happens at compile-time.
 In C++ static polymorhism works using templates.
 At compile time every call to the template, with an different type, is copied and the template parameter replaced with the type.
 
 The drawback is, the compiler has to generate larger binary, the template code has to be known when used and the compile-time is longer.
 
-\begin{lstlisting}[language=c++,label=lst:org5b4253b,caption={Example for a C++ template},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:example-for-a-cpp-template,caption={Example for a C++ template},captionpos=b,numbers=none]
 template <typename T>
 auto f(T t) -> void {
   // do something
@@ -1007,7 +1069,7 @@ auto f(int t) -> void {
 \end{lstlisting}
 
 \subparagraph{Dynamic polymorphism} \
-\label{sec:org159311c}
+\label{sec:org2f3b70d}
 Dynamic polymorphism is when you have a inheritance hirarchy and you call a virtual function on the object.
 This will then call the actual implementation on the object (not necessary the function on the base object).
 The dynamic dispatch is performed using a \href{../../../roam/20221230181314-what_is_the_virtual_method_table.org}{vtable}.
@@ -1042,7 +1104,7 @@ amountOfSeeds(Square{1});
 \captionof{figure}{Dynamic Dispatch}\label{fig:dynamic-dispatch}
 }
 \subparagraph{SFINAE} \
-\label{sec:orgd2b204a}
+\label{sec:org589fed6}
 SFINAE stands for \emph{Substitution Failure Is Not An Error}.
 When the C++ compiler performs overload resolution, the template parameters in a template declaration are substituted with the deducted types.
 This can result in template instances that can not be compiled.
@@ -1067,12 +1129,12 @@ However, errors in the instance body are still errors.
 \captionof{figure}{Positions for substituion}\label{fig:positions-for-substituion}
 }
 \subparagraph{How to use SFINAE?} \
-\label{sec:orge2ccfdb}
+\label{sec:org23adba7}
 One solution might be to use \texttt{decltype} as trailing return type.
 However, this does not always work (for example \texttt{void} as return type).
 Instead you should use type traits from the \texttt{<type\_traits>} header.
 
-\begin{lstlisting}[language=c++,label=lst:orgbb42b2f,caption={Example useage for SFINAE},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:example-useage-for-sfinae,caption={Example useage for SFINAE},captionpos=b,numbers=none]
 template <typename T>
 auto increment1(T value) -> std::enable_if<std::is_class_v<T>, T> {
   return value.increment();
@@ -1091,12 +1153,12 @@ auto increment3(T value) {
 \end{lstlisting}
 
 \subparagraph{Concepts} \
-\label{sec:org293c757}
+\label{sec:org3abfc4a}
 Contraints are used to specify the characteristics of a type in template contextes.
 \texttt{requires} clauses allow constraining template parameters.
 \texttt{requires} is followed by a compile-time constatnt boolean expression.
 
-\begin{lstlisting}[language=c++,label=lst:org4abb784,caption={constraints vs SFINAE},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:constraints-vs-sfinae,caption={constraints vs SFINAE},captionpos=b,numbers=none]
 template <typename T>
 requires std::is_class_v<T>
 auto function1(T argument) -> void {}
@@ -1116,7 +1178,7 @@ auto function3(T value) -> std::enable_if<std::is_class_v<T>, T> {}
 \end{lstlisting}
 
 \subparagraph{requires expressions} \
-\label{sec:org7f7f1b4}
+\label{sec:org07af21c}
 The \texttt{requires} keyword can also be used to start an expression that evaluates to bool.
 You can perform the following things:
 \begin{itemize}
@@ -1127,7 +1189,7 @@ You can perform the following things:
 \end{itemize}
 
 
-\begin{lstlisting}[language=c++,label=lst:org2eb2300,caption={simple requirements example},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:simple-requirements-examples,caption={simple requirements example},captionpos=b,numbers=none]
 // simple requirements
 template <typename T>
 requires requires (T const v) { v.increment(); }
@@ -1136,7 +1198,7 @@ auto increment(T value) -> T {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[language=c++,label=lst:org2a49baf,caption={type requirements example},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:type-requirements-example,caption={type requirements example},captionpos=b,numbers=none]
 // type requirements
 template <typename T>
 requires {
@@ -1147,7 +1209,7 @@ requires {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[language=c++,label=lst:orga17ab5f,caption={Compound requirements exmaple},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:compound-requirements-exmaple,caption={Compound requirements exmaple},captionpos=b,numbers=none]
 // compound requirements
 template <typename T>
 requires requires (T const v) {
@@ -1173,7 +1235,7 @@ auto increment(T value) -> T {
 \end{lstlisting}
 
 \subparagraph{Deduction guides} \
-\label{sec:org9bdfe63}
+\label{sec:org7561fc2}
 Deduction Guides are used to tell the compiler how to translate a set of constructor arguments into template parameters for the class.
 
 In the following code snippet I have to tell the compiler how to map the Template Parameter \texttt{Iter}.
@@ -1196,9 +1258,9 @@ Sack(Iter begin, Iter end) -> Sack<typename std::iterator_traits<Iter>::value_ty
 \end{lstlisting}
 
 \section{Compile Time Computation}
-\label{sec:orgb59a2a5}
+\label{sec:org184e135}
 \subparagraph{constexpr contexts} \
-\label{sec:orgfe7cfbd}
+\label{sec:orga42a225}
 \begin{itemize}
 \item non-type template arguments: \texttt{std::array<Element, 5> arr\{\};}
 \item array bounds: \texttt{double matrix[ROWS][COLS]\{\};}
@@ -1211,17 +1273,17 @@ Sack(Iter begin, Iter end) -> Sack<typename std::iterator_traits<Iter>::value_ty
 \end{itemize}
 
 \subparagraph{constexpr vs constinit} \
-\label{sec:org01b7b5c}
+\label{sec:orgb770c52}
 \texttt{consexpr} variables are \texttt{const} while \texttt{constinit} variables are non-const.
 However, both are initialized at compile time.
 
-\begin{lstlisting}[language=c++,label=lst:org83d93dc,caption={constexpr and constinit initialization},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:constexpr-and-constinit-initialization,caption={constexpr and constinit initialization},captionpos=b,numbers=none]
 constexpr unsigned pi = 3;
 constinit unsigned pi2 = 3;
 \end{lstlisting}
 
 \subparagraph{constexpr functions} \
-\label{sec:org9e2ed03}
+\label{sec:orgd8a0b5a}
 \texttt{constexpr} functions can be used to perform operations at compile-time.
 A \texttt{constexpr} function can:
 \begin{itemize}
@@ -1235,7 +1297,7 @@ A \texttt{constexpr} function can:
 \end{itemize}
 
 
-\begin{lstlisting}[language=c++,label=lst:orgcaf8f00,caption={Examples for constexpr function usage},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:examples-for-constexpr-function-usage,caption={Examples for constexpr function usage},captionpos=b,numbers=none]
 constexpr factorial(unsigned n) -> void {
   int local1;
   LiteralType local2{};
@@ -1252,10 +1314,10 @@ struct Base {
 \end{lstlisting}
 
 \subparagraph{consteval functions} \
-\label{sec:orgefcc5ed}
+\label{sec:org852b539}
 \texttt{consteval} functions are usable in \texttt{constexpr} contexts (see \href{../../../roam/20230629094857-what_are_constant_expression_contexts_in_cpp.org}{What are constant expression contexts in CPP?}) only.
 
-\begin{lstlisting}[language=c++,label=lst:org61f01e6,caption={consteval example},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:consteval-example,caption={consteval example},captionpos=b,numbers=none]
 consteval auto factorial(unsigned n) {
   auto result = 1u;
   for (auto i = 2u; i <= n; i++) {
@@ -1275,11 +1337,11 @@ auto main() -> int {
 \end{lstlisting}
 
 \subparagraph{UB in constexpr} \
-\label{sec:orgdea334d}
+\label{sec:orgf17a3ea}
 The compiler will prevent Undefined Behaviour during constexpr evaluation and generates a compiler error.
 
 \subparagraph{literal types} \
-\label{sec:org5825adf}
+\label{sec:orgae5645b}
 A literal type is one of the following:
 \begin{itemize}
 \item built-in scalar types (\texttt{int}, \texttt{double}, pointers, enumerations)
@@ -1298,7 +1360,7 @@ A literal type is one of the following:
 Literal types can be usedin in \href{../../../roam/20230629095751-what_are_constexpr_functions_in_cpp.org}{constexpr function}s, but only \texttt{constexpr} member function can be called on values of literal types.
 
 \subparagraph{literal class types} \
-\label{sec:org6c326fb}
+\label{sec:orga819e06}
 To be a literal type the class must have:
 \begin{itemize}
 \item a trivial destructor (non-user defined)
@@ -1309,7 +1371,7 @@ To be a literal type the class must have:
 
 It is also possible to have non-constexpr constructors as well as non-constexpr member functions.
 
-\begin{lstlisting}[language=c++,label=lst:org56ac3fd,caption={Example for a literal class type},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:example-for-a-literal-class-type,caption={Example for a literal class type},captionpos=b,numbers=none]
 template <typename T>
 class Vector {
   constexpr static size_t dimensions = 3;
@@ -1338,10 +1400,10 @@ public:
 \end{lstlisting}
 
 \subparagraph{user-defined literals} \
-\label{sec:orgd8f22b4}
+\label{sec:org9dae6c2}
 User-defined literals are a way to construct a class from a literal type.
 
-\begin{lstlisting}[language=c++,label=lst:org73fc0e5,caption={User-defined literals in action},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:user-defined-literals-in-action,caption={User-defined literals in action},captionpos=b,numbers=none]
 auto speed1 = Speed<Kph>{5.0};
 auto speed2 = Speed<Mph>{5.0};
 auto speed3 = Speed<Mps>{5.0};
@@ -1354,14 +1416,14 @@ auto speed3 = 5.0_mps;
 \end{lstlisting}
 
 \subparagraph{create user-defined literals} \
-\label{sec:org4608d36}
+\label{sec:orgb8423ac}
 To create a user-defined literal you have to overwrite to operator for it.
 The UDLSuffix could lexically be any identifier, but must start with an underscore.
 Other suffixes are reserved for the standard.
 
 Also put your UDL overloads that belong together in a sperate namespace and import them when required using \texttt{using namespace}.
 
-\begin{lstlisting}[language=c++,label=lst:orgfe11f1f,caption={user-defined literal for Speed},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:user-defined-literal-for-speed,caption={user-defined literal for Speed},captionpos=b,numbers=none]
 namespace velocity::literals {
   constexpr inline auto operator"" _kph(unsigned long long value) -> Speed<Kph> {
     return Speed<Kph>{safeToDouble(value)};
@@ -1386,9 +1448,9 @@ namespace mystring {
 \end{lstlisting}
 
 \section{Threading and Mutexes}
-\label{sec:orgc31a1f5}
+\label{sec:org31cd401}
 \subparagraph{Threads} \
-\label{sec:orgedae7ed}
+\label{sec:org42aacc6}
 In CPP we have many different classes for threads:
 \begin{itemize}
 \item \texttt{std::thread}: is started automatically (\href{../../../roam/20230629112109-how_to_use_std_thread_in_cpp.org}{How to use std::thread in CPP?})
@@ -1397,7 +1459,7 @@ In CPP we have many different classes for threads:
 
 
 
-\begin{lstlisting}[language=c++,label=lst:org6c63dbb,caption={threads in CPP},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:threads-in-cpp,caption={threads in CPP},captionpos=b,numbers=none]
 auto main() -> int {
   std::thread greeter {
     []{ std::cout << "Hello, I'm thread!\n" }
@@ -1407,7 +1469,7 @@ auto main() -> int {
 \end{lstlisting}
 
 \subparagraph{std::thread} \
-\label{sec:org4f52ab7}
+\label{sec:orge95fe9d}
 A \texttt{std::thread} is started automatically after its creation.
 To run a thread you have to provide a lambda, a function or a functor object which can be executed in a thread.
 Return values are ignored.
@@ -1440,7 +1502,7 @@ auto main() -> int {
 \end{lstlisting}
 
 \subparagraph{Wake up a thread} \
-\label{sec:org616fc54}
+\label{sec:org5226dad}
 \begin{enumerate}
 \item \texttt{notifyAll()}, \texttt{notify()}
 \item InterruptedException (\href{../../../roam/20220228135733-the_interruptedexception_in_java.org}{The InterruptedException in Java})
@@ -1448,7 +1510,7 @@ auto main() -> int {
 \end{enumerate}
 
 \subparagraph{Mutexes} \
-\label{sec:org5fbfd46}
+\label{sec:orgefd4c48}
 In the C++ standard library we have four kinds of mutexes.
 They can be devided into recursive and timed.
 
@@ -1473,7 +1535,7 @@ To prevent this problem you can use RAII wrappers (\href{../../../roam/202306291
 
 
 \begin{table}[htbp]
-\caption{\label{tab:org3d9b110}Various mutexs by recursive and timed}
+\caption{\label{tbl:various-mutexs-by-recursive-and-timed}Various mutexs by recursive and timed}
 \centering
 \begin{tabular}{|l|l|l|l|}
 \hline
@@ -1489,7 +1551,7 @@ Timed & No & std::mutex & std::recursive\_mute \\
 \end{table}
 
 \subparagraph{read-write locks} \
-\label{sec:org99397f6}
+\label{sec:org9c9218e}
 Mutual exclusion is too strong when only reading happens.
 Mutual exclusion is only required when minimal one thread wants to write.
 
@@ -1513,11 +1575,11 @@ rwLock.writeLock().unlock();
 \end{lstlisting}
 
 \subparagraph{different locks} \
-\label{sec:orge1d7a9d}
+\label{sec:org2cda7dc}
 Instead of locking and unlocking manually a mutex, you can use \href{../../../roam/20220118172628-resource_acquisition_is_initialization.org}{RAII} wrappers to automatically lock and unlock a mutex.
 
 \begin{table}[htbp]
-\caption{\label{tab:org349b4d1}RAII wrappers for mutexes}
+\caption{\label{tbl:raii-wrappers-for-mutexes}RAII wrappers for mutexes}
 \centering
 \begin{tabular}{|l|l|}
 \hline
@@ -1542,7 +1604,7 @@ std::shared\_lock & Wrapper for shared mutexes \\
 \end{table}
 
 
-\begin{lstlisting}[language=c++,label=lst:orgc5b3018,caption={Example usage for RAII wrappers},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:example-usage-for-raii-wrappers,caption={Example usage for RAII wrappers},captionpos=b,numbers=none]
 template <typename T, tpyename MUTEX = std::mutex>
 struct threadsafe_queue {
   using gurad std::lock_guard<MUTEX>;
@@ -1572,7 +1634,7 @@ private:
 \end{lstlisting}
 
 \subparagraph{lock and conditions} \
-\label{sec:org3480c91}
+\label{sec:orgb894030}
 In lock \& condition you have a monitor (\href{../../../roam/20220315074811-how_does_the_monitor_lock_work.org}{How does the monitor lock work?}), but instead of one queue you have a queue for each condition.
 This has the benefit that not always all threads must be woken up.
 Only the threads where the condition may be now fulfilled.
@@ -1584,14 +1646,42 @@ Only the threads where the condition may be now fulfilled.
 \end{center}
 \captionof{figure}{Lock \& Conditions}\label{fig:lock-and-conditions}
 }
-\subparagraph{{\bfseries\sffamily TODO} std::condition\textsubscript{variable}} \
-\label{sec:orge6f1edf}
+\subparagraph{std::condition\textsubscript{variable}} \
+\label{sec:orgd4b4813}
+\begin{lstlisting}[language=c++,label=lst:example-usage-std-condition_variable,caption={Example usage std::condition\textsubscript{variable}},captionpos=b,numbers=none]
+template <typename T, typename MUTEX = std::mutex>
+struct queue {
+  using guard = std::lock_guard<MUTEX>;
+  using lock = std::unique_lock<MUTEX>;
+
+  auto push(T const & t) -> void {
+    guard lk{mx};
+    q.push(t);
+    notEmpty.notify_one();
+  }
+
+  auto pop() -> T {
+    lock lk{mx};
+    notEmpty.wait(lk, [this] {
+      return !q.empty();
+    });
+    T t = q.front();
+    q.pop();
+    return t;
+  }
+
+private:
+  mutable MUTEX mx{};
+  std::condition_variable notEmpty{};
+  std::queue<T> q{};
+};
+\end{lstlisting}
 \subparagraph{Return value from thread} \
-\label{sec:orgbab9f5c}
+\label{sec:orgb73f7a7}
 In C++ we have \emph{futures} and \emph{promise} to communicate results from a thread to another.
 The \texttt{std::future} represent results that may be computes asynchronously, while the \texttt{std::promise} is a possible origin for a future.
 
-\begin{lstlisting}[language=c++,label=lst:org4c46362,caption={Example usage for future and promise},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:example-usage-for-future-and-promise,caption={Example usage for future and promise},captionpos=b,numbers=none]
 auto main() -> int {
   using namespace std::chrono_literals;
 
@@ -1611,14 +1701,14 @@ auto main() -> int {
 \end{lstlisting}
 
 \subparagraph{std::async} \
-\label{sec:org9384916}
+\label{sec:org84e8403}
 Performing intesive computations on a different thread is a common task.
 The C++ standard library uses for this the \texttt{std::async} class.
 \texttt{std::async} returns a \texttt{std::future}.
 Based on the \emph{launch policy} the execution is scheduled on the current thread (\texttt{std::launch:deferred}) or in a new thread (\texttt{std::launch::async}).
 You should always the \emph{launch policy} because the standard does not define it uniquely. 
 
-\begin{lstlisting}[language=c++,label=lst:orge9448e6,caption={Example usage for std::async},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:example-usage-for-std-async,caption={Example usage for std::async},captionpos=b,numbers=none]
 auto main() -> {
   auto the_answer = std::async(std::launch::async, [] {
     return 42;
@@ -1634,9 +1724,9 @@ The \texttt{std::launch::deferred} policy performs the operation only if you nee
 But the calculation is performed in the calling thread.
 
 \section{Memory Model and Atomic}
-\label{sec:org737d361}
+\label{sec:org6c42d28}
 \subparagraph{Memory Location} \
-\label{sec:orgf4dc6b5}
+\label{sec:orgd381051}
 In C++ a memory location must be one of the following types:
 \begin{itemize}
 \item arithmetic
@@ -1646,7 +1736,7 @@ In C++ a memory location must be one of the following types:
 \end{itemize}
 
 \subparagraph{Memory Model} \
-\label{sec:orgc52f9db}
+\label{sec:orgfc343a6}
 Visibility of effects:
 \begin{description}
 \item[{sequenced-before}] withing a single thread
@@ -1660,7 +1750,7 @@ Reads / Writes in a single statement are \textbf{unsequenced}!
 For the memory ordering see \href{../../../roam/20230629160255-the_memory_ordering_in_cpp.org}{The memory ordering in CPP}.
 
 \subparagraph{Memory Ordering} \
-\label{sec:org84cffe5}
+\label{sec:org094fbc2}
 The memory orderings defi define when effects become visible:
 \begin{description}
 \item[{sequentially-consistent}] intuitive and the default behaviour
@@ -1670,7 +1760,7 @@ The memory orderings defi define when effects become visible:
 \end{description}
 
 \subparagraph{Atomics} \
-\label{sec:orga4b0d37}
+\label{sec:org7374435}
 In C++ atomics are realised using the \texttt{atomics} template.
 atomics ar guaranteed to be data-race free.
 \texttt{std::atomic\_flag} is guranteed to be lock-free.
@@ -1687,7 +1777,7 @@ All atomic operations take an additional argument to specify the memory ordering
 \end{itemize}
 
 
-\begin{lstlisting}[language=c++,label=lst:org7d20a91,caption={Example for atomic\textsubscript{flag}},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:example-for-atomic_flag,caption={Example for atomic\textsubscript{flag}},captionpos=b,numbers=none]
 auto outputWhenReady(std::atomic_flag & flag, std::ostream & out) -> void {
   while (flag.test_and_set(std::memory_order::seq_cst)) yield();
 
@@ -1699,14 +1789,14 @@ auto outputWhenReady(std::atomic_flag & flag, std::ostream & out) -> void {
 \end{lstlisting}
 
 \subparagraph{Seq-Cst Ordering} \
-\label{sec:orgfa65608}
+\label{sec:orga199e32}
 Using sequential consistency all operations are globally ordered.
 Every thread will observe the same order.
 
 The latest modification (in the global execution order) will be available to a read.
 
 \subparagraph{Acquire / Release Ordering} \
-\label{sec:orge06b5bb}
+\label{sec:org69b44ca}
 Using the \emph{acquire} ordering no reads or writes in the current thread can be reordered \textbf{before} this load.
 All writes in other threads that release \textbf{the same atomic} are visibile in the current thread.
 
@@ -1729,7 +1819,7 @@ x.test_and_set(std::memory_order::acq_rel);
 Note: It is not guaranteed that you always see the latest write in a read operation, but what you see is consistent according to the ordering above regarding the same atomic!
 
 \subparagraph{Releaxed Ordering} \
-\label{sec:orge67a01e}
+\label{sec:org8ec7208}
 The relaxed memory order does not give and guarantees about sequencing.
 It guarantees only no data-races for atomic variables.
 
@@ -1738,7 +1828,7 @@ x.store(true, std::memory_order::relaxed);
 \end{lstlisting}
 
 \subparagraph{Volatile} \
-\label{sec:orgaf0ed52}
+\label{sec:orgbeaf3dd}
 The \texttt{volatile} keyword prevents the compiler from optimizing the varaible, even if the compiler can not see any visible side-effects within the same thread.
 The compiler also does not reorder the instructions.
 However, the hardware might still reorder instructions.
@@ -1748,11 +1838,11 @@ volatile int mem{0};
 \end{lstlisting}
 
 \section{Networking}
-\label{sec:org4c84903}
+\label{sec:org1b91071}
 \subparagraph{Socket primites} \
-\label{sec:org5bcb68a}
+\label{sec:orgbb4a34b}
 \begin{table}[htbp]
-\caption{\label{tab:orgf26398b}Berkley socket primitives}
+\caption{\label{tbl:berkley-socket-primitives}Berkley socket primitives}
 \centering
 \begin{tabular}{ll}
 Primitive & Meaning\\[0pt]
@@ -1776,8 +1866,8 @@ shutdown & tear down the connection\\[0pt]
 \captionof{figure}{Connection-oriented communication pattern using sockets}\label{tbl:connection-oriented-communication-pattern-using-sockets}
 }
 \subparagraph{Sync TCP client} \
-\label{sec:org182fb4d}
-\begin{lstlisting}[language=c++,label=lst:org3ddee7e,caption={Client connection example using ASIO},captionpos=b,numbers=none]
+\label{sec:orgd2c10e1}
+\begin{lstlisting}[language=c++,label=lst:client-connection-example-using-asio,caption={Client connection example using ASIO},captionpos=b,numbers=none]
 auto main() -> int {
   asio::io_context context{};
   asio::ip::tcp::socket socket{context};
@@ -1805,8 +1895,8 @@ auto main() -> int {
 \end{lstlisting}
 
 \subparagraph{Sync TCP server} \
-\label{sec:org63c98e4}
-\begin{lstlisting}[language=c++,label=lst:org5980747,caption={Server example using ASIO},captionpos=b,numbers=none]
+\label{sec:orgb34021d}
+\begin{lstlisting}[language=c++,label=lst:server-example-using-asio,caption={Server example using ASIO},captionpos=b,numbers=none]
 auto main() -> int {
   asio::io_context context{};
   asio::ip::tcp::endpoint localEndpoint{asio::ip::tcp::v4(), port};
@@ -1818,7 +1908,7 @@ auto main() -> int {
 \end{lstlisting}
 
 \subparagraph{ASIO async operations} \
-\label{sec:orgb413bdc}
+\label{sec:org05bd540}
 \begin{enumerate}
 \item the application invokes an async operation on an IO object and passes a completion handler as a callback
 \item the IO object delegates the operation and the callback to its \texttt{io\_context}
@@ -1843,10 +1933,10 @@ auto main() -> int {
 \captionof{figure}{ASIO async operations part 2}\label{fig:asio-async-operations-part-2}
 }
 \subparagraph{ASIO async example} \
-\label{sec:org983416b}
+\label{sec:org57a677d}
 Make sure the \texttt{Server} lives as long as async operations on it are proccessed
 
-\begin{lstlisting}[language=c++,label=lst:orgc644190,caption={Async Example using ASIO},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:async-example-using-asio,caption={Async Example using ASIO},captionpos=b,numbers=none]
 struct Session : std::enable_shared_from_this<Session> {
   explicit Session(asio::ip::tcp::socket socket);
   void start() {
@@ -1896,8 +1986,8 @@ private:
 \captionof{figure}{Keep session alive}\label{fig:keep-session-alive}
 }
 \subparagraph{Signal handling} \
-\label{sec:org8aa9178}
-\begin{lstlisting}[language=c++,label=lst:org8f97317,caption={Example for signal handling using ASIO},captionpos=b,numbers=none]
+\label{sec:org8722f3c}
+\begin{lstlisting}[language=c++,label=lst:example-for-signal-handling-using-asio,caption={Example for signal handling using ASIO},captionpos=b,numbers=none]
 #include <asio.hpp>
 #include <csignal>
 #include <iostream>
@@ -1919,9 +2009,9 @@ auto main() -> int {
 \end{lstlisting}
 
 \section{Advanced Library Design}
-\label{sec:org3c559b0}
+\label{sec:org7b6980e}
 \subparagraph{Exception Safety} \
-\label{sec:org2ae1514}
+\label{sec:org1790a0d}
 In generic code (\href{../../../roam/20230629084234-cpp_template.org}{CPP Template}) you might call user-defined operations from the template argument.
 The user-defined operations must not garble the data structure or leak resources.
 At the same time, your template code is responsible that user-provided code does not suffer.
@@ -1933,7 +2023,7 @@ To prevent this, you normally should not throw exceptions in the destructor.
 To prevent all named problems you need to specify exception safty / exception guaranty.
 
 \subparagraph{Exception Safety Levels} \
-\label{sec:orgb7906a8}
+\label{sec:org627b767}
 \begin{description}
 \item[{noexcept / no-throw}] will never-ever throw an exception
 \item[{strong exception safety}] operation succeeds and does not throw, or nothing happens but an exception is thrown (transaction)
@@ -1946,7 +2036,7 @@ A function can only be as exception-safe as the weakest sub-function it calls!
 
 
 \begin{table}[htbp]
-\caption{\label{tab:org2b98058}Overview of Exception Safety Guarantees}
+\caption{\label{tbl:overview-of-exception-safety-guarantees}Overview of Exception Safety Guarantees}
 \centering
 \begin{tabular}{llll}
  & Invariant OK & All or Nothing & Will not Throw\\[0pt]
@@ -1958,13 +2048,13 @@ No-Throw Guarantee & Yes & Yes & Yes\\[0pt]
 \end{table}
 
 \subparagraph{noexcept keyword} \
-\label{sec:orgf65f4d2}
+\label{sec:orgff2778f}
 The \texttt{noexcept} keyword belongs to the function signature, but you can no overload on \texttt{noexcept}.
 The compiler might optimize a call of a \texttt{noexcept} function better because it is not required to provide the infrastructure of uniwinding the stack.
 However, if you throw in a \texttt{noexcept} environment the application terminates immediately.
 
 
-\begin{lstlisting}[language=c++,label=lst:org7d25b72,caption={Exaple for noexcept in signature},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:exaple-for-noexcept-in-signature,caption={Exaple for noexcept in signature},captionpos=b,numbers=none]
 auto function() noexcept -> void {
   // ...
 }
@@ -1983,7 +2073,7 @@ auto function(T t) noexcept(false) -> void {
 
 You can use the \texttt{noexcept} keyword also for conditions.
 
-\begin{lstlisting}[language=c++,label=lst:orgdfb02db,caption={Example for conditional noexcept},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:example-for-conditional-noexcept,caption={Example for conditional noexcept},captionpos=b,numbers=none]
 auto function2() noexcept(noexcept(function())) -> void {
   // function2 is noexcept when function() is also noexcept
 }
@@ -1995,7 +2085,7 @@ auto main() -> int {
 \end{lstlisting}
 
 \subparagraph{Throwing in member functions} \
-\label{sec:org3129c1f}
+\label{sec:org447e02a}
 The destructor should normally not throw an exception.
 During stack unwinding the destructor is called and if you then throw an exception the application terminates.
 
@@ -2003,7 +2093,7 @@ Move construction, move assignment and \texttt{swap} should not throw.
 Copy can throw when new resources need to be allocated.
 
 \subparagraph{wide vs narrow contracts} \
-\label{sec:org67a172f}
+\label{sec:orgaf7e0a7}
 
 A function that can handle all argument values of the given parameter types successfully has a "Wide Contract":
 \begin{itemize}
@@ -2022,15 +2112,26 @@ A function that has preconditions on its parameters has a narrow contract:
 \item this allows later checking and throwing if U.B.
 \end{itemize}
 
-\subparagraph{{\bfseries\sffamily TODO} Standard Library Helpers} \
-\label{sec:org4365a0c}
+\subparagraph{Standard Library Helpers} \
+\label{sec:org117503f}
+\begin{itemize}
+\item \texttt{is\_nothrow\_constructible}
+\item \texttt{is\_nothrow\_default\_constructible}
+\item \texttt{is\_nothrow\_copy\_constructible}
+\item \texttt{is\_nothrow\_move\_constructible}
+\item \texttt{is\_nothrow\_assignable}
+\item \texttt{is\_nothrow\_copy\_assignable}
+\item \texttt{is\_nothrow\_move\_assignable}
+\item \texttt{is\_nothrow\_destructible}
+\item \texttt{is\_nothrow\_swappable}
+\end{itemize}
 \subparagraph{Opaque Types} \
-\label{sec:org2509f3b}
+\label{sec:org04ccf2d}
 
 For an opaque type we do not know anything about its structure but its name.
 This is achived using a forward declaration.
 
-\begin{lstlisting}[language=c++,label=lst:org77b695a,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:example-for-an-opaque-type,numbers=none]
 struct S; // Forward declaration
 auto foo(S & s) -> void {
   foo(s);
@@ -2045,7 +2146,7 @@ auto main() -> int {
 \end{lstlisting}
 
 \subparagraph{PIMPL Idiom} \
-\label{sec:org375dde3}
+\label{sec:org018cc46}
 If you make changes to a class definition, the client must be recompiled.
 Even then, when the changes are not visible from outside.
 Using PIMPL this can be neglected.
@@ -2082,12 +2183,12 @@ auto Wizard::doMagic(std::string wish) -> std::string {
 \end{lstlisting}
 
 \subparagraph{PIMPL with unique\textsubscript{ptr}} \
-\label{sec:org1053f0b}
+\label{sec:org7231674}
 If you want to implement the PIMPL idiom using an \texttt{unique\_ptr} you must define the desturcotr (\href{../../../roam/20211119155746-the_destructor_in_cpp.org}{The Destructor in CPP}) manually in the class declaration.
 This is required, because the default delter for the \texttt{unique\_ptr} has to know, how big the implementation is.
 Therefore, you have to implement the destructor \textbf{after} the implementation again with \texttt{default}.
 
-\begin{lstlisting}[language=c++,label=lst:org462d1ab,caption={PIMPL using unique\textsubscript{ptr}},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:pimpl-using-unique_ptr,caption={PIMPL using unique\textsubscript{ptr}},captionpos=b,numbers=none]
 // Wizard.hpp
 class Wizard {
   std::unique_ptr<class WizardImpl> pImpl;
@@ -2108,7 +2209,7 @@ Wizard::~Wizard() = default;
 \end{lstlisting}
 
 \subparagraph{PIMPL and Copy} \
-\label{sec:org0196883}
+\label{sec:org020e109}
 \begin{center}
 \begin{tabular}{|l|l|}
 \hline
@@ -2129,9 +2230,9 @@ Deep copying & std::unique\_ptr$<$class Impl$>$ \\
 \end{center}
 
 \section{Hour Glass Interface}
-\label{sec:org915b553}
+\label{sec:orgceb7ada}
 \subparagraph{Hour Glass Interface} \
-\label{sec:org80c700e}
+\label{sec:orgec13a35}
 An hourglass interface is a way to expose your C++ library over a C ABI to another language (or C++).
 
 
@@ -2142,7 +2243,7 @@ An hourglass interface is a way to expose your C++ library over a C ABI to anoth
 \captionof{figure}{Hourglass Interface idea}\label{fig:hourglass-interface-idea}
 }
 \subparagraph{C++ to C ABI} \
-\label{sec:orgace362e}
+\label{sec:org8561bc0}
 Abstract data types can represented by pointers (\texttt{void *}).
 Member functions map to functions taking the abstract data type pointer as first argument.
 Constructors and destructors are replaced with factory and disposal functions.
@@ -2150,7 +2251,7 @@ Strings can only represented by \texttt{char *}.
 Exception do not work across the C ABI.
 
 \subparagraph{C++ in extern C} \
-\label{sec:orgc1b7473}
+\label{sec:orgc900ea4}
 C++ has a lot more features than C has.
 Therefore, you can not use all features in an \texttt{extern "C"} interface:
 
@@ -2167,7 +2268,7 @@ Therefore, you can not use all features in an \texttt{extern "C"} interface:
 \end{itemize}
 
 
-\begin{lstlisting}[language=c++,label=lst:orgd76726d,caption={Example for a extern C interface},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:example-for-a-extern-c-interface,caption={Example for a extern C interface},captionpos=b,numbers=none]
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -2183,11 +2284,11 @@ extern "C" {
 \end{lstlisting}
 
 \subparagraph{Full C++ using extern C} \
-\label{sec:org1647190}
+\label{sec:orgccae2ac}
 In the \texttt{extern C} interface we can only use a subset of C++ (\href{../../../roam/20230706185259-what_parts_of_cpp_can_be_used_in_an_extern_c_interface.org}{What parts of CPP can be used in an extern C interface?}).
 So that we can use full C++ we have to create a so-called trampolin class.
 
-\begin{lstlisting}[language=c++,label=lst:org7e8f524,caption={Example for a trampolin class},captionpos=b,numbers=none]
+\begin{lstlisting}[language=c++,label=lst:example-for-a-trampolin-class,caption={Example for a trampolin class},captionpos=b,numbers=none]
 // Wizard.cpp
 extern "C" {
   struct Wizard { // C linkage trampolin
@@ -2214,7 +2315,7 @@ namespace unseen {
 \end{lstlisting}
 
 \subparagraph{Exception in extern C} \
-\label{sec:org20b203a}
+\label{sec:org74dbaec}
 In \texttt{extern C} we can not use exception and we must use pointers to pointers.
 If an error occurs (exception) we have to allocate error value on the heap and provide a disposal function to clean up error.
 To convert an exception to an error, we just capture everything and create an error when required.
@@ -2251,9 +2352,9 @@ extern "C" {
 \end{lstlisting}
 
 \section{Build Automation}
-\label{sec:org97de5a8}
+\label{sec:orga79d9f5}
 \subparagraph{Build Automation Software} \
-\label{sec:org1cad2dc}
+\label{sec:org91a2f04}
 You can seperate into two classes of build automation software:
 \begin{itemize}
 \item Make-style build tools
@@ -2271,12 +2372,12 @@ You can seperate into two classes of build automation software:
 
 
 \subparagraph{cmake} \
-\label{sec:org1e92279}
+\label{sec:org7a2739e}
 When the flag is \texttt{PUBLIC}, a libraries or executables which links against it will inherit the properties.
 Therefore, libraries should be \texttt{PUBLIC} and executables \texttt{PRIVATE} because you cannot link against an executable.
 
 
-\begin{lstlisting}[language=sh,label=lst:org4d49bae,caption={Example for CMakeLists.txt},captionpos=b,numbers=none]
+\begin{lstlisting}[language=sh,label=lst:example-for-cmakelists-txt,caption={Example for CMakeLists.txt},captionpos=b,numbers=none]
 cmake_minimum_required(VERSION "3.12.0")
 
 project("my_lib" LANGUAGES CXX)
@@ -2293,7 +2394,7 @@ add_executable("my_app" "app.cpp")
 target_link_libraries("my_app" PRIVATE "my_lib")
 \end{lstlisting}
 
-\begin{lstlisting}[language=sh,label=lst:orgd7067bc,caption={Build cmake project},captionpos=b,numbers=none]
+\begin{lstlisting}[language=sh,label=lst:build-cmake-project,caption={Build cmake project},captionpos=b,numbers=none]
 mkdir build
 cd build
 cmake ..
@@ -2301,7 +2402,7 @@ cmake --build .
 \end{lstlisting}
 
 \subparagraph{Project Layout} \
-\label{sec:orga0b30ba}
+\label{sec:org90a480f}
 {
 \begin{center}
 \includegraphics[width=.9\linewidth]{img/cpp_project_layout_app.png}
