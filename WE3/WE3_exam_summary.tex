@@ -1,0 +1,357 @@
+% Created 2024-01-08 Mon 17:25
+% Intended LaTeX compiler: xelatex
+\documentclass[11pt,twoside,landscape]{article}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{subcaption}
+\usepackage[newfloat]{minted}
+\usepackage{color}
+\usepackage{listings}
+\usepackage[top=2cm,bottom=2cm,right=2cm,left=2cm,landscape]{geometry}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{caption}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{float}
+\setlist[description]{itemsep=-1pt,leftmargin=2mm,topsep=0pt}
+\setlist[itemize]{itemsep=-1pt,topsep=0pt}
+\setlist{noitemsep}
+\setlength{\parindent}{0pt}
+\setlength{\columnseprule}{0.2pt}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\lstset{ backgroundcolor=\color{white}, basicstyle=\footnotesize, breaklines=true, captionpos=b, commentstyle=\color{mygreen}, escapeinside={\%*}{*)},keywordstyle=\color{blue}, stringstyle=\color{mymauve},}
+\author{Olivier Lischer}
+\date{\today}
+\title{WE3 Exam Summary}
+\hypersetup{
+ pdfauthor={Olivier Lischer},
+ pdftitle={WE3 Exam Summary},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 29.1 (Org mode 9.7-pre)}, 
+ pdflang={English}}
+\begin{document}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{WE3-HS23}
+\fancyhead[L]{Exam Summary}
+\fancyfoot[CE,CO]{\leftmark}
+\fancyfoot[R]{\thepage}
+\fancyfoot[L]{Olivier Lischer}
+
+\begin{multicols}{4}
+\section{SPA}
+\label{sec:org47a5a14}
+\subparagraph{What are the benefits of a browser based application?} \
+\label{sec:org7580a9d}
+A browser based application (web application) has various benefits:
+\begin{itemize}
+\item You can work from anywhere at anytime
+\item It is platform independent (even mobile)
+\item No software update nor installation => easy maintenance
+\item Software can provided as a Services (SaaS)
+\item Can be cross-compiled to different ecosystems
+\end{itemize}
+\subparagraph{What are the liabilities of a browser based application?} \
+\label{sec:org2060ee8}
+Browser based applications do not have only benefits but also downsides, such as:
+\begin{itemize}
+\item no data sovereignty
+\item limited / restricted hardware access (no OS access, may be less efficient)
+\item Search Engine Optimization (SE must execute JS)
+\item More complex deployment strategies
+\item Overhead
+\end{itemize}
+\subparagraph{What is a Single Page Application?} \
+\label{sec:orgb881032}
+A Single Page Application (SPA) is a web site [\ldots{}] that fits on a single web page with the goal of providing a user experience similar to that of a desktop application.
+\subparagraph{What are characteristics of an SPA?} \
+\label{sec:orga317902}
+An SPA has the following properties:
+\begin{itemize}
+\item Plan HTML5 / CSS and JavaScript
+\item no page reloads
+\item Working Back-Button
+\item Bookmarkable Links
+\item Provides (limited) offline functionality
+\item Uses (\href{../../../roam/20230108172748-what_is_rest.org}{REST})-API services for data access
+\end{itemize}
+\subparagraph{When would you prefer an SPA to a classic web application from the customer's point of view?} \
+\label{sec:org6e4d008}
+As soon as a desktop (native) app with a similar user experience is required.
+\subparagraph{What do you see as the technical benefits of an SPA?} \
+\label{sec:org1202cb4}
+The server application is separated from the display by a structured interface (e.g. REST / ODATA / WSDL). This opens up various advantages:
+\begin{itemize}
+\item Seperation of Concerns
+\item Better maintainability of the client code
+\item Division into different teams / competence centers
+\end{itemize}
+\subparagraph{What does a typical layering in an SPA look like?} \
+\label{sec:org6f19eb9}
+The Views are connected using a routing in the browser.
+The Business Logic provides data over servies and only the data layer will communicate directly with the server.
+
+{
+\begin{center}
+\includegraphics[width=.9\linewidth]{img/spa_layering.png}
+\end{center}
+\captionof{figure}{Layering in SPA}\label{fig:layering-in-spa}
+}
+\subparagraph{Why do we use bundling in an SPA?} \
+\label{sec:orgd1f59c4}
+An SPA may consist of many single JS files, which may or may not dependt on each other.
+To include them manually in your HTML is error pronce and tedious.
+
+With bundling we achive the following things:
+\begin{itemize}
+\item All JS code must be delivered to the client over potentially metered/slow networks
+\item Bundling and minifying the source leads to smaller SPA footprint (e.g. using \href{../../../roam/20231228113108-what_is_tree_shaking.org}{Tree Shaking})
+\item Bundling leads to a reliable dependency management
+\item Usage of pre and post processors during bundling
+\end{itemize}
+
+
+The initial footprint caused by bundling can be reduced by loading dependent modules on-demand.
+\section{React}
+\label{sec:org40ed265}
+\subparagraph{What is JSX?} \
+\label{sec:org47a310f}
+JSX is an extension to JavaScript.
+It is used to write markup for an \href{../../../roam/20231228102611-what_is_a_single_page_application.org}{SPA}.
+The JSX is transpiled during building into standard ECMAScript
+\subparagraph{How do you make props available for all child components?} \
+\label{sec:org3a5127a}
+Some props must be availabel in all components (e.g. color scheme).
+It does not scale well, if you have to pass all props from the root component.
+To solve this problem, we can use contexts.
+However, you should only use contexts for read-only variables and limit the number of different contexts.
+
+\begin{itemize}
+\item \texttt{React.createContext()}
+\item \texttt{<TContext.Provider value=\{value\}></TContext.Provider>}
+\item \texttt{useContext}
+\end{itemize}
+\subparagraph{How does Redux work?} \
+\label{sec:org1b8c44e}
+The state in Redux is represented as trees of objects.
+The tree is immutable.
+When you change something in the tree, a new tree will be created (\href{../../../roam/20220616080932-functional_programming.org}{Functional Programming}).
+
+A state action is communicated using a \emph{Redux Action}.
+A \emph{Reducer} takes the action and the current state an applies the action on the state to generate a new state.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.9\linewidth]{img/redux_action_reducer.png}
+\caption{\label{fig:action-reducer-state-change}Action Reducer State change}
+\end{figure}
+\section{Angular}
+\label{sec:orgeab4323}
+\subparagraph{Angular Architectural Parts} \
+\label{sec:org2aa6074}
+\begin{itemize}
+\item ngModules
+\item directives
+\item components
+\item templates
+\item metadata
+\item services
+\end{itemize}
+\subparagraph{Angular Module Declaration} \
+\label{sec:org6be8faa}
+\begin{itemize}
+\item declarations: belongs to this module
+\item exports: Subset of declarations
+\item imports: imported into this module
+\item providers: Creators of services, contributes to the global DI container
+\item bootstrap: Main application view (only in root module)
+\end{itemize}
+\subparagraph{Binding Syntax} \
+\label{sec:org79e425f}
+\begin{listing}[htbp]
+\begin{minted}[]{html}
+<!-- Two Way Binding -->
+<input type="text" [(ngModel)]="counter.team">
+
+<!-- One Way (View to Model) -->
+<button (click)="counter.eventHandler($event)">
+
+<!-- One Way (Model to View) -->
+<p>{{counter.team}}</p>
+\end{minted}
+\caption{\label{lst:bindings-variants-in-angular}Bindings variants in Angular}
+\end{listing}
+\subparagraph{Directives} \
+\label{sec:orgd120125}
+Declared as a TypeScript class with an \texttt{@Directive()} function decorator.
+\begin{itemize}
+\item \textbf{Structural} directive: modifies structure of DOM (\texttt{*ngIf} / \texttt{*ngFor})
+\item \textbf{Attribute} directive: alters appereance / behavior of an existing element (\texttt{[ngStyle]} / \texttt{[ngClass]})
+\end{itemize}
+\subparagraph{Services} \
+\label{sec:org484dcd5}
+The \texttt{@Injectable} decorater is used to register the service in the DI container.
+\texttt{@Injectable(\{ providedIn: 'root' \})export class CounterService \{\}}
+\subparagraph{Forms} \
+\label{sec:orgaf084a9}
+
+{
+\begin{minted}[]{html}
+<form #f="ngForm"
+  (ngSubmit)="doLogin(f)">
+</form>
+\end{minted}
+\captionof{listing}{Angular Form Markup}\label{lst:angular-form-markup}
+}
+
+{
+\begin{minted}[]{typescript}
+@Component({})
+export class SampleComponent {
+  public doLogin(f?: NgForm) {
+    if (f?.form.valid) {}
+    return false;
+  }
+}
+\end{minted}
+\captionof{listing}{Angular Form Logic}\label{lst:angular-form-logic}
+}
+\subparagraph{Routing} \
+\label{sec:org200c547}
+\begin{itemize}
+\item \texttt{.forRoot()}: use EXACTLY once to declare routes on root (top) level
+\item \texttt{.forChild()}: use when declaring sub-routings (on all sub-levels)
+\end{itemize}
+\subparagraph{Module Type / Example Architecture} \
+\label{sec:orgbe6d0f3}
+\begin{itemize}
+\item Root / App Module: provies the entry point for the app
+\item Feature Modules: clear boundaries between the application features
+\item Shared Module: Holds common components / directives / pipes
+\item Core Module: Keeps your Root Module clean
+\end{itemize}
+\subparagraph{RxJS - Observable Types} \
+\label{sec:orgc01bd8a}
+\begin{itemize}
+\item Hot Observables: Sequence of events (such as mouse move events or stock tickers)
+\item Cold Observables: Observables start running on subscription (such as async web requests) and complete automatically
+\end{itemize}
+\subparagraph{Pipes} \
+\label{sec:org6e6b7b3}
+\begin{itemize}
+\item Pure Pipes: Pure pipes are executed when it detects a ‘pure change’ to the input expression (DatePipe)
+\item Impure Pipes: Impure pipes are executed on every component change detection cycle (AsyncPipe)
+\end{itemize}
+\section{ASP.NET}
+\label{sec:org9b02759}
+\subparagraph{PWA} \
+\label{sec:org0b87818}
+PWA use modern web APIs along with traditional progressive enhancement strategy (fells like native app)
+\subparagraph{For what is Firbase used?} \
+\label{sec:org6e1d08f}
+To develop a PWA we used the following features from Firebase:
+\begin{itemize}
+\item Cloud Firestore / Realtime (DB)
+\item Cloud Functions (Serverless Functions)
+\item Authentication
+\item Hosting / Cloud Storage
+\end{itemize}
+\subparagraph{Front Controller} \
+\label{sec:org47d97a4}
+The Front Controller is the Entry Point and executes logging and routing (actions that are required for all incoming requiest).
+After that, the front controller forwards the request the the responsible controller.
+\subparagraph{Middleware} \
+\label{sec:org8682ac8}
+Middleware is a "function block" and has a certain task.
+When a middleware has finished its task it will call the next following middleware or finishes the request.
+\begin{itemize}
+\item \texttt{app.Use()}: non terminating
+\item \texttt{app.Map()}: mapping
+\item \texttt{app.Run()}: terminating
+\item \texttt{app.UseMiddleware<>()}: register class middleware
+\end{itemize}
+
+Context contains all information for the request as well for the response.
+\subparagraph{Dependency Injection - Lifetime} \
+\label{sec:org3cf1800}
+Register services with different lifetimes:
+\begin{itemize}
+\item Transient, are created every time when used
+\item Scoped, are created once for every request (used most often)
+\item Singelton, it's just a singelton (only for Readonly, configs, options)
+\end{itemize}
+
+
+Register a transient service: \texttt{builder.Services.AddTransient<>()}
+
+
+\textbf{Captive dependency}
+The term "captive dependency" refers to the misconfiguration of service lifetimes, where a longer-lived service holds a shorter-lived service captive.
+\begin{itemize}
+\item Transient requires Singelton -> OK
+\item Singelton requires Transient -> Not OK
+\begin{itemize}
+\item When the singleton is used a 2nd time (e.g. parallel) it uses the same reference to the transient service.
+\item Transient services are normally \textbf{NOT} thread-safe and an error can occuer when used in a not thread safe context
+\end{itemize}
+\end{itemize}
+\subparagraph{Web Assembly File Type} \
+\label{sec:orgbd53f45}
+\begin{itemize}
+\item *.WASM (WebAssembly)
+\begin{itemize}
+\item Compiled Web Assembly
+\item Can be transformed back to WAT
+\end{itemize}
+
+\item *.WAT
+\begin{itemize}
+\item Text Based Web Assembly
+\item Can be compiled to WASM
+\end{itemize}
+
+\item Web Assembly
+\begin{itemize}
+\item Is a stack machine (similar to the JVM)
+\item \href{../../../roam/20221230171752-what_is_a_evaluation_stack.org}{Evaluation Stack}
+\end{itemize}
+\end{itemize}
+\subparagraph{Key Concepts} \
+\label{sec:org8104022}
+\begin{itemize}
+\item Module
+\begin{itemize}
+\item Represents a WebAssembly binary that has been compiled by the browser into executable machine code
+\item Stateless
+\item Import / Export
+\end{itemize}
+\item Memory
+\begin{itemize}
+\item shared memory section between JS and web assembly
+\end{itemize}
+\item Table
+\begin{itemize}
+\item A resizable typed array of references (e.g. to functions) that could not otherwise be stored as raw bytes in Memory (for safety and portability reasons).
+\end{itemize}
+\item Instance
+\begin{itemize}
+\item A Module paired with all the state it uses at runtime including a Memory, Table, and set of imported values.
+\end{itemize}
+\end{itemize}
+
+
+\end{multicols}
+\end{document}

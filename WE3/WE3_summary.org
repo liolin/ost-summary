@@ -5,8 +5,8 @@
 #+begin_src latex
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[R]{FP-FS22}
-\fancyhead[L]{Exam Summary}
+\fancyhead[R]{WE3-HS23}
+\fancyhead[L]{Summary}
 \fancyfoot[CE,CO]{\leftmark}
 \fancyfoot[R]{\thepage}
 \fancyfoot[L]{Olivier Lischer}
@@ -113,7 +113,6 @@ With bundling we achive the following things:
 
 The initial footprint caused by bundling can be reduced by loading dependent modules on-demand.
 * React
-
 ** What is JSX?
 JSX is an extension to JavaScript.
 It is used to write markup for an [[id:06d3188a-2b0f-4ebf-b843-29dec842d768][SPA]].
@@ -204,7 +203,279 @@ A /Reducer/ takes the action and the current state an applies the action on the 
 #+NAME: fig:action-reducer-state-change
 [[file:img/redux_action_reducer.png]]
 * Angular
+** Angular
+Angular is a [[id:06d3188a-2b0f-4ebf-b843-29dec842d768][SPA]] Framework:
+- [[id:4376cbdd-cdbd-4565-b265-a68973d44263][TypeScript]] based
+- Reduces boilerplate code
+- Comes with a [[id:a1e89503-5462-4f5e-8127-c1f48680afe0][Dependency Injection]] mechanism
+- Provides fast, JS-optimized 2-way binding
+- Clearly structured, supports information hiding principle on multiple levels of abstraction
+- Increases the testability and maintainability of the client-side code
+- Provides a framework that covers a wide range of topics from templating to data-services
+  − but doesn’t exactly specify how to wire them
+  
+#+begin_quote
+Angular is an advanced SPA framework…
+…which allows you to use the latest web engineering principles.
+#+end_quote
+** Angular Architectural Parts
+- ngModules :: A cohesive block of code dedicated to closely related set of capabilities
+- directives :: Provides instructions to transform the DOM
+- components :: A component is a directive-with-a-template; it controls a section of the view
+- templates :: A template is a form of HTML that tells Angular how to render the component
+- metadata :: Metadata describes a class and tells Angular how to process it
+- services :: Provides logic of any value, function, or feature that your application needs
+  
+** Angular Module Declaration
+- declarations: View Classes that belongs to this module
+- exports: Subset of declarations that should be visible in other modules
+- imports: Modules should be imported into this module
+- providers: Creators of services that this module contributes to the global DI container
+- bootstrap: Main application view (only in root module)
+** Binding Syntax
+#+CAPTION: Bindings variants in Angular
+#+NAME: lst:bindings-variants-in-angular
+#+begin_src html
+  <!-- Two Way Binding -->
+  <input type="text" [(ngModel)]="counter.team">
+
+  <!-- One Way (View to Model) -->
+  <button (click)="counter.eventHandler($event)">
+
+  <!-- One Way (Model to View) -->
+  <p>{{counter.team}}</p>
+#+end_src
+** Directives
+Similar to a component, but without a template.
+Declared as a TypeScript class with an =@Directive()= function decorator.
+- *Structural* directive: modifies structure of DOM
+  - =*ngIf=
+  - =*ngFor=
+- *Attribute* directive: alters appereance / behavior of an existing element
+  - =[ngStyle]=
+  - =[ngClass]=
+** Services
+Provides any value, function, or feature that your application needs.
+Almost anything can be a service - it should do one thing and do it well.
+
+The =@Injectable= decorater is used to register the service in the DI container.
+=@Injectable({ providedIn: 'root' })export class CounterService {}=
+** Forms
+
+#+LATEX: {
+#+begin_src html
+  <form (ngSubmit)="doLogin(sampleForm)" #sampleFrom="ngForm">
+    <button type="submit" [disabled]="!sampleForm.form.valid">Submit</button>
+  </form>
+#+end_src
+#+LATEX: \captionof{listing}{Angular Form Markup}\label{lst:angular-form-markup}
+#+LATEX: }
+
+#+LATEX: {
+#+begin_src typescript
+  @Component({})
+  export class SampleComponent {
+    public doLogin(f?: NgForm): boolean {
+      if (f?.form.valid) { /* do stuff */ return true; }
+      return false;
+    }
+  }
+#+end_src
+#+LATEX: \captionof{listing}{Angular Form Logic}\label{lst:angular-form-logic}
+#+LATEX: }
+
+** Component Lifecycle                                               :ATTACH:
+#+LATEX: {
+[[file:img/component_lifecycle.png]]
+#+LATEX: \captionof{figure}{Component Lifecycle}\label{fig:component-lifecycle}
+#+LATEX: }
+** Asynchronous Services
+Do not use RxJS in the UI.
+It is sufficient to use =EventEmitter=
+** RxJS
+** Routing
+- =.forRoot()= :: use EXACTLY once to declare routes on root (top) level
+- =.forChild()= :: use when declaring sub-routings (on all sub-levels)
+
+** Module Type / Example Architecture
+- Root / App Module :: provies the entry point for the app
+- Feature Modules :: clear boundaries between the application features
+- Shared Module :: Holds common components / directives / pipes
+- Core Module :: Keeps your Root Module clean
+
+** Feature Module (sub) Types
+- Domain Modules :: deliver a UI dedicated to a particular application domain
+- Routing Modules :: specifies the routing specific configuration settings of the Feature (or Root) Module
+- Service Modules :: provides utility services such as data access and messaging
+- Widget Modules :: makes components, directives, and pipes available to external modules
+- Lazy Modules (Routed Modules) :: represents lazily loaded Feature Modules.
+
+** RxJS - Observable Types
+- Hot Observables :: Sequence of events (such as mouse move events or stock tickers)
+- Cold Observables :: Observables start running on subscription (such as async web requests) and complete automatically
+
+** Flux Architecture
+The state in Redux is represented as trees of objects.
+The tree is immutable.
+When you change something in the tree, a new tree will be created ([[id:7790b4c2-9d09-4005-bb2d-c1c1121856d9][Functional Programming]]).
+
+A state action is communicated using a /Redux Action/.
+A /Reducer/ takes the action and the current state an applies the action on the state to generate a new state.
+
+#+LATEX: {
+[[file:img/redux_action_reducer.png]]
+#+LATEX: \captionof{figure}{Action Reducer State change}\label{fig:action-reducer-state-change}
+#+LATEX: }
+
+** Pipes
+- Pure Pipes :: Pure pipes are executed when it detects a ‘pure change’ to the input expression (DatePipe)
+- Impure Pipes :: Impure pipes are executed on every component change detection cycle (AsyncPipe)
 * ASP.NET
+** PWA
+- [[id:e58daf7b-b63d-4b6f-9566-f3a4bcbcb6ed][PWA]]
+
+** For what is Firbase used?
+To develop a PWA we used the following features from Firebase:
+- Cloud Firestore / Realtime (DB)
+- Cloud Functions (Serverless Functions)
+- Authentication
+- Hosting / Cloud Storage
+** Front Controller
+The Front Controller is the Entry Point and executes logging and routing (actions that are required for all incoming requiest).
+After that, the front controller forwards the request the the responsible controller.
+
+** MVVM
+- [[id:192363b7-e21d-4b0a-ba0f-d6af0595ee30][MVVM]]
+
+** Middleware
+- source :: https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-8.0
+Middleware is a "function block" and has a certain task.
+When a middleware has finished its task it will call the next following middleware or finishes the request.
+
+Using =app.Run()= a terminating middleware is registerd.
+After this middleware the request is finished.
+#+begin_src csharp
+  app.Run(async (context) => {
+      await context.Response.WriteAsync("Hello");
+
+      app.Run();
+  });
+#+end_src
+
+Context contains all information for the request as well for the response.
+Using =app.Use(<lambda>)= a middleware is registred, that calls the next middleware (does not terminate)
+#+begin_src csharp
+  app.Use(async (context, next) => {
+      await context.Response.WriteAsync("Hello");    
+      next.Invoke();
+  });
+
+  app.Use(async (context, next) => {
+      await context.Response.WriteAsync(" Welt");    
+      next.Invoke();
+  });
+
+  app.Run();
+#+end_src
+
+Extension Method as middleware
+#+begin_src csharp
+  // Extension Method als Middleware
+  app.UseMyMiddlware();
+
+
+  app.Run();
+
+
+  static class MyMiddlwares
+  {
+      public static IApplicationBuilder UseMyMiddlware(this WebApplication app)
+      {
+          return app.Use(async (context, next) =>
+          {
+              await context.Response.WriteAsync(", Hello from Extension Method");
+              await next.Invoke();
+          });
+      }
+  }
+#+end_src
+
+Class as middleware.
+Is often used when the middlware becomes larger than 2-3 lines of code.
+#+begin_src csharp
+  app.UseMiddleware<MyClassMiddleware>();
+
+  app.Run();
+
+  class MyClassMiddleware
+  {
+      private readonly RequestDelegate _next;
+      public MyClassMiddleware(RequestDelegate next)
+      {
+          if (next == null)
+              throw new ArgumentNullException(nameof (next));
+
+          this._next = next;
+      }
+
+      public async Task InvokeAsync(HttpContext context)
+      {
+          await context.Response.WriteAsync(", Hello from Middleware class");
+          await this._next.Invoke(context);
+      }
+  }
+#+end_src
+
+** Middleware Registration
+- =app.Use()=
+- =app.Map()=
+- =app.Run()=
+- =app.UseMiddleware<>()=
+
+** Dependency Injection - Lifetime
+Register services with different lifetimes:
+- Transient, are created every time when used
+- Scoped, are created once for every request (used most often)
+- Singelton, it's just a singelton (only for Readonly, configs, options)
+
+
+Register a transient service: =builder.Services.AddTransient<>()=
+
+
+*Captive dependency*
+The term "captive dependency" refers to the misconfiguration of service lifetimes, where a longer-lived service holds a shorter-lived service captive.
+- Transient requires Singelton -> OK
+- Singelton requires Transient -> Not OK
+  - When the singleton is used a 2nd time (e.g. parallel) it uses the same reference to the transient service.
+  - Transient services are normally *NOT* thread-safe and an error can occuer when used in a not thread safe context
+
+** Entity Framework
+- [[id:1e3e5dbc-b840-4e1d-9196-f6d116caeb12][Entity Framework]]
+** Web Assembly File Type
+- *.WASM (WebAssembly)
+  - Compiled Web Assembly
+  - Can be transformed back to WAT
+
+- *.WAT
+  - Text Based Web Assembly
+  - Can be compiled to WASM
+
+- Web Assembly
+  - Is a stack machine (similar to the JVM)
+  - [[id:0777c9ea-94ba-44df-8fdf-ccaea0fb36cf][Evaluation Stack]]
+
+** Key Concepts
+- Module
+  - Represents a WebAssembly binary that has been compiled by the browser into executable machine code
+  - Stateless
+  - Import / Export
+- Memory
+  - shared memory section between JS and web assembly
+- Table
+  - A resizable typed array of references (e.g. to functions) that could not otherwise be stored as raw bytes in Memory (for safety and portability reasons).
+- Instance
+  - A Module paired with all the state it uses at runtime including a Memory, Table, and set of imported values.
 
 
 #+LATEX: \end{multicols}
+
