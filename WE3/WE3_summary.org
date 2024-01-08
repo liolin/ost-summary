@@ -1,0 +1,210 @@
+#+TITLE: WE3 Summary
+#+AUTHOR: Olivier Lischer
+#+SETUPFILE: ../latex_includes.conf
+
+#+begin_src latex
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{FP-FS22}
+\fancyhead[L]{Exam Summary}
+\fancyfoot[CE,CO]{\leftmark}
+\fancyfoot[R]{\thepage}
+\fancyfoot[L]{Olivier Lischer}
+#+end_src
+
+#+LATEX: \begin{multicols}{3}
+
+* SPA
+** What are the benefits of a browser based application?
+A browser based application (web application) has various benefits:
+- You can work from anywhere at anytime
+- It is platform independent (even mobile)
+- No software update nor installation => easy maintenance
+- Software can provided as a Services (SaaS)
+- Can be cross-compiled to different ecosystems
+  - Client app: electron.io
+  - Moile app: Native Script / Ionic
+  - Server app: "Universal" Compilation
+
+** What are the liabilities of a browser based application?
+Browser based applications do not have only benefits ([[id:795d6a4a-71b4-46fb-84ed-9bfabb852f37][What are the benefits of a browser based application?]]) but also downsides, such as:
+- no data sovereignty
+- limited / restricted hardware access (no OS access, may be less efficient)
+- Search Engine Optimization (SE must execute JS)
+- More complex deployment strategies
+- Overhead
+
+** What is a Single Page Application?
+An SPA is a special kind of [[id:9e0e3d0c-ca1c-4042-9046-e2dcbec7f516][Web apps]].
+
+#+begin_quote
+A Single Page Application (SPA) is a web site [...] that fits on a single web page with the goal of providing a user experience
+similar to that of a desktop application.
+In an SPA, either all necessary code [...] is retrieved with a single page load or the
+appropriate resources are dynamically loaded and added to the page as necessary.
+
+SPAs use AJAX and HTML5 to create responsive Web apps, without constant page reloads.
+-- Wikipedia
+#+end_quote
+
+** The traditional web application architecture
+
+#+LATEX: {
+[[file:img/traditional_architecture.png]]
+#+LATEX: \captionof{figure}{Traditional Architecture}\label{fig:traditional-architecture}
+#+LATEX: }
+
+** The SPA architecture
+
+#+LATEX: {
+[[file:img/spa_architecture.png]]
+#+LATEX: \captionof{figure}{SPA Architecture}\label{fig:spa-architecture}
+#+LATEX: }
+
+** What are characteristics of an SPA?
+An SPA has the following properties:
+- Plan HTML5 / CSS and JavaScript
+  - no plugins like SilverLight or Flash
+- no page reloads
+- Working Back-Button
+- Bookmarkable Links
+- Provides (limited) offline functionality
+- Uses ([[id:5a66caad-87aa-4f41-a84a-c73b633e18c9][REST]])-API services for data access
+
+
+#+LATEX: {
+[[file:img/spa_logical_overview.png]]
+#+LATEX: \captionof{figure}{Logical Overview of an SPA}\label{fig:logical-overview-of-an-spa}
+#+LATEX: }
+
+** When would you prefer an SPA to a classic web application from the customer's point of view?
+#+begin_quote
+As soon as a desktop (native) app with a similar user experience is required.
+The page feels like an application.
+An SPA also offers more options for complex web applications with lots of animations/graphical elements.
+#+end_quote
+
+** What do you see as the technical benefits of an SPA?
+
+The server application is separated from the display by a structured interface (e.g. REST / ODATA / WSDL). This opens up various advantages:
+- Seperation of Concerns
+- Better maintainability of the client code
+- Division into different teams / competence centers
+
+** What does a typical layering in an SPA look like?
+The Views are connected using a routing in the browser (no new request to the server).
+The Business Logic provides data over servies and only the data layer will communicate directly with the server.
+
+#+LATEX: {
+[[file:img/spa_layering.png]]
+#+LATEX: \captionof{figure}{Layering in SPA}\label{fig:layering-in-spa}
+#+LATEX: }
+
+** Why do we use bundling in an SPA?
+An SPA may consist of many single JS files, which may or may not dependt on each other.
+To include them manually in your HTML is error pronce and tedious.
+
+With bundling we achive the following things:
+- All JS code must be delivered to the client over potentially metered/slow networks
+- Bundling and minifying the source leads to smaller SPA footprint (e.g. using [[id:92ae20b7-fd3a-4b8d-b716-1cb46f058d47][Tree Shaking]])
+- Bundling leads to a reliable dependency management
+- Usage of pre and post processors during bundling
+
+
+The initial footprint caused by bundling can be reduced by loading dependent modules on-demand.
+* React
+
+** What is JSX?
+JSX is an extension to JavaScript.
+It is used to write markup for an [[id:06d3188a-2b0f-4ebf-b843-29dec842d768][SPA]].
+The JSX is transpiled during building into standard ECMAScript
+
+#+begin_quote
+JSX is an XML-like syntax extension to ECMAScript without any defined semantics.
+It's NOT intended to be implemented by engines or browsers.
+It's NOT a proposal to incorporate JSX into the ECMAScript spec itself.
+It's intended to be used by various preprocessors (transpilers) to transform these tokens into standard ECMAScript. 
+-- facebook.github.io/jsx/
+#+end_quote
+** How is JSX desugared in React?
+#+CAPTION: JSX
+#+NAME: lst:jsx
+#+begin_src js
+  import React from 'react'
+
+  function Container(props) {
+    return
+    className="container">
+      {props.children}
+    </div>
+  }
+#+end_src
+
+#+CAPTION: Desugared JSX
+#+NAME: lst:desugared-jsx
+#+begin_src js
+  function Container(props) {
+    return React.createElement(
+      "div",
+      {className:"container"},
+      props.children
+    )
+  }
+#+end_src
+** How do you make props available for all child components?
+Some props must be availabel in all components (e.g. color scheme).
+It does not scale well, if you have to pass all props from the root component.
+To solve this problem, we can use contexts.
+However, you should only use contexts for read-only variables and limit the number of different contexts.
+
+
+
+#+begin_src js
+  const themes = {
+    light: {
+      foreground: "#000000",
+      background: "#eeeeee",
+    },
+    dark: {
+      foreground: "#ffffff",
+      background: "#222222",
+    },
+  };
+  const ThemeContext = React.createContext(themes.light);
+
+  function App() {
+    return (
+      <ThemeContext.Provider value={themes.dark}>
+        <Toolbar />
+      </ThemeContext.Provider>
+    );
+  }
+
+  function ThemedButton() {
+    const theme = useContext(ThemeContext);
+    return (
+      <button style={{
+                background: theme.background,
+                color: theme.foreground }}>
+        {" "}I am styled by theme context!{" "}
+      </button>
+    );
+  }
+#+end_src
+
+** How does Redux work?
+The state in Redux is represented as trees of objects.
+The tree is immutable.
+When you change something in the tree, a new tree will be created ([[id:7790b4c2-9d09-4005-bb2d-c1c1121856d9][Functional Programming]]).
+
+A state action is communicated using a /Redux Action/.
+A /Reducer/ takes the action and the current state an applies the action on the state to generate a new state.
+
+#+CAPTION: Action Reducer State change
+#+NAME: fig:action-reducer-state-change
+[[file:img/redux_action_reducer.png]]
+* Angular
+* ASP.NET
+
+
+#+LATEX: \end{multicols}
