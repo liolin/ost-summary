@@ -233,8 +233,7 @@ Angular is an advanced SPA framework…
 - providers: Creators of services that this module contributes to the global DI container
 - bootstrap: Main application view (only in root module)
 ** Binding Syntax
-#+CAPTION: Bindings variants in Angular
-#+NAME: lst:bindings-variants-in-angular
+#+LATEX: {
 #+begin_src html
   <!-- Two Way Binding -->
   <input type="text" [(ngModel)]="counter.team">
@@ -245,6 +244,8 @@ Angular is an advanced SPA framework…
   <!-- One Way (Model to View) -->
   <p>{{counter.team}}</p>
 #+end_src
+#+LATEX: \captionof{listing}{Bindings variants in Angular}\label{lst:bindings-variants-in-angular}
+#+LATEX: }
 ** Directives
 Similar to a component, but without a template.
 Declared as a TypeScript class with an =@Directive()= function decorator.

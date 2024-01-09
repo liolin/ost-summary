@@ -1,6 +1,7 @@
 #+TITLE: WE3 Exam Summary
 #+AUTHOR: Olivier Lischer
 #+SETUPFILE: ../latex_includes.conf
+#+LATEX_CLASS_OPTIONS: [10pt,twoside,landscape]
 
 #+begin_src latex
 \pagestyle{fancy}
@@ -30,9 +31,6 @@ Browser based applications do not have only benefits but also downsides, such as
 - Search Engine Optimization (SE must execute JS)
 - More complex deployment strategies
 - Overhead
-
-** What is a Single Page Application?
-A Single Page Application (SPA) is a web site [...] that fits on a single web page with the goal of providing a user experience similar to that of a desktop application.
 
 ** What are characteristics of an SPA?
 An SPA has the following properties:
@@ -73,15 +71,7 @@ With bundling we achive the following things:
 
 The initial footprint caused by bundling can be reduced by loading dependent modules on-demand.
 * React
-** What is JSX?
-JSX is an extension to JavaScript.
-It is used to write markup for an [[id:06d3188a-2b0f-4ebf-b843-29dec842d768][SPA]].
-The JSX is transpiled during building into standard ECMAScript
-
 ** How do you make props available for all child components?
-Some props must be availabel in all components (e.g. color scheme).
-It does not scale well, if you have to pass all props from the root component.
-To solve this problem, we can use contexts.
 However, you should only use contexts for read-only variables and limit the number of different contexts.
 
 - =React.createContext()=
@@ -96,17 +86,13 @@ When you change something in the tree, a new tree will be created ([[id:7790b4c2
 A state action is communicated using a /Redux Action/.
 A /Reducer/ takes the action and the current state an applies the action on the state to generate a new state.
 
-#+CAPTION: Action Reducer State change
-#+NAME: fig:action-reducer-state-change
+#+LATEX: {
 [[file:img/redux_action_reducer.png]]
+#+LATEX: \captionof{figure}{Action Reducer State change}\label{fig:action-reducer-state-change}
+#+LATEX: }
 * Angular
 ** Angular Architectural Parts
-- ngModules
-- directives
-- components
-- templates
-- metadata
-- services
+ngModules, directives, components, templates, metadata, services
   
 ** Angular Module Declaration
 - declarations: belongs to this module
@@ -115,22 +101,26 @@ A /Reducer/ takes the action and the current state an applies the action on the 
 - providers: Creators of services, contributes to the global DI container
 - bootstrap: Main application view (only in root module)
 ** Binding Syntax
-#+CAPTION: Bindings variants in Angular
-#+NAME: lst:bindings-variants-in-angular
+#+LATEX: {
 #+begin_src html
   <!-- Two Way Binding -->
-  <input type="text" [(ngModel)]="counter.team">
+  <input
+    type="text"
+    [(ngModel)]="counter.team">
 
   <!-- One Way (View to Model) -->
-  <button (click)="counter.eventHandler($event)">
+  <button
+    (click)="counter.eventHandler($event)">
 
   <!-- One Way (Model to View) -->
   <p>{{counter.team}}</p>
 #+end_src
+#+LATEX: \captionof{listing}{Bindings variants in Angular}\label{lst:bindings-variants-in-angular}
+#+LATEX: }
+  
 ** Directives
 Declared as a TypeScript class with an =@Directive()= function decorator.
-- *Structural* directive: modifies structure of DOM (=*ngIf= / =*ngFor=)
-- *Attribute* directive: alters appereance / behavior of an existing element (=[ngStyle]= / =[ngClass]=)
+*Structural* directive: modifies structure of DOM (=*ngIf= / =*ngFor=), *Attribute* directive: alters appereance / behavior of an existing element (=[ngStyle]= / =[ngClass]=)
 ** Services
 The =@Injectable= decorater is used to register the service in the DI container.
 =@Injectable({ providedIn: 'root' })export class CounterService {}=
@@ -159,22 +149,16 @@ The =@Injectable= decorater is used to register the service in the DI container.
 #+LATEX: }
 
 ** Routing
-- =.forRoot()=: use EXACTLY once to declare routes on root (top) level
-- =.forChild()=: use when declaring sub-routings (on all sub-levels)
+=.forRoot()=: declare routes on root level, =.forChild()= declaring sub-routings
 
 ** Module Type / Example Architecture
-- Root / App Module: provies the entry point for the app
-- Feature Modules: clear boundaries between the application features
-- Shared Module: Holds common components / directives / pipes
-- Core Module: Keeps your Root Module clean
+Root / App Module, Feature Modules, Shared Module, Core Module
 
 ** RxJS - Observable Types
-- Hot Observables: Sequence of events (such as mouse move events or stock tickers)
-- Cold Observables: Observables start running on subscription (such as async web requests) and complete automatically
+Hot Observables, Cold Observables (triggerd on subscription)
 
 ** Pipes
-- Pure Pipes: Pure pipes are executed when it detects a ‘pure change’ to the input expression (DatePipe)
-- Impure Pipes: Impure pipes are executed on every component change detection cycle (AsyncPipe)
+Pure Pipes (change to the input expression), Impure Pipes (executed on every change detection cycle)
 * ASP.NET
 ** PWA
 PWA use modern web APIs along with traditional progressive enhancement strategy (fells like native app)

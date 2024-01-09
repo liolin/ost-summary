@@ -1,6 +1,6 @@
-% Created 2024-01-08 Mon 17:25
+% Created 2024-01-09 Tue 09:14
 % Intended LaTeX compiler: xelatex
-\documentclass[11pt,twoside,landscape]{article}
+\documentclass[10pt,twoside,landscape]{article}
 \usepackage{graphicx}
 \usepackage{longtable}
 \usepackage{wrapfig}
@@ -53,9 +53,9 @@
 
 \begin{multicols}{4}
 \section{SPA}
-\label{sec:org47a5a14}
+\label{sec:org261e7bb}
 \subparagraph{What are the benefits of a browser based application?} \
-\label{sec:org7580a9d}
+\label{sec:org1214653}
 A browser based application (web application) has various benefits:
 \begin{itemize}
 \item You can work from anywhere at anytime
@@ -65,7 +65,7 @@ A browser based application (web application) has various benefits:
 \item Can be cross-compiled to different ecosystems
 \end{itemize}
 \subparagraph{What are the liabilities of a browser based application?} \
-\label{sec:org2060ee8}
+\label{sec:org80b24fd}
 Browser based applications do not have only benefits but also downsides, such as:
 \begin{itemize}
 \item no data sovereignty
@@ -74,11 +74,8 @@ Browser based applications do not have only benefits but also downsides, such as
 \item More complex deployment strategies
 \item Overhead
 \end{itemize}
-\subparagraph{What is a Single Page Application?} \
-\label{sec:orgb881032}
-A Single Page Application (SPA) is a web site [\ldots{}] that fits on a single web page with the goal of providing a user experience similar to that of a desktop application.
 \subparagraph{What are characteristics of an SPA?} \
-\label{sec:orga317902}
+\label{sec:orgef02694}
 An SPA has the following properties:
 \begin{itemize}
 \item Plan HTML5 / CSS and JavaScript
@@ -89,10 +86,10 @@ An SPA has the following properties:
 \item Uses (\href{../../../roam/20230108172748-what_is_rest.org}{REST})-API services for data access
 \end{itemize}
 \subparagraph{When would you prefer an SPA to a classic web application from the customer's point of view?} \
-\label{sec:org6e4d008}
+\label{sec:org0945583}
 As soon as a desktop (native) app with a similar user experience is required.
 \subparagraph{What do you see as the technical benefits of an SPA?} \
-\label{sec:org1202cb4}
+\label{sec:org420985f}
 The server application is separated from the display by a structured interface (e.g. REST / ODATA / WSDL). This opens up various advantages:
 \begin{itemize}
 \item Seperation of Concerns
@@ -100,7 +97,7 @@ The server application is separated from the display by a structured interface (
 \item Division into different teams / competence centers
 \end{itemize}
 \subparagraph{What does a typical layering in an SPA look like?} \
-\label{sec:org6f19eb9}
+\label{sec:org8009e4b}
 The Views are connected using a routing in the browser.
 The Business Logic provides data over servies and only the data layer will communicate directly with the server.
 
@@ -111,7 +108,7 @@ The Business Logic provides data over servies and only the data layer will commu
 \captionof{figure}{Layering in SPA}\label{fig:layering-in-spa}
 }
 \subparagraph{Why do we use bundling in an SPA?} \
-\label{sec:orgd1f59c4}
+\label{sec:orge416d5d}
 An SPA may consist of many single JS files, which may or may not dependt on each other.
 To include them manually in your HTML is error pronce and tedious.
 
@@ -126,17 +123,9 @@ With bundling we achive the following things:
 
 The initial footprint caused by bundling can be reduced by loading dependent modules on-demand.
 \section{React}
-\label{sec:org40ed265}
-\subparagraph{What is JSX?} \
-\label{sec:org47a310f}
-JSX is an extension to JavaScript.
-It is used to write markup for an \href{../../../roam/20231228102611-what_is_a_single_page_application.org}{SPA}.
-The JSX is transpiled during building into standard ECMAScript
+\label{sec:orgec34e72}
 \subparagraph{How do you make props available for all child components?} \
-\label{sec:org3a5127a}
-Some props must be availabel in all components (e.g. color scheme).
-It does not scale well, if you have to pass all props from the root component.
-To solve this problem, we can use contexts.
+\label{sec:orgccef24e}
 However, you should only use contexts for read-only variables and limit the number of different contexts.
 
 \begin{itemize}
@@ -145,7 +134,7 @@ However, you should only use contexts for read-only variables and limit the numb
 \item \texttt{useContext}
 \end{itemize}
 \subparagraph{How does Redux work?} \
-\label{sec:org1b8c44e}
+\label{sec:org20b9d60}
 The state in Redux is represented as trees of objects.
 The tree is immutable.
 When you change something in the tree, a new tree will be created (\href{../../../roam/20220616080932-functional_programming.org}{Functional Programming}).
@@ -153,25 +142,19 @@ When you change something in the tree, a new tree will be created (\href{../../.
 A state action is communicated using a \emph{Redux Action}.
 A \emph{Reducer} takes the action and the current state an applies the action on the state to generate a new state.
 
-\begin{figure}[htbp]
-\centering
+{
+\begin{center}
 \includegraphics[width=.9\linewidth]{img/redux_action_reducer.png}
-\caption{\label{fig:action-reducer-state-change}Action Reducer State change}
-\end{figure}
+\end{center}
+\captionof{figure}{Action Reducer State change}\label{fig:action-reducer-state-change}
+}
 \section{Angular}
-\label{sec:orgeab4323}
+\label{sec:orge90f293}
 \subparagraph{Angular Architectural Parts} \
-\label{sec:org2aa6074}
-\begin{itemize}
-\item ngModules
-\item directives
-\item components
-\item templates
-\item metadata
-\item services
-\end{itemize}
+\label{sec:org20f8710}
+ngModules, directives, components, templates, metadata, services
 \subparagraph{Angular Module Declaration} \
-\label{sec:org6be8faa}
+\label{sec:orgdf37130}
 \begin{itemize}
 \item declarations: belongs to this module
 \item exports: Subset of declarations
@@ -180,33 +163,33 @@ A \emph{Reducer} takes the action and the current state an applies the action on
 \item bootstrap: Main application view (only in root module)
 \end{itemize}
 \subparagraph{Binding Syntax} \
-\label{sec:org79e425f}
-\begin{listing}[htbp]
+\label{sec:org075ed2e}
+{
 \begin{minted}[]{html}
 <!-- Two Way Binding -->
-<input type="text" [(ngModel)]="counter.team">
+<input
+  type="text"
+  [(ngModel)]="counter.team">
 
 <!-- One Way (View to Model) -->
-<button (click)="counter.eventHandler($event)">
+<button
+  (click)="counter.eventHandler($event)">
 
 <!-- One Way (Model to View) -->
 <p>{{counter.team}}</p>
 \end{minted}
-\caption{\label{lst:bindings-variants-in-angular}Bindings variants in Angular}
-\end{listing}
+\captionof{listing}{Bindings variants in Angular}\label{lst:bindings-variants-in-angular}
+}
 \subparagraph{Directives} \
-\label{sec:orgd120125}
+\label{sec:orgaf39057}
 Declared as a TypeScript class with an \texttt{@Directive()} function decorator.
-\begin{itemize}
-\item \textbf{Structural} directive: modifies structure of DOM (\texttt{*ngIf} / \texttt{*ngFor})
-\item \textbf{Attribute} directive: alters appereance / behavior of an existing element (\texttt{[ngStyle]} / \texttt{[ngClass]})
-\end{itemize}
+\textbf{Structural} directive: modifies structure of DOM (\texttt{*ngIf} / \texttt{*ngFor}), \textbf{Attribute} directive: alters appereance / behavior of an existing element (\texttt{[ngStyle]} / \texttt{[ngClass]})
 \subparagraph{Services} \
-\label{sec:org484dcd5}
+\label{sec:org385358a}
 The \texttt{@Injectable} decorater is used to register the service in the DI container.
 \texttt{@Injectable(\{ providedIn: 'root' \})export class CounterService \{\}}
 \subparagraph{Forms} \
-\label{sec:orgaf084a9}
+\label{sec:org04e7727}
 
 {
 \begin{minted}[]{html}
@@ -230,38 +213,24 @@ export class SampleComponent {
 \captionof{listing}{Angular Form Logic}\label{lst:angular-form-logic}
 }
 \subparagraph{Routing} \
-\label{sec:org200c547}
-\begin{itemize}
-\item \texttt{.forRoot()}: use EXACTLY once to declare routes on root (top) level
-\item \texttt{.forChild()}: use when declaring sub-routings (on all sub-levels)
-\end{itemize}
+\label{sec:orgb830c24}
+\texttt{.forRoot()}: declare routes on root level, \texttt{.forChild()} declaring sub-routings
 \subparagraph{Module Type / Example Architecture} \
-\label{sec:orgbe6d0f3}
-\begin{itemize}
-\item Root / App Module: provies the entry point for the app
-\item Feature Modules: clear boundaries between the application features
-\item Shared Module: Holds common components / directives / pipes
-\item Core Module: Keeps your Root Module clean
-\end{itemize}
+\label{sec:org38d2913}
+Root / App Module, Feature Modules, Shared Module, Core Module
 \subparagraph{RxJS - Observable Types} \
-\label{sec:orgc01bd8a}
-\begin{itemize}
-\item Hot Observables: Sequence of events (such as mouse move events or stock tickers)
-\item Cold Observables: Observables start running on subscription (such as async web requests) and complete automatically
-\end{itemize}
+\label{sec:org2a9da78}
+Hot Observables, Cold Observables (triggerd on subscription)
 \subparagraph{Pipes} \
-\label{sec:org6e6b7b3}
-\begin{itemize}
-\item Pure Pipes: Pure pipes are executed when it detects a ‘pure change’ to the input expression (DatePipe)
-\item Impure Pipes: Impure pipes are executed on every component change detection cycle (AsyncPipe)
-\end{itemize}
+\label{sec:org20ff179}
+Pure Pipes (change to the input expression), Impure Pipes (executed on every change detection cycle)
 \section{ASP.NET}
-\label{sec:org9b02759}
+\label{sec:orgca46951}
 \subparagraph{PWA} \
-\label{sec:org0b87818}
+\label{sec:orgbd677ad}
 PWA use modern web APIs along with traditional progressive enhancement strategy (fells like native app)
 \subparagraph{For what is Firbase used?} \
-\label{sec:org6e1d08f}
+\label{sec:org692b7ac}
 To develop a PWA we used the following features from Firebase:
 \begin{itemize}
 \item Cloud Firestore / Realtime (DB)
@@ -270,11 +239,11 @@ To develop a PWA we used the following features from Firebase:
 \item Hosting / Cloud Storage
 \end{itemize}
 \subparagraph{Front Controller} \
-\label{sec:org47d97a4}
+\label{sec:org8f6da09}
 The Front Controller is the Entry Point and executes logging and routing (actions that are required for all incoming requiest).
 After that, the front controller forwards the request the the responsible controller.
 \subparagraph{Middleware} \
-\label{sec:org8682ac8}
+\label{sec:orgc3f0823}
 Middleware is a "function block" and has a certain task.
 When a middleware has finished its task it will call the next following middleware or finishes the request.
 \begin{itemize}
@@ -286,7 +255,7 @@ When a middleware has finished its task it will call the next following middlewa
 
 Context contains all information for the request as well for the response.
 \subparagraph{Dependency Injection - Lifetime} \
-\label{sec:org3cf1800}
+\label{sec:orgc36ff79}
 Register services with different lifetimes:
 \begin{itemize}
 \item Transient, are created every time when used
@@ -309,7 +278,7 @@ The term "captive dependency" refers to the misconfiguration of service lifetime
 \end{itemize}
 \end{itemize}
 \subparagraph{Web Assembly File Type} \
-\label{sec:orgbd53f45}
+\label{sec:org9a206ff}
 \begin{itemize}
 \item *.WASM (WebAssembly)
 \begin{itemize}
@@ -330,7 +299,7 @@ The term "captive dependency" refers to the misconfiguration of service lifetime
 \end{itemize}
 \end{itemize}
 \subparagraph{Key Concepts} \
-\label{sec:org8104022}
+\label{sec:orgf0b797d}
 \begin{itemize}
 \item Module
 \begin{itemize}
