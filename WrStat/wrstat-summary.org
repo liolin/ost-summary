@@ -1,7 +1,7 @@
 #+TITLE: WrStat
 #+AUTHOR: Olivier Lischer
 #+SETUPFILE: ../latex_includes.conf
-#+LATEX_CLASS_OPTIONS: [11pt,twoside,landscape]
+#+LATEX_CLASS_OPTIONS: [10pt,twoside,landscape]
 #+LATEX_HEADER: \usepackage{caption}
 
 
@@ -13,7 +13,8 @@
 \fancyfoot[R]{\thepage}
 \fancyfoot[L]{Olivier Lischer}
 
-* Woche 01 - Kombinatorik
+#+LATEX: \begin{multicols}{2}
+* Kombinatorik
 ** Zählregel
 - Disjunkte Vereinigung: \(|A \cup B| = |A| + |B|\)
 - Vereinigung: \(|A \cup B| = |A| + |B| - |A \cap B|\)
@@ -35,12 +36,7 @@ Auf wie viele Arten kann man \(k\) Plätze aus \(n\) Plätzen auswählen?
 \begin{align*}
 \text{\#Auswahlprozesse} &= n \cdot (n - 1) \cdot \ldots \cdot (n - k + 1) \\
 &= \frac{n!}{(n-k)!} \\
-\text{\#Permutation} &= k \cdot (k - 1) \cdot \ldots \cdot 1 = k!
-\end{align*}
-
-\begin{align*}
-C_k^n &= \frac{n \cdot (n - 1) \cdot \ldots \cdot (n-k+1)}{k \cdot (k - 1) \cdot \ldots \cdot 1} \\
-&= \frac{n!}{k! (n-k)!} = \binom{n}{k}
+&= \binom{n}{k}
 \end{align*}
 
 Binominal Koeffizient (funktioniert meist nicht gut, Taschenrechner können grosse \(n!\) nicht rechnen)
@@ -55,7 +51,7 @@ Auch als Perlenkette bekannt
 \text{\#Möglichkeiten} = k[\text{Farben}]^{n[\text{Längen}]}
 \]
 
-* Woche 02 - Ereignisse und Wahrscheinlichkeit
+* Ereignisse und Wahrscheinlichkeit
 ** Begriffe
 | Begriff                                               | Model                         |
 |-------------------------------------------------------+-------------------------------|
@@ -76,28 +72,7 @@ Wahrscheinlichkeit, dass ein Toter ein rotes Shirt trägt (Wir untersuchen nur d
 P(R|T) = \frac{P(R \cap T)}{P(T)}
 \]
 
-Wahrscheinlichkeit, dass ein Redshirt umkommt (Wir untersuchen nur die Redshirts, und schauen ob er Tot ist):
-\[
-P(T|R) = \frac{P(R \cap T)}{P(R)}
-\]
-
-
-Daraus ergibt sich:
-\begin{equation}
-\begin{split} \label{eqn:dead-has-red}
-P(R|T) = \frac{P(R \cap T)}{P(T)} \Rightarrow \\
-P(R|T) \cdot P(T) = P(R \cap T)
-\end{split} 
-\end{equation}
-
-\begin{equation}
-\begin{split} \label{eqn:red-is-dead}
-P(T|R) = \frac{P(R \cap T)}{P(R)} \Rightarrow \\
-P(T|R) \cdot P(R) = P(R \cap T)
-\end{split} 
-\end{equation}
-
-Aus \ref{eqn:dead-has-red} und \ref{eqn:red-is-dead} folgt der *Satz von Bayes*:
+*Satz von Bayes*:
 \[
 P(R|T) \cdot P(T) = P(R \cap T) = P(T|R) \cdot P(R)
 \]
@@ -109,8 +84,7 @@ P(R|T) \cdot P(T) = P(R \cap T) = P(T|R) \cdot P(R)
 +&P(T \cap R) &= P(T|R) \cdot P(R) \\
 =&P(T)
 \end{align*}
-* Woche 03 - bedingte Wahrscheinlichkeit
-* Woche 04 - Zufallsvariabeln
+* Zufallsvariabeln
 ** Erwartungswert
 
 \begin{equation}
@@ -118,55 +92,11 @@ P(R|T) \cdot P(T) = P(R \cap T) = P(T|R) \cdot P(R)
 E(X) = \sum_{i=1}^{n}g_iP(A_i) \\
 \end{split} 
 \end{equation}
-
-\[
-E(\text{"Gewinn"})=\text{"Gewinn bei Kopf"}\cdot P(\text{"Kopf"})
-+\text{"Gewinn bei Zahl"}\cdot P(\text{"Zahl"})
-\]
 ** Varianz
 \[
 var(X) = E(X^2) - E(X)^2
 \]
-** Table
-
-|   | Ereignis |  X | P(X = g) | P(X = g) * g | P(X = g) * g^2 |
-|---+----------+----+----------+--------------+----------------|
-| ! |          |  X | p        |           pX |            pXX |
-| # |        0 |  2 | 1/16     |        0.125 |           0.25 |
-| # |        1 |  3 | 4/16     |         0.75 |           2.25 |
-| # |        2 |  5 | 6/16     |        1.875 |          9.375 |
-| # |        3 |  7 | 4/16     |         1.75 |          12.25 |
-| # |        4 | 11 | 1/16     |       0.6875 |         7.5625 |
-|---+----------+----+----------+--------------+----------------|
-|   |          |    |          |         E(X) |         E(X^2) |
-| # |          |    |          |       5.1875 |        31.6875 |
-| ^ |          |    |          |            E |             E2 |
-|   |          |    |          |              |         var(X) |
-| _ |          |    |          |              |            var |
-|   |          |    |          |              |      4.7773438 |
-#+TBLFM: $5=$X*$p::$6=($X)^2*$p::$E=vsum(@I+2..@II)::$E2=vsum(@I+2..@II)::$var=$E2-($E)^2
-
-* Woche 05 - Anwendungen der Varianz
-** Table Lineare Regression
-
-| i | x_i | y_i | x^2_i | y^2_i | x_iy_i |
-|---+-----+-----+-------+-------+--------|
-| 1 |     |     |       |       |        |
-| 2 |     |     |       |       |        |
-| 3 |     |     |       |       |        |
-| 4 |     |     |       |       |        |
-| 5 |     |     |       |       |        |
-|---+-----+-----+-------+-------+--------|
-| E |     |     |       |       |        |
-
-\[var(X) = E(X^2) - E(X)^2\]
-\[var(Y) = E(Y^2) - E(Y)^2\]
-\[cov(X,Y) = E(XY) - E(X)E(Y)\]
-\[a = \frac{cov(X,Y)}{var(X)}\]
-\[b = E(Y) - aE(X)\]
-\[r = \frac{cov(X,Y)}{\sqrt{var(X)var(Y)}}\]
-
-* Woche 06 - Verteilungsfunktion und Wahrscheinlichkeitsdichte
+* Verteilungsfunktion und Wahrscheinlichkeitsdichte
 Die Verteilungsfunktion beschreibt die Wahrscheinlichkeiten der Werte einer Zufallsvariable:
 \[
 F(X) = P(X \le x)
@@ -182,20 +112,7 @@ $\phi(x)$ ist die Ableitung von $F(x)$ und entspricht der Verteilungsdichte Funk
 - $E(X) = \sum_x x \cdot P(X = x) \rightarrow E(X) = \int_\infty^\infty x \cdot \phi(x) dx$
 Wichtig: Erkennen, was ist der Wert, was ist der Erwartungswert
 
-
-\begin{equation}
-  E(X^2) = \int_{\infty}^{\infty} X^2 \phi(x)dx = \int_0^1 x^2 1 dx = \left[\frac{x^3}{3} \right]_0^1 = \frac{1}{3}
-\end{equation}
-
-\begin{equation}
-  var(x) = \frac{1}{3} - (\frac{1}{2})^2 = \frac{4-3}{12} = \frac{1}{12}
-\end{equation}
-
-\begin{equation}
-\sqrt{var(X)} = \sqrt{\frac{1}{12}} = 0.288
-\end{equation}
-
-* Woche 07 - Exponential- / Erlang- / Poisson-Verteilung
+* Exponential- / Erlang- / Poisson-Verteilung
 ** Exponentialverteilung
 - Dichtefunktion :: $ae^{-ax}, a > 0$
 - Verteilungsfunktion :: $1 - e^{-ax}$
@@ -207,26 +124,26 @@ Wichtig: Erkennen, was ist der Wert, was ist der Erwartungswert
 - Wahrscheinlichkeit :: $P_\lambda(k) = \frac{\lambda^k}{k!}e^{-\lambda}$
 - Erwartungswert :: $\lambda$
 - Varianz :: $\lambda$
-* Woche 08 - Normalverteilung
+* Normalverteilung
 ** Normalverteilung
 - Dichtefunktion :: $\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}}$
 - Verteilungsfunktion :: keine elementare Funktion (Tabelle nutzen)
 - Erwartungswert :: $\mu$
 - Varianz :: $\sigma$
 - Median :: $\mu$
-* Woche 09 - Binominalverteilung
+* Binominalverteilung
 ** Binominalverteilung
 - Wahrscheinlichkeit :: $P(k) = \binom{n}{k}p^k(1-p)^{n-k}$
 - Verteilungsfunktion :: $F(k) = \sum_{i=0}^{k}\binom{n}{i}p^i(1-p)^{n-i}$
 - Erwartungswert :: $np$
 - Varianz :: $np(1-p)$
-* Woche 10 - Schätzen
+* Schätzen
 ** Schätzen
 Mittelwert ist häufig ein guter Schätzer
 ** t-Verteilung
 t-Verteilung sollte dann verwendet werden, wenn man wenig Daten hat, aber es normall Verteilt ist (kleine $n$).
 
-* Woche 11 - Hypothesentest
+* Hypothesentest
 ** Vorgehen Hypothesentest
 1. Nullhypothese $H_0$ und Alternativhypothese $H_1$
 2. Testgrösse und Verteilung unter der Annahme der Nullhypothese
@@ -253,7 +170,7 @@ t = \frac{\overline{X} - \overline{Y}}{\sqrt{(n-1)S_X^2 + (m-1)S_Y^2}}\sqrt{\fra
 $t_{krit}$ kann aus der t-Verteilung abgelesen werden.
 $k$ erhält man durch $n+m-2$.
 Wenn $t_{krit}$ überschritten wird, muss $H_0$ verworfen werden.
-* Woche 12 - Test einer Verteilung
+* Test einer Verteilung
 ** \Chi^2-Test
 
 \[
@@ -265,5 +182,5 @@ D > D_+ \Rightarrow Daten passen nicht (H_0 verwerfen)
 D < D_− \Rightarrow Daten passen zu gut, ist ein Hinweis auf Betrug
 ** Kolmogorov-Smirnov-Test
 
-* Woche 13 - Das Filter-Problem
+#+LATEX: \end{multicols}
 

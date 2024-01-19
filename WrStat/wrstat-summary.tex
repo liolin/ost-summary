@@ -1,6 +1,6 @@
-% Created 2024-01-04 Thu 09:46
+% Created 2024-01-19 Fri 11:16
 % Intended LaTeX compiler: xelatex
-\documentclass[11pt,twoside,landscape]{article}
+\documentclass[10pt,twoside,landscape]{article}
 \usepackage{graphicx}
 \usepackage{longtable}
 \usepackage{wrapfig}
@@ -51,17 +51,19 @@
 \fancyfoot[CE,CO]{\leftmark}
 \fancyfoot[R]{\thepage}
 \fancyfoot[L]{Olivier Lischer}
-\section{Woche 01 - Kombinatorik}
-\label{sec:orga29c132}
+
+\begin{multicols}{2}
+\section{Kombinatorik}
+\label{sec:org55f22d5}
 \subparagraph{Zählregel} \
-\label{sec:org6f67fc7}
+\label{sec:orgf9185f6}
 \begin{itemize}
 \item Disjunkte Vereinigung: \(|A \cup B| = |A| + |B|\)
 \item Vereinigung: \(|A \cup B| = |A| + |B| - |A \cap B|\)
 \item Paare = Produkt: \(|A \times B| = |A| \cdot |B|\)
 \end{itemize}
 \subparagraph{Reihenfolge / Permutation} \
-\label{sec:org509686c}
+\label{sec:org19253b7}
 Jeder Platz im Hörsaal wird belegt:
 \begin{align*}
   P_n &= \underbrace{\#\text{\{Plätze für 1. Objekt\}}}_{n} \cdot \underbrace{\#\text{\{Plätze für 2. Objekte\}}}_{n-1} \cdot \ldots \cdot \underbrace{\#\{\text{Plätze für n. Objekte\}}}_{1} \\
@@ -70,19 +72,14 @@ Jeder Platz im Hörsaal wird belegt:
   &= n \cdot P_{n-1} = n \cdot (n - 1)! = n!
 \end{align*}
 \subparagraph{Anzahl / Auswahl Problem} \
-\label{sec:orgdc4b352}
+\label{sec:orga2bb34b}
 Auf wie viele Arten kann man \(k\) Plätze aus \(n\) Plätzen auswählen?
 16 Studenten (\(k\)) platzieren sich auf 32 Plätzen (\(n\)).
 
 \begin{align*}
 \text{\#Auswahlprozesse} &= n \cdot (n - 1) \cdot \ldots \cdot (n - k + 1) \\
 &= \frac{n!}{(n-k)!} \\
-\text{\#Permutation} &= k \cdot (k - 1) \cdot \ldots \cdot 1 = k!
-\end{align*}
-
-\begin{align*}
-C_k^n &= \frac{n \cdot (n - 1) \cdot \ldots \cdot (n-k+1)}{k \cdot (k - 1) \cdot \ldots \cdot 1} \\
-&= \frac{n!}{k! (n-k)!} = \binom{n}{k}
+&= \binom{n}{k}
 \end{align*}
 
 Binominal Koeffizient (funktioniert meist nicht gut, Taschenrechner können grosse \(n!\) nicht rechnen)
@@ -91,15 +88,15 @@ Besser so:
 \frac{n \cdot (n - 1) \cdot (n - 2) \cdot \ldots \cdot (n-k + 1)}{1 \cdot 2 \cdot 3 \cdot \ldots \cdot k}
 \]
 \subparagraph{Variation} \
-\label{sec:orgee4c033}
+\label{sec:org2031f28}
 Auch als Perlenkette bekannt
 \[
 \text{\#Möglichkeiten} = k[\text{Farben}]^{n[\text{Längen}]}
 \]
-\section{Woche 02 - Ereignisse und Wahrscheinlichkeit}
-\label{sec:orgbf0d7df}
+\section{Ereignisse und Wahrscheinlichkeit}
+\label{sec:org5bb73e0}
 \subparagraph{Begriffe} \
-\label{sec:org4623ff2}
+\label{sec:org7568906}
 \begin{center}
 \begin{tabular}{ll}
 Begriff & Model\\[0pt]
@@ -117,34 +114,13 @@ nicht A & \(\overline{A} = \Omega \setminus A\)\\[0pt]
 \end{tabular}
 \end{center}
 \subparagraph{Bedingte Wahrscheinlichkeit} \
-\label{sec:orgae1f97c}
+\label{sec:org6ca9db5}
 Wahrscheinlichkeit, dass ein Toter ein rotes Shirt trägt (Wir untersuchen nur die Toten und schauen ob er ein Rotes Shirt trägt)
 \[
 P(R|T) = \frac{P(R \cap T)}{P(T)}
 \]
 
-Wahrscheinlichkeit, dass ein Redshirt umkommt (Wir untersuchen nur die Redshirts, und schauen ob er Tot ist):
-\[
-P(T|R) = \frac{P(R \cap T)}{P(R)}
-\]
-
-
-Daraus ergibt sich:
-\begin{equation}
-\begin{split} \label{eqn:dead-has-red}
-P(R|T) = \frac{P(R \cap T)}{P(T)} \Rightarrow \\
-P(R|T) \cdot P(T) = P(R \cap T)
-\end{split} 
-\end{equation}
-
-\begin{equation}
-\begin{split} \label{eqn:red-is-dead}
-P(T|R) = \frac{P(R \cap T)}{P(R)} \Rightarrow \\
-P(T|R) \cdot P(R) = P(R \cap T)
-\end{split} 
-\end{equation}
-
-Aus \ref{eqn:dead-has-red} und \ref{eqn:red-is-dead} folgt der \textbf{Satz von Bayes}:
+\textbf{Satz von Bayes}:
 \[
 P(R|T) \cdot P(T) = P(R \cap T) = P(T|R) \cdot P(R)
 \]
@@ -156,74 +132,23 @@ P(R|T) \cdot P(T) = P(R \cap T) = P(T|R) \cdot P(R)
 +&P(T \cap R) &= P(T|R) \cdot P(R) \\
 =&P(T)
 \end{align*}
-\section{Woche 03 - bedingte Wahrscheinlichkeit}
-\label{sec:org6d52b59}
-\section{Woche 04 - Zufallsvariabeln}
-\label{sec:orgbbe27b2}
+\section{Zufallsvariabeln}
+\label{sec:org474bb27}
 \subparagraph{Erwartungswert} \
-\label{sec:org520fe5e}
+\label{sec:org03fe57d}
 
 \begin{equation}
 \begin{split} \label{eqn:erwartungs-wert}
 E(X) = \sum_{i=1}^{n}g_iP(A_i) \\
 \end{split} 
 \end{equation}
-
-\[
-E(\text{"Gewinn"})=\text{"Gewinn bei Kopf"}\cdot P(\text{"Kopf"})
-+\text{"Gewinn bei Zahl"}\cdot P(\text{"Zahl"})
-\]
 \subparagraph{Varianz} \
-\label{sec:org4912069}
+\label{sec:org8500b31}
 \[
 var(X) = E(X^2) - E(X)^2
 \]
-\subparagraph{Table} \
-\label{sec:orgd08a1cc}
-
-\begin{center}
-\begin{tabular}{rrlrr}
-Ereignis & X & P(X = g) & P(X = g) * g & P(X = g) * g\textsuperscript{2}\\[0pt]
-\hline
-0 & 2 & 1/16 & 0.125 & 0.25\\[0pt]
-1 & 3 & 4/16 & 0.75 & 2.25\\[0pt]
-2 & 5 & 6/16 & 1.875 & 9.375\\[0pt]
-3 & 7 & 4/16 & 1.75 & 12.25\\[0pt]
-4 & 11 & 1/16 & 0.6875 & 7.5625\\[0pt]
-\hline
- &  &  & E(X) & E(X\textsuperscript{2})\\[0pt]
- &  &  & 5.1875 & 31.6875\\[0pt]
- &  &  &  & var(X)\\[0pt]
- &  &  &  & 4.7773438\\[0pt]
-\end{tabular}
-\end{center}
-\section{Woche 05 - Anwendungen der Varianz}
-\label{sec:org17a30e3}
-\subparagraph{Table Lineare Regression} \
-\label{sec:org542694b}
-
-\begin{center}
-\begin{tabular}{rlllll}
-i & x\textsubscript{i} & y\textsubscript{i} & x\textsuperscript{2}\textsubscript{i} & y\textsuperscript{2}\textsubscript{i} & x\textsubscript{iy}\textsubscript{i}\\[0pt]
-\hline
-1 &  &  &  &  & \\[0pt]
-2 &  &  &  &  & \\[0pt]
-3 &  &  &  &  & \\[0pt]
-4 &  &  &  &  & \\[0pt]
-5 &  &  &  &  & \\[0pt]
-\hline
-E &  &  &  &  & \\[0pt]
-\end{tabular}
-\end{center}
-
-\[var(X) = E(X^2) - E(X)^2\]
-\[var(Y) = E(Y^2) - E(Y)^2\]
-\[cov(X,Y) = E(XY) - E(X)E(Y)\]
-\[a = \frac{cov(X,Y)}{var(X)}\]
-\[b = E(Y) - aE(X)\]
-\[r = \frac{cov(X,Y)}{\sqrt{var(X)var(Y)}}\]
-\section{Woche 06 - Verteilungsfunktion und Wahrscheinlichkeitsdichte}
-\label{sec:org067fe3d}
+\section{Verteilungsfunktion und Wahrscheinlichkeitsdichte}
+\label{sec:orgd83c9ac}
 Die Verteilungsfunktion beschreibt die Wahrscheinlichkeiten der Werte einer Zufallsvariable:
 \[
 F(X) = P(X \le x)
@@ -240,23 +165,10 @@ F(X) = P(X \le x)
 \item \(E(X) = \sum_x x \cdot P(X = x) \rightarrow E(X) = \int_\infty^\infty x \cdot \phi(x) dx\)
 \end{itemize}
 Wichtig: Erkennen, was ist der Wert, was ist der Erwartungswert
-
-
-\begin{equation}
-  E(X^2) = \int_{\infty}^{\infty} X^2 \phi(x)dx = \int_0^1 x^2 1 dx = \left[\frac{x^3}{3} \right]_0^1 = \frac{1}{3}
-\end{equation}
-
-\begin{equation}
-  var(x) = \frac{1}{3} - (\frac{1}{2})^2 = \frac{4-3}{12} = \frac{1}{12}
-\end{equation}
-
-\begin{equation}
-\sqrt{var(X)} = \sqrt{\frac{1}{12}} = 0.288
-\end{equation}
-\section{Woche 07 - Exponential- / Erlang- / Poisson-Verteilung}
-\label{sec:org5a0fd29}
+\section{Exponential- / Erlang- / Poisson-Verteilung}
+\label{sec:orga51bab2}
 \subparagraph{Exponentialverteilung} \
-\label{sec:org6749f2a}
+\label{sec:orgeafa2f6}
 \begin{description}
 \item[{Dichtefunktion}] \(ae^{-ax}, a > 0\)
 \item[{Verteilungsfunktion}] \(1 - e^{-ax}\)
@@ -265,16 +177,16 @@ Wichtig: Erkennen, was ist der Wert, was ist der Erwartungswert
 \item[{Median}] \(\frac{1}{a}\log{2}\)
 \end{description}
 \subparagraph{Possonverteilung} \
-\label{sec:org91b44d3}
+\label{sec:orgd0ac840}
 \begin{description}
 \item[{Wahrscheinlichkeit}] \(P_\lambda(k) = \frac{\lambda^k}{k!}e^{-\lambda}\)
 \item[{Erwartungswert}] \(\lambda\)
 \item[{Varianz}] \(\lambda\)
 \end{description}
-\section{Woche 08 - Normalverteilung}
-\label{sec:orgb39dd1b}
+\section{Normalverteilung}
+\label{sec:org0bfd1ee}
 \subparagraph{Normalverteilung} \
-\label{sec:org502083c}
+\label{sec:org3a6df6f}
 \begin{description}
 \item[{Dichtefunktion}] \(\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}}\)
 \item[{Verteilungsfunktion}] keine elementare Funktion (Tabelle nutzen)
@@ -282,28 +194,28 @@ Wichtig: Erkennen, was ist der Wert, was ist der Erwartungswert
 \item[{Varianz}] \(\sigma\)
 \item[{Median}] \(\mu\)
 \end{description}
-\section{Woche 09 - Binominalverteilung}
-\label{sec:org23fb94c}
+\section{Binominalverteilung}
+\label{sec:orgffa80d8}
 \subparagraph{Binominalverteilung} \
-\label{sec:orgd1f8f1e}
+\label{sec:org93902f9}
 \begin{description}
 \item[{Wahrscheinlichkeit}] \(P(k) = \binom{n}{k}p^k(1-p)^{n-k}\)
 \item[{Verteilungsfunktion}] \(F(k) = \sum_{i=0}^{k}\binom{n}{i}p^i(1-p)^{n-i}\)
 \item[{Erwartungswert}] \(np\)
 \item[{Varianz}] \(np(1-p)\)
 \end{description}
-\section{Woche 10 - Schätzen}
-\label{sec:org279adbe}
+\section{Schätzen}
+\label{sec:org5f16fd4}
 \subparagraph{Schätzen} \
-\label{sec:org0c0e32d}
+\label{sec:orgf10b102}
 Mittelwert ist häufig ein guter Schätzer
 \subparagraph{t-Verteilung} \
-\label{sec:orgf34c24f}
+\label{sec:orgea44cde}
 t-Verteilung sollte dann verwendet werden, wenn man wenig Daten hat, aber es normall Verteilt ist (kleine \(n\)).
-\section{Woche 11 - Hypothesentest}
-\label{sec:orgffb32b5}
+\section{Hypothesentest}
+\label{sec:orgcceccc3}
 \subparagraph{Vorgehen Hypothesentest} \
-\label{sec:org38d9832}
+\label{sec:orgeabb25e}
 \begin{enumerate}
 \item Nullhypothese \(H_0\) und Alternativhypothese \(H_1\)
 \item Testgrösse und Verteilung unter der Annahme der Nullhypothese
@@ -312,7 +224,7 @@ t-Verteilung sollte dann verwendet werden, wenn man wenig Daten hat, aber es nor
 \item Kritischer Wert erreicht \(\Rightarrow\) Nullhypothese \(H_0\) verwerfen
 \end{enumerate}
 \subparagraph{t-Test} \
-\label{sec:org15cbada}
+\label{sec:orgd3bcece}
 Ist der neue Dünger besser?
 Die Stichproben \(X_1, \ldots, X_n\) und \(Y_1, \ldots, Y_m\) mit gleicher Varianz haben den gleichen Erwartungswert.
 
@@ -331,18 +243,20 @@ t = \frac{\overline{X} - \overline{Y}}{\sqrt{(n-1)S_X^2 + (m-1)S_Y^2}}\sqrt{\fra
 \(t_{krit}\) kann aus der t-Verteilung abgelesen werden.
 \(k\) erhält man durch \(n+m-2\).
 Wenn \(t_{krit}\) überschritten wird, muss \(H_0\) verworfen werden.
-\section{Woche 12 - Test einer Verteilung}
-\label{sec:org3e9e0b4}
+\section{Test einer Verteilung}
+\label{sec:org916f0de}
 \subparagraph{X\textsuperscript{2}-Test} \
-\label{sec:org4a2b39e}
-
-Table
+\label{sec:org6ae923c}
 
 \[
 D = \sum_{i=1}^d\frac{(n_i-np_i)^2}{np_i}
 \]
+
+D > D\_+ \(\Rightarrow\) Daten passen nicht (H\textsubscript{0} verwerfen)
+
+D < D\_− \(\Rightarrow\) Daten passen zu gut, ist ein Hinweis auf Betrug
 \subparagraph{Kolmogorov-Smirnov-Test} \
-\label{sec:orgcf8b687}
-\section{Woche 13 - Das Filter-Problem}
-\label{sec:org966ac69}
+\label{sec:org7e87dd8}
+
+\end{multicols}
 \end{document}
