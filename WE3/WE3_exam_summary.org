@@ -1,6 +1,6 @@
 #+TITLE: WE3 Exam Summary
 #+AUTHOR: Olivier Lischer
-#+SETUPFILE: ../latex_includes.conf
+#+SETUPFILE: ../latex_exam_includes.conf
 #+LATEX_CLASS_OPTIONS: [10pt,twoside,landscape]
 
 #+begin_src latex
